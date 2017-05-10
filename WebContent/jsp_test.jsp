@@ -1,9 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!doctype html>
-<html lang="en-US">
+<html lang="utf-8">
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		<title>Smarty Admin</title>
+		<title>GuardCom Admin</title>
 		<meta name="description" content="" />
 		<meta name="Author" content="Dorin Grigoras [www.stepofweb.com]" />
 
@@ -35,25 +37,25 @@
 					<ul class="nav nav-list">
 						<li class="active"><!-- dashboard -->
 							<a class="dashboard" href="index.html"><!-- warning - url used by default by ajax (if eneabled) -->
-								<i class="main-icon fa fa-dashboard"></i> <span>Dashboard</span>
+								<i class="main-icon fa fa-dashboard"></i> <span>대시보드</span>
 							</a>
 						</li>
 						<li>
 							<a href="#">
 								<i class="fa fa-menu-arrow pull-right"></i>
-								<i class="main-icon fa fa-bar-chart-o"></i> <span>Graphs</span>
+								<i class="main-icon fa fa-bar-chart-o"></i> <span>정책 설정</span>
 							</a>
 							<ul><!-- submenus -->
-								<li><a href="graphs-flot.html">Flot Charts</a></li>
-								<li><a href="graphs-morris.html">Morris Charts</a></li>
-								<li><a href="graphs-inline.html">Inline Charts</a></li>
-								<li><a href="graphs-chartjs.html">Chart.js</a></li>
+								<li><a href="graphs-flot.html">123</a></li>
+								<li><a href="graphs-morris.html">ㅇㄹㄴ</a></li>
+								<li><a href="graphs-inline.html">ㅇ</a></li>
+								<li><a href="graphs-chartjs.html">55</a></li>
 							</ul>
 						</li>
 						<li>
 							<a href="#">
 								<i class="fa fa-menu-arrow pull-right"></i>
-								<i class="main-icon fa fa-table"></i> <span>Tables</span>
+								<i class="main-icon fa fa-table"></i> <span>로그 관리</span>
 							</a>
 							<ul><!-- submenus -->
 								<li><a href="tables-bootstrap.html">Bootstrap Tables</a></li>
@@ -75,7 +77,7 @@
 						<li>
 							<a href="#">
 								<i class="fa fa-menu-arrow pull-right"></i>
-								<i class="main-icon fa fa-pencil-square-o"></i> <span>Forms</span>
+								<i class="main-icon fa fa-pencil-square-o"></i> <span>서버 관리</span>
 							</a>
 							<ul><!-- submenus -->
 								<li><a href="form-elements.html">Smarty Elements</a></li>
@@ -92,7 +94,7 @@
 						<li>
 							<a href="#">
 								<i class="fa fa-menu-arrow pull-right"></i>
-								<i class="main-icon fa fa-gears"></i> <span>UI Features</span>
+								<i class="main-icon fa fa-gears"></i> <span>업데이트 관리</span>
 							</a>
 							<ul><!-- submenus -->
 								<li><a href="ui-portlets.html">Portlets</a></li>
@@ -189,7 +191,7 @@
 						<li>
 							<a href="#">
 								<i class="fa fa-menu-arrow pull-right"></i>
-								<i class="main-icon fa fa-book"></i> <span>Pages</span>
+								<i class="main-icon fa fa-book"></i> <span>서브관리자 설정</span>
 							</a>
 							<ul><!-- submenus -->
 								<li><a href="page-invoice.html">Invoice</a></li>
@@ -207,24 +209,6 @@
 							</ul>
 						</li>
 					</ul>
-
-					<!-- SECOND MAIN LIST -->
-					<h3>MORE</h3>
-					<ul class="nav nav-list">
-						<li>
-							<a href="calendar.html">
-								<i class="main-icon fa fa-calendar"></i>
-								<span class="label label-warning pull-right">2</span> <span>Calendar</span>
-							</a>
-						</li>
-						<li>
-							<a href="../../HTML/start.html">
-								<i class="main-icon fa fa-link"></i>
-								<span class="label label-danger pull-right">PRO</span> <span>Frontend</span>
-							</a>
-						</li>
-					</ul>
-
 				</nav>
 
 				<span id="asidebg"><!-- aside fixed background --></span>
@@ -242,10 +226,6 @@
 				<span class="logo pull-left">
 					<img src="assets/images/logo_light.png" alt="admin panel" height="35" />
 				</span>
-
-				<form method="get" action="page-search.html" class="search pull-left hidden-xs">
-					<input type="text" class="form-control" name="k" placeholder="Search for something..." />
-				</form>
 
 				<nav>
 
