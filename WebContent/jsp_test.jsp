@@ -530,11 +530,8 @@
 
 							</div>
 							<!-- /PANEL -->
-
 						</div>
-
 					</div>
-
 				</div>
 			</section>
 
@@ -563,6 +560,8 @@
 					top-right
 					top-left
 					top-center
+					
+					
 					top-full-width
 					bottom-right
 					bottom-left
@@ -571,10 +570,6 @@
 					
 				false = click link (example: "http://www.stepofweb.com")
 			*/
-			_toastr("Welcome, you have 2 new orders","top-right","success",false);
-
-
-
 
 			/** SALES CHART
 			******************************************* **/
