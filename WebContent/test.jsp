@@ -11,12 +11,12 @@
 		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
 
 		<!-- CORE CSS -->
-		<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		
 		<!-- THEME CSS -->
-		<link href="assets/css/essentials.css" rel="stylesheet" type="text/css" />
-		<link href="assets/css/layout.css" rel="stylesheet" type="text/css" />
-		<link href="assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
+		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
+		<link href="/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
 
 	</head>
 	<body>
@@ -27,11 +27,11 @@
 				ASIDE 
 				Keep it outside of #wrapper (responsive purpose)
 			-->
-			<jsp:include page="/common/left_menu.jsp" flush="false" />
+			<jsp:include page="/WEB-INF/common/left_menu.jsp" flush="false" />
 			
 			<!-- /ASIDE -->
 			<!-- HEADER -->
-			<jsp:include page="/common/top_navi.jsp" flush="false" />			
+			<jsp:include page="/WEB-INF/common/top_navi.jsp" flush="false" />			
 			<!-- /HEADER -->
 
 			<!-- 
@@ -541,9 +541,9 @@
 		
 	
 		<!-- JAVASCRIPT FILES -->
-		<script type="text/javascript">var plugin_path = 'assets/plugins/';</script>
-		<script type="text/javascript" src="assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="assets/js/app.js"></script>
+		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
+		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<!-- PAGE LEVEL SCRIPT -->
 		<script type="text/javascript">
 			/* 
