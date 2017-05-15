@@ -153,6 +153,577 @@
 	
 	
 									
+									
+									
+									<table class="table table-striped table-bordered table-hover" id="datatable_sample">
+										<thead>
+											<tr>
+												<th class="table-checkbox">
+													<input type="checkbox" class="group-checkable" data-set="#datatable_sample .checkboxes"/>
+												</th>
+												<th>Username</th>
+												<th>Email</th>
+												<th>Points</th>
+												<th>Joined</th>
+												<th>Status</th>
+											</tr>
+										</thead>
+		
+										<tbody>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 shuxer
+												</td>
+												<td>
+													<a href="mailto:shuxer@gmail.com">
+													shuxer@gmail.com </a>
+												</td>
+												<td>
+													 120
+												</td>
+												<td class="center">
+													 12 Jan 2012
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 looper
+												</td>
+												<td>
+													<a href="mailto:looper90@gmail.com">
+													looper90@gmail.com </a>
+												</td>
+												<td>
+													 120
+												</td>
+												<td class="center">
+													 12.12.2011
+												</td>
+												<td>
+													<span class="label label-sm label-warning">
+													Suspended </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 userwow
+												</td>
+												<td>
+													<a href="mailto:userwow@yahoo.com">
+													userwow@yahoo.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 12.12.2012
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 user1wow
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													userwow@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 12.12.2012
+												</td>
+												<td>
+													<span class="label label-sm label-default">
+													Blocked </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 restest
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													test@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 12.12.2012
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 foopl
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 19.11.2010
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 weep
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 19.11.2010
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 coop
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 19.11.2010
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 pppol
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 19.11.2010
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 test
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 19.11.2010
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 userwow
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													userwow@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 12.12.2012
+												</td>
+												<td>
+													<span class="label label-sm label-default">
+													Blocked </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 test
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													test@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 12.12.2012
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 goop
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 12.11.2010
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 weep
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 15.11.2011
+												</td>
+												<td>
+													<span class="label label-sm label-default">
+													Blocked </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 toopl
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 16.11.2010
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 userwow
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													userwow@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 9.12.2012
+												</td>
+												<td>
+													<span class="label label-sm label-default">
+													Blocked </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 tes21t
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													test@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 14.12.2012
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 fop
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 13.11.2010
+												</td>
+												<td>
+													<span class="label label-sm label-warning">
+													Suspended </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 kop
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 17.11.2010
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 vopl
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 19.11.2010
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 userwow
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													userwow@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 12.12.2012
+												</td>
+												<td>
+													<span class="label label-sm label-default">
+													Blocked </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 wap
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													test@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 12.12.2012
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 test
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 19.12.2010
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 toop
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 17.12.2010
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+											<tr class="odd gradeX">
+												<td>
+													<input type="checkbox" class="checkboxes" value="1"/>
+												</td>
+												<td>
+													 weep
+												</td>
+												<td>
+													<a href="mailto:userwow@gmail.com">
+													good@gmail.com </a>
+												</td>
+												<td>
+													 20
+												</td>
+												<td class="center">
+													 15.11.2011
+												</td>
+												<td>
+													<span class="label label-sm label-success">
+													Approved </span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									
+									
 	
 	
 	
@@ -290,7 +861,84 @@
                 'Templates',
             ]
         } }); */
+		
+        loadScript(plugin_path + "datatables/js/jquery.dataTables.min.js", function(){
+			loadScript(plugin_path + "datatables/dataTables.bootstrap.js", function(){
 
+				if (jQuery().dataTable) {
+
+					var table = jQuery('#datatable_sample');
+					table.dataTable({
+						"columns": [{
+							"orderable": false
+						}, {
+							"orderable": true
+						}, {
+							"orderable": false
+						}, {
+							"orderable": false
+						}, {
+							"orderable": true
+						}, {
+							"orderable": false
+						}],
+						"lengthMenu": [
+							[5, 15, 20, -1],
+							[5, 15, 20, "All"] // change per page values here
+						],
+						// set the initial value
+						"pageLength": 5,            
+						"pagingType": "bootstrap_full_number",
+						"language": {
+							"lengthMenu": "  _MENU_ records",
+							"paginate": {
+								"previous":"Prev",
+								"next": "Next",
+								"last": "Last",
+								"first": "First"
+							}
+						},
+						"columnDefs": [{  // set default column settings
+							'orderable': false,
+							'targets': [0]
+						}, {
+							"searchable": false,
+							"targets": [0]
+						}],
+						"order": [
+							[1, "asc"]
+						] // set first column as a default sort by asc
+					});
+
+					var tableWrapper = jQuery('#datatable_sample_wrapper');
+
+					table.find('.group-checkable').change(function () {
+						var set = jQuery(this).attr("data-set");
+						var checked = jQuery(this).is(":checked");
+						jQuery(set).each(function () {
+							if (checked) {
+								jQuery(this).attr("checked", true);
+								jQuery(this).parents('tr').addClass("active");
+							} else {
+								jQuery(this).attr("checked", false);
+								jQuery(this).parents('tr').removeClass("active");
+							}
+						});
+						jQuery.uniform.update(set);
+					});
+
+					table.on('change', 'tbody tr .checkboxes', function () {
+						jQuery(this).parents('tr').toggleClass("active");
+					});
+
+					tableWrapper.find('.dataTables_length select').addClass("form-control input-xsmall input-inline"); // modify table per page dropdown
+
+				}
+
+			});
+		});
+
+        
     });
 </script>
 		
