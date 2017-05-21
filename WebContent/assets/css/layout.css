@@ -2552,3 +2552,30 @@ ul.easypiecharts li span.stat-title {
 .center-cell{
 	text-align:center !important;
 }
+
+.datatables-close{
+	background-position: 0 -192px;   
+	background-image: url(../../images/sprite.png);
+	border-color: transparent;
+	
+}
+
+.datatables-open{
+	background-position: 0 -224px;  
+	background-image: url(../../images/sprite.png);
+	border-color: transparent;
+}
+
+.datables-td-detail{
+	margin-top: 3px;
+    display: inline-block;
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
+}
+
+.x-scroll-table{
+	overflow-x: scroll;
+    min-width: 1000px;
+    white-space: nowrap;
+}

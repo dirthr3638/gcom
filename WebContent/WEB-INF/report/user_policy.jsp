@@ -42,7 +42,7 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>사용자로그</h1>
+					<h1>정책로그</h1>
 				</header>
 				<!-- /page title -->
 			
@@ -89,7 +89,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>사용자로그</strong> <!-- panel title -->
+										<strong>정책로그</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -103,16 +103,6 @@
 		
 											<!-- Info -->
 											<button type="button" class="btn btn-info">새로고침</button>
-											
-											<label class="radio" style="margin-left: 10px">
-												<input type="radio" name="table-type" value="1" checked="checked" onclick="onTypeCheck(this)">
-												<i></i> 사용자정보
-											</label>
-											<label class="radio">
-												<input type="radio" name="table-type" value="2" onclick="onTypeCheck(this)">
-												<i></i> 에이전트정보
-											</label>
-											
 											
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right">내보내기</button>
@@ -262,31 +252,6 @@
 		
 		
 <script>
-
-	//사용자정보/에이전트정보 뷰타입변경
-	var currentType=1;
-	function onTypeCheck(radioType){
-		if(currentType != radioType.value){
-			currentType = radioType.value;
-			setColumnType(currentType);
-		}
-	}
-	
-	//라디오타입에 따라 컬럼 hide/show
-	function setColumnType(cType){
-		
-		var datatable = $('#table_userinfo').dataTable().api();
-		var aColumn = datatable.columns('.agentinfo' );
-		var uColumn = datatable.columns('.userinfo' );
-		if(cType == 1){
-			uColumn.visible(true);
-			aColumn.visible(false);			
-		}else if(cType == 2){
-			uColumn.visible(false);
-			aColumn.visible(true);			
-		}		
-	}
-	
 	var getPageinfoHash = function(){
 		//페이지번호
 		//라디오타입
@@ -472,9 +437,8 @@
 						}, {	
 							"targets": [16]	//PC접속시간
 							,"class" : "agentinfo center-cell"
-						}],						
+						}],		
 						"initComplete": function( settings, json ) {
-							setColumnType(1);
 						}
 					});
 					
