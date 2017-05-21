@@ -42,211 +42,68 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>사용자로그</h1>
+					<h1>계정정보변경</h1>
 				</header>
 				<!-- /page title -->
 			
 				<div id="content" class="dashboard padding-20">
 					<div class="row">
-						<div class="col-md-2">
-							<div id="panel-2" class="panel panel-default">
-								<div class="panel-heading">
-									<span class="title elipsis">
-										<strong>조직도</strong> <!-- panel title -->
-									</span>
-								</div>
-
-								<!-- panel content -->
-								<div class="panel-body">
-
-									<div id="org_tree" style="overflow: hidden;">
-				                        <ul>
-				                            <li class="jstree-open" data-jstree='{"type":"root"}'>Company
-				                                <ul>
-				                                    <li>사업부
-				                                        <ul>
-				                                            <li>사업 1팀</li>
-				                                            <li>사입 2팀</li>
-				                                            <li>디자인팀</li>
-				                                        </ul>
-				                                    </li>
-
-				                                    <li>IT지원</li>
-				                                </ul>
-				                            </li>
-				                        </ul>
-				                    </div>
-								</div>
-								<!-- /panel content -->
-
-							</div>
-							<!-- /PANEL -->
-					
-						</div>
-
-						<div class="col-md-10">
+						<div class="col-md-12">
 							<div id="panel-2" class="panel panel-default">
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>사용자로그</strong> <!-- panel title -->
+										<strong>계정정보변경</strong> <!-- panel title -->
 									</span>
 								</div>
 	
 								<!-- panel content -->
 								<div class="panel-body">
 									<div class="row">
-										<div class="col-md-12">
-			
-											<!-- Standard button -->
-											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();">검색필터</button>
-		
-											<!-- Info -->
-											<button type="button" class="btn btn-info">새로고침</button>
+										<div class="col-md-12" style="max-width: 700px">
 											
-											<label class="radio" style="margin-left: 10px">
-												<input type="radio" name="table-type" value="1" checked="checked" onclick="onTypeCheck(this)">
-												<i></i> 사용자정보
-											</label>
-											<label class="radio">
-												<input type="radio" name="table-type" value="2" onclick="onTypeCheck(this)">
-												<i></i> 에이전트정보
-											</label>
-											
-											
-											<!-- Primary -->
-											<button type="button" class="btn btn-primary pull-right">내보내기</button>
-											<!-- Success -->
-											<button type="button" class="btn btn-success pull-right">인쇄</button>
-											<div id="pre-1" class="margin-top-10 text-left noradius text-danger softhide" style="width:400px;">
-												
-												<div>
-												
-												</div>
-												
-											
-												<table id="user" class="table table-bordered">
-													<tbody> 
-														<tr>         
-															<td width="35%">접속여부</td>
-															<td>
-																<select class="select2theme">
-																  <option value="0">전체</option>
-																  <option value="1">접속</option>
-																  <option value="2">미접속</option>
-																</select>
-															</td>
-														</tr>	
-														<tr>         
-															<td width="35%">버전</td>
-															<td>
-																<select class="select2theme">
-																  <option value="0">전체</option>
-																  <option value="1">1.0.0</option>
-																  <option value="2">1.0.1</option>
-																</select>
-															</td>
-														</tr>		
-														<tr>         
-															<td width="35%">아이디</td>
-															<td>
-																<input type="text" name="userID" value="" class="form-control required">
-															</td>
-														</tr>
-														<tr>         
-															<td width="35%">이름</td>
-															<td>
-																<input type="text" name="userID" value="" class="form-control required">
-															</td>
-														</tr>
-														<tr>         
-															<td width="35%">연락처</td>
-															<td>
-																<input type="text" name="userID" value="" class="form-control required">
-															</td>
-														</tr>																															
-														
-													</tbody>
-												</table>	
-												
-												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">필터적용</button>
-																					
+											<label>아이디</label>
+											<div class="fancy-form"><!-- input -->
+												<i class="fa fa-user"></i>
+												<input type="text" class="form-control" value="Admin" readonly="readonly">
 											</div>
-<!-- 										
-											<button type="button" class="btn btn-warning">Warning</button>
-		
+											<br />
+
+											<label>비밀번호</label>
+											<div class="fancy-form"><!-- input -->
+												<i class="fa fa-unlock-alt"></i>
+												<input type="text" class="form-control" placeholder="현재 비밀번호를 입력해주세요.">
+											</div>
+											<br />
+
+											<label>새비밀번호</label>
+											<div class="fancy-form"><!-- input -->
+												<i class="fa fa-unlock"></i>
+												<input type="text" class="form-control" placeholder="변경하실 비밀번호를 입력해주세요.">
+											</div>
+											<br />
+
+											<label>새비밀번호 재입력</label>
+											<div class="fancy-form"><!-- input -->
+												<i class="fa fa-unlock"></i>
+												<input type="text" class="form-control" placeholder="변경하실 비밀번호를 재입력해주세요.">
+											</div>
+											<br />
 											
-											<button type="button" class="btn btn-danger">Danger</button> -->
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-12">
-											<table class="table table-striped table-bordered table-hover" id="table_userinfo" style="width:100%;">
-												<thead>
-													<tr>
-														<th>부서</th>
-														<th>아이디</th>
-														<th>이름</th>
-														<th>번호</th>
-														<th class="userinfo">직책</th>
-														<th class="userinfo">계급</th>
-														<th class="userinfo">연락처</th>
-														<th>설치</th>
-														
-														<th class="agentinfo">IP</th>
-														<th class="agentinfo">MAC</th>
-														<th class="agentinfo">PC이름</th>
-														<th class="agentinfo">Agent버전</th>
-														<th class="agentinfo">접속여부</th>
-														<th class="agentinfo">설치시간</th>
-														<th class="agentinfo">접속시간(서버)</th>
-														<th class="agentinfo">접속시간(PC)</th>
-														
-														
-														<th></th>
-													</tr>
-												</thead>
-				
-												<tbody>
-													<tr class="odd gradeX">
-														<td>인사과
-														</td>
-														<td>user_id
-														</td>
-														<td>오무진
-														</td>
-														<td>10000
-														</td>
-														<td>팀장
-														</td>
-														<td>과장
-														</td>
-														<td>010-333-5545
-														</td>
-														<td>설치
-														</td>
-														<td>192.0.0.1
-														</td>
-														<td>11:11:11:11:11:11
-														</td>
-														<td>windows-PC-client001
-														</td>
-														<td>1.0.0.1
-														</td>
-														<td>접속
-														</td>
-														<td>17-02-01 15:44:12
-														</td>
-														<td>17-02-01 15:44:12
-														</td>
-														<td>17-02-01 15:44:12
-														</td>
-														<td><span class="row-details row-details-close"></span>
-														</td>
-													</tr>
-												</tbody>
-											</table>
 										
+											<label>IP주소1</label>
+											<input type="text" class="form-control masked" data-format="999.999.999.999" data-placeholder="_" placeholder="192.168.1.1">				
+											<br />
+
+											<label>IP주소2</label>
+											<input type="text" class="form-control masked" data-format="999.999.999.999" data-placeholder="_" placeholder="192.168.1.1">
+				
+											<br />
+											<button type="button" class="btn btn-success center-block">
+												<i class="fa fa-cog fa-lg"></i>
+												수정
+											</button>
+																					
 										</div>
 									</div>
 								</div>
