@@ -173,19 +173,29 @@
 														<th>아이디</th>
 														<th>이름</th>
 														<th>번호</th>
-														<th class="userinfo">직책</th>
-														<th class="userinfo">계급</th>
-														<th class="userinfo">연락처</th>
-														<th>설치</th>
-														
-														<th class="agentinfo">IP</th>
-														<th class="agentinfo">MAC</th>
-														<th class="agentinfo">PC이름</th>
-														<th class="agentinfo">버전</th>
-														<th class="agentinfo">접속</th>
-														<th class="agentinfo">설치시간</th>
-														<th class="agentinfo">접속시간(서버)</th>
-														<th class="agentinfo">접속시간(PC)</th>
+														<th>직책</th>
+														<th>계급</th>
+														<th>연락처</th>
+														<th>설치</th>														
+														<th>IP</th>
+														<th>MAC</th>
+														<th>PC이름</th>
+														<th>적용시간</th>
+														<th>요청시간</th>
+														<th>적용정책</th>
+
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+
 													</tr>
 												</thead>
 				
@@ -219,12 +229,43 @@
 														</td>
 														<td>접속
 														</td>
-														<td>17-02-01 15:44:12
+														<td>
+															<i class="fa fa-trash policy_icon" style="color:blue" title="테스트입니다."></i>
+															<i class="fa fa-tint policy_icon" style="color:blue" title="테스트입니다."></i>
+															<i class="fa fa-lock policy_icon" style="color:red" title="테스트입니다."></i>
+															<i class="fa fa-usb policy_icon" style="color:blue" title="테스트입니다."></i>
+															<i class="fa fa-plug policy_icon" style="color:blue" title="테스트입니다."></i>
+															<i class="fa fa-wifi policy_icon" style="color:blue" title="테스트입니다."></i>
+															<i class="fa fa-envelope policy_icon" style="color:blue" title="테스트입니다."></i>
+															<i class="fa fa-file-text policy_icon" style="color:blue" title="테스트입니다."></i>
+															<i class="fa fa-file-archive-o policy_icon " style="color:blue" title="테스트입니다."></i>
+															<i class="fa fa-folder-open policy_icon" style="color:red" title="테스트입니다."></i>
+															<i class="glyphicon glyphicon-cd policy_icon" style="color:blue" title="테스트입니다."></i>
 														</td>
-														<td>17-02-01 15:44:12
+														
+														<td>
 														</td>
-														<td>17-02-01 15:44:12
+														<td>
 														</td>
+														<td>
+														</td>
+														<td>
+														</td>
+														<td>
+														</td>
+														<td>
+														</td>
+														<td>
+														</td>
+														<td>
+														</td>
+														<td>
+														</td>
+														<td>
+														</td>
+														<td>
+														</td>
+														
 													</tr>
 												</tbody>
 											</table>
@@ -242,14 +283,13 @@
 
 
 		</div>
-	
+		
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
 		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
-		
 		
 <script>
 	var getPageinfoHash = function(){
@@ -334,7 +374,7 @@
 						//dom: 'C<"clear">RZlfrtp',
 						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i ><"pull-right"><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//l이 갯수
-						"columns": [{
+						/* "columns": [{
 							"orderable": false		//추가정보
 						}, {
 							"orderable": false	//부서
@@ -365,10 +405,26 @@
 						}, {
 							"orderable": false	//설치시간
 						}, {
-							"orderable": false	//서버접속시간
+							"orderable": false	//설치시간
 						}, {
-							"orderable": false	//PC접속시간
-						}],
+							"orderable": false	//설치시간
+						}, {
+							"orderable": false	//설치시간
+						}, {
+							"orderable": false	//설치시간
+						}, {
+							"orderable": false	//설치시간
+						}, {
+							"orderable": false	//설치시간
+						}, {
+							"orderable": false	//설치시간
+						}, {
+							"orderable": false	//설치시간
+						}, {
+							"orderable": false	//설치시간
+						}, {
+							"orderable": false	//설치시간
+						}], */
 						// set the initial value
 						"pageLength": 20,
 						"iDisplayLength": 20,
@@ -403,40 +459,86 @@
 							"class":"center-cell"
 						}, {	
 							"targets": [5]	//직책
-							,"class" : "userinfo center-cell"
+							,"class" : "center-cell"
+							,"visible":false
 						}, {	
 							"targets": [6]	//계급
-							,"class" : "userinfo center-cell"
+							,"class" : "center-cell"
+							,"visible":false
 						}, {	
 							"targets": [7]	//연락처
-							,"class" : "userinfo center-cell"
+							,"class" : "center-cell"
+							,"visible":false
 						}, {	
 							"targets": [8]	//설치유무
 							,"class":"center-cell"
 						}, {	
 							"targets": [9]	//IP
-							,"class" : "agentinfo center-cell"
+							,"class" : "center-cell"
+								,"visible":false
 						}, {	
 							"targets": [10]	//MAC
-							,"class" : "agentinfo center-cell"
+							,"class" : "center-cell"
+								,"visible":false
 						}, {	
 							"targets": [11]	//PC이름
-							,"class" : "agentinfo center-cell"
+							,"class" : "center-cell"
+								,"visible":false
 						}, {	
-							"targets": [12]	//버전
-							,"class" : "agentinfo center-cell"
+							"targets": [12]	//적용시간
+							,"class" : "center-cell"
+								,"visible":false
 						}, {	
-							"targets": [13]	//접속여부
-							,"class" : "agentinfo center-cell"
+							"targets": [13]	//요청시간
+							,"visible":false
+							,"class" : "center-cell"
 						}, {	
-							"targets": [14]	//설치시간
-							,"class" : "agentinfo center-cell"
+							"targets": [14]	//적용정책
+							,"class" : "center-cell"
 						}, {	
-							"targets": [15]	//서버접속시간
-							,"class" : "agentinfo center-cell"
+							"targets": [15]	//적용정책
+							,"class" : "center-cell"
+							,"visible":false		
 						}, {	
-							"targets": [16]	//PC접속시간
-							,"class" : "agentinfo center-cell"
+							"targets": [16]	//적용정책
+							,"class" : "center-cell"
+							,"visible":false
+						}, {	
+							"targets": [17]	//적용정책
+							,"class" : "center-cell"
+							,"visible":false
+						}, {	
+							"targets": [18]	//적용정책
+							,"class" : "center-cell"
+							,"visible":false
+						}, {	
+							"targets": [19]	//적용정책
+							,"class" : "center-cell"
+							,"visible":false
+						}, {	
+							"targets": [20]	//적용정책
+							,"class" : "center-cell"
+							,"visible":false
+						}, {	
+							"targets": [21]	//적용정책
+							,"class" : "center-cell"
+							,"visible":false
+						}, {	
+							"targets": [22]	//적용정책
+							,"class" : "center-cell"
+							,"visible":false
+						}, {	
+							"targets": [23]	//적용정책
+							,"class" : "center-cell"
+							,"visible":false
+						}, {	
+							"targets": [24]	//적용정책
+							,"class" : "center-cell"
+							,"visible":false
+						}, {	
+							"targets": [25]	//적용정책
+							,"class" : "center-cell"
+							,"visible":false
 						}],		
 						"initComplete": function( settings, json ) {
 						}

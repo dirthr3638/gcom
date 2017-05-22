@@ -174,8 +174,8 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-12">
-											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 1000px;">
+										<div class="col-md-12" style="overflow: hidden;">
+											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
 														<th style="width:20px"></th>

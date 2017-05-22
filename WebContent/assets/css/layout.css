@@ -2579,3 +2579,8 @@ ul.easypiecharts li span.stat-title {
     min-width: 1000px;
     white-space: nowrap;
 }
+
+.policy_icon{
+	margin-left: 10px;
+	margin-right: 10px;
+}

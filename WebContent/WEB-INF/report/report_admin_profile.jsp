@@ -100,7 +100,7 @@
 				
 											<br />
 											<button type="button" class="btn btn-success center-block">
-												<i class="fa fa-cog fa-lg"></i>
+												<i class="fa fa-cog fa-lg" aria-hidden="true"></i>
 												수정
 											</button>
 																					
