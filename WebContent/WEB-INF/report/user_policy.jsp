@@ -165,7 +165,7 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12">
-											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 1000px;">
+											<table class="table table-striped table-bordered x-scroll-table" id="table_userinfo" style="width:100%; min-width: 1000px;">
 												<thead>
 													<tr>
 														<th style="width:20px"></th>
@@ -173,100 +173,44 @@
 														<th>아이디</th>
 														<th>이름</th>
 														<th>번호</th>
-														<th>직책</th>
-														<th>계급</th>
-														<th>연락처</th>
-														<th>설치</th>														
-														<th>IP</th>
-														<th>MAC</th>
-														<th>PC이름</th>
-														<th>적용시간</th>
-														<th>요청시간</th>
+														<th>직책</th><!-- 숨김  -->
+														<th>계급</th><!-- 숨김  -->
+														<th>연락처</th>		<!-- 숨김  -->
+														<th>설치</th>									
+														<th>IP</th>			<!-- 숨김  -->
+														<th>MAC</th><!-- 숨김  -->
+														<th>PC이름</th><!-- 숨김  -->
+														<th>적용시간</th><!-- 숨김  -->
+														<th>요청시간</th><!-- 숨김  -->
 														<th>적용정책</th>
 
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-
+														<th>에이전트삭제가능</th>	
+														<th>프린트사용가능</th>
+														<th>워터마크</th>
+														<th>파일실시간암호화</th>
+														<th>USB포트사용가능</th>
+														<th>시리얼포트사용가능</th>
+														<th>무선랜사용가능</th>
+														<th>메일반출가능</th>
+														<th>민감파일접근시삭제</th>
+														<th>보호폴더접근가능</th>
+														<th>공유폴더사용여부</th>
+														<th>CD사용여부</th>
 													</tr>
 												</thead>
 				
 												<tbody>
-													<tr class="odd gradeX">
-														<td><span class="datables-td-detail datatables-close"></span>
-														</td>
-														<td>인사과
-														</td>
-														<td>user_id
-														</td>
-														<td>오무진
-														</td>
-														<td>10000
-														</td>
-														<td>팀장
-														</td>
-														<td>과장
-														</td>
-														<td>010-333-5545
-														</td>
-														<td>설치
-														</td>
-														<td>192.0.0.1
-														</td>
-														<td>11:11:11:11:11:11
-														</td>
-														<td>windows-PC-client001
-														</td>
-														<td>1.0.0.1
-														</td>
-														<td>접속
-														</td>
-														<td>
-															<i class="fa fa-trash policy_icon" style="color:blue" title="테스트입니다."></i>
-															<i class="fa fa-tint policy_icon" style="color:blue" title="테스트입니다."></i>
-															<i class="fa fa-lock policy_icon" style="color:red" title="테스트입니다."></i>
-															<i class="fa fa-usb policy_icon" style="color:blue" title="테스트입니다."></i>
-															<i class="fa fa-plug policy_icon" style="color:blue" title="테스트입니다."></i>
-															<i class="fa fa-wifi policy_icon" style="color:blue" title="테스트입니다."></i>
-															<i class="fa fa-envelope policy_icon" style="color:blue" title="테스트입니다."></i>
-															<i class="fa fa-file-text policy_icon" style="color:blue" title="테스트입니다."></i>
-															<i class="fa fa-file-archive-o policy_icon " style="color:blue" title="테스트입니다."></i>
-															<i class="fa fa-folder-open policy_icon" style="color:red" title="테스트입니다."></i>
-															<i class="glyphicon glyphicon-cd policy_icon" style="color:blue" title="테스트입니다."></i>
-														</td>
-														
-														<td>
-														</td>
-														<td>
-														</td>
-														<td>
-														</td>
-														<td>
-														</td>
-														<td>
-														</td>
-														<td>
-														</td>
-														<td>
-														</td>
-														<td>
-														</td>
-														<td>
-														</td>
-														<td>
-														</td>
-														<td>
-														</td>
-														
-													</tr>
+													
+													
+													
+
+<tr class="odd gradeX">	<td><span class="datables-td-detail datatables-close"></span></td><td>사업부</td><td>user_id</td><td>오무진</td><td>10000</td><td>팀장</td><td>과장</td><td>010-333-1111</td><td>설치</td><td>192.168.0.1</td><td>11:11:11:11:11:11</td><td>windows-PC-client001</td><td>2012-02-11</td><td>2012-02-11</td><td><i class="fa fa-trash policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-print policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-tint policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-lock policy_icon" style="color:red" title="테스트입니다."></i><i class="fa fa-usb policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-plug policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-wifi policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-envelope policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-text policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-archive-o policy_icon " style="color:blue" title="테스트입니다."></i><i class="fa fa-folder-open policy_icon" style="color:red" title="테스트입니다."></i><i class="glyphicon glyphicon-cd policy_icon" style="color:blue" title="테스트입니다."></i></td><td>허용</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>허용</td></tr>
+<tr class="odd gradeX">	<td><span class="datables-td-detail datatables-close"></span></td><td>사업부</td><td>user_id</td><td>빈소희</td><td>10001</td><td>팀장</td><td>과장</td><td>010-333-2222</td><td>설치</td><td>192.168.0.2</td><td>11:11:11:11:11:22</td><td>windows-PC-client002</td><td>2012-02-11</td><td>2012-02-11</td><td><i class="fa fa-trash policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-print policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-tint policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-lock policy_icon" style="color:red" title="테스트입니다."></i><i class="fa fa-usb policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-plug policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-wifi policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-envelope policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-text policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-archive-o policy_icon " style="color:blue" title="테스트입니다."></i><i class="fa fa-folder-open policy_icon" style="color:red" title="테스트입니다."></i><i class="glyphicon glyphicon-cd policy_icon" style="color:blue" title="테스트입니다."></i></td><td>허용</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>허용</td></tr>													
+<tr class="odd gradeX">	<td><span class="datables-td-detail datatables-close"></span></td><td>사업부</td><td>user_id</td><td>전길</td><td>10002</td><td>팀장</td><td>과장</td><td>010-333-3333</td><td>설치</td><td>192.168.0.4</td><td>11:11:11:11:11:33</td><td>windows-PC-client003</td><td>2012-02-11</td><td>2012-02-11</td><td><i class="fa fa-trash policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-print policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-tint policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-lock policy_icon" style="color:red" title="테스트입니다."></i><i class="fa fa-usb policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-plug policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-wifi policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-envelope policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-text policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-archive-o policy_icon " style="color:blue" title="테스트입니다."></i><i class="fa fa-folder-open policy_icon" style="color:red" title="테스트입니다."></i><i class="glyphicon glyphicon-cd policy_icon" style="color:blue" title="테스트입니다."></i></td><td>허용</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>허용</td></tr>													
+<tr class="odd gradeX">	<td><span class="datables-td-detail datatables-close"></span></td><td>사업부</td><td>user_id</td><td>홍석희</td><td>10003</td><td>팀장</td><td>과장</td><td>010-333-5544</td><td>설치</td><td>192.168.0.3</td><td>11:11:11:11:11:44</td><td>windows-PC-client004</td><td>2012-02-11</td><td>2012-02-11</td><td><i class="fa fa-trash policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-print policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-tint policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-lock policy_icon" style="color:red" title="테스트입니다."></i><i class="fa fa-usb policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-plug policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-wifi policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-envelope policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-text policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-archive-o policy_icon " style="color:blue" title="테스트입니다."></i><i class="fa fa-folder-open policy_icon" style="color:red" title="테스트입니다."></i><i class="glyphicon glyphicon-cd policy_icon" style="color:blue" title="테스트입니다."></i></td><td>허용</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>허용</td></tr>
+												
+												
+												
 												</tbody>
 											</table>
 										
@@ -405,25 +349,25 @@
 						}, {
 							"orderable": false	//설치시간
 						}, {
-							"orderable": false	//설치시간
+							"orderable": false	//
 						}, {
-							"orderable": false	//설치시간
+							"orderable": false	//
 						}, {
-							"orderable": false	//설치시간
+							"orderable": false	//
 						}, {
-							"orderable": false	//설치시간
+							"orderable": false	//
 						}, {
-							"orderable": false	//설치시간
+							"orderable": false	//
 						}, {
-							"orderable": false	//설치시간
+							"orderable": false	//
 						}, {
-							"orderable": false	//설치시간
+							"orderable": false	//
 						}, {
-							"orderable": false	//설치시간
+							"orderable": false	//
 						}, {
-							"orderable": false	//설치시간
+							"orderable": false	//
 						}, {
-							"orderable": false	//설치시간
+							"orderable": false	//
 						}], */
 						// set the initial value
 						"pageLength": 20,
@@ -457,7 +401,7 @@
 						}, {	
 							"targets": [4],	//번호
 							"class":"center-cell"
-						}, {	
+						}, {
 							"targets": [5]	//직책
 							,"class" : "center-cell"
 							,"visible":false
@@ -465,7 +409,7 @@
 							"targets": [6]	//계급
 							,"class" : "center-cell"
 							,"visible":false
-						}, {	
+						}, {
 							"targets": [7]	//연락처
 							,"class" : "center-cell"
 							,"visible":false
@@ -539,6 +483,10 @@
 							"targets": [25]	//적용정책
 							,"class" : "center-cell"
 							,"visible":false
+						}, {	
+							"targets": [26]	//적용정책
+							,"class" : "center-cell"
+							,"visible":false
 						}],		
 						"initComplete": function( settings, json ) {
 						}
@@ -546,14 +494,74 @@
 					
 					function fnFormatDetails(oTable, nTr) {
 						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table>';
-						sOut += '<tr><td>Platform(s):</td><td>' + aData[2] + '</td></tr>';
-						sOut += '<tr><td>Engine version:</td><td>' + aData[3] + '</td></tr>';
-						sOut += '<tr><td>CSS grade:</td><td>' + aData[4] + '</td></tr>';
-						sOut += '<tr><td>Others:</td><td>Could provide a link here</td></tr>';
-						sOut += '</table>';
+						
+						var sFrame = '<div class="tabs nomargin-top">'
+						sFrame += '<ul class="nav nav-tabs"><li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-th-large"></i>정책상세</a></li>';
+						sFrame += '<li><a href="#tab2" data-toggle="tab"><i class="fa fa-info-circle"></i>사용자정보</a></li></ul>';		
+					
+					
+						sFrame += '<div class="tab-content">';
 
-						return sOut;
+					
+						sFrame += '<div id="tab1" class="tab-pane active">';
+						
+ 						var sOut = '<table class="table ">';
+						sOut += '<tr><td class="center-cell">에이전트삭제가능:</td><td>' + aData[15] + '</td>';
+						sOut += '<td style="padding-left:100px;" class="center-cell">프린트사용가능:</td><td>' + aData[16] + '</td></tr>';
+						sOut += '<tr><td class="center-cell">인쇄워터마크:</td><td>' + aData[17] + '</td>';
+						sOut += '<td style="padding-left:100px;" class="center-cell">파일신시간암호화:</td><td>' + aData[18] + '</td></tr>';
+						sOut += '<tr><td class="center-cell">USB포트사용:</td><td>' + aData[19] + '</td>';
+						sOut += '<td style="padding-left:100px;" class="center-cell">시리얼포트사용:</td><td>' + aData[20] + '</td></tr>';
+						sOut += '<tr><td class="center-cell">무선랜사용:</td><td>' + aData[21] + '</td>';
+						sOut += '<td style="padding-left:100px;" class="center-cell">메일반출사용:</td><td>' + aData[22] + '</td></tr>';
+						sOut += '<tr><td class="center-cell">민감파일접근시삭제:</td><td>' + aData[23] + '</td>';
+						sOut += '<td style="padding-left:100px;" class="center-cell">보호파일접근가능:</td><td>' + aData[24] + '</td></tr>';
+						sOut += '<tr><td class="center-cell">공유폴더사용가능:</td><td>' + aData[25] + '</td>';
+						sOut += '<td style="padding-left:100px;" class="center-cell">CD사용가능:</td><td>' + aData[26] + '</td></tr>';
+
+						sOut += '</table>'; 
+						sFrame += sOut;
+						sFrame += '</div>';	
+						
+						sFrame += '<div id="tab2" class="tab-pane">';
+						
+ 						var sOut = '<table class="table ">';
+						sOut += '<tr><td class="center-cell">직책:</td><td>' + aData[5] + '</td>';
+						sOut += '<td style="padding-left:100px;" class="center-cell">계급:</td><td>' + aData[6] + '</td></tr>';
+						sOut += '<tr><td class="center-cell">연락처:</td><td>' + aData[7] + '</td>';
+						sOut += '<td style="padding-left:100px;" class="center-cell">IP주소:</td><td>' + aData[9] + '</td></tr>';
+						sOut += '<tr><td class="center-cell">MAC주소:</td><td>' + aData[10] + '</td>';
+						sOut += '<td style="padding-left:100px;" class="center-cell">PC이름:</td><td>' + aData[11] + '</td></tr>';
+						sOut += '<tr><td class="center-cell">적용시간:</td><td>' + aData[12] + '</td>';
+						sOut += '<td style="padding-left:100px;" class="center-cell">요청시간:</td><td>' + aData[13] + '</td></tr>';
+
+						
+						/*  
+						
+														<th>직책</th><!-- 숨김  -->
+														<th>계급</th><!-- 숨김  -->
+														<th>연락처</th>		<!-- 숨김  -->
+																				
+														<th>IP</th>			<!-- 숨김  -->
+														<th>MAC</th><!-- 숨김  -->
+														<th>PC이름</th><!-- 숨김  -->
+														<th>적용시간</th><!-- 숨김  -->
+														<th>요청시간</th><!-- 숨김  -->
+														<th>적용정책</th><!-- 숨김  -->
+						*/
+						
+						
+						
+						sOut += '</table>'; 
+						sFrame += sOut;
+						sFrame += '</div>';	
+						
+						
+						
+						sFrame += '</div>';	
+						sFrame += '</div>';
+					
+						return sFrame;
 					}
 					
 					var jTable = jQuery('#table_userinfo');

@@ -422,7 +422,7 @@
 						"columnDefs": [
 						{	
 							"targets": [0],	//추가정보
-							"class":"center-cell",
+							"class":"agentinfo center-cell",
 						},         
 						{  // set default column settings
 							'targets': [1]	//부서
