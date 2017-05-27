@@ -1,0 +1,16 @@
+<Context reloadable="true">
+
+<Resource 
+	name="jdbc/mysql" 
+	auth="Container" 
+	type="javax.sql.DataSource"
+    maxActive="100" 
+    maxIdel="30" 
+    maxWait="1000"
+    username="root" 
+    password="ohm1209" 
+    driverClassName="com.mysql.jdbc.Driver"
+    url="jdbc:mysql://localhost:14000/Guardcom"/>
+
+  
+</Context>
