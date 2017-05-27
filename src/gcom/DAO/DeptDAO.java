@@ -19,7 +19,7 @@ public class DeptDAO {
 	PreparedStatement pstmt=null;
 	ResultSet rs = null;
 	
-	public DeptDAO(){
+	public DeptDAO(){ 
 		try{
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context)initCtx.lookup("java:comp/env");
