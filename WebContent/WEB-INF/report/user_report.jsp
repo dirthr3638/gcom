@@ -57,25 +57,8 @@
 								</div>
 
 								<!-- panel content -->
-								<div class="panel-body">
+								<div id="dept_tree" class="panel-body">
 
-									<div id="org_tree" style="overflow: hidden;">
-				                        <ul>
-				                            <li class="jstree-open" data-jstree='{"type":"root"}'>Company
-				                                <ul>
-				                                    <li>사업부
-				                                        <ul>
-				                                            <li>사업 1팀</li>
-				                                            <li>사입 2팀</li>
-				                                            <li>디자인팀</li>
-				                                        </ul>
-				                                    </li>
-
-				                                    <li>IT지원</li>
-				                                </ul>
-				                            </li>
-				                        </ul>
-				                    </div>
 								</div>
 								<!-- /panel content -->
 
@@ -296,64 +279,34 @@
 	var getFilterInfo = function(){
 		
 	};
+	
+	function setTree(){
+		$.ajax({      
+	        type:"POST",  
+	        url:'/common/tree/dept',
+	        //data:{},
+	        success:function(args){   
+	            $("#dept_tree").html(args);      
+	            console.log(args);  
+
+	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	            console.log(e.responseText);  
+	        }  
+	    }); 
+	}
+
 
 	$(document).ready(function(){
-     	$(document).ready(function() {
-    		  $(".select2theme").select2({
-    			  minimumResultsForSearch: -1,
-    			  dropdownAutoWidth : true,
-    			  width: 'auto'
-    		  });
-    	}); 
+
+		$(".select2theme").select2({
+   			  minimumResultsForSearch: -1,
+   			  dropdownAutoWidth : true,
+   			  width: 'auto'
+   		});
     	
-        $('#org_tree').jstree({
-            'core' : {
-                'check_callback' : true
-            },
-            "contextmenu":{         
-                "items": function($node) {
-                    var tree = $("#org_tree").jstree(true);
-                    return {
-                        "Create": {
-                            "separator_before": false,
-                            "separator_after": false,
-                            "label": "Create",
-                            "action": function (obj) { 
-                                $node = tree.create_node($node);
-                                tree.edit($node);
-                            }
-                        },
-                        "Rename": {
-                            "separator_before": false,
-                            "separator_after": false,
-                            "label": "Rename",
-                            "action": function (obj) { 
-                                tree.edit($node);
-                            }
-                        },                         
-                        "Remove": {
-                            "separator_before": false,
-                            "separator_after": false,
-                            "label": "Remove",
-                            "action": function (obj) { 
-                                tree.delete_node($node);
-                            }
-                        }
-                    };
-                }
-            },
-            'plugins' : [ 'types', 'dnd', 'checkbox', 'contextmenu' ],
-            'types' : {
-                'default' : {
-                    'icon' : 'fa fa-user-circle-o'
-                },
-                'root' : {
-                    'icon' : 'fa fa-building'
-                }
-
-            }
-        });
-
+     	setTree();
         
         loadScript(plugin_path + "datatables/js/jquery.dataTables.min.js", function(){
 			loadScript(plugin_path + "datatables/dataTables.bootstrap.js", function(){

@@ -41,11 +41,27 @@ public class DeptDAO {
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			pstmt.setString(1,  "%"+ adminNumber +"%");
+			pstmt.setInt(1,  adminNumber);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				DeptModel model = new DeptModel();
+				model.setDept_no(rs.getInt("no"));
+				model.setParent(rs.getInt("no"));
+				model.setLeap(rs.getInt("no"));
+				model.setDept(rs.getInt("no"));
+				model.setAdmin_no(rs.getInt("no"));
+				model.setName(rs.getString("no"));
+				model.setShortName(rs.getString("no"));
+				model.setValid(rs.getInt("no"));
+				model.setChildCount(rs.getInt("no"));
+				
+				data.add(model);
+			}
 			
 		}catch(SQLException ex){
-			
-		}
+			ex.printStackTrace();
+		} 
 		
 		return data;
 	}

@@ -11,6 +11,6 @@ public class DeptModel {
 	private int admin_no;
 	private String name;
 	private String shortName;
-	private boolean valid;
+	private int valid;
 	private int childCount;	
 }

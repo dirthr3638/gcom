@@ -1,5 +1,4 @@
 <Context reloadable="true">
-
 <Resource 
 	name="jdbc/mysql" 
 	auth="Container" 
@@ -10,7 +9,5 @@
     username="root" 
     password="ohm1209" 
     driverClassName="com.mysql.jdbc.Driver"
-    url="jdbc:mysql://localhost:14000/Guardcom"/>
-
-  
+    url="jdbc:mysql://127.0.0.1:3306/Guardcom?characterEncoding=utf8&amp;useSSL=false" />
 </Context>
