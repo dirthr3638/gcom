@@ -2584,3 +2584,22 @@ ul.easypiecharts li span.stat-title {
 	margin-left: 10px;
 	margin-right: 10px;
 }
+
+/*--------------------*/
+
+.blur-bg {
+	position:relative;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+	min-height: 100%;
+	padding: 20px;
+	background: url(/assets/images/guard_login_bg.jpg) no-repeat center center fixed;
+	background-size: cover; 
+}
+
+.login-bg-color {
+	background-color: rgb(242, 242, 242);
+}
