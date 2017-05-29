@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import gcom.Model.DeptModel;
 
 public class DeptDAO {
+	
 	DataSource ds;
 	Connection con=null;
 	PreparedStatement pstmt=null;
