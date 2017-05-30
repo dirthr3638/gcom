@@ -1,4 +1,4 @@
-package gcom.controller.front;
+package gcom.controller.front.report;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class updateAgentController
+ * Servlet implementation class reportPolicyInspectionController
  */
-@WebServlet("/update/Agent")
-public class updateAgentController extends HttpServlet {
+@WebServlet("/report/inspection")
+public class reportPolicyInspectionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public updateAgentController() {
+    public reportPolicyInspectionController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,15 +27,8 @@ public class updateAgentController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getRequestDispatcher("/WEB-INF/report/log_policy_inspection.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
 
 }

@@ -695,7 +695,6 @@
 	        },   
 	        //beforeSend:showRequest,  
 	        error:function(e){  
-	            console.log(e.responseText);  
 	        }  
 	    }); 
 	}

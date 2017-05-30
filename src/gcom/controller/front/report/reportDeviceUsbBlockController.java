@@ -1,4 +1,4 @@
-package gcom.controller.front;
+package gcom.controller.front.report;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class policySystemController
+ * Servlet implementation class reportDeviceUsbBlock
  */
-@WebServlet("/policy/system")
-public class policySystemController extends HttpServlet {
+@WebServlet("/report/usbblock")
+public class reportDeviceUsbBlockController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public policySystemController() {
+    public reportDeviceUsbBlockController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,15 +27,8 @@ public class policySystemController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getRequestDispatcher("/WEB-INF/report/log_device_usb_block.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
 
 }

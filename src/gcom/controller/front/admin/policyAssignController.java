@@ -1,4 +1,4 @@
-package gcom.controller.front.ax;
+package gcom.controller.front.admin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -6,21 +6,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.gson.Gson;
-
-import gcom.controller.action.deptAction;
 
 /**
- * Servlet implementation class axDeptController
+ * Servlet implementation class policyAssignController
  */
-@WebServlet("/common/tree/dept")
-public class axDeptController extends HttpServlet {
+@WebServlet("/policy/assign")
+public class policyAssignController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public axDeptController() {
+    public policyAssignController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,8 +27,7 @@ public class axDeptController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/common/tree_dept.jsp").forward(request, response);
-
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -39,14 +35,7 @@ public class axDeptController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		deptAction da = new deptAction();
-		
-		String json = new Gson().toJson(da.getDeptListForJSTree(1));
-		request.setAttribute("deptJson", json);
-		
-		request.getRequestDispatcher("/WEB-INF/common/tree_dept.jsp").forward(request, response);
-		
+		doGet(request, response);
 	}
 
 }

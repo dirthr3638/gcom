@@ -1,4 +1,4 @@
-package gcom.controller.front;
+package gcom.controller.front.report;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class logDeviceController
+ * Servlet implementation class reportLogLogin
  */
-@WebServlet("/log")
-public class logDeviceController extends HttpServlet {
+@WebServlet("/report/login")
+public class reportLogLoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public logDeviceController() {
+    public reportLogLoginController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,15 +27,7 @@ public class logDeviceController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		request.getRequestDispatcher("/WEB-INF/report/log_login.jsp").forward(request, response);
 	}
 
 }

@@ -2,34 +2,33 @@
     pageEncoding="utf-8"%>
 
 <div id="org_tree" style="overflow: hidden;">
-				                        <ul>
-				                            <li class="jstree-open" data-jstree='{"type":"root"}'>Company
-				                                <ul>
-				                                    <li>사업부
-				                                        <ul>
-				                                            <li>사업 1팀</li>
-				                                            <li>사입 2팀</li>
-				                                            <li>디자인팀</li>
-				                                        </ul>
-				                                    </li>
+     <ul>
+         <li class="jstree-open" data-jstree='{"type":"root"}'>Company
+             <ul>
+                 <li>나오면안됨
+                     <ul>
+                         <li>사업 1팀</li>
+                         <li>사입 2팀</li>
+                         <li>디자인팀</li>
+                     </ul>
+                 </li>
 
-				                                    <li>IT지원</li>
-				                                </ul>
-				                            </li>
-				                        </ul>
-				                    </div>
+                 <li>IT지원</li>
+             </ul>
+         </li>
+     </ul>
+ </div>
+ 
+ 
  
  <script>
+ 
+
  $(document).ready(function(){
 	 $('#org_tree').jstree({
 	     'core' : {
 	         'check_callback' : true,
-	         'data' : [
-	                   { "id" : "ajson1", "parent" : "#", "text" : "Simple root node" },
-	                   { "id" : "ajson2", "parent" : "#", "text" : "Root node 2" },
-	                   { "id" : "ajson3", "parent" : "ajson2", "text" : "Child 1" },
-	                   { "id" : "ajson4", "parent" : "ajson2", "text" : "Child 2" },
-	                ]
+	         'data' : JSON.parse('${deptJson}')
 	     },
          'plugins' : [ 'types', 'dnd', 'checkbox', 'contextmenu' ],
          'types' : {

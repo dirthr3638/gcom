@@ -28,6 +28,8 @@
 				ASIDE 
 				Keep it outside of #wrapper (responsive purpose)
 			-->
+			<% request.setAttribute("menu_parent", 1000); %> 
+			<% request.setAttribute("menu_sub_first", 1100); %> 
 			<jsp:include page="/WEB-INF/common/report_left_menu.jsp" flush="false" />
 			
 			<!-- /ASIDE -->
@@ -231,9 +233,6 @@
 					</div>
 				</div>
 			</section>
-
-
-
 		</div>
 	
 		<!-- JAVASCRIPT FILES -->
@@ -287,8 +286,6 @@
 	        //data:{},
 	        success:function(args){   
 	            $("#dept_tree").html(args);      
-	            console.log(args);  
-
 	        },   
 	        //beforeSend:showRequest,  
 	        error:function(e){  
@@ -299,7 +296,6 @@
 
 
 	$(document).ready(function(){
-
 		$(".select2theme").select2({
    			  minimumResultsForSearch: -1,
    			  dropdownAutoWidth : true,

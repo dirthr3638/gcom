@@ -11,7 +11,13 @@ public class deptAction {
 	public List<DeptModel> getDeptList(int adminNumber){
 		IDeptService dsv = new DeptServiceImpl();
 
-		return dsv.getDept(adminNumber);
+		return dsv.getDeptList(adminNumber);
+	}
+
+	public List<DeptTreeModel> getDeptListForJSTree(int adminNumber){
+		IDeptService dsv = new DeptServiceImpl();
+
+		return dsv.getDeptListForJSTree(adminNumber);
 	}
 	
 }

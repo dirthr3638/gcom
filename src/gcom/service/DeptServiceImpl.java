@@ -4,10 +4,11 @@ import java.util.List;
 
 import gcom.DAO.DeptDAO;
 import gcom.Model.DeptModel;
+import gcom.Model.DeptTreeModel;
 
 public class DeptServiceImpl implements IDeptService {
 	
-	public List<DeptModel> getDept(int adminNumber){
+	public List<DeptModel> getDeptList(int adminNumber){
 		
 		DeptDAO dao = new DeptDAO();
 		
@@ -17,5 +18,13 @@ public class DeptServiceImpl implements IDeptService {
 		
 	}
 
-	
+	public List<DeptTreeModel> getDeptListForJSTree(int adminNumber){
+		
+		DeptDAO dao = new DeptDAO();
+		
+		List<DeptTreeModel> result = dao.getDeptListForJSTree(adminNumber);
+		
+		return result;
+		
+	}	
 }

@@ -1,4 +1,4 @@
-package gcom.controller.front;
+package gcom.controller.front.admin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class policyAssignController
+ * Servlet implementation class userGroupController
  */
-@WebServlet("/policy/assign")
-public class policyAssignController extends HttpServlet {
+@WebServlet("/usergroup")
+public class userGroupController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public policyAssignController() {
+    public userGroupController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,15 +27,8 @@ public class policyAssignController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getRequestDispatcher("WEB-INF/user/userGroup/usergroup.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
 
 }

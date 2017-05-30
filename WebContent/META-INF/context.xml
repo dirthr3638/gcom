@@ -9,5 +9,5 @@
     username="root" 
     password="ohm1209" 
     driverClassName="com.mysql.jdbc.Driver"
-    url="jdbc:mysql://127.0.0.1:3306/Guardcom?characterEncoding=utf8&amp;useSSL=false" />
+    url="jdbc:mysql://127.0.0.1:14000/guardcom?characterEncoding=utf8&amp;useSSL=false" />
 </Context>

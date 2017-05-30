@@ -1,4 +1,4 @@
-package gcom.controller.front;
+package gcom.controller.front.report;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

@@ -28,8 +28,8 @@
 				ASIDE 
 				Keep it outside of #wrapper (responsive purpose)
 			-->
-			<% request.setAttribute("menu_parent", 3000); %> 
-			<% request.setAttribute("menu_sub_first", 3100); %> 			
+			<% request.setAttribute("menu_parent", 2000); %> 
+			<% request.setAttribute("menu_sub_first", 2300); %> 			
 			<jsp:include page="/WEB-INF/common/report_left_menu.jsp" flush="false" />
 			
 			<!-- /ASIDE -->

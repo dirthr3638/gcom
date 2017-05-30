@@ -1,4 +1,4 @@
-package gcom.controller.front;
+package gcom.controller.front.report;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class reportUsers
+ * Servlet implementation class reportPolicyInfoDrain
  */
-@WebServlet("/report/users")
-public class reportUsersController extends HttpServlet {
+@WebServlet("/report/drain")
+public class reportPolicyInfoDrainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public reportUsersController() {
+    public reportPolicyInfoDrainController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +27,7 @@ public class reportUsersController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/report/user_report.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/report/log_policy_infodrain.jsp").forward(request, response);
 	}
 
 
