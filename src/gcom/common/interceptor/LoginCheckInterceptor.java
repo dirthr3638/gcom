@@ -23,18 +23,21 @@ public class LoginCheckInterceptor implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpReq = (HttpServletRequest)request;
-        HttpSession session = httpReq.getSession(false);
-                
+        //HttpSession session = httpReq.getSession(false);
+        HttpSession session = httpReq.getSession();
+         
+        session.setAttribute("user_nm", "전길");
+        
         httpReq.setCharacterEncoding("UTF-8");
         boolean loginFlag = false;
         
         if (session != null) {
-        	String userId = (String)session.getAttribute("user");
+        	String userId = (String)session.getAttribute("user_id");
         	if(userId != null) {
         		loginFlag = true;
         	}
         }
-
+        /*
         String[] uris = {"/assets", "/main", "/notice", "/contact", "/userInfo"};		//check URL - ex) 건너뛰거나 체크에서 제외될 URL
         String uri = httpReq.getRequestURI();					//요청 URL
         for(String s : uris) {
@@ -42,7 +45,7 @@ public class LoginCheckInterceptor implements Filter {
                 loginFlag = true;
                 break;
             }
-        }
+        }*/
         
         if (loginFlag) {
         	chain.doFilter(request, response);

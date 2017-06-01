@@ -8,7 +8,7 @@
 				
 				<div class="col-md-4">
 					<!-- Footer Logo -->
-					<img class="footer-logo" src="assets/images/guard/footer_logo.png" alt="" />
+					<img class="footer-logo" src="/assets/images/user_footer_logo.png" alt="" />
 
 					<!-- Small Description -->
 					<p>내부자료 유출 방지 시스템</p>
@@ -69,7 +69,6 @@
 					<!-- Social Icons -->
 					<div class="margin-top-20">
 						<a href="#" class="social-icon social-icon-border social-facebook pull-left" data-toggle="tooltip" data-placement="top" title="Facebook">
-
 							<i class="icon-facebook"></i>
 							<i class="icon-facebook"></i>
 						</a>
@@ -131,4 +130,4 @@
 	<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 	<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
 	
-	<script type="text/javascript" src="/assets/js/app.js"></script>
+	<script type="text/javascript" src="/assets/js/scripts.js"></script>

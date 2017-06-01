@@ -14,9 +14,12 @@
 		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		
 		<!-- THEME CSS -->
-		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="/assets/css/user_essentials.css" rel="stylesheet" type="text/css" />
+		<link href="/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
+		
+		<!-- PAGE LEVEL STYLE -->
+		<link href="/assets/css/user_header.css" rel="stylesheet" type="text/css" />
+		<link href="/assets/css/color_scheme/user_green.css" rel="stylesheet" type="text/css" id="color_scheme" />
 
 	</head>
 	<body class="smoothscroll enable-animation">
