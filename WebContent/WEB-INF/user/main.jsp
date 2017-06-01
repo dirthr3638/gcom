@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*"%>
+<%@ page import="gcom.user.model.UserPolicyListModel"%>
+<% 
+	List<UserPolicyListModel> list = (List<UserPolicyListModel>)request.getAttribute("userPolicyList");
+%>
 
 <!doctype html>
 <html lang="utf-8">
@@ -130,65 +135,43 @@
 
 						<table class="table table-bordered table-striped">
 							<tbody>
+					<% if (list.size() < 1) { %>
 								<tr>
-									<td>에이전트 삭제 가능 여부</td>
+									<td>사용자 정책이 존재 하지 않습니다.</td>
+								</tr>
+					<% } else { %>
+						<% for (int i = 0; i < list.size(); i ++ ) {  
+								boolean policyUseFlag = true;
+								if (list.get(i).getPolicyStatus().equals("0") || list.get(i).getPolicyStatus().equals("")) {
+									policyUseFlag = false;
+								}
+						%>
+								<tr>
+									<td><%= list.get(i).getPolicyKorName() %></td>
 									<td>
 										<div class="inline-group">
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_1" checked="" disabled="disabled"><i></i> Yes
-											</label>
-
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_1"  disabled="disabled"><i></i> No
-											</label>
+											<% if (policyUseFlag) { %>
+												<label class="radio nomargin-top nomargin-bottom">
+													<input type="radio" name="userPolicy_<%= i %>" checked="checked" disabled="disabled"><i></i> Yes
+												</label>
+												<label class="radio nomargin-top nomargin-bottom">
+													<input type="radio" name="radioOption_<%= i %>" disabled="disabled"><i></i> NO
+												</label>
+											<% } else {%>
+												<label class="radio nomargin-top nomargin-bottom">
+													<input type="radio" name="radioOption_<%= i %>" disabled="disabled"><i></i> Yes
+												</label>
+												<label class="radio nomargin-top nomargin-bottom">
+													<input type="radio" name="radioOption_<%= i %>" checked="checked" disabled="disabled"><i></i> NO
+												</label>
+											<% } %>
 										</div>
 									</td>
 								</tr>
-								<tr>
-									<td>프린터 사용가능 여부</td>
-									<td>
-										<div class="inline-group">
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_2" checked="" disabled="disabled"><i></i> Yes
-											</label>
-
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_2" disabled="disabled"><i></i> No
-											</label>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>인쇄 워터마크 출력 여부</td>
-									<td>
-										<div class="inline-group">
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_3" checked="" disabled="disabled"><i></i> Yes
-											</label>
-
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_3" checked="" disabled="disabled"><i></i> No
-											</label>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>인가된 USB 장치 사용여부</td>
-									<td>
-										<div class="inline-group">
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_4" checked="" disabled="disabled"><i></i> Yes
-											</label>
-
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_4" disabled="disabled"><i></i> No
-											</label>
-										</div>
-									</td>
-								</tr>
+						<% } %>
+					<%	} %>
 							</tbody>
 						</table>
-
 					</div>
 					<!--
 					<div class="margin-top-10">
