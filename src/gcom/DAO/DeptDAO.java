@@ -121,7 +121,7 @@ public class DeptDAO {
 				e.printStackTrace();
 			}
 		}
-		
 		return data;
+		
 	}
 }
