@@ -4,7 +4,7 @@
 <html lang="utf-8">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Guard Com</title>
+		<title>GuardCom</title>
 		
 		<!-- mobile settings -->
 		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
@@ -16,8 +16,33 @@
 		<!-- THEME CSS -->
 		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
 		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="/assets/css/color_scheme/darkblue.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		
+		<style type="text/css">
+			.blur-bg {
+				position:relative;
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+				justify-content: center;
+				width: 100%;
+				height: 100%;
+				padding: 20px;
+				/*background: url(assets/images/guard/guard-bg.jpg) no-repeat center center fixed;
+				background-size: cover;*/ 
+				background-color:#35373d;
+			}
+
+			.login-bg-color {
+				background-color: rgb(242, 242, 242);
+			}
+		
+			.radio_login {
+				padding:0px 5px;
+				display:inline-block;
+			}
+
+		</style>
 	</head>
 	<body class="smoothscroll enable-animation ">
 		<!-- wrapper -->
@@ -35,12 +60,17 @@
 						<div class="col-md-6 col-md-offset-3" >
 							<div class="box-static box-border-top padding-30 text-center login-bg-color">
 								<div class="box-title margin-bottom-30">
-									<div style="width:300px; margin:0 auto;"><img src="/assets/images/guard/GUARDCOM_ENG.png" width="100%"></div>
+									<div style="width:300px; margin:0 auto;"><img src="/assets/images/guardcom_login_logo.png" width="100%"></div>
 								</div>
 		
 								<form class="nomargin" method="post" action="#" autocomplete="off">
 									<div class="clearfix">
-										<!-- Email -->
+										<div class="form-group">
+											<div class="radio_login"><label><input type="radio" name="loginType" value="U" checked/>User</label></div>
+											<div class="radio_login"><label><input type="radio" name="loginType" value="C" />Console</label></div>
+											<div class="radio_login"><label><input type="radio" name="loginType" value="R" />Report</label></div>
+										</div>
+										<!-- ID -->
 										<div class="form-group">
 											<input type="text" name="email" class="form-control" placeholder="ID" required="">
 										</div>
