@@ -28,9 +28,9 @@
 				width: 100%;
 				height: 100%;
 				padding: 20px;
-				/*background: url(assets/images/guard/guard-bg.jpg) no-repeat center center fixed;
-				background-size: cover;*/ 
-				background-color:#35373d;
+				background: url("/assets/images/guard_login_bg.jpg") no-repeat center center fixed;
+				background-size: cover; 
+				/*background-color:#35373d;*/
 			}
 
 			.login-bg-color {

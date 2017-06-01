@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<% 
+	String user_name = (String)session.getAttribute("user_nm");
+%> 
 
 <!-- wrapper -->
 <div id="wrapper">
@@ -7,7 +10,7 @@
 		<div class="container">
 			<!-- right -->
 			<ul class="top-links list-inline pull-right">
-				<li class="text-welcome hidden-xs"><strong>사용자님 </strong>환영합니다.</li>
+				<li class="text-welcome hidden-xs"><strong><%= user_name %>님&nbsp;</strong>환영합니다.</li>
 				<li>
 					<a class="dropdown-toggle no-text-underline" data-toggle="dropdown" href="#"><i class="fa fa-user hidden-xs"></i> MY INFO</a>
 					<ul class="dropdown-menu pull-right">
@@ -34,7 +37,7 @@
 
 				<!-- Logo -->
 				<a class="logo pull-left" href="index.html">
-					<img src="assets/images/guard/GUARDCOM_Logo.png" alt="" />
+					<img src="/assets/images/guardcom_user_logo.png" alt="" />
 				</a>
 
 				<!-- 
