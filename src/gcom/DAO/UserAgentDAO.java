@@ -1,5 +1,6 @@
 package gcom.DAO;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -70,6 +71,7 @@ public class UserAgentDAO {
 	public List<UserAgentModel> getUserAgentList(HashMap<String, Object> map){
 		List<UserAgentModel> data = new ArrayList<UserAgentModel>();
 		
+		
 		String sql= 
 "SELECT "
 + "userinfo.no AS uid, "
@@ -91,18 +93,23 @@ public class UserAgentDAO {
 + "FROM user_info AS userinfo "
 + "LEFT JOIN agent_info AS agent ON agent.own_user_no=userinfo.no "
 + "INNER JOIN dept_info AS dept ON userinfo.dept_no = dept.no "
-+ "WHERE 1=1 "
++ "WHERE userinfo.valid=1 "
 + "ORDER BY userinfo.no desc "
-+ "LIMIT ?, ?";
-//		LIMIT #{startRow}, #{endRow}
++ "LIMIT ?, ?";			
 
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			//pstmt.setInt(1,  adminNumber);
-			pstmt.setInt(1,  Integer.parseInt(map.get("startRow").toString()));
-			pstmt.setInt(2,  Integer.parseInt(map.get("endRow").toString()));
 
+			int i = 1;
+			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
+			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
+/*			pstmt.setInt(i++,  Integer.parseInt(map.get("user_id").toString()));
+			pstmt.setInt(i++,  Integer.parseInt(map.get("user_name").toString()));
+			pstmt.setInt(i++,  Integer.parseInt(map.get("user_phone").toString()));
+			pstmt.setInt(i++,  Integer.parseInt(map.get("user_installed").toString()));
+			Array dept = con.createArrayOf("int", (Object[])map.get("user_phone"));
+			pstmt.setArray(i++, dept); */
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
