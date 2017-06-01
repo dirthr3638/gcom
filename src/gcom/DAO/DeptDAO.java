@@ -63,7 +63,15 @@ public class DeptDAO {
 			
 		}catch(SQLException ex){
 			ex.printStackTrace();
-		} 
+		} finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 		
 		return data;
 	}
@@ -91,13 +99,28 @@ public class DeptDAO {
 				model.setId(Integer.toString(rs.getInt("no")));
 				model.setParent( Integer.toString(rs.getInt("parent")));
 				model.setText(rs.getString("short_name"));
-				
 				data.add(model);
+
+				if(rs.getInt("child_count") > 0 ){
+					DeptTreeModel _model = new DeptTreeModel();
+					_model.setId( "_" + Integer.toString(rs.getInt("no")));
+					_model.setParent( Integer.toString(rs.getInt("no")));
+					_model.setText(rs.getString("short_name") + " 소속인원");					
+					data.add(_model);
+				}
 			}
 			
 		}catch(SQLException ex){
 			ex.printStackTrace();
-		} 
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 		
 		return data;
 	}

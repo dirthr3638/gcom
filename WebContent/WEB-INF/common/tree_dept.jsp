@@ -22,7 +22,20 @@
  
  
  <script>
- 
+
+ var getCheckedDept = function(){
+	 var result = $('#org_tree').jstree(true).get_selected();
+	 $.each(result, function(index, value){
+		 result[index] = result[index].replace('_','');
+	 })
+
+	 var reValue = [];
+	 $.each(result, function(i, el){
+ 		 if($.inArray(el, reValue) === -1) reValue.push(el);
+	 })
+	 
+	 return reValue;
+ }
 
  $(document).ready(function(){
 	 $('#org_tree').jstree({
