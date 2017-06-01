@@ -87,7 +87,7 @@
 											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();">검색필터</button>
 		
 											<!-- Info -->
-											<button type="button" class="btn btn-info">새로고침</button>
+											<button type="button" class="btn btn-info" onclick="searchUserLog()">새로고침</button>
 											
 											<label class="radio" style="margin-left: 10px">
 												<input type="radio" name="table-type" value="1" checked="checked" onclick="onTypeCheck(this)">
@@ -178,49 +178,13 @@
 														<th class="agentinfo">PC이름</th>
 														<th class="agentinfo">버전</th>
 														<th class="agentinfo">접속</th>
-														<th class="agentinfo">설치시간</th>
-														<th class="agentinfo">접속시간(서버)</th>
-														<th class="agentinfo">접속시간(PC)</th>
+														<th >설치시간</th>
+														<th >접속시간(서버)</th>
+														<th >접속시간(PC)</th>
 													</tr>
 												</thead>
 				
 												<tbody>
-													<tr class="odd gradeX">
-														<td><span class="datables-td-detail datatables-close"></span>
-														</td>
-														<td>인사과
-														</td>
-														<td>user_id
-														</td>
-														<td>오무진
-														</td>
-														<td>10000
-														</td>
-														<td>팀장
-														</td>
-														<td>과장
-														</td>
-														<td>010-333-5545
-														</td>
-														<td>설치
-														</td>
-														<td>192.0.0.1
-														</td>
-														<td>11:11:11:11:11:11
-														</td>
-														<td>windows-PC-client001
-														</td>
-														<td>1.0.0.1
-														</td>
-														<td>접속
-														</td>
-														<td>17-02-01 15:44:12
-														</td>
-														<td>17-02-01 15:44:12
-														</td>
-														<td>17-02-01 15:44:12
-														</td>
-													</tr>
 												</tbody>
 											</table>
 										
@@ -255,7 +219,7 @@
 	}
 	
 	//라디오타입에 따라 컬럼 hide/show
-	function setColumnType(cType){
+	var setColumnType = function(cType){
 		
 		var datatable = $('#table_userinfo').dataTable().api();
 		var aColumn = datatable.columns('.agentinfo' );
@@ -263,9 +227,21 @@
 		if(cType == 1){
 			uColumn.visible(true);
 			aColumn.visible(false);			
+
+ 			var jTable = $('#table_userinfo').dataTable();;
+
+//			var nsTr = $('tbody > td > .datables-td-detail').parents('tr')[0];
+			var nsTr = $('#table_userinfo tr');
+			for(var i = 0; i < nsTr.length; i++){
+				var nTr = nsTr[i];
+				jTable.fnClose(nTr);
+			}
 		}else if(cType == 2){
 			uColumn.visible(false);
-			aColumn.visible(true);			
+			aColumn.visible(true);	
+
+			var nsTr = $('#table_userinfo tr td').find('span.datables-td-detail');
+			nsTr.addClass("datatables-close").removeClass("datatables-open");
 		}		
 	}
 	
@@ -279,7 +255,22 @@
 		
 	};
 	
-	function setTree(){
+	var setUserAgentTable = function(){
+		$.ajax({      
+	        type:"POST",  
+	        url:'/common/tree/dept',
+	        //data:{},
+	        success:function(args){   
+	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	        }  
+	    }); 
+		
+		
+	};
+	
+ 	function setTree(){
 		$.ajax({      
 	        type:"POST",  
 	        url:'/common/tree/dept',
@@ -293,8 +284,14 @@
 	        }  
 	    }); 
 	}
+ 	
+ 	function searchUserLog(){
+ 		var ids = getCheckedDept();
+ 		console.log(ids);
+ 		console.log('12345');
 
-
+ 	}
+ 	
 	$(document).ready(function(){
 		$(".select2theme").select2({
    			  minimumResultsForSearch: -1,
@@ -313,44 +310,67 @@
 
 					var table = jQuery('#table_userinfo');
 					table.dataTable({
-						//"autoWidth": true,
-						//"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i ><"pull-right"><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
-						//dom: 'C<"clear">RZlfrtp',
 						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i ><"pull-right"><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//l이 갯수
+				 		"ajax" : {
+							"url":'/ax/useragent/list',
+						   	"type":'POST',
+						   	"dataSrc" : "data",
+						   	"data" : { 
+						   	},
+						},
+				 		"serverSide" : true,
+				 	    "ordering": true,
 						"columns": [{
+							data: "deptNo",							
 							"orderable": false		//추가정보
 						}, {
+							data: "deptName",
 							"orderable": false	//부서
 						}, {
+							data: "id",
 							"orderable": false	//아이디
 						}, {
+							data: "name",
 							"orderable": false	//이름
 						}, {
+							data: "uid",
 							"orderable": false	//번호
 						}, {
+							data: "duty",
 							"orderable": false	//직책
 						}, {
+							data: "rank",
 							"orderable": false	//계급
 						}, {
+							data: "phone",
 							"orderable": false	//연락
 						}, {
+							data: "valid",
 							"orderable": false	//설치유무
 						}, {
+							data: "ipAddr",
 							"orderable": false	//IP
 						}, {
+							data: "macAddr",
 							"orderable": false	//MAC
 						}, {
+							data: "pcName",
 							"orderable": false	//PC이름
 						}, {
+							data: "version",
 							"orderable": false	//버전
 						}, {
+							data: "valid",
 							"orderable": false	//접속여부
 						}, {
-							"orderable": false	//설치시간
+							data: "install_server_time",
+							"orderable": false,	//설치시간
 						}, {
+							data: "login_server_time",
 							"orderable": false	//서버접속시간
 						}, {
+							data: "login_server_time",
 							"orderable": false	//PC접속시간
 						}],
 						// set the initial value
@@ -366,12 +386,16 @@
 								"next": "Next",
 								"last": "Last",
 								"first": "First"
-							}
+							},
+							
 						},
 						"columnDefs": [
 						{	
 							"targets": [0],	//추가정보
-							"class":"agentinfo center-cell",
+							"class":"agentinfo center-cell add_detail_info",
+							"render":function(data,type,row){
+								return '<span class="datables-td-detail datatables-close"></span>';
+							}
 						},         
 						{  // set default column settings
 							'targets': [1]	//부서
@@ -414,13 +438,19 @@
 							,"class" : "agentinfo center-cell"
 						}, {	
 							"targets": [14]	//설치시간
-							,"class" : "agentinfo center-cell"
+							,"class" : "center-cell"
+							,"visible":false
+
 						}, {	
 							"targets": [15]	//서버접속시간
-							,"class" : "agentinfo center-cell"
+							,"class" : "center-cell"
+							,"visible":false
+
 						}, {	
 							"targets": [16]	//PC접속시간
-							,"class" : "agentinfo center-cell"
+							,"class" : "center-cell"
+							,"visible":false
+
 						}],						
 						"initComplete": function( settings, json ) {
 							setColumnType(1);
@@ -429,11 +459,9 @@
 					
 					function fnFormatDetails(oTable, nTr) {
 						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table>';
-						sOut += '<tr><td>Platform(s):</td><td>' + aData[2] + '</td></tr>';
-						sOut += '<tr><td>Engine version:</td><td>' + aData[3] + '</td></tr>';
-						sOut += '<tr><td>CSS grade:</td><td>' + aData[4] + '</td></tr>';
-						sOut += '<tr><td>Others:</td><td>Could provide a link here</td></tr>';
+						var sOut = '<table class="table ">';
+						sOut += '<tr><td class="center-cell">설치시간:</td><td>' + aData.install_server_time + '</td>';
+						sOut += '<td class="center-cell">접속시간:</td><td>' + aData.login_server_time + '</td></tr>';
 						sOut += '</table>';
 
 						return sOut;
