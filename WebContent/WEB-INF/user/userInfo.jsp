@@ -1,4 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="gcom.user.model.UserInfoModel"%>
+<% 
+	UserInfoModel data = (UserInfoModel)request.getAttribute("userInfo");
+	String name = data.getName();
+	String phone = data.getPhone();
+	String deptName = data.getDeptName();
+	String duty = data.getDuty();
+%>
 
 <!doctype html>
 <html lang="utf-8">
@@ -34,28 +42,28 @@
 						<form role="form" action="#" method="post">
 							<div class="form-group">
 								<label class="control-label">이름</label>
-								<input type="text" placeholder="가드컴" class="form-control">
+								<input type="text" class="form-control" value="<%= name %>" />
 							</div>
 							<div class="form-group">
 								<label class="control-label">핸드폰</label>
-								<input type="text" placeholder="010-1111-1111" class="form-control">
+								<input type="text" placeholder="010-1111-1111" class="form-control" value="<%= phone %>" />
 							</div>
 							<div class="form-group">
 								<label class="control-label">변경 할 비밀번호</label>
-								<input type="password" class="form-control">
+								<input type="password" class="form-control" />
 							</div>
 							<div class="form-group">
 								<label class="control-label">변경 할 비밀번호 확인</label>
-								<input type="password" class="form-control">
+								<input type="password" class="form-control" />
 							</div>
 							
 							<div class="form-group">
 								<label class="control-label">소속</label>
-								<input type="text" placeholder="정보시스템본부" class="form-control">
+								<input type="text" class="form-control" value="<%= deptName %>" />
 							</div>
 							<div class="form-group">
 								<label class="control-label">직책</label>
-								<input type="text" placeholder="팀원" class="form-control">
+								<input type="text" class="form-control" value="<%= duty %>" />
 							</div>
 							<div class="form-group">
 								<label class="control-label">비고</label>
@@ -74,7 +82,7 @@
 				<div class="col-lg-3 col-md-3 col-sm-4 col-lg-pull-9 col-md-pull-9 col-sm-pull-8">
 				
 					<div class="thumbnail text-center">
-						<img src="assets/images/guard/460x427.png" alt="" />
+						<img src="/assets/images/460x427.png" alt="" />
 						<h2 class="size-18 margin-top-10 margin-bottom-0">가드컴</h2>
 						<h3 class="size-11 margin-top-0 margin-bottom-10 text-muted">DEVELOPER</h3>
 					</div>

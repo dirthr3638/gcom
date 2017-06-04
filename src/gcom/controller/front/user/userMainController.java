@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
-
 import gcom.user.model.UserPolicyListModel;
 import gcom.user.service.UserServiceImpl;
 import gcom.user.service.UserServiceInterface;
@@ -48,12 +46,7 @@ public class userMainController extends HttpServlet {
     	UserServiceInterface userService = new UserServiceImpl();
     	List<UserPolicyListModel> list = userService.getUserPolicySetInfo(param);
     	
-    	HashMap<String, Object> data = new HashMap<String, Object>();
-
-		data.put("data",list);
-		response.setContentType("application/json; charset=UTF-8");
-		response.getWriter().write(new Gson().toJson(data));
-    	
+    	request.setAttribute("userPolicyList", list);
 		request.getRequestDispatcher("WEB-INF/user/main.jsp").forward(request, response);
 	}
 }
