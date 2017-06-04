@@ -90,6 +90,7 @@
 											<!-- Info -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
 											
+											
 											<label class="radio" style="margin-left: 10px">
 												<input type="radio" name="table-type" value="1" checked="checked" onclick="onTypeCheck(this)">
 												<i></i> 사용자정보
@@ -242,25 +243,17 @@
 		param.user_phone = $('#filterUserPhone').val();
 		param.user_installed = $('#filterUserIsInstalled option:selected').val();
 		param.dept = getCheckedDept();
+		
+		console.log(getCheckedDept())
 
 		return param;
-	};
-	
-	var setUserAgentTable = function(){
-		$.ajax({      
-	        type:"POST",  
-	        url:'/common/tree/dept',
-	        success:function(args){   
-	        },   
-	        error:function(e){  
-	        }  
-	    }); 
 	};
 	
  	function setTree(){
 		$.ajax({      
 	        type:"POST",  
 	        url:'/common/tree/dept',
+	        async: false,
 	        //data:{},
 	        success:function(args){   
 	            $("#dept_tree").html(args);      
@@ -273,11 +266,9 @@
 	}
  	
  	function searchUserLog(){
-/*  		var ids = getCheckedDept();
- 		console.log(ids);
- */ 	
-		var datatable = $('#table_userinfo').dataTable().api();
-		datatable.ajax.reload();
+ 		var datatable = $('#table_userinfo').dataTable().api();
+		datatable.ajax.reload();   	
+ 	
  	}
 
  	function onClickPrintButton(){
@@ -321,7 +312,13 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"url":'/ax/useragent/list',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
-						   	"data" :  getFilterInfo()
+						   	"data" :  function(param) {
+								param.user_id = $('#filterUserId').val();
+								param.user_name = $('#filterUserName').val();
+								param.user_phone = $('#filterUserPhone').val();
+								param.user_installed = $('#filterUserIsInstalled option:selected').val();
+								param.dept = getCheckedDept();
+					        }
 						},
 						lengthMenu: [[20, 100, 99999], [20, 100, "전체"]],
 						tableTools: {
@@ -381,7 +378,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							data: "phone",
 							"orderable": false	//연락
 						}, {
-							data: "valid",
+							data: "ipAddr",
 							"orderable": false	//설치유무
 						}, {
 							data: "ipAddr",
@@ -396,7 +393,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							data: "version",
 							"orderable": false	//버전
 						}, {
-							data: "valid",
+							data: "isConnection",
 							"orderable": false	//접속여부
 						}, {
 							data: "install_server_time",
@@ -414,7 +411,8 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						"pagingType": "bootstrap_full_number",
 						"language": {
 							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
-							"infoEmpty":      "검색된 데이터가 없습니다.",
+							"infoEmpty": "검색된 데이터가 없습니다.",
+							"zeroRecords" :"검색된 데이터가 없습니다.",
 							"lengthMenu": "  _MENU_ 개",
 							"paginate": {
 								"previous":"Prev",
@@ -456,21 +454,64 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						}, {	
 							"targets": [8]	//설치유무
 							,"class":"center-cell"
+ 							,"render":function(data,type,row){
+								if(data == ''){
+									return '<i style="color:red" class="fa fa-times" aria-hidden="true"></i><div class="hidden">미설치</div>'
+								}else{
+									return '<i style="color:green" class="fa fa-check" aria-hidden="true"></i><div class="hidden">설치</div>';
+								}
+							}
 						}, {	
 							"targets": [9]	//IP
 							,"class" : "agentinfo center-cell"
+	 						,"render":function(data,type,row){
+	 							if(data == ''){
+	 								return '-'
+	 							}else{
+	 								return data;
+	 							}
+	 						}								
+
 						}, {	
 							"targets": [10]	//MAC
 							,"class" : "agentinfo center-cell"
+	 						,"render":function(data,type,row){
+	 							if(data == ''){
+	 								return '-'
+	 							}else{
+	 								return data;
+	 							}
+	 						}								
 						}, {	
 							"targets": [11]	//PC이름
 							,"class" : "agentinfo center-cell"
+	 						,"render":function(data,type,row){
+	 							if(data == ''){
+	 								return '-'
+	 							}else{
+	 								return data;
+	 							}
+	 						}								
 						}, {	
 							"targets": [12]	//버전
 							,"class" : "agentinfo center-cell"
+	 						,"render":function(data,type,row){
+	 							if(data == ''){
+	 								return '-'
+	 							}else{
+	 								return data;
+	 							}
+	 						}								
 						}, {	
 							"targets": [13]	//접속여부
 							,"class" : "agentinfo center-cell"
+ 							,"render":function(data,type,row){								
+								if(data == "true"){
+									return '<i style="color:green" class="fa fa-power-off" aria-hidden="true"></i><div class="hidden">접속</div>';
+								}else{
+									return '<i style="color:red" class="fa fa-power-off" aria-hidden="true"></i><div class="hidden">미접속</div>';
+								}
+							}	 														
 						}, {	
 							"targets": [14]	//설치시간
 							,"class" : "center-cell"
@@ -516,7 +557,6 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
 						}
 					});
-
 				}
 			});
 			});

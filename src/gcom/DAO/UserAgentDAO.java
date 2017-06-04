@@ -1,6 +1,5 @@
 package gcom.DAO;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,18 +33,55 @@ public class UserAgentDAO {
 	
 	public int getUserAgentListCount(HashMap<String, Object> map){
 		int result = 0;
+		
+		String whereSql = "WHERE userinfo.valid=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		String user_phone = map.get("user_phone").toString();
+		int user_installed = Integer.parseInt(map.get("user_installed").toString());
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+			
+		
+		if(!user_id.equals("")) 	whereSql += "AND userinfo.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND userinfo.name LIKE ? ";
+		if(!user_phone.equals("")) 	whereSql += "AND userinfo.phone LIKE ? ";
+		if(user_installed == 1) 	whereSql += "AND agent.ip_addr is not null ";	//설치 선택
+		else if(user_installed == 2) 	whereSql += "AND agent.ip_addr is null ";	//미설치 선택
+		
+		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";
+		
 		String sql= 
 "SELECT "
-+ "COUNT(*) cnt "
++ "COUNT(*) AS cnt " 
 + "FROM user_info AS userinfo "
 + "LEFT JOIN agent_info AS agent ON agent.own_user_no=userinfo.no "
-+ "INNER JOIN dept_info AS dept ON userinfo.dept_no = dept.no "
-+ "WHERE 1=1 ";
-
++ "INNER JOIN dept_info AS dept ON userinfo.dept_no = dept.no ";
+sql += whereSql;			
+			
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			//pstmt.setInt(1,  adminNumber);
+
+			int i = 1;
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -71,6 +107,33 @@ public class UserAgentDAO {
 	public List<UserAgentModel> getUserAgentList(HashMap<String, Object> map){
 		List<UserAgentModel> data = new ArrayList<UserAgentModel>();
 		
+		String whereSql = "WHERE userinfo.valid=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		String user_phone = map.get("user_phone").toString();
+		int user_installed = Integer.parseInt(map.get("user_installed").toString());
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+
+		if(!user_id.equals("")) 	whereSql += "AND userinfo.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND userinfo.name LIKE ? ";
+		if(!user_phone.equals("")) 	whereSql += "AND userinfo.phone LIKE ? ";
+		if(user_installed == 1) 	whereSql += "AND agent.ip_addr is not null ";	//설치 선택
+		else if(user_installed == 2) 	whereSql += "AND agent.ip_addr is null ";	//미설치 선택
+		
+		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";
+		
+		whereSql += "ORDER BY userinfo.no desc LIMIT ?, ? ";	
 		
 		String sql= 
 "SELECT "
@@ -92,24 +155,26 @@ public class UserAgentDAO {
 + "ifnull(agent.version, '') AS version "
 + "FROM user_info AS userinfo "
 + "LEFT JOIN agent_info AS agent ON agent.own_user_no=userinfo.no "
-+ "INNER JOIN dept_info AS dept ON userinfo.dept_no = dept.no "
-+ "WHERE userinfo.valid=1 "
-+ "ORDER BY userinfo.no desc "
-+ "LIMIT ?, ?";			
-
++ "INNER JOIN dept_info AS dept ON userinfo.dept_no = dept.no ";
+sql += whereSql;			
+			
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 
 			int i = 1;
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+
 			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
 			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
-/*			pstmt.setInt(i++,  Integer.parseInt(map.get("user_id").toString()));
-			pstmt.setInt(i++,  Integer.parseInt(map.get("user_name").toString()));
-			pstmt.setInt(i++,  Integer.parseInt(map.get("user_phone").toString()));
-			pstmt.setInt(i++,  Integer.parseInt(map.get("user_installed").toString()));
-			Array dept = con.createArrayOf("int", (Object[])map.get("user_phone"));
-			pstmt.setArray(i++, dept); */
+			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
