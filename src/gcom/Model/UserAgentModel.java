@@ -1,5 +1,8 @@
 package gcom.Model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -20,6 +23,7 @@ public class UserAgentModel {
 	private String connect_server_time = "";
 	private String version = "";
 	private String install_server_time  = "";
+	private Boolean isConnection = false; 
 	
 	public void setValid(int value){
 		if(value == 1){
@@ -32,8 +36,22 @@ public class UserAgentModel {
 	public void setLogin_server_time(String value){
 		if(value.equals("")){
 			login_server_time = "기록없음";
+			isConnection = false;
 		}else{
+			Date d = new Date();
+			long l = d.getTime();
+			try{
+				SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date d2 = format.parse(value);
+				long l2 = d2.getTime();
+				if(l - l2 < 1800000){
+					isConnection = true;
+				};
+			}catch(Exception e){				
+			}
+			
 			login_server_time = value;
+			
 		}
 	}
 	public void setConnect_server_time(String value){

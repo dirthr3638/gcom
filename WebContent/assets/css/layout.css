@@ -2555,14 +2555,14 @@ ul.easypiecharts li span.stat-title {
 
 .datatables-close{
 	background-position: 0 -192px;   
-	background-image: url(../../images/sprite.png);
+	background-image: url(../../assets/images/sprite.png);
 	border-color: transparent;
 	
 }
 
 .datatables-open{
 	background-position: 0 -224px;  
-	background-image: url(../../images/sprite.png);
+	background-image: url(../../assets/images/sprite.png);
 	border-color: transparent;
 }
 
