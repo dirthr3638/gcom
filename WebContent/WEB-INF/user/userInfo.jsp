@@ -83,7 +83,7 @@
 				
 					<div class="thumbnail text-center">
 						<img src="/assets/images/460x427.png" alt="" />
-						<h2 class="size-18 margin-top-10 margin-bottom-0">가드컴</h2>
+						<h2 class="size-18 margin-top-10 margin-bottom-0"><%= name %></h2>
 						<h3 class="size-11 margin-top-0 margin-bottom-10 text-muted">DEVELOPER</h3>
 					</div>
 
