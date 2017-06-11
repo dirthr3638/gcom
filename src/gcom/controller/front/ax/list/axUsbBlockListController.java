@@ -1,4 +1,4 @@
-package gcom.controller.front.ax;
+package gcom.controller.front.ax.list;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import gcom.controller.action.getAction;
 
-@WebServlet("/ax/useragent/list")
-public class axUserAgentController extends HttpServlet {
+@WebServlet("/ax/usbblocklist")
+public class axUsbBlockListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public axUserAgentController() {
+    public axUsbBlockListController() {
         super();
         // TODO Auto-generated constructor stub
     }

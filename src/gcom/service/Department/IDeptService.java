@@ -1,4 +1,4 @@
-package gcom.service;
+package gcom.service.Department;
 
 import java.util.List;
 

@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class reportPolicyInfoDrain
+ * Servlet implementation class reportUserGroupController
  */
-@WebServlet("/report/drain")
-public class reportPolicyInfoDrainController extends HttpServlet {
+@WebServlet("/report/msnfile")
+public class reportMsnFileLogController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public reportPolicyInfoDrainController() {
+    public reportMsnFileLogController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,9 +27,7 @@ public class reportPolicyInfoDrainController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/report/log_policy_infodrain.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/report/user_report.jsp").forward(request, response);
 	}
-
-
 
 }
