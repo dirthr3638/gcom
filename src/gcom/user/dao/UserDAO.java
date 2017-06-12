@@ -254,4 +254,55 @@ public class UserDAO {
 		
 		return list;
 	}
+
+	public UserNoticeModel getUserNoticeDetail(HashMap<String, Object> map) {
+		UserNoticeModel model = new UserNoticeModel();
+		int bbs_id = Integer.parseInt(map.get("bbs_id").toString());
+		
+		String sql= 
+				"SELECT bbs.bbs_id, "
+			    + "bbs.bbs_title, "
+			    + "bbs.special_type, "
+			    + "user_info.name, "
+			    + "DATE(bbs.reg_dt) AS reg_dt, "
+			    + "bbs_hit.hit_cnt, "
+			    + "bbs.attfile_yn, "
+			    + "bbs.bbs_body "
+				+ "FROM user_notice_bbs AS bbs "
+				+ "INNER JOIN user_info AS user_info ON bbs.reg_staf_id = user_info.id "
+				+ "INNER JOIN user_notice_bbs_hit AS bbs_hit ON bbs.bbs_id = bbs_hit.bbs_id "
+				+ "WHERE bbs.del_yn = 'N' "
+				+ "AND bbs.bbs_id = ?";
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, bbs_id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				model.setBbsId(rs.getInt("bbs_id"));
+				model.setBbsTitle(rs.getString("bbs_title"));
+				model.setBbsSpecialYN(rs.getString("special_type"));
+				model.setBbsRegStaf(rs.getString("name"));
+				model.setBbsRegDate(rs.getString("reg_dt"));
+				model.setBbsClickCnt(rs.getInt("hit_cnt"));
+				model.setBbsAttfileYN(rs.getString("attfile_yn"));
+				model.setBbsBody(rs.getString("bbs_body"));
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return model;
+	}
 }

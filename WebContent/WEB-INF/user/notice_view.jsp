@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page import="java.util.*"%>
+<%@ page import="gcom.user.model.UserNoticeModel"%>
+<% 
+	UserNoticeModel data = (UserNoticeModel)request.getAttribute("UserNoticeDetail");
+%>
 <!doctype html>
 <html lang="utf-8">
 	<head>
@@ -25,75 +29,43 @@
 	<body class="smoothscroll enable-animation">
 		<jsp:include page="/WEB-INF/common/user_header.jsp" flush="false" />
 		
-		<!-- Notice Table -->
+		<!-- Notice View -->
 		<!-- -->
-		<section>
-			<div class="container">
+			<section style="padding:50px 0;">
+				<div class="container">
 
-				<h4>공지사항</h4>
-				<div class="table-responsive">
-					<div>
-						<a href="javascript:fn_notice_list();" class="btn btn-primary pull-right"  style="margin-top: 0px;"><i class="fa fa-check"></i> 검색</a>
-						<input type="text" class="form-control pull-right" id="att_search_text" name="att_search_text" placeholder="검색어를 입력해주세요." style="width:200px;" value="" />
-						<select class="form-control pull-right" id="sel_search_type" name="sel_search_type" style="width:100px;">
-							<option value="1">제목</option>
-							<option value="2">등록자</option>
-						</select> 
+					<h1 class="blog-post-title"><%= data.getBbsTitle() %></h1>
+					<ul class="blog-post-info list-inline">
+						<li>
+							<a href="#">
+								<i class="fa fa-clock-o"></i> 
+								<span class="font-lato">등록일 : <%= data.getBbsRegDate() %></span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="fa fa-eye" aria-hidden="true"></i> 
+								<span class="font-lato">조회 : <%= data.getBbsClickCnt() %></span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="fa fa-user"></i> 
+								<span class="font-lato"><%= data.getBbsRegStaf() %></span>
+							</a>
+						</li>
+					</ul>
+					<!-- article content -->
+					<div class="row" style="border:1px solid #f1f1f1; min-height:700px; padding:10px 20px;">
+						<%= data.getBbsBody() %>
 					</div>
-					<div id="notice_table_div"></div>
-					<div class="text-center margin-top-20">
-						<ul class="pagination">
-							<li class="disabled"><a href="#">Previous</a></li>
-							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">Next</a></li>
-						</ul>
-					</div>
+					<!-- /article content -->
+
 				</div>
-			</div>
-		</section>
-		<!-- /Notice Table -->
+			</section>
+			<!-- / -->
+		<!-- /Notice View -->
 		
 		<jsp:include page="/WEB-INF/common/user_footer.jsp" flush="false" />
-		
-		<script type="text/javascript">
-			$(document).ready(function(){
-				fn_notice_list();
-				
-			});
-			
-			function fn_notice_list() {
-				
-				var search_type = $('#sel_search_type option:selected').val();
-				var search_text = $('#att_search_text').val();
-				
-				$.ajax({      
-			        type:"POST",  
-			        url:'/ax/user/notice/list',
-			        async: false,
-			        data:{
-			        	search_type : search_type,
-			        	search_text : search_text,
-			        	_ : $.now()
-			        },
-			        success:function(args){
-			        	console.log(args);
-			            $("#notice_table_div").html(args);
-			        },   
-			        //beforeSend:showRequest,  
-			        error:function(e){  
-			            console.log(e.responseText);  
-			        }  
-			    });
-			}
-			
-			function fn_bbs_detail(bbs_id) {
-				alert(bbs_id);
-			}
-			
-		</script>
 	</body>
 </html>

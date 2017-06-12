@@ -16,5 +16,7 @@ public interface UserServiceInterface {
 	public int getUserNoticeListCount(HashMap<String, Object> map);
 
 	public List<UserNoticeModel> getUserNoticeList(HashMap<String, Object> map);
+
+	public UserNoticeModel getUserNoticeDetail(HashMap<String, Object> map);
 	
 }

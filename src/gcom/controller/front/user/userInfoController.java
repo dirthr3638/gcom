@@ -47,6 +47,6 @@ public class userInfoController extends HttpServlet {
     	
     	request.setAttribute("userInfo", data);
     	
-		request.getRequestDispatcher("WEB-INF/user/userInfo.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/user/userInfo.jsp").forward(request, response);
 	}
 }

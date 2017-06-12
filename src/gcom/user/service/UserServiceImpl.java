@@ -28,4 +28,8 @@ public class UserServiceImpl implements UserServiceInterface {
 		return userDAO.getUserNoticeList(map);
 	}
 	
+	public UserNoticeModel getUserNoticeDetail(HashMap<String, Object> map) {
+		return userDAO.getUserNoticeDetail(map);
+	}
+	
 }

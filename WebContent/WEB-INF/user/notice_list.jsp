@@ -27,7 +27,7 @@
 		
 		<!-- Notice Table -->
 		<!-- -->
-		<section>
+		<section style="min-height:700px;">
 			<div class="container">
 
 				<h4>공지사항</h4>
@@ -91,7 +91,17 @@
 			}
 			
 			function fn_bbs_detail(bbs_id) {
-				alert(bbs_id);
+				var form = document.createElement("form");
+				form.setAttribute("method", "post");
+			 	form.setAttribute("action", "/notice/view");
+			 	document.body.appendChild(form);
+			 	
+				var element = document.createElement("input");
+				element.setAttribute("type"	,"hidden");
+				element.setAttribute("name"	,"att_bbs_id");
+				element.setAttribute("value", bbs_id);
+				form.appendChild(element);
+				form.submit();
 			}
 			
 		</script>
