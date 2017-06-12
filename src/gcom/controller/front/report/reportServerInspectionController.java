@@ -27,7 +27,7 @@ public class reportServerInspectionController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/report/log_policy_inspection.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/report/log_server_inspection.jsp").forward(request, response);
 	}
 
 

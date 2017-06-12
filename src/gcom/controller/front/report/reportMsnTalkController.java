@@ -27,7 +27,7 @@ public class reportMsnTalkController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/report/user_report.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/report/log_msn_talk.jsp").forward(request, response);
 	}
 
 }

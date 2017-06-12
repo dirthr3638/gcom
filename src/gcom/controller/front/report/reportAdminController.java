@@ -7,9 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class adminInfoController
- */
 @WebServlet("/report/adminprofile")
 public class reportAdminController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class reportPolicyDefaultController
  */
-@WebServlet("/report/policy")
+@WebServlet("/report/policydefault")
 public class reportPolicyDefaultController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
