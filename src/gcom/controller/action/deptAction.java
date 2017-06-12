@@ -3,8 +3,7 @@ package gcom.controller.action;
 import java.util.List;
 
 import gcom.Model.*;
-import gcom.service.DeptServiceImpl;
-import gcom.service.IDeptService;
+import gcom.service.Department.*;
 
 public class deptAction {
 

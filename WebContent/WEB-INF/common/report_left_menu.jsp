@@ -20,21 +20,32 @@
 			</a>
 				<ul>
 					<li ${menu_sub_first == 2100 ? 'class="active"' : ''}><a href="/report/usbunauth">비인가 USB목록</a></li>
-					<li ${menu_sub_first == 2200 ? 'class="active"' : ''}><a href="/report/usbtran">이동식디스크 파일전송로그</a></li>
+					<li ${menu_sub_first == 2200 ? 'class="active"' : ''}><a href="/report/disktran">이동식디스크 파일전송로그</a></li>
 					<li ${menu_sub_first == 2300 ? 'class="active"' : ''}><a href="/report/usbblock">USB차단로그</a></li>
 					<li ${menu_sub_first == 2400 ? 'class="active"' : ''}><a href="/report/print">프린트로그</a></li>
 				</ul>
 
 			</li>
 			<li ${menu_parent == 3000 ? 'class="active"' : ''}><a href="#"> <i
-					class="main-icon fa fa-th-large"></i> <span>정책로그</span>
+					class="main-icon fa fa-th-large"></i> <span>정책/감사로그</span>
 			</a>
 				<ul>
-					<li ${menu_sub_first == 3100 ? 'class="active"' : ''}><a href="/report/policy">정책로그</a></li>
-					<li ${menu_sub_first == 3200 ? 'class="active"' : ''}><a href="/report/drain">정보유출로그</a></li>
-					<li ${menu_sub_first == 3300 ? 'class="active"' : ''}><a href="/report/inspection">감사로그</a></li>
+					<li ${menu_sub_first == 3100 ? 'class="active"' : ''}><a href="/report/policy">정책변경로그</a></li>
+					<li ${menu_sub_first == 3200 ? 'class="active"' : ''}><a href="/report/agentinspection">에이전트감사로그</a></li>
+					<li ${menu_sub_first == 3300 ? 'class="active"' : ''}><a href="/report/serverinspection">서버감사로그</a></li>
 				</ul>
 			</li>
+			<li ${menu_parent == 4000 ? 'class="active"' : ''}><a href="#"> <i
+					class="main-icon fa fa-commenting"></i> <span>정보로그</span>
+			</a>
+				<ul>
+					<li ${menu_sub_first == 4100 ? 'class="active"' : ''}><a href="/report/mail">메일로그</a></li>
+					<li ${menu_sub_first == 4200 ? 'class="active"' : ''}><a href="/report/msntalk">메신저대화로그</a></li>
+					<li ${menu_sub_first == 4300 ? 'class="active"' : ''}><a href="/report/msnfile">메신저파일로그</a></li>
+					<li ${menu_sub_first == 4400 ? 'class="active"' : ''}><a href="/report/privacy">민감정보로그</a></li>
+				</ul>
+			</li>
+
 		</ul>
 	</nav>
 

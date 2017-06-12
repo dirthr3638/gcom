@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class reportLogUSBTranController
+ * Servlet implementation class reportPolicyInspectionController
  */
-@WebServlet("/report/usbtran")
-public class reportDeviceUsbTranController extends HttpServlet {
+@WebServlet("/report/agentinspection")
+public class reportAgentInspectionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public reportDeviceUsbTranController() {
+    public reportAgentInspectionController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +27,8 @@ public class reportDeviceUsbTranController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/report/log_device_usb_filetran.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/report/log_policy_inspection.jsp").forward(request, response);
 	}
+
 
 }
