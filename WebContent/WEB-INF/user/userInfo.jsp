@@ -46,7 +46,7 @@
 							</div>
 							<div class="form-group">
 								<label class="control-label">핸드폰</label>
-								<input type="text" placeholder="010-1111-1111" class="form-control" value="<%= phone %>" />
+								<input type="text" class="form-control" placeholder="010-1111-1111" value="<%= phone %>" />
 							</div>
 							<div class="form-group">
 								<label class="control-label">변경 할 비밀번호</label>
