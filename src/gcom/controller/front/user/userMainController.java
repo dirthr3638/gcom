@@ -47,6 +47,6 @@ public class userMainController extends HttpServlet {
     	List<UserPolicyListModel> list = userService.getUserPolicySetInfo(param);
     	
     	request.setAttribute("userPolicyList", list);
-		request.getRequestDispatcher("WEB-INF/user/main.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/user/main.jsp").forward(request, response);
 	}
 }

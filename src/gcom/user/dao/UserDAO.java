@@ -14,6 +14,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import gcom.user.model.UserInfoModel;
+import gcom.user.model.UserNoticeModel;
 import gcom.user.model.UserPolicyListModel;
 import gcom.user.model.UserPolicyModel;
 
@@ -35,7 +36,7 @@ public class UserDAO {
 	}
 	
 	public List<UserPolicyListModel> getUserPolicySetInfo(HashMap<String, Object> map){
-		List<UserPolicyListModel> result = new ArrayList<UserPolicyListModel>();
+		List<UserPolicyListModel> list = new ArrayList<UserPolicyListModel>();
 		String sql= 
 				"SELECT agent_info.policy_uninstall_enabled, "
 			    + "agent_info.policy_watermark_enabled, "
@@ -82,7 +83,7 @@ public class UserDAO {
 					model.setPolicyKorName(policy.getPolicy().get(column_name));
 					model.setPolicyStatus(rs.getString(column_name));
 					
-					result.add(model);
+					list.add(model);
 				}
 			}
 			
@@ -98,7 +99,7 @@ public class UserDAO {
 			}
 		}
 		
-		return result;
+		return list;
 	}
 	
 
@@ -127,6 +128,167 @@ public class UserDAO {
 				model.setPhone(rs.getString("phone"));
 				model.setDeptName(rs.getString("dept_name"));
 				model.setDuty(rs.getString("duty"));
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return model;
+	}
+	
+	public int getUserNoticeListCount(HashMap<String, Object> map) {
+		int cnt = 0;
+		String search_text = map.get("search_text").toString();
+		String search_type = map.get("search_type").toString();
+		
+		String sql= 
+				"SELECT COUNT(*) AS cnt FROM user_notice_bbs AS bbs "
+				+ "INNER JOIN user_info AS user_info ON bbs.reg_staf_id = user_info.id "
+				+ "WHERE bbs.del_yn = 'N' ";
+		
+		if(!"".equals(search_text)){
+			if("1".equals(search_type)) {
+				sql += "AND bbs.bbs_title like ? ";
+			} else if ("2".equals(search_type)) {
+				sql += "AND user_info.name like ? ";
+			}
+		}
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			if(!"".equals(search_text)){
+				pstmt.setString(1, "%" + search_text + "%");
+			}
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				cnt = rs.getInt("cnt");	
+				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return cnt;
+	}
+
+	public List<UserNoticeModel> getUserNoticeList(HashMap<String, Object> map) {
+		List<UserNoticeModel> list = new ArrayList<UserNoticeModel>();
+		String search_text = map.get("search_text").toString();
+		String search_type = map.get("search_type").toString();
+		
+		String sql= 
+				"SELECT bbs.bbs_id, "
+			    + "bbs.bbs_title, "
+			    + "bbs.special_type, "
+			    + "user_info.name, "
+			    + "DATE(bbs.reg_dt) AS reg_dt, "
+			    + "bbs_hit.hit_cnt, "
+			    + "bbs.attfile_yn "
+				+ "FROM user_notice_bbs AS bbs "
+				+ "INNER JOIN user_info AS user_info ON bbs.reg_staf_id = user_info.id "
+				+ "INNER JOIN user_notice_bbs_hit AS bbs_hit ON bbs.bbs_id = bbs_hit.bbs_id "
+				+ "WHERE bbs.del_yn = 'N' ";
+				
+		
+		if(!"".equals(search_text)){
+			if("1".equals(search_type)) {
+				sql += "AND bbs.bbs_title like ? ";
+			} else if ("2".equals(search_type)) {
+				sql += "AND user_info.name like ? ";
+			}
+		}
+		
+		sql += "ORDER BY bbs.bbs_id DESC, bbs.reg_dt DESC ";
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			if(!"".equals(search_text)){
+				pstmt.setString(1, "%" + search_text + "%");
+			}
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				UserNoticeModel model = new UserNoticeModel();
+				model.setBbsId(rs.getInt("bbs_id"));
+				model.setBbsTitle(rs.getString("bbs_title"));
+				model.setBbsSpecialYN(rs.getString("special_type"));
+				model.setBbsRegStaf(rs.getString("name"));
+				model.setBbsRegDate(rs.getString("reg_dt"));
+				model.setBbsClickCnt(rs.getInt("hit_cnt"));
+				model.setBbsAttfileYN(rs.getString("attfile_yn"));
+				
+				list.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+
+	public UserNoticeModel getUserNoticeDetail(HashMap<String, Object> map) {
+		UserNoticeModel model = new UserNoticeModel();
+		int bbs_id = Integer.parseInt(map.get("bbs_id").toString());
+		
+		String sql= 
+				"SELECT bbs.bbs_id, "
+			    + "bbs.bbs_title, "
+			    + "bbs.special_type, "
+			    + "user_info.name, "
+			    + "DATE(bbs.reg_dt) AS reg_dt, "
+			    + "bbs_hit.hit_cnt, "
+			    + "bbs.attfile_yn, "
+			    + "bbs.bbs_body "
+				+ "FROM user_notice_bbs AS bbs "
+				+ "INNER JOIN user_info AS user_info ON bbs.reg_staf_id = user_info.id "
+				+ "INNER JOIN user_notice_bbs_hit AS bbs_hit ON bbs.bbs_id = bbs_hit.bbs_id "
+				+ "WHERE bbs.del_yn = 'N' "
+				+ "AND bbs.bbs_id = ?";
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, bbs_id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				model.setBbsId(rs.getInt("bbs_id"));
+				model.setBbsTitle(rs.getString("bbs_title"));
+				model.setBbsSpecialYN(rs.getString("special_type"));
+				model.setBbsRegStaf(rs.getString("name"));
+				model.setBbsRegDate(rs.getString("reg_dt"));
+				model.setBbsClickCnt(rs.getInt("hit_cnt"));
+				model.setBbsAttfileYN(rs.getString("attfile_yn"));
+				model.setBbsBody(rs.getString("bbs_body"));
 			}
 			
 		}catch(SQLException ex){

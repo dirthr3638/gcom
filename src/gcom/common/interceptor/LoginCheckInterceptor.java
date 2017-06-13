@@ -26,8 +26,8 @@ public class LoginCheckInterceptor implements Filter {
         //HttpSession session = httpReq.getSession(false);
         HttpSession session = httpReq.getSession();
         
-        session.setAttribute("user_id", "test");
-        session.setAttribute("user_nm", "전길");
+        session.setAttribute("user_id", "kap11");
+        session.setAttribute("user_nm", "홍길동");
         
         httpReq.setCharacterEncoding("UTF-8");
         boolean loginFlag = false;
