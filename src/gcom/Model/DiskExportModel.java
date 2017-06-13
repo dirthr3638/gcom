@@ -1,14 +1,12 @@
 package gcom.Model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
 public class DiskExportModel {
 	private int exportNo;
 	private int userNo;
+	private String userName = "";
 	private String exportServerTime  = "";
 	private String exportClientTime  = "";
 	private int grade;
@@ -24,5 +22,7 @@ public class DiskExportModel {
 	private String macAddr = "";
 	private String pcName = "";
 	private String deptName = "";
+	private String partitionGuid = "";
+	private String partitionLabel = "";
 
 }

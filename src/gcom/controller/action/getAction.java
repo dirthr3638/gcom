@@ -3,12 +3,8 @@ package gcom.controller.action;
 import java.util.HashMap;
 import java.util.List;
 
-import gcom.Model.LoginLogModel;
-import gcom.Model.UsbDevInfoModel;
-import gcom.Model.UserAgentModel;
-import gcom.service.Department.*;
+import gcom.Model.*;
 import gcom.service.Device.*;
-import gcom.service.Policy.*;
 import gcom.service.UserAgent.*;
 
 public class getAction {
@@ -53,9 +49,11 @@ public class getAction {
 	public HashMap<String, Object> getDiskTranList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		IDeviceInfoService as = new DeviceInfoServiceImpl();
-		List<UsbDevInfoModel> data = as.getUnAuthUsbList(map);
+		List<DiskExportModel> data = as.getDiskTranList(map);
 		result.put("data", data);
-		int total = as.getUnAuthUsbListCount(map);
+		int total = as.getDiskTranListCount(map);
+//		int total = 100;
+
 		result.put("recordsTotal", total);
 		result.put("recordsFiltered", total);
 		
@@ -64,9 +62,10 @@ public class getAction {
 	public HashMap<String, Object> getUsbBlockList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		IDeviceInfoService as = new DeviceInfoServiceImpl();
-		List<UsbDevInfoModel> data = as.getUnAuthUsbList(map);
+		List<UsbConnectModel> data = as.getUsbBlockList(map);
 		result.put("data", data);
-		int total = as.getUnAuthUsbListCount(map);
+		int total = as.getUsbBlockListCount(map);
+
 		result.put("recordsTotal", total);
 		result.put("recordsFiltered", total);
 		
