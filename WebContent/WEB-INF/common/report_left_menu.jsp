@@ -53,3 +53,10 @@
 		<!-- aside fixed background -->
 	</span>
 </aside>
+
+		<!-- PRELOADER -->
+<div id="preloader">
+	<div class="inner">
+		<span class="loader"></span>
+	</div>
+</div><!-- /PRELOADER -->
