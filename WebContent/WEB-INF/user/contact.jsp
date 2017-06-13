@@ -618,5 +618,304 @@
 		<!-- /Contact Table-->
 		
 		<jsp:include page="/WEB-INF/common/user_footer.jsp" flush="false" />
+	
+		<!-- PAGE LEVEL SCRIPTS -->
+		
+		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+
+		<script type="text/javascript">
+							
+		$(document).ready(function(){
+	     	$(document).ready(function() {
+	    		  $(".select2theme").select2({
+	    			  minimumResultsForSearch: -1,
+	    			  dropdownAutoWidth : true,
+	    			  width: 'auto'
+	    		  });
+	    	}); 
+	        
+	        loadScript(plugin_path + "datatables/js/jquery.dataTables.min.js", function(){
+				loadScript(plugin_path + "datatables/dataTables.bootstrap.js", function(){
+					loadScript(plugin_path + "datatables/js/dataTables.colResize.js", function(){
+						loadScript(plugin_path + "datatables/js/dataTables.colVis.js", function(){
+
+					if (jQuery().dataTable) {
+
+						var table = jQuery('#table_userinfo');
+						table.dataTable({
+							//"autoWidth": true,
+							//"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i ><"pull-right"><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+							//dom: 'C<"clear">RZlfrtp',
+							"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i ><"pull-right"><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+							//l이 갯수
+							/* "columns": [{
+								"orderable": false		//추가정보
+							}, {
+								"orderable": false	//부서
+							}, {
+								"orderable": false	//아이디
+							}, {
+								"orderable": false	//이름
+							}, {
+								"orderable": false	//번호
+							}, {
+								"orderable": false	//직책
+							}, {
+								"orderable": false	//계급
+							}, {
+								"orderable": false	//연락
+							}, {
+								"orderable": false	//설치유무
+							}, {
+								"orderable": false	//IP
+							}, {
+								"orderable": false	//MAC
+							}, {
+								"orderable": false	//PC이름
+							}, {
+								"orderable": false	//버전
+							}, {
+								"orderable": false	//접속여부
+							}, {
+								"orderable": false	//설치시간
+							}, {
+								"orderable": false	//
+							}, {
+								"orderable": false	//
+							}, {
+								"orderable": false	//
+							}, {
+								"orderable": false	//
+							}, {
+								"orderable": false	//
+							}, {
+								"orderable": false	//
+							}, {
+								"orderable": false	//
+							}, {
+								"orderable": false	//
+							}, {
+								"orderable": false	//
+							}, {
+								"orderable": false	//
+							}], */
+							// set the initial value
+							"pageLength": 20,
+							"iDisplayLength": 20,
+							"pagingType": "bootstrap_full_number",
+							"language": {
+								"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
+								"infoEmpty":      "검색된 데이터가 없습니다.",
+								"lengthMenu": "  _MENU_ 개",
+								"paginate": {
+									"previous":"Prev",
+									"next": "Next",
+									"last": "Last",
+									"first": "First"
+								}
+							},
+							"columnDefs": [
+							{	
+								"targets": [0],	//추가정보
+								"class":"center-cell",
+							},         
+							{  // set default column settings
+								'targets': [1]	//부서
+								,"class":"center-cell"
+							}, {	
+								"targets": [2]	//아이디
+								,"class":"center-cell"
+							}, {	
+								"targets": [3]	//이름
+								,"class":"center-cell"
+							}, {	
+								"targets": [4],	//번호
+								"class":"center-cell"
+							}, {
+								"targets": [5]	//직책
+								,"class" : "center-cell"
+								,"visible":false
+							}, {	
+								"targets": [6]	//계급
+								,"class" : "center-cell"
+								,"visible":false
+							}, {
+								"targets": [7]	//연락처
+								,"class" : "center-cell"
+								,"visible":false
+							}, {	
+								"targets": [8]	//설치유무
+								,"class":"center-cell"
+							}, {	
+								"targets": [9]	//IP
+								,"class" : "center-cell"
+									,"visible":false
+							}, {	
+								"targets": [10]	//MAC
+								,"class" : "center-cell"
+									,"visible":false
+							}, {	
+								"targets": [11]	//PC이름
+								,"class" : "center-cell"
+									,"visible":false
+							}, {	
+								"targets": [12]	//적용시간
+								,"class" : "center-cell"
+									,"visible":false
+							}, {	
+								"targets": [13]	//요청시간
+								,"visible":false
+								,"class" : "center-cell"
+							}, {	
+								"targets": [14]	//적용정책
+								,"class" : "center-cell"
+							}, {	
+								"targets": [15]	//적용정책
+								,"class" : "center-cell"
+								,"visible":false		
+							}, {	
+								"targets": [16]	//적용정책
+								,"class" : "center-cell"
+								,"visible":false
+							}, {	
+								"targets": [17]	//적용정책
+								,"class" : "center-cell"
+								,"visible":false
+							}, {	
+								"targets": [18]	//적용정책
+								,"class" : "center-cell"
+								,"visible":false
+							}, {	
+								"targets": [19]	//적용정책
+								,"class" : "center-cell"
+								,"visible":false
+							}, {	
+								"targets": [20]	//적용정책
+								,"class" : "center-cell"
+								,"visible":false
+							}, {	
+								"targets": [21]	//적용정책
+								,"class" : "center-cell"
+								,"visible":false
+							}, {	
+								"targets": [22]	//적용정책
+								,"class" : "center-cell"
+								,"visible":false
+							}, {	
+								"targets": [23]	//적용정책
+								,"class" : "center-cell"
+								,"visible":false
+							}, {	
+								"targets": [24]	//적용정책
+								,"class" : "center-cell"
+								,"visible":false
+							}, {	
+								"targets": [25]	//적용정책
+								,"class" : "center-cell"
+								,"visible":false
+							}, {	
+								"targets": [26]	//적용정책
+								,"class" : "center-cell"
+								,"visible":false
+							}],		
+							"initComplete": function( settings, json ) {
+							}
+						});
+						
+						function fnFormatDetails(oTable, nTr) {
+							var aData = oTable.fnGetData(nTr);
+							
+							var sFrame = '<div class="tabs nomargin-top">'
+							sFrame += '<ul class="nav nav-tabs"><li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-th-large"></i>정책상세</a></li>';
+							sFrame += '<li><a href="#tab2" data-toggle="tab"><i class="fa fa-info-circle"></i>사용자정보</a></li></ul>';		
+						
+						
+							sFrame += '<div class="tab-content">';
+
+						
+							sFrame += '<div id="tab1" class="tab-pane active">';
+							
+	 						var sOut = '<table class="table ">';
+							sOut += '<tr><td class="center-cell">에이전트삭제가능:</td><td>' + aData[15] + '</td>';
+							sOut += '<td style="padding-left:100px;" class="center-cell">프린트사용가능:</td><td>' + aData[16] + '</td></tr>';
+							sOut += '<tr><td class="center-cell">인쇄워터마크:</td><td>' + aData[17] + '</td>';
+							sOut += '<td style="padding-left:100px;" class="center-cell">파일신시간암호화:</td><td>' + aData[18] + '</td></tr>';
+							sOut += '<tr><td class="center-cell">USB포트사용:</td><td>' + aData[19] + '</td>';
+							sOut += '<td style="padding-left:100px;" class="center-cell">시리얼포트사용:</td><td>' + aData[20] + '</td></tr>';
+							sOut += '<tr><td class="center-cell">무선랜사용:</td><td>' + aData[21] + '</td>';
+							sOut += '<td style="padding-left:100px;" class="center-cell">메일반출사용:</td><td>' + aData[22] + '</td></tr>';
+							sOut += '<tr><td class="center-cell">민감파일접근시삭제:</td><td>' + aData[23] + '</td>';
+							sOut += '<td style="padding-left:100px;" class="center-cell">보호파일접근가능:</td><td>' + aData[24] + '</td></tr>';
+							sOut += '<tr><td class="center-cell">공유폴더사용가능:</td><td>' + aData[25] + '</td>';
+							sOut += '<td style="padding-left:100px;" class="center-cell">CD사용가능:</td><td>' + aData[26] + '</td></tr>';
+
+							sOut += '</table>'; 
+							sFrame += sOut;
+							sFrame += '</div>';	
+							
+							sFrame += '<div id="tab2" class="tab-pane">';
+							
+	 						var sOut = '<table class="table ">';
+							sOut += '<tr><td class="center-cell">직책:</td><td>' + aData[5] + '</td>';
+							sOut += '<td style="padding-left:100px;" class="center-cell">계급:</td><td>' + aData[6] + '</td></tr>';
+							sOut += '<tr><td class="center-cell">연락처:</td><td>' + aData[7] + '</td>';
+							sOut += '<td style="padding-left:100px;" class="center-cell">IP주소:</td><td>' + aData[9] + '</td></tr>';
+							sOut += '<tr><td class="center-cell">MAC주소:</td><td>' + aData[10] + '</td>';
+							sOut += '<td style="padding-left:100px;" class="center-cell">PC이름:</td><td>' + aData[11] + '</td></tr>';
+							sOut += '<tr><td class="center-cell">적용시간:</td><td>' + aData[12] + '</td>';
+							sOut += '<td style="padding-left:100px;" class="center-cell">요청시간:</td><td>' + aData[13] + '</td></tr>';
+
+							
+							/*  
+							
+															<th>직책</th><!-- 숨김  -->
+															<th>계급</th><!-- 숨김  -->
+															<th>연락처</th>		<!-- 숨김  -->
+																					
+															<th>IP</th>			<!-- 숨김  -->
+															<th>MAC</th><!-- 숨김  -->
+															<th>PC이름</th><!-- 숨김  -->
+															<th>적용시간</th><!-- 숨김  -->
+															<th>요청시간</th><!-- 숨김  -->
+															<th>적용정책</th><!-- 숨김  -->
+							*/
+							
+							
+							
+							sOut += '</table>'; 
+							sFrame += sOut;
+							sFrame += '</div>';	
+							
+							
+							
+							sFrame += '</div>';	
+							sFrame += '</div>';
+						
+							return sFrame;
+						}
+						
+						var jTable = jQuery('#table_userinfo');
+						jTable.on('click', ' tbody td .datables-td-detail', function () {
+							var nTr = jQuery(this).parents('tr')[0];
+							if (table.fnIsOpen(nTr)) {
+								/* This row is already open - close it */
+								jQuery(this).addClass("datatables-close").removeClass("datatables-open");
+								table.fnClose(nTr);
+							} else {
+								/* Open this row */
+								jQuery(this).addClass("datatables-open").removeClass("datatables-close");
+								table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+							}
+						});
+
+					}
+				});
+				});
+				});
+			});
+	        
+	    });
+			
+		</script>
 	</body>
 </html>
