@@ -18,5 +18,9 @@ public interface UserServiceInterface {
 	public List<UserNoticeModel> getUserNoticeList(HashMap<String, Object> map);
 
 	public UserNoticeModel getUserNoticeDetail(HashMap<String, Object> map);
+
+	public HashMap<String, Object> getUserContactInfo(HashMap<String, Object> map);
+
+	public void updateNoticeViewCount(HashMap<String, Object> map) throws Exception;
 	
 }

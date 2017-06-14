@@ -31,7 +31,7 @@ body.bg-grey #wrapper {
 section {
 	display: block;
 	position: relative;
-	padding: 80px 0;
+	padding: 60px 0;
 	border-bottom:rgba(0,0,0,0.1) 1px solid;
 
 	-webkit-transition: all .400s;
@@ -7725,4 +7725,46 @@ ul.search-history {
 		width: 12.5%;
 		font-size: 12px;
 	}
+}
+
+.datatables-close{
+	background-position: 0 -192px;   
+	background-image: url(../../assets/images/sprite.png);
+	border-color: transparent;
+	
+}
+
+.datatables-open{
+	background-position: 0 -224px;  
+	background-image: url(../../assets/images/sprite.png);
+	border-color: transparent;
+}
+
+.datables-td-detail{
+	margin-top: 3px;
+    display: inline-block;
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
+}
+
+.center-cell{
+	text-align: center !important;
+}
+
+.left-cell{
+	text-align: left !important;
+}
+
+.right-cell{
+	text-align: right !important;
+}
+
+.details {
+	padding:0 !important; 
+	margin:0 !important;
+}
+
+.comment-cell{
+	background-color: #f3f3eb;
 }

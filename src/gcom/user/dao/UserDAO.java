@@ -13,6 +13,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import gcom.Model.UsbConnectModel;
+import gcom.user.model.UserContactModel;
 import gcom.user.model.UserInfoModel;
 import gcom.user.model.UserNoticeModel;
 import gcom.user.model.UserPolicyListModel;
@@ -194,6 +196,8 @@ public class UserDAO {
 		List<UserNoticeModel> list = new ArrayList<UserNoticeModel>();
 		String search_text = map.get("search_text").toString();
 		String search_type = map.get("search_type").toString();
+		int startRow = Integer.parseInt(map.get("startRow").toString());
+		int endRow = Integer.parseInt(map.get("endRow").toString());
 		
 		String sql= 
 				"SELECT bbs.bbs_id, "
@@ -217,13 +221,18 @@ public class UserDAO {
 			}
 		}
 		
-		sql += "ORDER BY bbs.bbs_id DESC, bbs.reg_dt DESC ";
+		sql += "ORDER BY bbs.bbs_id DESC, bbs.reg_dt DESC LIMIT ?, ?";
 		
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 			if(!"".equals(search_text)){
 				pstmt.setString(1, "%" + search_text + "%");
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+			} else {
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, endRow);
 			}
 			rs = pstmt.executeQuery();
 			
@@ -305,4 +314,143 @@ public class UserDAO {
 		
 		return model;
 	}
+	
+	public void updateNoticeViewCount(HashMap<String, Object> map) {
+		int bbs_id = Integer.parseInt(map.get("bbs_id").toString());
+		
+		String sql= "UPDATE user_notice_bbs_hit SET hit_cnt = hit_cnt + 1 WHERE bbs_id = ? ";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, bbs_id);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			
+		}catch(SQLException ex){
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public int getUserContactInfoCount(HashMap<String, Object> map) {
+		int cnt = 0;
+		
+		String id = map.get("user_id").toString();
+		
+		String sql= 
+				"SELECT COUNT(*) as cnt FROM (SELECT con.contact_id, "
+				+ "con.contact_type, "
+				+ "con.contact_title, "
+				+ "con.id, "
+				+ "con.reg_dt, "
+				+ "con.comment_yn, "
+				+ "con_comm.reg_staf_id as comment_reg_staf_id, "
+				+ "con_comm.reply_content, "
+				+ "con_comm.reg_dt as comment_reg_dt "
+				+ "FROM user_contact_info AS con "
+				+ "LEFT JOIN user_contact_comment AS con_comm ON con.contact_id = con_comm.contact_id "
+				+ "WHERE con.id = ? ) AS T ";
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				cnt = rs.getInt("cnt");	
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return cnt;
+	}
+
+	public List<UserContactModel> getUserContactlist(HashMap<String, Object> map) {
+		List<UserContactModel> list = new ArrayList<UserContactModel>();
+		String id = map.get("user_id").toString();
+		int startRow = Integer.parseInt(map.get("startRow").toString());
+		int endRow = Integer.parseInt(map.get("endRow").toString());
+		
+		String sql= 
+				"SELECT con.contact_id, "
+				+ "con.contact_type, "
+				+ "con.contact_title, "
+				+ "con.id, "
+				+ "DATE(con.reg_dt) as reg_dt, "
+				+ "con.comment_yn, "
+				+ "IFNULL(con_comm.reg_staf_id, '')as comment_reg_staf_id, "
+				+ "IFNULL(user_info.name, '') as comment_reg_staf_name, "
+				+ "IFNULL(con_comm.reply_content, '') as reply_content, "
+				+ "IFNULL(con_comm.reg_dt, '') as comment_reg_dt "
+				+ "FROM user_contact_info AS con "
+				+ "LEFT JOIN user_contact_comment AS con_comm ON con.contact_id = con_comm.contact_id "
+				+ "LEFT JOIN user_info AS user_info ON con_comm.reg_staf_id = user_info.id "
+				+ "WHERE con.id = ? "
+				+ "ORDER BY con.contact_id DESC, con.reg_dt DESC "
+				+ "LIMIT ? ,? ";
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				UserContactModel model = new UserContactModel();
+				model.setContactId(rs.getInt("contact_id"));
+				model.setContactType(rs.getInt("contact_type"));
+				model.setTypeName(rs.getInt("contact_type"));
+				model.setContactTitle(rs.getString("contact_title"));
+				model.setId(rs.getString("id"));
+				model.setRegDt(rs.getString("reg_dt"));
+				model.setCommentYN(rs.getString("comment_yn"));
+				model.setCommnetRegStafId(rs.getString("comment_reg_staf_id"));
+				model.setCommnetRegStafName(rs.getString("comment_reg_staf_name"));
+				model.setReplyContent(rs.getString("reply_content"));
+				model.setCommentRegDt(rs.getString("comment_reg_dt"));
+								
+				list.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+
 }
