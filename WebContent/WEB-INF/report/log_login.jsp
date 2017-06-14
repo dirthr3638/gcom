@@ -291,7 +291,14 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 								param.end_date = $('#filterEndDate').val();
 								
 								param.dept = getCheckedDept();
-					        }
+					        },
+ 					        "beforeSend" : function(){
+								jQuery('#preloader').show();
+ 					        },
+					        "dataSrc": function ( json ) {
+								jQuery('#preloader').hide();
+				                return json.data;
+				            }
 						},
 						lengthMenu: [[20, 100, 99999], [20, 100, "전체"]],
 						tableTools: {

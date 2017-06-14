@@ -6,6 +6,7 @@ import java.util.List;
 import gcom.DAO.DeviceDataDAO;
 import gcom.DAO.DiskDataDAO;
 import gcom.Model.DiskExportModel;
+import gcom.Model.PrintFileModel;
 import gcom.Model.UsbConnectModel;
 import gcom.Model.UsbDevInfoModel;
 
@@ -16,10 +17,10 @@ public class DeviceInfoServiceImpl implements IDeviceInfoService {
 	
 	//비인가 USB목록
 	public List<UsbDevInfoModel> getUnAuthUsbList(HashMap<String, Object> map){		
-		return uaDao.getUnAuthUsbList(map);
+		return diskDao.getUnAuthUsbList(map);
 	}	
 	public int getUnAuthUsbListCount(HashMap<String, Object> map){		
-		return uaDao.getUnAuthUsbListCount(map);		
+		return diskDao.getUnAuthUsbListCount(map);		
 	}
 	
 	//이동식디스크 파일전송로그
@@ -40,11 +41,11 @@ public class DeviceInfoServiceImpl implements IDeviceInfoService {
 
 	
 	//프린트로그
-	public List<UsbDevInfoModel> getPrintLogList(HashMap<String, Object> map){		
-		return uaDao.getUnAuthUsbList(map);
+	public List<PrintFileModel> getPrintLogList(HashMap<String, Object> map){		
+		return uaDao.getPrintLogList(map);
 	}	
 	public int getPrintLogCount(HashMap<String, Object> map){		
-		return uaDao.getUnAuthUsbListCount(map);		
+		return uaDao.getPrintLogListCount(map);		
 	}
 
 }

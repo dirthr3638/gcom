@@ -5,6 +5,7 @@ import java.util.List;
 
 import gcom.Model.LoginLogModel;
 import gcom.Model.UserAgentModel;
+import gcom.Model.UserPolicyModel;
 
 public interface IUserAgentService {
 
@@ -12,4 +13,8 @@ public interface IUserAgentService {
 	public int getUserAgentListCount(HashMap<String, Object> map);	
 	public List<LoginLogModel> getLoginlogList(HashMap<String, Object> map);	
 	public int getLoginlogListCount(HashMap<String, Object> map);
+
+	public List<UserPolicyModel> getUserPolicyList(HashMap<String, Object> map);	
+	public int getUserPolicyCount(HashMap<String, Object> map);
+
 }

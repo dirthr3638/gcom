@@ -19,10 +19,13 @@ public class UserAgentModel {
 	private String pcName  = "";
 	private String ipAddr  = "";
 	private String macAddr  = "";
-	private String login_server_time  = "";
 	private String connect_server_time = "";
+	private String connect_client_time = "";
+	
 	private String version = "";
 	private String install_server_time  = "";
+	private String install_client_time  = "";
+
 	private Boolean isConnection = false; 
 	
 	public void setValid(int value){
@@ -32,28 +35,7 @@ public class UserAgentModel {
 			valid = false;
 		}
 	}
-	
-	public void setLogin_server_time(String value){
-		if(value.equals("")){
-			login_server_time = "기록없음";
-			isConnection = false;
-		}else{
-			Date d = new Date();
-			long l = d.getTime();
-			try{
-				SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date d2 = format.parse(value);
-				long l2 = d2.getTime();
-				if(l - l2 < 1800000){
-					isConnection = true;
-				};
-			}catch(Exception e){				
-			}
-			
-			login_server_time = value;
-			
-		}
-	}
+
 	public void setConnect_server_time(String value){
 		if(value.equals("")){
 			connect_server_time = "기록없음";
@@ -68,5 +50,18 @@ public class UserAgentModel {
 			install_server_time = value;
 		}
 	}
-
+	public void setConnect_client_time(String value){
+		if(value.equals("")){
+			connect_server_time = "기록없음";
+		}else{
+			connect_server_time = value;
+		}
+	}
+	public void setInstall_client_time(String value){
+		if(value.equals("")){
+			install_server_time = "기록없음";
+		}else{
+			install_server_time = value;
+		}
+	}
 }

@@ -256,10 +256,9 @@
 		console.log('excel')
  		var $buttons = $('.export-csv');
  		$buttons.click();
- 		
  	}
- 	
-	$(document).ready(function(){
+
+ 	$(document).ready(function(){
 		
 		$(".select2theme").select2({
    			  minimumResultsForSearch: -1,
@@ -296,7 +295,14 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 								param.end_date = $('#filterEndDate').val();
 								
 								param.dept = getCheckedDept();
-					        }
+					        },
+ 					        "beforeSend" : function(){
+								jQuery('#preloader').show();
+ 					        },
+					        "dataSrc": function ( json ) {
+								jQuery('#preloader').hide();
+				                return json.data;
+				            }
 						},
 						lengthMenu: [[20, 100, 99999], [20, 100, "전체"]],
 						tableTools: {
@@ -325,10 +331,8 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 					                      }
 					                  }
 					              }, 
-
 					     ],
-						
-				 		"serverSide" : true,
+					    "serverSide": true,
 				 		"processing": true,
 				 	    "ordering": true,
 						"columns": [{

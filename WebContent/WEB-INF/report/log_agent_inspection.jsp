@@ -167,7 +167,7 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12">
-											<table class="table table-striped table-bordered x-scroll-table" id="table_userinfo" style="width:100%; min-width: 1000px;">
+											<table class="table table-striped table-bordered x-scroll-table" id="table_userinfo" style="width:100%;">
 												<thead>
 													<tr>
 														<th style="width:20px"></th>
@@ -305,6 +305,8 @@
             }
         });
 
+        
+        	jQuery('#preloader').hide();
         
         loadScript(plugin_path + "datatables/js/jquery.dataTables.min.js", function(){
 			loadScript(plugin_path + "datatables/dataTables.bootstrap.js", function(){

@@ -5,6 +5,8 @@ import java.util.List;
 
 import gcom.Model.*;
 import gcom.service.Device.*;
+import gcom.service.Policy.IPolicyService;
+import gcom.service.Policy.PolicyServiceImpl;
 import gcom.service.UserAgent.*;
 
 public class getAction {
@@ -75,9 +77,9 @@ public class getAction {
 	public HashMap<String, Object> getPrintList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		IDeviceInfoService as = new DeviceInfoServiceImpl();
-		List<UsbDevInfoModel> data = as.getUnAuthUsbList(map);
+		List<PrintFileModel> data = as.getPrintLogList(map);
 		result.put("data", data);
-		int total = as.getUnAuthUsbListCount(map);
+		int total = as.getPrintLogCount(map);
 		result.put("recordsTotal", total);
 		result.put("recordsFiltered", total);
 		
@@ -156,17 +158,27 @@ public class getAction {
 		return result;						
 	}
 	
-	public HashMap<String, Object> getPolicyList(HashMap<String, Object> map){
+	public HashMap<String, Object> getUserPolicyList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		IDeviceInfoService as = new DeviceInfoServiceImpl();
-		List<UsbDevInfoModel> data = as.getUnAuthUsbList(map);
+		IUserAgentService as = new UserAgentServiceImpl();
+		List<UserPolicyModel> data = as.getUserPolicyList(map);
 		result.put("data", data);
-		int total = as.getUnAuthUsbListCount(map);
+		int total = as.getUserPolicyCount(map);
 		result.put("recordsTotal", total);
 		result.put("recordsFiltered", total);
 		
 		return result;						
 	}
 
-
+	public HashMap<String, Object> getUserPolicyLogList(HashMap<String, Object> map){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IPolicyService as = new PolicyServiceImpl();
+		List<UserPolicyLogModel> data = as.getUserPolicyLogList(map);
+		result.put("data", data);
+		int total = as.getUserPolicyLogCount(map);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;						
+	}
 }
