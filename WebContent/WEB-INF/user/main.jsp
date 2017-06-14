@@ -50,6 +50,21 @@
 		<section style="padding:40px 0;">
 			<div class="container">
 				<h4><i class="fa fa-get-pocket"></i>시스템 정책</h4>
+				
+				<ul class="nav nav-tabs nav-top-border">
+					<li class="active"><a href="#" onClick="javascript:fn_sys_policy_info('system');" data-toggle="tab">시스템 정보</a></li>
+					<li><a href="#" onClick="javascript:fn_sys_policy_info('pattern');" data-toggle="tab">민감패턴 정보</a></li>
+					<li><a href="#" onClick="javascript:fn_sys_policy_info('netport');" data-toggle="tab">네트워크 포트 정보</a></li>
+					<li><a href="#" onClick="javascript:fn_sys_policy_info('process');" data-toggle="tab">프로세스 차단 정보</a></li>
+					<li><a href="#" onClick="javascript:fn_sys_policy_info('usbport');" data-toggle="tab">USB포트 제어</a></li>
+					<li><a href="#" onClick="javascript:fn_sys_policy_info('serialport');" data-toggle="tab">시리얼포트 제어</a></li>
+					<li><a href="#" onClick="javascript:fn_sys_policy_info('messenger');" data-toggle="tab">메신저 제어</a></li>
+					<li><a href="#" onClick="javascript:fn_sys_policy_info('siteblock');" data-toggle="tab">사이트 차단 설정</a></li>
+				</ul>
+				
+				<div id="system_policy_div" class="tab-content"></div>
+				<!--
+				<h4><i class="fa fa-get-pocket"></i>시스템 정책</h4>
 				<form action="#" method="post">
 					<div class="sky-form">
 
@@ -115,13 +130,14 @@
 						</table>
 
 					</div>
-					<!--
+					
 					<div class="margin-top-10">
 						<a href="#" class="btn btn-primary"><i class="fa fa-check"></i> 정책요청 </a>
 						<a href="#" class="btn btn-default">취소</a>
 					</div>
-					-->
+					
 				</form>
+				-->
 			</div>
 		</section>
 		<!-- /System Policy -->
@@ -185,5 +201,33 @@
 		<!-- /User Policy -->
 		
 		<jsp:include page="/WEB-INF/common/user_footer.jsp" flush="false" />
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				fn_sys_policy_info('system');
+			});
+			
+			function fn_sys_policy_info(code){
+				
+				$.ajax({      
+			        type:"POST",  
+			        url:'/ax/main/sys',
+			        async: false,
+			        data:{
+			        	code : code,
+			        	_ : $.now()
+			        },
+			        success:function(args){
+			            $("#system_policy_div").html(args);
+			        },   
+			        //beforeSend:showRequest,  
+			        error:function(e){  
+			            console.log(e.responseText);  
+			        }  
+			    });
+			}
+			
+		</script>
+		
 	</body>
 </html>

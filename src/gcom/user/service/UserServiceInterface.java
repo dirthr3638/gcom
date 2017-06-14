@@ -9,6 +9,8 @@ import gcom.user.model.UserPolicyListModel;
 
 public interface UserServiceInterface {
 
+	public List<HashMap<String, Object>> getUserSystemPolicyList(String code);
+	
 	public List<UserPolicyListModel> getUserPolicySetInfo(HashMap<String, Object> map);
 
 	public UserInfoModel getUserInfo(HashMap<String, Object> map);
@@ -22,5 +24,5 @@ public interface UserServiceInterface {
 	public HashMap<String, Object> getUserContactInfo(HashMap<String, Object> map);
 
 	public void updateNoticeViewCount(HashMap<String, Object> map) throws Exception;
-	
+
 }

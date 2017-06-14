@@ -13,13 +13,12 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import gcom.Model.UsbConnectModel;
 import gcom.user.model.UserContactModel;
 import gcom.user.model.UserInfoModel;
 import gcom.user.model.UserNoticeModel;
 import gcom.user.model.UserPolicyListModel;
 import gcom.user.model.UserPolicyModel;
-
+import gcom.user.model.UserSystemPolicyQueryModel;
 
 public class UserDAO {
 	DataSource ds;
@@ -436,6 +435,67 @@ public class UserDAO {
 				model.setCommentRegDt(rs.getString("comment_reg_dt"));
 								
 				list.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+
+	public List<HashMap<String, Object>> getUserSystemPolicyList(String code) {
+		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		UserSystemPolicyQueryModel getQuery = new UserSystemPolicyQueryModel(code);
+		String sql=  getQuery.getPolicySqlQuery();
+		/*
+				"SELECT con.contact_id, "
+				+ "con.contact_type, "
+				+ "con.contact_title, "
+				+ "con.id, "
+				+ "DATE(con.reg_dt) as reg_dt, "
+				+ "con.comment_yn, "
+				+ "IFNULL(con_comm.reg_staf_id, '')as comment_reg_staf_id, "
+				+ "IFNULL(user_info.name, '') as comment_reg_staf_name, "
+				+ "IFNULL(con_comm.reply_content, '') as reply_content, "
+				+ "IFNULL(con_comm.reg_dt, '') as comment_reg_dt "
+				+ "FROM user_contact_info AS con "
+				+ "LEFT JOIN user_contact_comment AS con_comm ON con.contact_id = con_comm.contact_id "
+				+ "LEFT JOIN user_info AS user_info ON con_comm.reg_staf_id = user_info.id "
+				+ "WHERE con.id = ? "
+				+ "ORDER BY con.contact_id DESC, con.reg_dt DESC "
+				+ "LIMIT ? ,? ";
+		*/
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			ResultSetMetaData metaData = rs.getMetaData();
+			int sizeOfColumn = metaData.getColumnCount();
+			
+			String column = "";
+			
+			while(rs.next()){
+				HashMap<String, Object> data = new HashMap<String, Object>();
+				
+				// Column의 갯수만큼 회전
+				for (int indexOfcolumn = 0; indexOfcolumn < sizeOfColumn; indexOfcolumn++) {
+					// Column의 갯수만큼 회전
+					column = metaData.getColumnName(indexOfcolumn + 1);
+					// phone number 일 경우 복호화
+					data.put(column, rs.getString(column));
+				}
+								
+				list.add(data);
 			}
 			
 		}catch(SQLException ex){

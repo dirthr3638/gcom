@@ -13,6 +13,10 @@ public class UserServiceImpl implements UserServiceInterface {
 
 	UserDAO userDAO = new UserDAO();
 	
+	public List<HashMap<String, Object>> getUserSystemPolicyList(String code) {
+		return  userDAO.getUserSystemPolicyList(code);
+	}
+	
 	public List<UserPolicyListModel> getUserPolicySetInfo(HashMap<String, Object> map) {
 		return userDAO.getUserPolicySetInfo(map);
 	}
