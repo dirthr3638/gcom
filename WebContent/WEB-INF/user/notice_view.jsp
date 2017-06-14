@@ -33,7 +33,6 @@
 		<!-- -->
 			<section style="padding:50px 0;">
 				<div class="container">
-
 					<h1 class="blog-post-title"><%= data.getBbsTitle() %></h1>
 					<ul class="blog-post-info list-inline">
 						<li>
@@ -59,9 +58,12 @@
 					<div class="row" style="border:1px solid #f1f1f1; min-height:700px; padding:10px 20px;">
 						<%= data.getBbsBody() %>
 					</div>
+					<div class="row">
+						<a href="/notice" class="btn btn-primary pull-right"><i class="fa fa-list"></i>목록</a>
+					</div>
 					<!-- /article content -->
-
 				</div>
+				
 			</section>
 			<!-- / -->
 		<!-- /Notice View -->

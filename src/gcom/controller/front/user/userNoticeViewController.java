@@ -34,9 +34,17 @@ public class userNoticeViewController extends HttpServlet {
 		param.put("bbs_id", request.getParameter("att_bbs_id"));
 		
 		UserServiceInterface userService = new UserServiceImpl();
-		UserNoticeModel model = userService.getUserNoticeDetail(param);
+			
+		try {
+			UserNoticeModel model = userService.getUserNoticeDetail(param);
+			request.setAttribute("UserNoticeDetail", model);
+			
+			userService.updateNoticeViewCount(param);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		request.setAttribute("UserNoticeDetail", model);
+		
     	request.getRequestDispatcher("/WEB-INF/user/notice_view.jsp").forward(request, response);
 	}
 }

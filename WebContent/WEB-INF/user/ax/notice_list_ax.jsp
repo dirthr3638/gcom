@@ -4,8 +4,8 @@
 <% 
 	List<UserNoticeModel> list = (List<UserNoticeModel>)request.getAttribute("UserNoticeList");
 	int list_cnt = Integer.parseInt(request.getAttribute("list_cnt").toString());
-	
-	//i+1
+	int startIndex = Integer.parseInt(request.getAttribute("start_idx").toString());
+	int listIndex = list_cnt - startIndex;
 %>
 <table id="user_notice_table" class="table table-hover table-vertical-middle">
 	<thead>
@@ -25,13 +25,18 @@
 		<% } else { %>
 			<% for (int i = 0; i < list.size(); i ++ ) {  %>
 				<tr>
-					<td class="text-center"><%= list.get(i).getBbsId() %></td>
+					<td class="text-center"><%= listIndex %></td>
 					<td class="text-center"><a href="javascript:fn_bbs_detail('<%=list.get(i).getBbsId() %>'); " ><%=list.get(i).getBbsTitle() %></a></td>
 					<td class="text-center"><%=list.get(i).getBbsRegStaf() %></td>
 					<td class="text-center"><%=list.get(i).getBbsRegDate() %></td>
 					<td class="text-center"><%=list.get(i).getBbsClickCnt() %></td>
 				</tr>
-		<% } %>
+		<% 
+				listIndex--;	
+			} 
+		%>
 	<%	} %>
+	
+		<input type="hidden" name="att_list_cnt" id="att_list_cnt" value="<%= list_cnt %>" />
 	</tbody>
 </table>

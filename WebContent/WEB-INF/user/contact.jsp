@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page import="gcom.user.model.UserInfoModel"%>
+<% 
+	UserInfoModel data = (UserInfoModel)request.getAttribute("userInfo");
+	String name = data.getName();
+	String phone = data.getPhone();
+%>
 <!doctype html>
 <html lang="utf-8">
 	<head>
@@ -26,16 +31,16 @@
 		<jsp:include page="/WEB-INF/common/user_header.jsp" flush="false" />
 		
 		<!-- Contact Form -->
-		<section style="padding:20px 0;">
+		<section>
 			<div class="container">
 			<!-- FORM -->
 				<div class="col-md-12 col-sm-12">
-					<div class="col-md-6 col-sm-6">
-						<h3>문의 등록</h3>
+					<div class="col-md-6 col-sm-6" style="padding-left: 0;">
+						<h3><i class="fa fa-paper-plane" aria-hidden="true"></i> 문의 등록</h3>
 					</div>
-					<div class="col-md-6 col-sm-6" style="text-align:right;">
+					<!-- <div class="col-md-6 col-sm-6" style="text-align:right;">
 						<button type="button" class="btn btn-primary" onClick="location.href='#contact_list'"><i class="fa fa-list"></i>등록문의확인</button>
-					</div>
+					</div> -->
 				</div>
 				<div class="col-md-12 col-sm-12">
 					<!-- Alert Success -->
@@ -70,15 +75,15 @@
 								<div class="form-group">
 									<div class="col-md-12">
 										<label for="contact:name">성명 *</label>
-										<input required type="text" value="" class="form-control" name="contact[name][required]" id="contact:name" value="가드컴" disabled>
-									</div>
-									<div class="col-md-12">
-										<label for="contact:email">이메일 *</label>
-										<input required type="email" value="" class="form-control" name="contact[email][required]" id="contact:email" placeholder="E-Mail">
+										<input type="text" value="<%= name %>" class="form-control" name="contact[name][required]" id="contact:name" disabled>
 									</div>
 									<div class="col-md-12">
 										<label for="contact:phone">핸드폰 *</label>
-										<input type="text" value="" class="form-control" name="contact[phone]" id="contact:phone" placeholder="010XXXX0000">
+										<input type="text" value="<%= phone %>" class="form-control" name="contact[phone]" id="contact:phone" disabled>
+									</div>
+									<div class="col-md-12">
+										<label for="contact:email">이메일 *</label>
+										<input type="email" value="" class="form-control" name="contact[email][required]" id="contact:email" placeholder="E-Mail" required>
 									</div>
 								</div>
 							</div>
@@ -92,9 +97,9 @@
 										<label for="contact_department">문의구분</label>
 										<select class="form-control pointer" name="contact[department]">
 											<option value="">--- Select ---</option>
-											<option value="Marketing">Marketing</option>
-											<option value="Webdesign">Webdesign</option>
-											<option value="Architecture">Architecture</option>
+											<option value="1">단순문의</option>
+											<option value="2">서비스문의</option>
+											<option value="3">버그문의</option>
 										</select>
 									</div>
 								</div>
@@ -139,478 +144,27 @@
 			<div class="container">
 
 				<h4>나의 등록 문의</h4>
-				<table class="table table-striped table-bordered table-hover" id="sample_3">
+				<table class="table table-bordered table-hover" id="contact_table">
+					<col width="20px;">
+					<col width="80px;">
+					<col width="120px;">
+					<col>
+					<col width="150px;">
+					<col width="80px;">			
 					<thead>
 						<tr>
+							<th></th>
 							<th>문의코드</th>
 							<th>문의구분</th>
 							<th>제목</th>
 							<th>등록일</th>
 							<th>답변여부</th>
+							<th>답변등록자</th>
+							<th>답변등록일</th>
+							<th>답변내용</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>43</td>
-							<td>단순문의</td>
-							<td>정책적용은 누가하나요?</td>
-							<td>2017-05-23</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>42</td>
-							<td>서비스문의</td>
-							<td>다운 및 설치방법 문의드려요</td>
-							<td>2017-05-17</td>
-							<td><i class="fa fa-pencil"></i></td>
-						</tr>
-						<tr>
-							<td>41</td>
-							<td>단순문의</td>
-							<td>정책 해제 적용은 누가하나요?</td>
-							<td>2017-05-15</td>
-							<td><i class="fa fa-pencil"></i></td>
-						</tr>
-						<tr>
-							<td>40</td>
-							<td>단순문의</td>
-							<td>단순 문의 드립니다. 확인 부탁드려요.</td>
-							<td>2017-05-13</td>
-							<td><i class="fa fa-pencil"></i></td>
-						</tr>
-						<tr>
-							<td>39</td>
-							<td>단순문의</td>
-							<td>단순 문의 드립니다. 확인 부탁드려요.</td>
-							<td>2017-05-11</td>
-							<td><i class="fa fa-pencil"></i></td>
-						</tr>
-						<tr>
-							<td>38</td>
-							<td>단순문의</td>
-							<td>단순 문의 드립니다. 확인 부탁드려요.</td>
-							<td>2017-05-10</td>
-							<td><i class="fa fa-pencil"></i></td>
-						</tr>
-						<tr>
-							<td>37</td>
-							<td>버그문의</td>
-							<td>다운로드 되지 않아요.</td>
-							<td>2017-05-10</td>
-							<td><i class="fa fa-pencil"></i></td>
-						</tr>
-						<tr>
-							<td>36</td>
-							<td>버그문의</td>
-							<td>정책은 적용되었는데 표시되지 않아요</td>
-							<td>2017-05-08</td>
-							<td><i class="fa fa-pencil"></i></td>
-						</tr>
-						<tr>
-							<td>35</td>
-							<td>단순문의</td>
-							<td>단순 문의 드립니다. 확인 부탁드려요.</td>
-							<td>2017-05-08</td>
-							<td><i class="fa fa-pencil"></i></td>
-						</tr>
-						<tr>
-							<td>34</td>
-							<td>단순문의</td>
-							<td>단순 문의 드립니다. 확인 부탁드려요.</td>
-							<td>2017-05-07</td>
-							<td><i class="fa fa-pencil"></i></td>
-						</tr>
-						<tr>
-							<td>33</td>
-							<td>서비스문의</td>
-							<td>서비스 관련 문의 드립니다. 확인 부탁드려요.</td>
-							<td>2017-05-06</td>
-							<td><i class="fa fa-pencil"></i></td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Camino 1.5
-							</td>
-							<td>OSX.3+
-							</td>
-							<td>1.8
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Netscape 7.2
-							</td>
-							<td>Win 95+ / Mac OS 8.6-9.2
-							</td>
-							<td>1.7
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Netscape Browser 8
-							</td>
-							<td>Win 98SE+
-							</td>
-							<td>1.7
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Netscape Navigator 9
-							</td>
-							<td>Win 98+ / OSX.2+
-							</td>
-							<td>1.8
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Mozilla 1.0
-							</td>
-							<td>Win 95+ / OSX.1+
-							</td>
-							<td>1
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Mozilla 1.1
-							</td>
-							<td>Win 95+ / OSX.1+
-							</td>
-							<td>1.1
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Mozilla 1.2
-							</td>
-							<td>Win 95+ / OSX.1+
-							</td>
-							<td>1.2
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Mozilla 1.3
-							</td>
-							<td>Win 95+ / OSX.1+
-							</td>
-							<td>1.3
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Mozilla 1.4
-							</td>
-							<td>Win 95+ / OSX.1+
-							</td>
-							<td>1.4
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Mozilla 1.5
-							</td>
-							<td>Win 95+ / OSX.1+
-							</td>
-							<td>1.5
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Mozilla 1.6
-							</td>
-							<td>Win 95+ / OSX.1+
-							</td>
-							<td>1.6
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Mozilla 1.7
-							</td>
-							<td>Win 98+ / OSX.1+
-							</td>
-							<td>1.7
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Mozilla 1.8
-							</td>
-							<td>Win 98+ / OSX.1+
-							</td>
-							<td>1.8
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Seamonkey 1.1
-							</td>
-							<td>Win 98+ / OSX.2+
-							</td>
-							<td>1.8
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Gecko
-							</td>
-							<td>Epiphany 2.20
-							</td>
-							<td>Gnome
-							</td>
-							<td>1.8
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Webkit
-							</td>
-							<td>Safari 1.2
-							</td>
-							<td>OSX.3
-							</td>
-							<td>125.5
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Webkit
-							</td>
-							<td>Safari 1.3
-							</td>
-							<td>OSX.3
-							</td>
-							<td>312.8
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Webkit
-							</td>
-							<td>Safari 2.0
-							</td>
-							<td>OSX.4+
-							</td>
-							<td>419.3
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Webkit
-							</td>
-							<td>Safari 3.0
-							</td>
-							<td>OSX.4+
-							</td>
-							<td>522.1
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Webkit
-							</td>
-							<td>OmniWeb 5.5
-							</td>
-							<td>OSX.4+
-							</td>
-							<td>420
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Webkit
-							</td>
-							<td>iPod Touch / iPhone
-							</td>
-							<td>iPod
-							</td>
-							<td>420.1
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Webkit
-							</td>
-							<td>S60
-							</td>
-							<td>S60
-							</td>
-							<td>413
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Presto
-							</td>
-							<td>Opera 7.0
-							</td>
-							<td>Win 95+ / OSX.1+
-							</td>
-							<td>-
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Presto
-							</td>
-							<td>Opera 7.5
-							</td>
-							<td>Win 95+ / OSX.2+
-							</td>
-							<td>-
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Presto
-							</td>
-							<td>Opera 8.0
-							</td>
-							<td>Win 95+ / OSX.2+
-							</td>
-							<td>-
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Presto
-							</td>
-							<td>Opera 8.5
-							</td>
-							<td>Win 95+ / OSX.2+
-							</td>
-							<td>-
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Presto
-							</td>
-							<td>Opera 9.0
-							</td>
-							<td>Win 95+ / OSX.3+
-							</td>
-							<td>-
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Presto
-							</td>
-							<td>Opera 9.2
-							</td>
-							<td>Win 88+ / OSX.3+
-							</td>
-							<td>-
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Presto
-							</td>
-							<td>Opera 9.5
-							</td>
-							<td>Win 88+ / OSX.3+
-							</td>
-							<td>-
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Presto
-							</td>
-							<td>Opera for Wii
-							</td>
-							<td>Wii
-							</td>
-							<td>-
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Presto
-							</td>
-							<td>Nokia N800
-							</td>
-							<td>N800
-							</td>
-							<td>-
-							</td>
-							<td>A
-							</td>
-						</tr>
-						<tr>
-							<td>Presto
-							</td>
-							<td>Nintendo DS browser
-							</td>
-							<td>Nintendo DS
-							</td>
-							<td>8.5
-							</td>
-							<td>C/A<sup>1</sup>
-							</td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -618,5 +172,166 @@
 		<!-- /Contact Table-->
 		
 		<jsp:include page="/WEB-INF/common/user_footer.jsp" flush="false" />
+	
+		<!-- PAGE LEVEL SCRIPTS -->
+		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+
+		<script type="text/javascript">
+							
+		$(document).ready(function(){
+	     	$(document).ready(function() {
+	    		  $(".select2theme").select2({
+	    			  minimumResultsForSearch: -1,
+	    			  dropdownAutoWidth : true,
+	    			  width: 'auto'
+	    		  });
+	    	}); 
+	        
+	     	loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
+     		loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
+     		loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
+     		loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.print.min.js", function(){
+     		loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.html5.min.js", function(){
+     		loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.js", function(){
+     		 
+     						if (jQuery().dataTable) {
+     							
+     							var table = jQuery('#contact_table');
+	     							table.dataTable({
+	     								"dom": '<"row view-filter"<"col-sm-12"<"pull-right"><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-left" i ><"pull-right"p>>>',
+     									"ajax" : {
+     									"url":'/ax/contact/list',
+     								   	"type":'POST',
+     								   	"dataSrc" : "data",
+     								   	"data" :  {},
+     		 					        "beforeSend" : function(){
+     										jQuery('#preloader').show();
+     		 					        },
+     							        "dataSrc": function ( json ) {
+     										jQuery('#preloader').hide();
+     						                return json.data;
+     						            }   
+     								},
+     						 		"serverSide" : true,
+     						 		"columns": [{
+     									data: "contactId"			//추가정보
+     								}, {
+     									data: "contactId"			//문의코드
+     								}, {
+     									data: "contactTypeName"		//문의구분
+     								}, {
+     									data: "contactTitle"		//제목
+     								}, {
+     									data: "regDt"				//등록일
+     								}, {
+     									data: "commentYN"			//답변여부
+     								}, {
+     									data: "commnetRegStafName"	//답변등록자
+     								}, {
+     									data: "commentRegDt"		//답변등록일
+     								}, {
+     									data: "replyContent"		//답변내용
+     								}],
+     						 		"language": {
+	     								"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
+	     								"infoEmpty":      "검색된 데이터가 없습니다.",
+	     								"lengthMenu": "  _MENU_ 개",
+	     								"paginate": {
+	     									"previous":"Prev",
+	     									"next": "Next",
+	     									"last": "Last",
+	     									"first": "First"
+	     								}
+	     							},
+	     							"pageLength": 10,
+     						 	  	"columnDefs": [
+										{	
+											"targets": [0],	//추가정보
+											"class":"center-cell add_detail_info",
+											"render":function(data,type,row){
+												return '<span class="datables-td-detail datatables-close"></span>';
+											}
+										},         
+										{  // set default column settings
+											'targets': [1]	//문의코드
+											,"class":"center-cell"
+										}, {	
+											"targets": [2]	//문의구분
+											,"class":"center-cell"
+										}, {	
+											"targets": [3]	//제목
+										
+										}, {	
+											"targets": [4],	//등록일
+											"class":"center-cell"
+										}, {	
+											"targets": [5]	//답변여부
+											,"class" : "center-cell"
+											,"render":function(data,type,row){
+												return data=="Y"?'<i class="fa fa-pencil">':'' ;
+											}
+										}, {	
+											"targets": [6]	//답변등록자
+											,"visible":false
+										}, {	
+											"targets": [7]	//답변등록일
+											,"visible":false
+										}, {	
+											"targets": [8]	//답변내용
+											,"visible":false
+										}]
+     							});
+     							
+     							function fnFormatDetails(oTable, nTr) {
+     								var aData = oTable.fnGetData(nTr);
+     								/*
+     								var sOut = '<table>';
+     								sOut += '<tr><td>Platform(s):</td><td>' + aData[2] + '</td></tr>';
+     								sOut += '<tr><td>Engine version:</td><td>' + aData[3] + '</td></tr>';
+     								sOut += '<tr><td>CSS grade:</td><td>' + aData[4] + '</td></tr>';
+     								sOut += '<tr><td>Others:</td><td>Could provide a link here</td></tr>';
+     								sOut += '</table>';
+     								*/
+
+     								var reFlag = aData.commentYN;
+     								var sOut = '<table class="table fixed" style="width:100%; overflow:auto; margin:0;">';
+
+     								if( reFlag == 'Y' ) {
+     									sOut += '<tr><td class="comment-cell">답변 : ';
+     									sOut += '<i class="fa fa-clock-o"></i> '+ aData.commentRegDt + '&nbsp;&nbsp;&nbsp;&nbsp;';
+     									sOut += '<i class="fa fa-user"></i> '+ aData.commnetRegStafName ;
+     									sOut += '</td></tr>';
+     									sOut += '<tr><td class="comment-cell" style="padding:20px 10px;">'+ aData.replyContent +'</td></tr>';
+     								} else {
+     									sOut += '<tr><td class="comment-cell" style="padding:20px 10px;">등록된 답변이 없습니다.</td></tr>';
+     								}
+     								
+     								sOut += '</table>';
+     								
+     								return sOut;
+     							}
+     							
+     							var jTable = jQuery('#contact_table');
+     							jTable.on('click', ' tbody td .datables-td-detail', function () {
+     								var nTr = jQuery(this).parents('tr')[0];
+     								if (table.fnIsOpen(nTr)) {
+     									/* This row is already open - close it */
+     									jQuery(this).addClass("datatables-close").removeClass("datatables-open");
+     									table.fnClose(nTr);
+     								} else {
+     									/* Open this row */
+     									jQuery(this).addClass("datatables-open").removeClass("datatables-close");
+     									table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+     								}
+     							});
+     						}
+     					});
+     					});
+     					});
+     				});
+     			}); 
+     		});	       
+		});
+		</script>
 	</body>
 </html>

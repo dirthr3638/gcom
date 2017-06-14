@@ -9,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.google.gson.Gson;
 import gcom.controller.action.getAction;
 import gcom.user.model.UserNoticeModel;
@@ -16,31 +18,34 @@ import gcom.user.model.UserPolicyListModel;
 import gcom.user.service.UserServiceImpl;
 import gcom.user.service.UserServiceInterface;
 
-@WebServlet("/ax/user/notice/list")
-public class axUserNoticeController extends HttpServlet {
+@WebServlet("/ax/contact/list")
+public class axUserContactController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public axUserNoticeController() {
+    public axUserContactController() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpServletRequest httpReq = (HttpServletRequest)request;
+    	HttpSession session = httpReq.getSession(false);
+    	
 		HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("search_type", request.getParameter("search_type").toString());
-		param.put("search_text", request.getParameter("search_text").toString());
-		param.put("startRow", request.getParameter("start_idx").toString());
-		param.put("endRow", request.getParameter("end_idx").toString());
+		String user_id = (String)session.getAttribute("user_id");
+		param.put("user_id", user_id);
+		
+		param.put("startRow", Integer.parseInt( request.getParameter("start").toString()) );
+		param.put("endRow", Integer.parseInt( request.getParameter("length").toString()) );
+		
 		
 		UserServiceInterface userService = new UserServiceImpl();
-		int cnt = userService.getUserNoticeListCount(param);
-    	List<UserNoticeModel> list = userService.getUserNoticeList(param);
-    	
-    	request.setAttribute("start_idx", request.getParameter("start_idx").toString());
-    	request.setAttribute("list_cnt", cnt);
-    	request.setAttribute("UserNoticeList", list);
-		request.getRequestDispatcher("/WEB-INF/user/ax/notice_list_ax.jsp").forward(request, response);
 		
+		HashMap<String, Object> data =  userService.getUserContactInfo(param);
+
+		data.putAll(data);
+		response.setContentType("application/json; charset=UTF-8");
+		response.getWriter().write(new Gson().toJson(data));
 	}
 
 }
