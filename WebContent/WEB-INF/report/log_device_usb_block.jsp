@@ -217,19 +217,6 @@
 		}		
 	}
 	
-	var getFilterInfo = function(){
-		var param = new Object();
-		param.user_id = $('#filterUserId').val();
-		param.user_name = $('#filterUserName').val();
-		param.user_phone = $('#filterUserPhone').val();
-		param.user_installed = $('#filterUserIsInstalled option:selected').val();
-		param.dept = getCheckedDept();
-		
-		console.log(getCheckedDept())
-
-		return param;
-	};
-	
  	function setTree(){
 		$.ajax({      
 	        type:"POST",  

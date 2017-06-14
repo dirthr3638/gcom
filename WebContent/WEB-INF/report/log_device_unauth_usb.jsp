@@ -209,7 +209,14 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 								param.serial = $('#filterSerial').val();
 								param.desc = $('#filterDesc').val();
 								
-					        }
+					        },
+ 					        "beforeSend" : function(){
+								jQuery('#preloader').show();
+ 					        },
+					        "dataSrc": function ( json ) {
+								jQuery('#preloader').hide();
+				                return json.data;
+				            }
 						},
 						lengthMenu: [[20, 100, 99999], [20, 100, "전체"]],
 						tableTools: {

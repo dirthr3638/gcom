@@ -12,6 +12,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import gcom.Model.PrintFileModel;
+import gcom.Model.UsbConnectModel;
 import gcom.Model.UsbDevInfoModel;;
 
 
@@ -31,22 +33,41 @@ public class DeviceDataDAO {
 		}
 	}
 	
-	public int getUnAuthUsbListCount(HashMap<String, Object> map){
+	public int getPrintLogListCount(HashMap<String, Object> map){
 		int result = 0;
 		
-		String whereSql = "WHERE usb.allow = 0 ";
-		String name = map.get("name").toString();
-		String serial = map.get("serial").toString();
-		String desc = map.get("desc").toString();
-
-		if(!name.equals("")) 	whereSql += "AND usb.name LIKE ? ";
-		if(!serial.equals("")) 	whereSql += "AND usb.serial_number LIKE ? ";
-		if(!desc.equals("")) 	whereSql += "AND usb.description LIKE ? ";
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		String start_date = map.get("start_date").toString();
+		String end_date = map.get("end_date").toString();
 		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+		if(!start_date.equals("")) 	whereSql += "AND print.print_client_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND print.print_client_time < ? + interval 1 day ";
+
+		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
+	
 		String sql= 
 "SELECT "
-+ "COUNT(*) cnt "
-+ "FROM usb_dev_info AS usb ";
++ "COUNT(*) AS cnt "
++ "FROM print_log AS print "
++ "INNER JOIN user_info AS ur ON ur.no = print.user_no "
++ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 sql += whereSql;			
 			
 		try{
@@ -54,10 +75,16 @@ sql += whereSql;
 			pstmt=con.prepareStatement(sql);
 
 			int i = 1;
-			if(!name.equals("")) pstmt.setString(i++, "%" + name + "%");
-			if(!serial.equals("")) pstmt.setString(i++, "%" + serial + "%");
-			if(!desc.equals("")) 	pstmt.setString(i++, "%" + desc + "%");
-			
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
+			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+		
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -79,31 +106,60 @@ sql += whereSql;
 		return result;
 	}
 	
-	
-	public List<UsbDevInfoModel> getUnAuthUsbList(HashMap<String, Object> map){
-		List<UsbDevInfoModel> data = new ArrayList<UsbDevInfoModel>();
+	public List<PrintFileModel> getPrintLogList(HashMap<String, Object> map){
+		List<PrintFileModel> data = new ArrayList<PrintFileModel>();
 		
-		String whereSql = "WHERE usb.allow = 0 ";
-		String name = map.get("name").toString();
-		String serial = map.get("serial").toString();
-		String desc = map.get("desc").toString();
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		String start_date = map.get("start_date").toString();
+		String end_date = map.get("end_date").toString();
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
 
-		if(!name.equals("")) 	whereSql += "AND usb.name LIKE ? ";
-		if(!serial.equals("")) 	whereSql += "AND usb.serial_number LIKE ? ";
-		if(!desc.equals("")) 	whereSql += "AND usb.description LIKE ? ";
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+		if(!start_date.equals("")) 	whereSql += "AND print.print_client_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND print.print_client_time < ? + interval 1 day ";
+
+		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
+
 		
-		whereSql += "ORDER BY usb.no DESC LIMIT ?, ? ";	
+		whereSql += "ORDER BY print.no DESC LIMIT ?, ? ";	
 		
 		String sql= 
 "SELECT "
-+ "usb.no, "
-+ "usb.name, "
-+ "usb.vid, "
-+ "usb.pid, "
-+ "usb.allow, "
-+ "usb.serial_number, "
-+ "usb.description "
-+ "FROM usb_dev_info AS usb ";
++ "print.no AS print_no, "
++ "IFNULL(print.print_server_time, '') AS print_server_time, "
++ "IFNULL(print.print_client_time, '') AS print_client_time, "
++ "print.file_name AS file_name, print.watermark, "
++ "print.page_count, "
++ "print.print_copies, "
++ "ur.no AS user_no, "
++ "ur.id AS user_id, "
++ "ur.name AS user_name, "
++ "ur.dept_no, "
++ "ur.duty, "
++ "ur.rank, "
++ "agent.ip_addr, "
++ "agent.mac_addr, "
++ "agent.pc_name, "
++ "dept.name AS dept_name "
++ "FROM print_log AS print "
++ "INNER JOIN user_info AS ur ON ur.no = print.user_no "
++ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
+
 sql += whereSql;			
 			
 		try{
@@ -111,9 +167,15 @@ sql += whereSql;
 			pstmt=con.prepareStatement(sql);
 
 			int i = 1;
-			if(!name.equals("")) pstmt.setString(i++, "%" + name + "%");
-			if(!serial.equals("")) pstmt.setString(i++, "%" + serial + "%");
-			if(!desc.equals("")) 	pstmt.setString(i++, "%" + desc + "%");
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
+			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 
 			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
 			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
@@ -121,13 +183,24 @@ sql += whereSql;
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
-				UsbDevInfoModel model = new UsbDevInfoModel();
-				model.setUsbId(rs.getInt("no"));
-				model.setName(rs.getString("name"));
-				model.setVid(rs.getString("vid"));
-				model.setPid(rs.getString("pid"));
-				model.setSerialNumber(rs.getString("serial_number"));
-				model.setDescription(rs.getString("description"));
+				PrintFileModel model = new PrintFileModel();
+				model.setUserNo(rs.getInt("print_no"));
+				model.setUserNo(rs.getInt("user_no"));
+				model.setUserName(rs.getString("user_name"));
+				model.setUserId(rs.getString("user_id"));
+				model.setDeptId(rs.getInt("dept_no"));
+				model.setDuty(rs.getString("duty"));
+				model.setRank(rs.getString("rank"));
+				model.setIpAddr(rs.getString("ip_addr"));
+				model.setMacAddr(rs.getString("mac_addr"));
+				model.setPcName(rs.getString("pc_name"));
+				model.setDeptName(rs.getString("dept_name"));
+				model.setPrintServerTime(rs.getString("print_server_time"));
+				model.setPrintClientTime(rs.getString("print_client_time"));
+				model.setFileName(rs.getString("file_name"));
+				model.setWatermark(rs.getInt("watermark") == 0 ? false : true);			
+				model.setPageCount(rs.getInt("page_count"));
+				model.setPrintCopies(rs.getInt("print_copies"));
 				data.add(model);
 			}
 			

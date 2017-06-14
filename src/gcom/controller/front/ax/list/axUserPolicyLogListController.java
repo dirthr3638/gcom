@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import gcom.controller.action.getAction;
 
-@WebServlet("/ax/print/list")
-public class axPrintListController extends HttpServlet {
+@WebServlet("/ax/userpolicylog/list")
+public class axUserPolicyLogListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public axPrintListController() {
+    public axUserPolicyLogListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,15 +27,14 @@ public class axPrintListController extends HttpServlet {
 
 		map.put("user_id", request.getParameter("user_id").toString());
 		map.put("user_name", request.getParameter("user_name").toString());
-		map.put("start_date", request.getParameter("start_date").toString());
-		map.put("end_date", request.getParameter("end_date").toString());
 		map.put("dept", request.getParameterValues("dept[]"));
 		
-		HashMap<String, Object> data = action.getPrintList(map);
+		HashMap<String, Object> data = action.getUserPolicyLogList(map);
 
 		data.putAll(data);
 		response.setContentType("application/json; charset=UTF-8");
-		response.getWriter().write(new Gson().toJson(data));	
+		response.getWriter().write(new Gson().toJson(data));
+		
 	}
 
 }

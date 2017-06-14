@@ -318,7 +318,14 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 								param.user_phone = $('#filterUserPhone').val();
 								param.user_installed = $('#filterUserIsInstalled option:selected').val();
 								param.dept = getCheckedDept();
-					        }
+					        },
+ 					        "beforeSend" : function(){
+								jQuery('#preloader').show();
+ 					        },
+					        "dataSrc": function ( json ) {
+								jQuery('#preloader').hide();
+				                return json.data;
+				            }
 						},
 						lengthMenu: [[20, 100, 99999], [20, 100, "전체"]],
 						tableTools: {
@@ -399,10 +406,10 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							data: "install_server_time",
 							"orderable": false,	//설치시간
 						}, {
-							data: "login_server_time",
+							data: "connect_server_time",
 							"orderable": false	//서버접속시간
 						}, {
-							data: "login_server_time",
+							data: "connect_client_time",
 							"orderable": false	//PC접속시간
 						}],
 						// set the initial value
@@ -538,7 +545,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						var aData = oTable.fnGetData(nTr);
 						var sOut = '<table class="table ">';
 						sOut += '<tr><td class="center-cell">설치시간:</td><td>' + aData.install_server_time + '</td>';
-						sOut += '<td class="center-cell">접속시간:</td><td>' + aData.login_server_time + '</td></tr>';
+						sOut += '<td class="center-cell">접속시간:</td><td>' + aData.connect_server_time + '</td></tr>';
 						sOut += '</table>';
 
 						return sOut;

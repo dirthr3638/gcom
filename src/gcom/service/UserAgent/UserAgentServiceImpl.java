@@ -7,6 +7,7 @@ import gcom.DAO.LoginLogDAO;
 import gcom.DAO.UserAgentDAO;
 import gcom.Model.LoginLogModel;
 import gcom.Model.UserAgentModel;
+import gcom.Model.UserPolicyModel;
 
 public class UserAgentServiceImpl implements IUserAgentService {
 
@@ -30,6 +31,12 @@ public class UserAgentServiceImpl implements IUserAgentService {
 		return loginDao.getLoginlogListCount(map);		
 	}
 
+	public List<UserPolicyModel> getUserPolicyList(HashMap<String, Object> map){
+		return uaDao.getUserPolicyList(map);
+	}
+	public int getUserPolicyCount(HashMap<String, Object> map){
+		return 100;
+	}
 
 	
 }
