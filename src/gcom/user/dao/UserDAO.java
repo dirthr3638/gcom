@@ -456,24 +456,7 @@ public class UserDAO {
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		UserSystemPolicyQueryModel getQuery = new UserSystemPolicyQueryModel(code);
 		String sql=  getQuery.getPolicySqlQuery();
-		/*
-				"SELECT con.contact_id, "
-				+ "con.contact_type, "
-				+ "con.contact_title, "
-				+ "con.id, "
-				+ "DATE(con.reg_dt) as reg_dt, "
-				+ "con.comment_yn, "
-				+ "IFNULL(con_comm.reg_staf_id, '')as comment_reg_staf_id, "
-				+ "IFNULL(user_info.name, '') as comment_reg_staf_name, "
-				+ "IFNULL(con_comm.reply_content, '') as reply_content, "
-				+ "IFNULL(con_comm.reg_dt, '') as comment_reg_dt "
-				+ "FROM user_contact_info AS con "
-				+ "LEFT JOIN user_contact_comment AS con_comm ON con.contact_id = con_comm.contact_id "
-				+ "LEFT JOIN user_info AS user_info ON con_comm.reg_staf_id = user_info.id "
-				+ "WHERE con.id = ? "
-				+ "ORDER BY con.contact_id DESC, con.reg_dt DESC "
-				+ "LIMIT ? ,? ";
-		*/
+		
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
