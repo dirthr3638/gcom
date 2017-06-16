@@ -67,6 +67,7 @@
 					<!-- /Links -->
 
 					<!-- Social Icons -->
+					<!-- 
 					<div class="margin-top-20">
 						<a href="#" class="social-icon social-icon-border social-facebook pull-left" data-toggle="tooltip" data-placement="top" title="Facebook">
 							<i class="icon-facebook"></i>
@@ -88,6 +89,7 @@
 							<i class="icon-linkedin"></i>
 						</a>
 					</div>
+					 -->
 				</div>
 
 				<div class="col-md-4">

@@ -2,7 +2,6 @@ package gcom.controller.front.ax.list;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,9 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import gcom.controller.action.getAction;
-import gcom.user.model.UserNoticeModel;
-import gcom.user.model.UserPolicyListModel;
+
 import gcom.user.service.UserServiceImpl;
 import gcom.user.service.UserServiceInterface;
 
