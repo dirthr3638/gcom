@@ -9,10 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.gson.Gson;
-import gcom.controller.action.getAction;
+
 import gcom.user.model.UserNoticeModel;
-import gcom.user.model.UserPolicyListModel;
 import gcom.user.service.UserServiceImpl;
 import gcom.user.service.UserServiceInterface;
 

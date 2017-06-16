@@ -13,11 +13,10 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import gcom.user.model.MemberPolicyModel;
 import gcom.user.model.UserContactModel;
 import gcom.user.model.UserInfoModel;
 import gcom.user.model.UserNoticeModel;
-import gcom.user.model.UserPolicyListModel;
-import gcom.user.model.UserPolicyModel;
 import gcom.user.model.UserSystemPolicyQueryModel;
 
 public class UserDAO {
@@ -36,56 +35,76 @@ public class UserDAO {
 		}
 	}
 	
-	public List<UserPolicyListModel> getUserPolicySetInfo(HashMap<String, Object> map){
-		List<UserPolicyListModel> list = new ArrayList<UserPolicyListModel>();
+	public MemberPolicyModel getMemberPolicyInfo(HashMap<String, Object> map){
+		MemberPolicyModel model = new MemberPolicyModel();
+		String user_id = map.get("user_id").toString();
+		
 		String sql= 
-				"SELECT agent_info.policy_uninstall_enabled, "
-			    + "agent_info.policy_watermark_enabled, "
-			    + "agent_info.policy_printer_enabled, "
-			    + "agent_info.policy_fs_encryption_enabled, "
-			    + "agent_info.policy_cd_enabled, "
-			    + "agent_info.policy_cd_encryption_enabled, "
-			    + "agent_info.policy_removal_storage_export_enabled,"
-			    + "agent_info.policy_removal_storage_admin_mode, "
-			    + "IFNULL(agent_info.policy_usb_descriptor, '') as policy_usb_descriptor, "
-			    + "IFNULL(agent_info.policy_port_descriptor, '') as policy_port_descriptor, "
-			    + "agent_info.policy_net_descriptor, "
-			    + "agent_info.policy_wlan_enabled, "
-			    + "agent_info.policy_web_export_enabled, "
-			    + "agent_info.policy_sensitive_file_access, "
-			    + "agent_info.policy_sensitive_dir_enabled, "
-			    + "IFNULL(agent_info.policy_authentication_code, '') as policy_authentication_code, "
-			    + "agent_info.policy_net_share_descriptor, "
-			    + "IFNULL(agent_info.policy_print_log_descriptor, '') as policy_print_log_descriptor "
-			    + "FROM user_info " 
-				+ "INNER JOIN agent_info ON user_info.no = agent_info.own_user_no "
-				+ "WHERE user_info.id = ?";
+				"SELECT ui.no AS userNo, "
+				    + "ui.id AS userId, "
+				    + "pi.no AS policyNo, "
+				    + "pi.uninstall_enabled, "
+				    + "pi.file_encryption_enabled, "
+				    + "pi.cd_encryption_enabled, "
+				    + "pi.printer_enabled, "
+				    + "pi.cd_enabled, "
+				    + "pi.cd_export_enabled, "
+				    + "pi.wlan_enabled, "
+				    + "pi.net_share_enabled, "
+				    + "pi.web_export_enabled, "
+				    + "pi.removal_storage_export_enabled, "
+				    + "pi.removal_storage_admin_mode, "
+				    + "pi.usb_dev_list, "
+				    + "pi.com_port_list, "
+				    + "pi.net_port_list, "
+				    + "pi.process_list, "
+				    + "pi.file_pattern_list, "
+				    + "web_addr_list, "
+				    + "watermark_descriptor, "
+				    + "print_log_descriptor, "
+				    + "quarantine_path_access_code, "
+				    + "pattern_file_control "
+				+ "FROM user_info as ui "
+				+ "INNER JOIN agent_info as ai on ui.no = ai.own_user_no "
+				+ "INNER JOIN policy_info as pi on ai.policy_no = pi.no "
+				+ "WHERE ui.id = ? ";
 
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			pstmt.setString(1, map.get("user_id").toString());
+			pstmt.setString(1, user_id);
 			rs = pstmt.executeQuery();
 			
-			ResultSetMetaData metaData = rs.getMetaData();
-			int sizeOfColumn = metaData.getColumnCount();
-			
-			String column_name = "";
-			
-			UserPolicyModel policy = new UserPolicyModel();
-			
 			if(rs.next()){
-				for (int indexOfcolumn = 0; indexOfcolumn < sizeOfColumn; indexOfcolumn++) {
-					// Column의 갯수만큼 회전
-					column_name = metaData.getColumnName(indexOfcolumn + 1);
-					UserPolicyListModel model = new UserPolicyListModel();
-					
-					model.setPolicyEngName(column_name);
-					model.setPolicyKorName(policy.getPolicy().get(column_name));
-					model.setPolicyStatus(rs.getString(column_name));
-					
-					list.add(model);
-				}
+				
+				model.setUserNo(rs.getInt("userNo"));
+				model.setUserId(rs.getString("userId"));
+				model.setPolicyNo(rs.getInt("policyNo"));
+				
+				model.setIsUninstall(rs.getInt("uninstall_enabled"));
+				model.setIsFileEncryption(rs.getInt("file_encryption_enabled"));
+				model.setIsCdEncryption(rs.getInt("cd_encryption_enabled"));
+				model.setIsPrint(rs.getInt("printer_enabled"));
+				model.setIsCdEnabled(rs.getInt("cd_enabled"));
+				model.setIsCdExport(rs.getInt("cd_export_enabled"));
+				model.setIsWlan(rs.getInt("wlan_enabled"));
+				model.setIsNetShare(rs.getInt("net_share_enabled"));
+				model.setIsWebExport(rs.getInt("web_export_enabled"));
+				model.setIsStorageExport(rs.getInt("removal_storage_export_enabled"));
+				model.setIsStorageAdmin(rs.getInt("removal_storage_admin_mode"));
+				
+				model.setIsUsbBlock(rs.getString("usb_dev_list"));
+				model.setIsComPortBlock(rs.getString("com_port_list"));
+				model.setIsNetPortBlock(rs.getString("net_port_list"));
+				model.setIsProcessList(rs.getString("process_list"));
+				model.setIsFilePattern(rs.getString("file_pattern_list"));
+				model.setIsWebAddr(rs.getString("web_addr_list"));
+				
+				model.setWatermarkInfo(rs.getString("watermark_descriptor"));
+				model.setPrintLogDesc(Integer.parseInt(rs.getString("print_log_descriptor").toString()));
+				model.setQuarantinePathAccessCode(rs.getString("quarantine_path_access_code"));
+				model.setPatternFileControl(rs.getInt("pattern_file_control"));
+				
 			}
 			
 		}catch(SQLException ex){
@@ -100,7 +119,7 @@ public class UserDAO {
 			}
 		}
 		
-		return list;
+		return model;
 	}
 	
 
@@ -451,7 +470,8 @@ public class UserDAO {
 		
 		return list;
 	}
-
+	
+	/*
 	public List<HashMap<String, Object>> getUserSystemPolicyList(String code) {
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		UserSystemPolicyQueryModel getQuery = new UserSystemPolicyQueryModel(code);
@@ -495,5 +515,6 @@ public class UserDAO {
 		
 		return list;
 	}
+	*/
 
 }

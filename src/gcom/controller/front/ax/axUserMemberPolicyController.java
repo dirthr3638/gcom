@@ -2,30 +2,29 @@ package gcom.controller.front.ax;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.gson.Gson;
+import javax.servlet.http.HttpSession;
 
-import gcom.controller.action.deptAction;
+import gcom.user.model.MemberPolicyModel;
 import gcom.user.service.UserServiceImpl;
 import gcom.user.service.UserServiceInterface;
 
 /**
  * Servlet implementation class axDeptController
  */
-@WebServlet("/ax/main/sys")
-public class axUserSystemPolicyController extends HttpServlet {
+@WebServlet("/ax/main/policy")
+public class axUserMemberPolicyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public axUserSystemPolicyController() {
+    public axUserMemberPolicyController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,14 +33,19 @@ public class axUserSystemPolicyController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String code = request.getParameter("code").toString();
-		
-		UserServiceInterface userService = new UserServiceImpl();
-		List<HashMap<String, Object>> systemPolicyInfo = userService.getUserSystemPolicyList(code);
-		
-		request.setAttribute("code", code);
-		request.setAttribute("systemPolicyInfo", systemPolicyInfo);
-		request.getRequestDispatcher("/WEB-INF/user/ax/main_sys_policy_ax.jsp").forward(request, response);
+		HttpServletRequest httpReq = (HttpServletRequest)request;
+    	HttpSession session = httpReq.getSession(false);
+    	
+    	String user_id = (String)session.getAttribute("user_id");
+    	 
+    	HashMap<String, Object> param = new HashMap<String, Object>();
+    	param.put("user_id", user_id);
+    	
+    	UserServiceInterface userService = new UserServiceImpl();
+    	MemberPolicyModel data = userService.getMemberPolicyInfo(param);
+    	
+    	request.setAttribute("userPolicyInfo", data);
+		request.getRequestDispatcher("/WEB-INF/user/ax/main_user_policy_ax.jsp").forward(request, response);
 	}
 
 }

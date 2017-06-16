@@ -52,7 +52,7 @@ public class UserSystemPolicyQueryModel {
 	}
 
 	private void setSelectSerialPortPolicy() {
-		this.policySqlQuery = "SELECT * FROM port_info WHERE allow = 1";
+		this.policySqlQuery = "SELECT * FROM com_port_info WHERE allow = 1";
 	}
 
 	private void setSelectMessengerPolicy() {

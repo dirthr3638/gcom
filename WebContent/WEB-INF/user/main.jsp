@@ -1,9 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*"%>
-<%@ page import="gcom.user.model.UserPolicyListModel"%>
-<% 
-	List<UserPolicyListModel> list = (List<UserPolicyListModel>)request.getAttribute("userPolicyList");
-%>
 
 <!doctype html>
 <html lang="utf-8">
@@ -47,6 +42,7 @@
 		<!-- /SubHeader -->
 
 		<!-- System Policy -->
+		<!-- 
 		<section style="padding:40px 0;">
 			<div class="container">
 				<h4><i class="fa fa-get-pocket"></i>시스템 정책</h4>
@@ -60,86 +56,12 @@
 					<li><a href="#" onClick="javascript:fn_sys_policy_info('serialport');" data-toggle="tab">시리얼포트 제어</a></li>
 					<li><a href="#" onClick="javascript:fn_sys_policy_info('messenger');" data-toggle="tab">메신저 제어</a></li>
 					<li><a href="#" onClick="javascript:fn_sys_policy_info('siteblock');" data-toggle="tab">사이트 차단 설정</a></li>
-				</ul>
 				
 				<div id="system_policy_div" class="tab-content"></div>
-				<!--
-				<h4><i class="fa fa-get-pocket"></i>시스템 정책</h4>
-				<form action="#" method="post">
-					<div class="sky-form">
-
-						<table class="table table-bordered table-striped">
-							<tbody>
-								<tr>
-									<td>서버 로그인 타임아웃</td>
-									<td>
-										<div class="inline-group">
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_1" checked="" disabled="disabled"><i></i> Yes
-											</label>
-
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_1"  disabled="disabled"><i></i> No
-											</label>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>반출 파일 최대크기 제한</td>
-									<td>
-										<div class="inline-group">
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_2" checked="" disabled="disabled"><i></i> Yes
-											</label>
-
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_2" disabled="disabled"><i></i> No
-											</label>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>이동식 저장장치 파일 접근</td>
-									<td>
-										<div class="inline-group">
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_3" checked="" disabled="disabled"><i></i> Yes
-											</label>
-
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_3" checked="" disabled="disabled"><i></i> No
-											</label>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>민감 패턴 정보</td>
-									<td>
-										<div class="inline-group">
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_4" checked="" disabled="disabled"><i></i> Yes
-											</label>
-
-											<label class="radio nomargin-top nomargin-bottom">
-												<input type="radio" name="radioOption_4" disabled="disabled"><i></i> No
-											</label>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-
-					</div>
-					
-					<div class="margin-top-10">
-						<a href="#" class="btn btn-primary"><i class="fa fa-check"></i> 정책요청 </a>
-						<a href="#" class="btn btn-default">취소</a>
-					</div>
-					
-				</form>
-				-->
+				
 			</div>
 		</section>
+		 -->
 		<!-- /System Policy -->
 
 		<!-- User Policy -->
@@ -148,46 +70,7 @@
 				<h4><i class="fa fa-get-pocket"></i>사용자 정책</h4>
 				<form action="#" method="post">
 					<div class="sky-form">
-
-						<table class="table table-bordered table-striped">
-							<tbody>
-					<% if (list.size() < 1) { %>
-								<tr>
-									<td>사용자 정책이 존재 하지 않습니다.</td>
-								</tr>
-					<% } else { %>
-						<% for (int i = 0; i < list.size(); i ++ ) {  
-								boolean policyUseFlag = true;
-								if (list.get(i).getPolicyStatus().equals("0") || list.get(i).getPolicyStatus().equals("")) {
-									policyUseFlag = false;
-								}
-						%>
-								<tr>
-									<td><%= list.get(i).getPolicyKorName() %></td>
-									<td>
-										<div class="inline-group">
-											<% if (policyUseFlag) { %>
-												<label class="radio nomargin-top nomargin-bottom">
-													<input type="radio" name="userPolicy_<%= i %>" checked="checked" disabled="disabled"><i></i> Yes
-												</label>
-												<label class="radio nomargin-top nomargin-bottom">
-													<input type="radio" name="radioOption_<%= i %>" disabled="disabled"><i></i> NO
-												</label>
-											<% } else {%>
-												<label class="radio nomargin-top nomargin-bottom">
-													<input type="radio" name="radioOption_<%= i %>" disabled="disabled"><i></i> Yes
-												</label>
-												<label class="radio nomargin-top nomargin-bottom">
-													<input type="radio" name="radioOption_<%= i %>" checked="checked" disabled="disabled"><i></i> NO
-												</label>
-											<% } %>
-										</div>
-									</td>
-								</tr>
-						<% } %>
-					<%	} %>
-							</tbody>
-						</table>
+						<div id="member_policy_div"></div>
 					</div>
 					<!--
 					<div class="margin-top-10">
@@ -204,21 +87,20 @@
 		
 		<script type="text/javascript">
 			$(document).ready(function(){
-				fn_sys_policy_info('system');
+				fn_member_policy_info();
 			});
 			
-			function fn_sys_policy_info(code){
+			function fn_member_policy_info() {
 				
 				$.ajax({      
 			        type:"POST",  
-			        url:'/ax/main/sys',
+			        url:'/ax/main/policy',
 			        async: false,
 			        data:{
-			        	code : code,
 			        	_ : $.now()
 			        },
 			        success:function(args){
-			            $("#system_policy_div").html(args);
+			            $("#member_policy_div").html(args);
 			        },   
 			        //beforeSend:showRequest,  
 			        error:function(e){  

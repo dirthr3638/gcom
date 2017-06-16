@@ -3,15 +3,15 @@ package gcom.user.service;
 import java.util.HashMap;
 import java.util.List;
 
+import gcom.user.model.MemberPolicyModel;
 import gcom.user.model.UserInfoModel;
 import gcom.user.model.UserNoticeModel;
-import gcom.user.model.UserPolicyListModel;
 
 public interface UserServiceInterface {
 
-	public List<HashMap<String, Object>> getUserSystemPolicyList(String code);
+	//public List<HashMap<String, Object>> getUserSystemPolicyList(String code);
 	
-	public List<UserPolicyListModel> getUserPolicySetInfo(HashMap<String, Object> map);
+	public MemberPolicyModel getMemberPolicyInfo(HashMap<String, Object> map);
 
 	public UserInfoModel getUserInfo(HashMap<String, Object> map);
 	
