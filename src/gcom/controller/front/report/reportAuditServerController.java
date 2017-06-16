@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class reportPolicyInspectionController
  */
-@WebServlet("/report/serverinspection")
-public class reportServerInspectionController extends HttpServlet {
+@WebServlet("/report/audit/server")
+public class reportAuditServerController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public reportServerInspectionController() {
+    public reportAuditServerController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +27,7 @@ public class reportServerInspectionController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/report/log_server_inspection.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/report/log_server_audit.jsp").forward(request, response);
 	}
 
 

@@ -7,17 +7,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class reportPolicyInspectionController
- */
-@WebServlet("/report/agentinspection")
-public class reportAgentInspectionController extends HttpServlet {
+@WebServlet("/report/audit/agent")
+public class reportAuditClientController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public reportAgentInspectionController() {
+    public reportAuditClientController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +24,7 @@ public class reportAgentInspectionController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/report/log_agent_inspection.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/report/log_client_audit.jsp").forward(request, response);
 	}
 
 

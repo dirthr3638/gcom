@@ -12,6 +12,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import gcom.Model.AuditClientModel;
+import gcom.Model.AuditServerModel;
 import gcom.Model.PrintFileModel;
 import gcom.Model.UserAgentModel;
 import gcom.Model.UserPolicyLogModel;
@@ -32,6 +34,75 @@ public class PolicyDataDAO {
 		}catch(Exception ex ){
 			ex.printStackTrace();
 		}
+	}
+	
+
+	public int getUserPolicyLogListCount(HashMap<String, Object> map){
+		int result = 0;
+		
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+
+		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
+	
+		String sql= 
+				"SELECT "
+						+ "COUNT(*) AS cnt "
+						+ "FROM policy_log AS policy "
+						+ "INNER JOIN agent_info AS agent ON agent.policy_no = policy.no "
+						+ "INNER JOIN user_info AS ur ON ur.no = agent.own_user_no "
+						+ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
+
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+		
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
 	}
 	
 	public List<UserPolicyLogModel> getUserPolicyLogList(HashMap<String, Object> map){
@@ -174,6 +245,369 @@ sql += whereSql;
 		}
 		
 		return data;
+	}
+	
+	public int getAuditClientLogListCount(HashMap<String, Object> map){
+		int result = 0;
+		
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		String start_date = map.get("start_date").toString();
+		String end_date = map.get("end_date").toString();
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
+
+		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+		if(!start_date.equals("")) 	whereSql += "AND audit.audit_client_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND audit.audit_client_time < ? + interval 1 day ";
+
+	
+		String sql= 
+				"SELECT "
+						+ "COUNT(*) AS cnt "
+						+ "FROM client_audit AS audit "
+						+ "INNER JOIN user_info AS ur ON ur.no = audit.user_no "
+						+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
+						+ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
+
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
+			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	public List<AuditClientModel> getAuditClientLogList(HashMap<String, Object> map){
+		List<AuditClientModel> data = new ArrayList<AuditClientModel>();
+		
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		String start_date = map.get("start_date").toString();
+		String end_date = map.get("end_date").toString();
+
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
+		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+		if(!start_date.equals("")) 	whereSql += "AND audit.audit_client_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND (audit.audit_client_time < ? + interval 1 day) ";
+
+
+		
+		whereSql += "ORDER BY audit.no DESC LIMIT ?, ? ";	
+		
+		String sql= 
+"SELECT "
++ "audit.no AS audit_no, "
++ "audit.module_name AS module_name, "
++ "audit.description AS description, "
++ "audit.audit_server_time, "
++ "audit.audit_client_time, "
++ "audit.status, "
++ "ur.no AS user_no,  "
++ "ur.id AS user_id, "
++ "ur.name AS user_name, "
++ "ur.dept_no, "
++ "ur.duty,  "
++ "ur.rank, "
++ "agent.ip_addr, "
++ "agent.mac_addr, "
++ "agent.pc_name, "
++ "dept.name AS dept_name "
++ "FROM client_audit AS audit "
++ "INNER JOIN user_info AS ur ON ur.no = audit.user_no "
++ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
+
+
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
+			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+
+			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
+			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
+	
+			System.out.println(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				AuditClientModel model = new AuditClientModel();
+				model.setAuditNo(rs.getInt("audit_no"));
+				model.setModuleName(rs.getString("module_name"));
+				model.setDescription(rs.getString("description"));
+				model.setServerTime(rs.getString("audit_server_time"));
+				model.setClientTime(rs.getString("audit_client_time"));
+				model.setStatus(rs.getString("status"));
+				model.setUserNo(rs.getInt("user_no"));
+				model.setUserName(rs.getString("user_name"));
+				model.setUserId(rs.getString("user_id"));
+				model.setDeptId(rs.getInt("dept_no"));
+				model.setDuty(rs.getString("duty"));
+				model.setRank(rs.getString("rank"));
+				model.setIpAddr(rs.getString("ip_addr"));
+				model.setMacAddr(rs.getString("mac_addr"));
+				model.setPcName(rs.getString("pc_name"));
+				model.setDeptName(rs.getString("dept_name"));
+				data.add(model);
+			}
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+	
+	
+	public int getAuditServerLogListCount(HashMap<String, Object> map){
+		int result = 0;
+		
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		String start_date = map.get("start_date").toString();
+		String end_date = map.get("end_date").toString();
+
+
+		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+		if(!start_date.equals("")) 	whereSql += "AND audit.audit_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND (audit.audit_time < ? + interval 1 day) ";
+
+
+	
+		String sql= 
+				"SELECT "
+						+ "COUNT(*) AS cnt "
+						+ "FROM server_audit AS audit ";
+
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
+			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+		
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	public List<AuditServerModel> getAuditServerLogList(HashMap<String, Object> map){
+		List<AuditServerModel> data = new ArrayList<AuditServerModel>();
+		
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		String start_date = map.get("start_date").toString();
+		String end_date = map.get("end_date").toString();
+
+		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+		if(!start_date.equals("")) 	whereSql += "AND audit.audit_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND (audit.audit_time < ? + interval 1 day) ";
+
+
+		
+		whereSql += "ORDER BY audit.no DESC LIMIT ?, ? ";	
+		
+		String sql= 
+"SELECT "
++ "audit.no AS audit_no, "
++ "audit.id AS admin_id, "
++ "audit.ip AS ip, "
++ "audit.parameter, "
++ "audit.description, "
++ "audit.audit_time, "
++ "audit.status "
++ "FROM server_audit AS audit ";
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
+			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+
+
+			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
+			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				AuditServerModel model = new AuditServerModel();
+				model.setAuditNo(rs.getInt("audit_no"));
+				model.setIpAddr(rs.getString("ip"));
+				model.setAdminId(rs.getString("admin_id"));
+				model.setParameter(rs.getString("parameter"));
+				model.setDescription(rs.getString("description"));
+				model.setAuditTime(rs.getString("audit_time"));
+				model.setStatus(rs.getString("status"));
+
+				data.add(model);
+			}
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+	
+	
+	public String getAuditServerWorkData(int key){
+		String result = "";
+		
+		String whereSql = "WHERE no = ? ";
+	
+		String sql= 
+				"SELECT "
+						+ "parameter AS data "
+						+ "FROM server_audit AS audit ";
+
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+
+			pstmt.setInt(i++, key);
+		
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getString("data");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
 	}
 	
 }

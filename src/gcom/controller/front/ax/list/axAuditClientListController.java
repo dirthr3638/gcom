@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import gcom.controller.action.getAction;
 
-@WebServlet("/ax/serverinspection/list")
-public class axServerInspectionListController extends HttpServlet {
+@WebServlet("/ax/audit/client/list")
+public class axAuditClientListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public axServerInspectionListController() {
+    public axAuditClientListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,11 +27,12 @@ public class axServerInspectionListController extends HttpServlet {
 
 		map.put("user_id", request.getParameter("user_id").toString());
 		map.put("user_name", request.getParameter("user_name").toString());
-		map.put("user_phone", request.getParameter("user_phone").toString());
-		map.put("user_installed", request.getParameter("user_installed").toString());		
+		map.put("start_date", request.getParameter("start_date").toString());
+		map.put("end_date", request.getParameter("end_date").toString());
+
 		map.put("dept", request.getParameterValues("dept[]"));
 		
-		HashMap<String, Object> data = action.getUserAgentList(map);
+		HashMap<String, Object> data = action.getAuditClientLogList(map);
 
 		data.putAll(data);
 		response.setContentType("application/json; charset=UTF-8");

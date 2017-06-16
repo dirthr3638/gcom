@@ -29,6 +29,10 @@
 							</a>
 							<ul class="dropdown-menu hold-on-click">
 								<li><!-- settings -->
+									<a href="/report/adminprofile"><i class="fa fa-th-large"></i>관리콘솔</a>
+								</li>
+
+								<li><!-- settings -->
 									<a href="/report/adminprofile"><i class="fa fa-cogs"></i>정보변경</a>
 								</li>
 

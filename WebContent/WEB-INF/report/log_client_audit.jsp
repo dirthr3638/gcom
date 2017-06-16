@@ -26,12 +26,8 @@
 		<!-- WRAPPER -->
 		<div id="wrapper" class="clearfix">
 
-			<!-- 
-				ASIDE 
-				Keep it outside of #wrapper (responsive purpose)
-			-->
-			<% request.setAttribute("menu_parent", 2000); %> 
-			<% request.setAttribute("menu_sub_first", 2400); %> 
+			<% request.setAttribute("menu_parent", 3000); %> 
+			<% request.setAttribute("menu_sub_first", 3200); %> 
 			<jsp:include page="/WEB-INF/common/report_left_menu.jsp" flush="false" />
 			
 			<!-- /ASIDE -->
@@ -46,7 +42,7 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>프린트로그</h1>
+					<h1>에이전트감사로그</h1>
 				</header>
 				<!-- /page title -->
 			
@@ -76,7 +72,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>프린트로그</strong> <!-- panel title -->
+										<strong>에이전트감사로그</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -112,13 +108,13 @@
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">프린트검색시작일</td>
+															<td width="35%">작업시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
 														</tr>																													
 														<tr >         
-															<td width="35%">프린트검색종료일</td>
+															<td width="35%">작업종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
@@ -152,12 +148,12 @@
 														<th >IP</th>
 														<th >MAC</th>
 														<th >PC이름</th>
-														<th >프린트시간(서버)</th>
-														<th >프린트시간(PC)</th>
-														<th >출력파일</th>
-														<th >워터마크</th>
-														<th >페이지</th>
-														<th >매수</th>
+														<th >작업모듈</th>
+														<th >작업내역</th>
+														<th >작업시간(서버)</th>
+														<th >작업시간</th>
+														<th >상태</th>
+
 													</tr>
 												</thead>				
 												<tbody>
@@ -279,7 +275,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
 						"ajax" : {
-							"url":'/ax/print/list',
+							"url":'/ax/audit/client/list',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  function(param) {
@@ -360,23 +356,20 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							data: "pcName",
 							"orderable": false	//PC이름
 						}, {
-							data: "printServerTime",
-							"orderable": false	//프린트시간(서버)
+							data: "moduleName",
+							"orderable": false	//작업모듈
 						}, {
-							data: "printClientTime",
-							"orderable": false	//프린트시간(PC)
+							data: "description",
+							"orderable": false	//작업내역
 						}, {
-							data: "fileName",
-							"orderable": false	//파일
+							data: "serverTime",
+							"orderable": false	//작업시간(서버)
 						}, {
-							data: "watermark",
-							"orderable": false	//워터마크
+							data: "clientTime",
+							"orderable": false	//작업시간(PC)
 						}, {
-							data: "pageCount",
-							"orderable": false	//페이지
-						}, {
-							data: "printCopies",
-							"orderable": false	//매수
+							data: "status",
+							"orderable": false	//상태
 						}],
 						// set the initial value
 						"pageLength": 20,
@@ -456,32 +449,20 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 	 							}
 	 						}								
 						}, {	
-							"targets": [10]	//서버프린트시간
+							"targets": [10]	//작업모듈
+							,"class" : "center-cell"
+						}, {	
+							"targets": [11]	//작업내역
+						}, {	
+							"targets": [12]	//시간(서버)
 							,"class" : "center-cell"
 							,"visible" : false
 						}, {	
-							"targets": [11]	//PC프린트시간
+							"targets": [13]	//시간(PC)
 							,"class" : "center-cell"
 						}, {	
-							"targets": [12]	//파일이름
-						}, {	
-							"targets": [13]	//워터마크
+							"targets": [14]	//상태
 							,"class" : "center-cell"
-							,"render":function(data,type,row){
-								if(data == true){
-									return '출력';
-								}else{
-									return '미출력';
-								}
-							}
-						}, {	
-							"targets": [14]	//페이지
-							,"class" : "center-cell"
-								,"visible" : false	
-						}, {	
-							"targets": [15]	//매수
-							,"class" : "center-cell"
-								,"visible" : false	
 						}],						
 						"initComplete": function( settings, json ) {
 							$('.export-print').hide();
@@ -493,9 +474,8 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
 						sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
 						sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-						sOut += '<tr><td class="center-cell">서버연결시간:</td><td>' + aData.printServerTime + '</td>';
-						sOut += '<td class="center-cell">페이지:</td><td>' + aData.pageCount + '장</td></tr>';
-						sOut += '<tr><td class="center-cell">매수:</td><td>' + aData.printCopies + '매</td>';
+						sOut += '<tr><td class="center-cell">PC명:</td><td>' + aData.serverTime + '</td><td></td><td></td></tr>';
+						
 						sOut += '<td class="center-cell"></td><td></td></tr>';
 												
 						sOut += '</table>';
@@ -524,7 +504,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 			}); 
 		});
 jQuery('#preloader').hide();
-        
+
     });
 </script>
 	</body>

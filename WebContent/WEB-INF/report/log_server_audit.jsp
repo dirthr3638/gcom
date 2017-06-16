@@ -4,6 +4,16 @@
 <html lang="utf-8">
 	<head>
 	
+	<style type="text/css">
+table td {
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	-ms-text-overflow:ellipsis;
+}
+	</style>
+	
 		<meta charset="utf-8" />
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 		<title>GuardCom Report</title>
@@ -18,7 +28,6 @@
 		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
 		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
 		<link href="/assets/css/color_scheme/black.css" rel="stylesheet" type="text/css" id="color_scheme" />
-		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
 	</head>
@@ -26,12 +35,8 @@
 		<!-- WRAPPER -->
 		<div id="wrapper" class="clearfix">
 
-			<!-- 
-				ASIDE 
-				Keep it outside of #wrapper (responsive purpose)
-			-->
-			<% request.setAttribute("menu_parent", 2000); %> 
-			<% request.setAttribute("menu_sub_first", 2400); %> 
+			<% request.setAttribute("menu_parent", 3000); %> 
+			<% request.setAttribute("menu_sub_first", 3300); %> 
 			<jsp:include page="/WEB-INF/common/report_left_menu.jsp" flush="false" />
 			
 			<!-- /ASIDE -->
@@ -46,37 +51,19 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>프린트로그</h1>
+					<h1>서버감사로그</h1>
 				</header>
 				<!-- /page title -->
 			
 				<div id="content" class="dashboard padding-20">
-					<div class="row">
-						<div class="col-md-2">
-							<div id="panel-2" class="panel panel-default">
-								<div class="panel-heading">
-									<span class="title elipsis">
-										<strong>조직도</strong> <!-- panel title -->
-									</span>
-								</div>
+					<div class="row">					
 
-								<!-- panel content -->
-								<div id="dept_tree" class="panel-body">
-
-								</div>
-								<!-- /panel content -->
-
-							</div>
-							<!-- /PANEL -->
-					
-						</div>
-
-						<div class="col-md-10">
+						<div class="col-md-12">
 							<div id="panel-2" class="panel panel-default">
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>프린트로그</strong> <!-- panel title -->
+										<strong>서버감사로그</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -112,13 +99,13 @@
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">프린트검색시작일</td>
+															<td width="35%">작업시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
 														</tr>																													
 														<tr >         
-															<td width="35%">프린트검색종료일</td>
+															<td width="35%">작업종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
@@ -142,22 +129,13 @@
 											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
-														<th style="width:20px"></th>
-														<th>부서</th>
-														<th>아이디</th>
-														<th>이름</th>
-														<th>번호</th>
-														<th >직책</th>
-														<th >계급</th>														
-														<th >IP</th>
-														<th >MAC</th>
-														<th >PC이름</th>
-														<th >프린트시간(서버)</th>
-														<th >프린트시간(PC)</th>
-														<th >출력파일</th>
-														<th >워터마크</th>
-														<th >페이지</th>
-														<th >매수</th>
+														<th >번호</th>											
+														<th>IP</th>
+														<th>접속ID</th>
+														<th>작업정보</th>
+														<th>작업내역</th>
+														<th >작업시간</th>
+														<th >상태</th>														
 													</tr>
 												</thead>				
 												<tbody>
@@ -182,58 +160,36 @@
 			</section>
 		</div>
 	
+	
+	
+<div id="detail-work-modal" class="modal fade">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title" id="myModalLabel">작업내역상세</h4>
+			</div><!-- /Modal Header -->
+
+			<!-- body modal -->
+			<div class="modal-body clearfix" id="detail-modal-data">
+				<p>
+				</p>
+			</div>
+
+		</div>
+	</div>
+</div>
+	
+	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
 		<script type="text/javascript" src="/assets/js/app.js"></script>
-		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
 
 <script>
-
-	//라디오타입에 따라 컬럼 hide/show
-	var setColumnType = function(cType){
-		
-		var datatable = $('#table_userinfo').dataTable().api();
-		var aColumn = datatable.columns('.agentinfo' );
-		var uColumn = datatable.columns('.userinfo' );
-		if(cType == 1){
-			uColumn.visible(true);
-			aColumn.visible(false);			
-
- 			var jTable = $('#table_userinfo').dataTable();;
-
-//			var nsTr = $('tbody > td > .datables-td-detail').parents('tr')[0];
-			var nsTr = $('#table_userinfo tr');
-			for(var i = 0; i < nsTr.length; i++){
-				var nTr = nsTr[i];
-				jTable.fnClose(nTr);
-			}
-		}else if(cType == 2){
-			uColumn.visible(false);
-			aColumn.visible(true);	
-
-			var nsTr = $('#table_userinfo tr td').find('span.datables-td-detail');
-			nsTr.addClass("datatables-close").removeClass("datatables-open");
-		}		
-	}
-
- 	function setTree(){
-		$.ajax({      
-	        type:"POST",  
-	        url:'/common/tree/dept',
-	        async: false,
-	        //data:{},
-	        success:function(args){   
-	            $("#dept_tree").html(args);      
-	        },   
-	        //beforeSend:showRequest,  
-	        error:function(e){  
-	            console.log(e.responseText);  
-	        }  
-	    }); 
-	}
- 	
  	function searchUserLog(){
  		var datatable = $('#table_userinfo').dataTable().api();
 		datatable.ajax.reload();   	
@@ -252,6 +208,34 @@
  		
  	}
  	
+ 	function onModalDetail(data){
+		console.log(data)
+ 		
+		$.ajax({
+	        type: "GET",
+	        url: "/ax/audit/client/work",
+	        async : false,
+			data : {
+				audit_id : data,
+			},
+	        beforeSend : function(){
+				jQuery('#preloader').show();
+			},
+	        success: function(resultText)
+	        {
+	        	$('#detail-modal-data').html(resultText);
+				jQuery('#preloader').hide();
+				$('#detail-work-modal').modal('show');
+	        },
+	        error: function() {
+	        }
+	    });		
+		
+		
+		
+
+ 	}
+ 	
 	$(document).ready(function(){
 		
 		$(".select2theme").select2({
@@ -261,7 +245,6 @@
    		});
 
 		
-     	setTree();
 
 loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
 loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
@@ -279,7 +262,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
 						"ajax" : {
-							"url":'/ax/print/list',
+							"url":'/ax/audit/server/list',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  function(param) {
@@ -288,7 +271,6 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 								param.start_date = $('#filterStartDate').val();
 								param.end_date = $('#filterEndDate').val();
 								
-								param.dept = getCheckedDept();
 					        },
  					        "beforeSend" : function(){
 								jQuery('#preloader').show();
@@ -329,54 +311,29 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 					     ],
 				 		"serverSide" : true,
 				 	    "ordering": true,
-						"columns": [{
-							data: "exportNo",							
-							"orderable": false	//추가정보
+						"columns": [
+						{
+							data: "auditNo",
+							"orderable": false	//
+						},{
+							data: "ipAddr",							
+							"orderable": false	//
 						}, {
-							data: "deptName",
-							"orderable": false	//부서
+							data: "adminId",
+							"orderable": false	//
 						}, {
-							data: "userId",
-							"orderable": false	//아이디
+							data: "description",
+							"orderable": false	//
 						}, {
-							data: "userName",
-							"orderable": false	//이름
+							data: "parameter",
+							"orderable": false	//
 						}, {
-							data: "userNo",
-							"orderable": false	//번호
-						}, {
-							data: "duty",
-							"orderable": false	//직책
-						}, {
-							data: "rank",
-							"orderable": false	//계급
-						}, {
-							data: "ipAddr",
-							"orderable": false	//IP
-						}, {
-							data: "macAddr",
-							"orderable": false	//MAC
-						}, {
-							data: "pcName",
-							"orderable": false	//PC이름
-						}, {
-							data: "printServerTime",
-							"orderable": false	//프린트시간(서버)
-						}, {
-							data: "printClientTime",
-							"orderable": false	//프린트시간(PC)
-						}, {
-							data: "fileName",
-							"orderable": false	//파일
-						}, {
-							data: "watermark",
-							"orderable": false	//워터마크
-						}, {
-							data: "pageCount",
-							"orderable": false	//페이지
-						}, {
-							data: "printCopies",
-							"orderable": false	//매수
+							data: "auditTime",
+							"orderable": false	//
+						},
+						{
+							data: "status",
+							"orderable": false	//
 						}],
 						// set the initial value
 						"pageLength": 20,
@@ -392,96 +349,39 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 								"next": "Next",
 								"last": "Last",
 								"first": "First"
-							},
-							
+							},							
 						},
 						"columnDefs": [
-						{	
-							"targets": [0],	//추가정보
-							"class":"center-cell add_detail_info",
-							"render":function(data,type,row){
-								return '<span class="datables-td-detail datatables-close"></span>';
-							}
+						{
+							"targets": [0]	// audit_id
+							,"class" : "center-cell"							
+						},{	
+							"targets": [1],	//
+							"class":"center-cell",
 						},         
 						{  // set default column settings
-							'targets': [1]	//부서
+							'targets': [2]	
 							,"class":"center-cell"
 						}, {	
-							"targets": [2]	//아이디
+							"targets": [3]	
 							,"class":"center-cell"
 						}, {	
-							"targets": [3]	//이름
+							"targets": [4]	
 							,"class":"center-cell"
-						}, {	
-							"targets": [4],	//번호
-							"class":"center-cell"
-						}, {	
-							"targets": [5]	//직책
-							,"class" : "center-cell"
-						}, {	
-							"targets": [6]	//계급
-							,"class" : "center-cell"
-						}, 
-						{	
-							"targets": [7]	//IP
-							,"class" : "center-cell"
-							,"visible" : false
 							,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [8]	//MAC
-							,"class" : "center-cell"
-							,"visible" : false
-	 						,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [9]	//PC이름
-							,"class" : "center-cell"
-							,"visible" : false
-	 						,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [10]	//서버프린트시간
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {	
-							"targets": [11]	//PC프린트시간
-							,"class" : "center-cell"
-						}, {	
-							"targets": [12]	//파일이름
-						}, {	
-							"targets": [13]	//워터마크
-							,"class" : "center-cell"
-							,"render":function(data,type,row){
-								if(data == true){
-									return '출력';
+								if(data.length > 30){
+									return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:onModalDetail('+ row.auditNo +')">';
+									
 								}else{
-									return '미출력';
+									return data;
 								}
 							}
 						}, {	
-							"targets": [14]	//페이지
-							,"class" : "center-cell"
-								,"visible" : false	
+							"targets": [5],	
+							"class":"center-cell"
 						}, {	
-							"targets": [15]	//매수
+							"targets": [6]	
 							,"class" : "center-cell"
-								,"visible" : false	
 						}],						
 						"initComplete": function( settings, json ) {
 							$('.export-print').hide();
@@ -493,9 +393,8 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
 						sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
 						sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-						sOut += '<tr><td class="center-cell">서버연결시간:</td><td>' + aData.printServerTime + '</td>';
-						sOut += '<td class="center-cell">페이지:</td><td>' + aData.pageCount + '장</td></tr>';
-						sOut += '<tr><td class="center-cell">매수:</td><td>' + aData.printCopies + '매</td>';
+						sOut += '<tr><td class="center-cell">PC명:</td><td>' + aData.serverTime + '</td><td></td><td></td></tr>';
+						
 						sOut += '<td class="center-cell"></td><td></td></tr>';
 												
 						sOut += '</table>';
@@ -524,7 +423,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 			}); 
 		});
 jQuery('#preloader').hide();
-        
+       
     });
 </script>
 	</body>
