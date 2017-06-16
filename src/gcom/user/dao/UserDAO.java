@@ -470,6 +470,52 @@ public class UserDAO {
 		
 		return list;
 	}
+
+	public List<HashMap<String, Object>> getMemberPolicyDetail(HashMap<String, Object> map) {
+		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		String group_id = map.get("group_id").toString();
+		String keyCode = map.get("key").toString();
+		UserSystemPolicyQueryModel getQuery = new UserSystemPolicyQueryModel(group_id, keyCode);
+		String sql=  getQuery.getPolicySqlQuery();
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			ResultSetMetaData metaData = rs.getMetaData();
+			int sizeOfColumn = metaData.getColumnCount();
+			
+			String column = "";
+			
+			while(rs.next()){
+				HashMap<String, Object> data = new HashMap<String, Object>();
+				
+				// Column의 갯수만큼 회전
+				for (int indexOfcolumn = 0; indexOfcolumn < sizeOfColumn; indexOfcolumn++) {
+					// Column의 갯수만큼 회전
+					column = metaData.getColumnName(indexOfcolumn + 1);
+					// phone number 일 경우 복호화
+					data.put(column, rs.getString(column));
+				}
+								
+				list.add(data);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
 	
 	/*
 	public List<HashMap<String, Object>> getUserSystemPolicyList(String code) {

@@ -7,7 +7,7 @@ public class UserSystemPolicyQueryModel {
 	
 	private String policySqlQuery = "";
 	
-	public UserSystemPolicyQueryModel(String code) {
+	public UserSystemPolicyQueryModel(String code, String keyCode) {
 		
 		if("system".equals(code)){
 			setSelectSystemPolicy();
@@ -25,10 +25,45 @@ public class UserSystemPolicyQueryModel {
 			setSelectMessengerPolicy();
 		} else if("siteblock".equals(code)) {
 			setSelectSiteBlockPolicy();
+		} else if("isUsbBlock".equals(code)) {
+			setSelectWhereKeyUsbDevList(keyCode);
+		} else if("isComPortBlock".equals(code)) {
+			setSelectWhereKeyComPortList(keyCode);
+		} else if("isNetPortBlock".equals(code)) {
+			setSelectWhereKeyNetPortList(keyCode);
+		} else if("isProcessList".equals(code)) {
+			setSelectWhereKeyProcessList(keyCode);
+		} else if("isFilePattern".equals(code)) {
+			setSelectWhereKeyFilePatternList(keyCode);
+		} else if("isWebAddr".equals(code)) {
+			setSelectWhereKeyWebAddrList(keyCode);
 		} else {
 			setSelectSystemPolicy();
 		}
-		
+	}
+
+	private void setSelectWhereKeyWebAddrList(String keyCode) {
+		this.policySqlQuery = "SELECT * FROM web_addr_info WHERE no IN ( " + keyCode + " )";
+	}
+
+	private void setSelectWhereKeyFilePatternList(String keyCode) {
+		this.policySqlQuery = "SELECT * FROM pattern_info WHERE no IN ( " + keyCode + " )";
+	}
+
+	private void setSelectWhereKeyProcessList(String keyCode) {
+		this.policySqlQuery = "SELECT * FROM process_info WHERE no IN ( " + keyCode + " )";
+	}
+
+	private void setSelectWhereKeyNetPortList(String keyCode) {
+		this.policySqlQuery = "SELECT * FROM net_port_info WHERE no IN ( " + keyCode + " )";
+	}
+
+	private void setSelectWhereKeyComPortList(String keyCode) {
+		this.policySqlQuery = "SELECT * FROM com_port_info WHERE no IN ( " + keyCode + " )";
+	}
+
+	private void setSelectWhereKeyUsbDevList(String keyCode) {
+		this.policySqlQuery = "SELECT * FROM usb_dev_info WHERE no IN ( " + keyCode + " )";
 	}
 
 	private void setSelectSystemPolicy() {

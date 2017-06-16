@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -23,11 +24,8 @@ public class LoginCheckInterceptor implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpReq = (HttpServletRequest)request;
-        //HttpSession session = httpReq.getSession(false);
-        HttpSession session = httpReq.getSession();
-        
-        session.setAttribute("user_id", "test");
-        session.setAttribute("user_nm", "전길");
+        HttpServletResponse httpRes = (HttpServletResponse)response;
+        HttpSession session = httpReq.getSession(false);
         
         httpReq.setCharacterEncoding("UTF-8");
         boolean loginFlag = false;
@@ -38,7 +36,8 @@ public class LoginCheckInterceptor implements Filter {
         		loginFlag = true;
         	}
         }
-        String[] uris = {"/report", "/report/users", "/assets", "/main", "/notice", "/contact", "/userInfo"};		//check URL - ex) 건너뛰거나 체크에서 제외될 URL
+        
+        String[] uris = {"/report", "/report/users", "/assets", "/login/check" };		//check URL - ex) 건너뛰거나 체크에서 제외될 URL
         String uri = httpReq.getRequestURI();					//요청 URL
         for(String s : uris) {
             if(uri.indexOf(s) != -1) {							//요청 URL 과 체크 URL 을 비교 로그인 페이지 호출 또는 제외
@@ -47,8 +46,13 @@ public class LoginCheckInterceptor implements Filter {
             } 
         }
         
-        if (true) {
-        	chain.doFilter(request, response);
+        if (loginFlag) {
+        	if(uri.equals("/")) {
+        		String url = (String)session.getAttribute("login_root");
+        		httpRes.sendRedirect(url);
+        	} else {
+        		chain.doFilter(request, response);
+        	}
         } else {
         	request.getRequestDispatcher("/WEB-INF/login/login.jsp").forward(request, response);
         }

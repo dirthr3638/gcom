@@ -23,6 +23,10 @@ public class UserServiceImpl implements UserServiceInterface {
 		return userDAO.getMemberPolicyInfo(map);
 	}
 	
+	public List<HashMap<String, Object>> getMemberPolicyDetail(HashMap<String, Object> map) {
+		return userDAO.getMemberPolicyDetail(map);
+	}
+	
 	public UserInfoModel getUserInfo(HashMap<String, Object> map) {
 		return userDAO.getUserInfo(map);
 	}
