@@ -54,12 +54,12 @@ public class DeviceDataDAO {
 				idList.append("?");
 			}
 		}
+		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
 		if(!start_date.equals("")) 	whereSql += "AND print.print_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND print.print_client_time < ? + interval 1 day ";
 
-		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 	
 		String sql= 
 "SELECT "
@@ -75,13 +75,14 @@ sql += whereSql;
 			pstmt=con.prepareStatement(sql);
 
 			int i = 1;
-			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
-			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
 					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
 				}
 			}
+
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 		
@@ -127,12 +128,12 @@ sql += whereSql;
 				idList.append("?");
 			}
 		}
+		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
 		if(!start_date.equals("")) 	whereSql += "AND print.print_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND print.print_client_time < ? + interval 1 day ";
 
-		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 
 		
 		whereSql += "ORDER BY print.no DESC LIMIT ?, ? ";	
@@ -167,13 +168,14 @@ sql += whereSql;
 			pstmt=con.prepareStatement(sql);
 
 			int i = 1;
-			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
-			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
 					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
 				}
 			}
+
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 

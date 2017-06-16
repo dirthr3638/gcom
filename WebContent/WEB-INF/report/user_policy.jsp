@@ -111,18 +111,6 @@
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
-														<tr>         
-															<td width="35%">프린트검색시작일</td>
-															<td>
-							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-															</td>
-														</tr>																													
-														<tr >         
-															<td width="35%">프린트검색종료일</td>
-															<td>
-							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-															</td>
-														</tr>																															
 														
 													</tbody>
 												</table>	
@@ -320,20 +308,24 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						                  exportOptions: {
 						                      modifier: {
 						                          search: 'applied',
-						                          order: 'applied'
-						                      }
+						                          order: 'applied',
+						                      },
+					                      columns: [ 1, 2, 3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25 ]
 						                  }
-						              },  					              {
-					                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-					                  extend: 'print',
-					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-					                  exportOptions: {
-					                      modifier: {
-					                          search: 'applied',
-					                          order: 'applied'
-					                      }
-					                  }
-					              }, 
+						              },  					              
+						              {
+						                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+						                  extend: 'print',
+						                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+						                  exportOptions: {
+						                      modifier: {
+						                          search: 'applied',
+						                          order: 'applied',
+					                     	 },
+					                          columns: [ 1, 2, 3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23 ]
+
+						                  }
+						              }, 
 
 					     ],
 				 		"serverSide" : true,
@@ -402,7 +394,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							data: "isFilePattern",
 							"orderable": false	//보호폴더접근가능
 						}, {
-							data: "isFilePattern",
+							data: "isNetShare",
 							"orderable": false	//공유폴더사용여부
 						}, {
 							data: "isCdEnabled",
@@ -503,10 +495,24 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						}, {	
 							"targets": [11]	//에이전트삭제가능
 							,"class" : "center-cell"
-								,"visible" : false
+							,"visible" : false
+							,"render":function(data,type,row){
+								if(data == true){
+									return '허용';
+								}else{
+									return '불허';
+								}
+							}
 						}, {	
 							"targets": [12]	//프린트사용가능
-						,"visible" : false
+							,"visible" : false
+							,"render":function(data,type,row){
+								if(data == true){
+									return '허용';
+								}else{
+									return '불허';
+								}
+							}
 						}, {	
 							"targets": [13]	//워터마크
 							,"class" : "center-cell"
@@ -521,38 +527,101 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						}, {	
 							"targets": [14]	//파일실시간암호화
 							,"class" : "center-cell"
+								,"render":function(data,type,row){
+									if(data == true){
+										return '암호화';
+									}else{
+										return '비암호화';
+									}
+								}
 								,"visible" : false
 						}, {	
 							"targets": [15]	//USB포트사용가능
 							,"class" : "center-cell"
+								,"render":function(data,type,row){
+									if(data == true){
+										return '허용';
+									}else{
+										return '불허';
+									}
+								}
 								,"visible" : false
 						}, {	
 							"targets": [16]	//시리얼포트사용가능
 							,"class" : "center-cell"
+								,"render":function(data,type,row){
+									if(data == true){
+										return '허용';
+									}else{
+										return '불허';
+									}
+								}
 								,"visible" : false
 						}, {	
 							"targets": [17]	//무선랜사용가능
 							,"class" : "center-cell"
+								,"render":function(data,type,row){
+									if(data == true){
+										return '허용';
+									}else{
+										return '불허';
+									}
+								}
 								,"visible" : false
 						}, {	
 							"targets": [18]	//메일반출가능
 							,"class" : "center-cell"
+								,"render":function(data,type,row){
+									if(data == true){
+										return '허용';
+									}else{
+										return '불허';
+									}
+								}
 								,"visible" : false
 						}, {	
 							"targets": [19]	//민감파일접근시삭제
 							,"class" : "center-cell"
+								,"render":function(data,type,row){
+									if(data == true){
+										return '삭제';
+									}else{
+										return '불허';
+									}
+								}
 								,"visible" : false
 						}, {	
 							"targets": [20]	//보호폴더접근가능
 							,"class" : "center-cell"
+								,"render":function(data,type,row){
+									if(data == true){
+										return '허용';
+									}else{
+										return '불허';
+									}
+								}
 								,"visible" : false
 						}, {	
 							"targets": [21]	//공유폴더사용여부
 							,"class" : "center-cell"
+								,"render":function(data,type,row){
+									if(data == true){
+										return '허용';
+									}else{
+										return '불허';
+									}
+								}
 								,"visible" : false
 						}, {	
 							"targets": [22]	//CD사용여부
 							,"class" : "center-cell"
+								,"render":function(data,type,row){
+									if(data == true){
+										return '허용';
+									}else{
+										return '불허';
+									}
+								}
 								,"visible" : false
 						}, {	
 							"targets": [23]	//적용시간
@@ -598,7 +667,8 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 			});
 			}); 
 		});
-        
+jQuery('#preloader').hide();
+      
     });
 </script>
 	</body>

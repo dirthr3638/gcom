@@ -3,6 +3,7 @@
 <!doctype html>
 <html lang="utf-8">
 	<head>
+	
 		<meta charset="utf-8" />
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 		<title>GuardCom Report</title>
@@ -18,18 +19,15 @@
 		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
 		<link href="/assets/css/color_scheme/black.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
-		<!-- <link href="/assets/css/layout-datatables.css" rel="stylesheet" type="text/css" /> -->
+		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
+		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
 	</head>
 	<body>
 		<!-- WRAPPER -->
 		<div id="wrapper" class="clearfix">
 
-			<!-- 
-				ASIDE 
-				Keep it outside of #wrapper (responsive purpose)
-			-->
-			<% request.setAttribute("menu_parent", 3000); %> 
-			<% request.setAttribute("menu_sub_first", 3300); %> 			
+			<% request.setAttribute("menu_parent", 4000); %> 
+			<% request.setAttribute("menu_sub_first", 4200); %> 
 			<jsp:include page="/WEB-INF/common/report_left_menu.jsp" flush="false" />
 			
 			<!-- /ASIDE -->
@@ -44,7 +42,7 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>정책로그</h1>
+					<h1>메신저대화로그</h1>
 				</header>
 				<!-- /page title -->
 			
@@ -59,25 +57,8 @@
 								</div>
 
 								<!-- panel content -->
-								<div class="panel-body">
+								<div id="dept_tree" class="panel-body">
 
-									<div id="org_tree" style="overflow: hidden;">
-				                        <ul>
-				                            <li class="jstree-open" data-jstree='{"type":"root"}'>Company
-				                                <ul>
-				                                    <li>사업부
-				                                        <ul>
-				                                            <li>사업 1팀</li>
-				                                            <li>사입 2팀</li>
-				                                            <li>디자인팀</li>
-				                                        </ul>
-				                                    </li>
-
-				                                    <li>IT지원</li>
-				                                </ul>
-				                            </li>
-				                        </ul>
-				                    </div>
 								</div>
 								<!-- /panel content -->
 
@@ -91,7 +72,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>정책로그</strong> <!-- panel title -->
+										<strong>메신저대화로그</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -101,61 +82,48 @@
 										<div class="col-md-12">
 			
 											<!-- Standard button -->
-											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();">검색필터</button>
+											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
 		
 											<!-- Info -->
-											<button type="button" class="btn btn-info">새로고침</button>
+											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
+											
 											
 											<!-- Primary -->
-											<button type="button" class="btn btn-primary pull-right">내보내기</button>
+											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
-											<button type="button" class="btn btn-success pull-right">인쇄</button>
-											<div id="pre-1" class="margin-top-10 text-left noradius text-danger softhide" style="width:400px;">
+											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">접속여부</td>
-															<td>
-																<select class="select2theme">
-																  <option value="0">전체</option>
-																  <option value="1">접속</option>
-																  <option value="2">미접속</option>
-																</select>
-															</td>
-														</tr>	
-														<tr>         
-															<td width="35%">버전</td>
-															<td>
-																<select class="select2theme">
-																  <option value="0">전체</option>
-																  <option value="1">1.0.0</option>
-																  <option value="2">1.0.1</option>
-																</select>
-															</td>
-														</tr>		
-														<tr>         
 															<td width="35%">아이디</td>
 															<td>
-																<input type="text" name="userID" value="" class="form-control required">
+																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
 															</td>
 														</tr>
 														<tr>         
 															<td width="35%">이름</td>
 															<td>
-																<input type="text" name="userID" value="" class="form-control required">
+																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">연락처</td>
+															<td width="35%">발송시작일</td>
 															<td>
-																<input type="text" name="userID" value="" class="form-control required">
+							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+															</td>
+														</tr>																													
+														<tr >         
+															<td width="35%">발송종료일</td>
+															<td>
+							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
 														</tr>																															
 														
 													</tbody>
 												</table>	
 												
-												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">필터적용</button>
+												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">접기</button>
 																					
 											</div>
 <!-- 										
@@ -166,8 +134,8 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-12">
-											<table class="table table-striped table-bordered x-scroll-table" id="table_userinfo" style="width:100%; min-width: 1000px;">
+										<div class="col-md-12" style="overflow: hidden;">
+											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
 														<th style="width:20px"></th>
@@ -175,49 +143,30 @@
 														<th>아이디</th>
 														<th>이름</th>
 														<th>번호</th>
-														<th>직책</th><!-- 숨김  -->
-														<th>계급</th><!-- 숨김  -->
-														<th>연락처</th>		<!-- 숨김  -->
-														<th>설치</th>									
-														<th>IP</th>			<!-- 숨김  -->
-														<th>MAC</th><!-- 숨김  -->
-														<th>PC이름</th><!-- 숨김  -->
-														<th>적용시간</th><!-- 숨김  -->
-														<th>요청시간</th><!-- 숨김  -->
-														<th>적용정책</th>
-
-														<th>에이전트삭제가능</th>	
-														<th>프린트사용가능</th>
-														<th>워터마크</th>
-														<th>파일실시간암호화</th>
-														<th>USB포트사용가능</th>
-														<th>시리얼포트사용가능</th>
-														<th>무선랜사용가능</th>
-														<th>메일반출가능</th>
-														<th>민감파일접근시삭제</th>
-														<th>보호폴더접근가능</th>
-														<th>공유폴더사용여부</th>
-														<th>CD사용여부</th>
+														<th >직책</th>
+														<th >계급</th>														
+														<th >IP</th>
+														<th >MAC</th>
+														<th >PC이름</th>
+														<th >메시지타입</th>
+														<th >발송시간(서버)</th>
+														<th >발송시간</th>
+														<th >내역</th>
 													</tr>
-												</thead>
-				
+												</thead>				
 												<tbody>
-													
-													
-													
-
-<tr class="odd gradeX">	<td><span class="datables-td-detail datatables-close"></span></td><td>사업부</td><td>user_id</td><td>오무진</td><td>10000</td><td>팀장</td><td>과장</td><td>010-333-1111</td><td>설치</td><td>192.168.0.1</td><td>11:11:11:11:11:11</td><td>windows-PC-client001</td><td>2012-02-11</td><td>2012-02-11</td><td><i class="fa fa-trash policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-print policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-tint policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-lock policy_icon" style="color:red" title="테스트입니다."></i><i class="fa fa-usb policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-plug policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-wifi policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-envelope policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-text policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-archive-o policy_icon " style="color:blue" title="테스트입니다."></i><i class="fa fa-folder-open policy_icon" style="color:red" title="테스트입니다."></i><i class="glyphicon glyphicon-cd policy_icon" style="color:blue" title="테스트입니다."></i></td><td>허용</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>허용</td></tr>
-<tr class="odd gradeX">	<td><span class="datables-td-detail datatables-close"></span></td><td>사업부</td><td>user_id</td><td>빈소희</td><td>10001</td><td>팀장</td><td>과장</td><td>010-333-2222</td><td>설치</td><td>192.168.0.2</td><td>11:11:11:11:11:22</td><td>windows-PC-client002</td><td>2012-02-11</td><td>2012-02-11</td><td><i class="fa fa-trash policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-print policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-tint policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-lock policy_icon" style="color:red" title="테스트입니다."></i><i class="fa fa-usb policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-plug policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-wifi policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-envelope policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-text policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-archive-o policy_icon " style="color:blue" title="테스트입니다."></i><i class="fa fa-folder-open policy_icon" style="color:red" title="테스트입니다."></i><i class="glyphicon glyphicon-cd policy_icon" style="color:blue" title="테스트입니다."></i></td><td>허용</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>허용</td></tr>													
-<tr class="odd gradeX">	<td><span class="datables-td-detail datatables-close"></span></td><td>사업부</td><td>user_id</td><td>전길</td><td>10002</td><td>팀장</td><td>과장</td><td>010-333-3333</td><td>설치</td><td>192.168.0.4</td><td>11:11:11:11:11:33</td><td>windows-PC-client003</td><td>2012-02-11</td><td>2012-02-11</td><td><i class="fa fa-trash policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-print policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-tint policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-lock policy_icon" style="color:red" title="테스트입니다."></i><i class="fa fa-usb policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-plug policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-wifi policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-envelope policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-text policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-archive-o policy_icon " style="color:blue" title="테스트입니다."></i><i class="fa fa-folder-open policy_icon" style="color:red" title="테스트입니다."></i><i class="glyphicon glyphicon-cd policy_icon" style="color:blue" title="테스트입니다."></i></td><td>허용</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>허용</td></tr>													
-<tr class="odd gradeX">	<td><span class="datables-td-detail datatables-close"></span></td><td>사업부</td><td>user_id</td><td>홍석희</td><td>10003</td><td>팀장</td><td>과장</td><td>010-333-5544</td><td>설치</td><td>192.168.0.3</td><td>11:11:11:11:11:44</td><td>windows-PC-client004</td><td>2012-02-11</td><td>2012-02-11</td><td><i class="fa fa-trash policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-print policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-tint policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-lock policy_icon" style="color:red" title="테스트입니다."></i><i class="fa fa-usb policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-plug policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-wifi policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-envelope policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-text policy_icon" style="color:blue" title="테스트입니다."></i><i class="fa fa-file-archive-o policy_icon " style="color:blue" title="테스트입니다."></i><i class="fa fa-folder-open policy_icon" style="color:red" title="테스트입니다."></i><i class="glyphicon glyphicon-cd policy_icon" style="color:blue" title="테스트입니다."></i></td><td>허용</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>불허</td><td>허용</td><td>허용</td><td>허용</td></tr>
-												
-												
-												
 												</tbody>
-											</table>
-										
+											</table>									
 										</div>
 									</div>
+									
+									
+									<div class="ld_modal hidden" >
+									    <div class="ld_center" >
+									        <img alt="" src="/assets/images/loaders/loading.gif" />
+									    </div>
+									</div>
+									
 								</div>
 								<!-- /panel content -->
 							</div>
@@ -225,171 +174,237 @@
 					</div>
 				</div>
 			</section>
+		</div>
+<div id="detail-talk-modal" class="modal fade">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
 
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title" id="myModalLabel">대화내용</h4>
+			</div><!-- /Modal Header -->
 
+			<!-- body modal -->
+			<div class="modal-body clearfix" id="detail-modal-data">
+				<p>
+				</p>
+			</div>
 
 		</div>
-		
+	</div>
+</div>
+	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
 		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
-		
+
 <script>
-	var getPageinfoHash = function(){
-		//페이지번호
-		//라디오타입
-		//검색필터정보
-	};
-	
-	var getFilterInfo = function(){
+
+	//라디오타입에 따라 컬럼 hide/show
+	var setColumnType = function(cType){
 		
-	};
+		var datatable = $('#table_userinfo').dataTable().api();
+		var aColumn = datatable.columns('.agentinfo' );
+		var uColumn = datatable.columns('.userinfo' );
+		if(cType == 1){
+			uColumn.visible(true);
+			aColumn.visible(false);			
 
+ 			var jTable = $('#table_userinfo').dataTable();;
+
+//			var nsTr = $('tbody > td > .datables-td-detail').parents('tr')[0];
+			var nsTr = $('#table_userinfo tr');
+			for(var i = 0; i < nsTr.length; i++){
+				var nTr = nsTr[i];
+				jTable.fnClose(nTr);
+			}
+		}else if(cType == 2){
+			uColumn.visible(false);
+			aColumn.visible(true);	
+
+			var nsTr = $('#table_userinfo tr td').find('span.datables-td-detail');
+			nsTr.addClass("datatables-close").removeClass("datatables-open");
+		}		
+	}
+
+ 	function setTree(){
+		$.ajax({      
+	        type:"POST",  
+	        url:'/common/tree/dept',
+	        async: false,
+	        //data:{},
+	        success:function(args){   
+	            $("#dept_tree").html(args);      
+	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	            console.log(e.responseText);  
+	        }  
+	    }); 
+	}
+ 	
+ 	function searchUserLog(){
+ 		var datatable = $('#table_userinfo').dataTable().api();
+		datatable.ajax.reload();   	
+ 	}
+
+ 	function onClickPrintButton(){
+ 		var $buttons = $('.export-print');
+ 		$buttons.click();
+ 	}
+ 	
+ 	function onClickExcelButton(){
+		console.log('excel')
+ 		var $buttons = $('.export-csv');
+ 		$buttons.click();
+ 	}
+ 	
 	$(document).ready(function(){
-     	$(document).ready(function() {
-    		  $(".select2theme").select2({
-    			  minimumResultsForSearch: -1,
-    			  dropdownAutoWidth : true,
-    			  width: 'auto'
-    		  });
-    	}); 
-    	
-        $('#org_tree').jstree({
-            'core' : {
-                'check_callback' : true
-            },
-            "contextmenu":{         
-                "items": function($node) {
-                    var tree = $("#org_tree").jstree(true);
-                    return {
-                        "Create": {
-                            "separator_before": false,
-                            "separator_after": false,
-                            "label": "Create",
-                            "action": function (obj) { 
-                                $node = tree.create_node($node);
-                                tree.edit($node);
-                            }
-                        },
-                        "Rename": {
-                            "separator_before": false,
-                            "separator_after": false,
-                            "label": "Rename",
-                            "action": function (obj) { 
-                                tree.edit($node);
-                            }
-                        },                         
-                        "Remove": {
-                            "separator_before": false,
-                            "separator_after": false,
-                            "label": "Remove",
-                            "action": function (obj) { 
-                                tree.delete_node($node);
-                            }
-                        }
-                    };
-                }
-            },
-            'plugins' : [ 'types', 'dnd', 'checkbox', 'contextmenu' ],
-            'types' : {
-                'default' : {
-                    'icon' : 'fa fa-user-circle-o'
-                },
-                'root' : {
-                    'icon' : 'fa fa-building'
-                }
+		
+		$(".select2theme").select2({
+   			  minimumResultsForSearch: -1,
+   			  dropdownAutoWidth : true,
+   			  width: 'auto'
+   		});		
+     	setTree();
 
-            }
-        });
-
-        
-        loadScript(plugin_path + "datatables/js/jquery.dataTables.min.js", function(){
-			loadScript(plugin_path + "datatables/dataTables.bootstrap.js", function(){
-				loadScript(plugin_path + "datatables/js/dataTables.colResize.js", function(){
-					loadScript(plugin_path + "datatables/js/dataTables.colVis.js", function(){
-
+loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
+loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
+loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
+loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.print.min.js", function(){
+loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.html5.min.js", function(){
+loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.js", function(){
+ 
 				if (jQuery().dataTable) {
 
+					var export_filename = 'Filename';
+					
 					var table = jQuery('#table_userinfo');
 					table.dataTable({
-						//"autoWidth": true,
-						//"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i ><"pull-right"><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
-						//dom: 'C<"clear">RZlfrtp',
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i ><"pull-right"><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
-						//l이 갯수
-						/* "columns": [{
-							"orderable": false		//추가정보
+						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+						//dom: 'Bfrtip',
+						"ajax" : {
+							"url":'/ax/msntalk/list',
+						   	"type":'POST',
+						   	"dataSrc" : "data",
+						   	"data" :  function(param) {
+								param.user_id = $('#filterUserId').val();
+								param.user_name = $('#filterUserName').val();
+								param.start_date = $('#filterStartDate').val();
+								param.end_date = $('#filterEndDate').val();
+								
+								param.dept = getCheckedDept();
+					        },
+ 					        "beforeSend" : function(){
+								jQuery('#preloader').show();
+ 					        },
+					        "dataSrc": function ( json ) {
+								jQuery('#preloader').hide();
+				                return json.data;
+				            }   
+						},
+						lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
+						tableTools: {
+					          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
+					        },
+					    "buttons": [
+	 					              {
+						                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+						                  extend: 'csvHtml5',
+						                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+						                  bom: true,
+						                  exportOptions: {
+						                      modifier: {
+						                          search: 'applied',
+						                          order: 'applied'
+						                      }
+						                  }
+						              },  					              {
+					                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+					                  extend: 'print',
+					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+					                  exportOptions: {
+					                      modifier: {
+					                          search: 'applied',
+					                          order: 'applied'
+					                      }
+					                  }
+					              }, 
+
+					     ],
+				 		"serverSide" : true,
+				 	    "ordering": true,
+						"columns": [{
+							data: "msgNo",							
+							"orderable": false	//추가정보
 						}, {
+							data: "deptName",
 							"orderable": false	//부서
 						}, {
+							data: "userId",
 							"orderable": false	//아이디
 						}, {
+							data: "userName",
 							"orderable": false	//이름
 						}, {
+							data: "userNo",
 							"orderable": false	//번호
 						}, {
+							data: "duty",
 							"orderable": false	//직책
 						}, {
+							data: "rank",
 							"orderable": false	//계급
 						}, {
-							"orderable": false	//연락
-						}, {
-							"orderable": false	//설치유무
-						}, {
+							data: "ipAddr",
 							"orderable": false	//IP
 						}, {
+							data: "macAddr",
 							"orderable": false	//MAC
 						}, {
+							data: "pcName",
 							"orderable": false	//PC이름
 						}, {
-							"orderable": false	//버전
+							data: "msgType",
+							"orderable": false	//이메일주소
 						}, {
-							"orderable": false	//접속여부
+							data: "sendServerTime",
+							"orderable": false	//서버시간
 						}, {
-							"orderable": false	//설치시간
+							data: "sendClientTime",
+							"orderable": false	//클라시간
 						}, {
-							"orderable": false	//
-						}, {
-							"orderable": false	//
-						}, {
-							"orderable": false	//
-						}, {
-							"orderable": false	//
-						}, {
-							"orderable": false	//
-						}, {
-							"orderable": false	//
-						}, {
-							"orderable": false	//
-						}, {
-							"orderable": false	//
-						}, {
-							"orderable": false	//
-						}, {
-							"orderable": false	//
-						}], */
+							data: "msgNo",
+							"orderable": false	//내역
+						}],
 						// set the initial value
 						"pageLength": 20,
 						"iDisplayLength": 20,
 						"pagingType": "bootstrap_full_number",
 						"language": {
-							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
-							"infoEmpty":      "검색된 데이터가 없습니다.",
+							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
+							"infoEmpty": "검색된 데이터가 없습니다.",
+							"zeroRecords" :"검색된 데이터가 없습니다.",
 							"lengthMenu": "  _MENU_ 개",
 							"paginate": {
 								"previous":"Prev",
 								"next": "Next",
 								"last": "Last",
 								"first": "First"
-							}
+							},
+							
 						},
 						"columnDefs": [
 						{	
 							"targets": [0],	//추가정보
-							"class":"center-cell",
+							"class":"center-cell add_detail_info",
+							"render":function(data,type,row){
+								return '<span class="datables-td-detail datatables-close"></span>';
+							}
 						},         
 						{  // set default column settings
 							'targets': [1]	//부서
@@ -403,167 +418,80 @@
 						}, {	
 							"targets": [4],	//번호
 							"class":"center-cell"
-						}, {
+						}, {	
 							"targets": [5]	//직책
 							,"class" : "center-cell"
-							,"visible":false
 						}, {	
 							"targets": [6]	//계급
 							,"class" : "center-cell"
-							,"visible":false
-						}, {
-							"targets": [7]	//연락처
+						}, 
+						{	
+							"targets": [7]	//IP
 							,"class" : "center-cell"
-							,"visible":false
+							,"visible" : false
+							,"render":function(data,type,row){
+	 							if(data == ''){
+	 								return '-'
+	 							}else{
+	 								return data;
+	 							}
+	 						}								
 						}, {	
-							"targets": [8]	//설치유무
-							,"class":"center-cell"
-						}, {	
-							"targets": [9]	//IP
+							"targets": [8]	//MAC
 							,"class" : "center-cell"
-								,"visible":false
+							,"visible" : false
+	 						,"render":function(data,type,row){
+	 							if(data == ''){
+	 								return '-'
+	 							}else{
+	 								return data;
+	 							}
+	 						}								
 						}, {	
-							"targets": [10]	//MAC
+							"targets": [9]	//PC이름
 							,"class" : "center-cell"
-								,"visible":false
+							,"visible" : false
+	 						,"render":function(data,type,row){
+	 							if(data == ''){
+	 								return '-'
+	 							}else{
+	 								return data;
+	 							}
+	 						}								
 						}, {	
-							"targets": [11]	//PC이름
-							,"class" : "center-cell"
-								,"visible":false
-						}, {	
-							"targets": [12]	//적용시간
-							,"class" : "center-cell"
-								,"visible":false
-						}, {	
-							"targets": [13]	//요청시간
-							,"visible":false
+							"targets": [10]	//메시지타입
 							,"class" : "center-cell"
 						}, {	
-							"targets": [14]	//적용정책
-							,"class" : "center-cell"
+							"targets": [11]	//발송시간(서버)
+							,"visible" : false
 						}, {	
-							"targets": [15]	//적용정책
+							"targets": [12]	//발송시간(PC)
 							,"class" : "center-cell"
-							,"visible":false		
-						}, {	
-							"targets": [16]	//적용정책
+						}	, {	
+							"targets": [13]	//발송시간(PC)
 							,"class" : "center-cell"
-							,"visible":false
-						}, {	
-							"targets": [17]	//적용정책
-							,"class" : "center-cell"
-							,"visible":false
-						}, {	
-							"targets": [18]	//적용정책
-							,"class" : "center-cell"
-							,"visible":false
-						}, {	
-							"targets": [19]	//적용정책
-							,"class" : "center-cell"
-							,"visible":false
-						}, {	
-							"targets": [20]	//적용정책
-							,"class" : "center-cell"
-							,"visible":false
-						}, {	
-							"targets": [21]	//적용정책
-							,"class" : "center-cell"
-							,"visible":false
-						}, {	
-							"targets": [22]	//적용정책
-							,"class" : "center-cell"
-							,"visible":false
-						}, {	
-							"targets": [23]	//적용정책
-							,"class" : "center-cell"
-							,"visible":false
-						}, {	
-							"targets": [24]	//적용정책
-							,"class" : "center-cell"
-							,"visible":false
-						}, {	
-							"targets": [25]	//적용정책
-							,"class" : "center-cell"
-							,"visible":false
-						}, {	
-							"targets": [26]	//적용정책
-							,"class" : "center-cell"
-							,"visible":false
-						}],		
+							,"render": function(data,type,row){
+								return '<i title="상세보기" class="fa fa-commenting" aria-hidden="true">'
+							}
+						}		
+					],						
 						"initComplete": function( settings, json ) {
+							$('.export-print').hide();
 						}
 					});
 					
 					function fnFormatDetails(oTable, nTr) {
 						var aData = oTable.fnGetData(nTr);
+						var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
+						sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
+						sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
+						sOut += '<tr><td class="center-cell">PC명:</td><td>' + aData.serverTime + '</td><td></td><td></td></tr>';
 						
-						var sFrame = '<div class="tabs nomargin-top">'
-						sFrame += '<ul class="nav nav-tabs"><li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-th-large"></i>정책상세</a></li>';
-						sFrame += '<li><a href="#tab2" data-toggle="tab"><i class="fa fa-info-circle"></i>사용자정보</a></li></ul>';		
-					
-					
-						sFrame += '<div class="tab-content">';
+						sOut += '<td class="center-cell"></td><td></td></tr>';
+												
+						sOut += '</table>';
 
-					
-						sFrame += '<div id="tab1" class="tab-pane active">';
-						
- 						var sOut = '<table class="table ">';
-						sOut += '<tr><td class="center-cell">에이전트삭제가능:</td><td>' + aData[15] + '</td>';
-						sOut += '<td style="padding-left:100px;" class="center-cell">프린트사용가능:</td><td>' + aData[16] + '</td></tr>';
-						sOut += '<tr><td class="center-cell">인쇄워터마크:</td><td>' + aData[17] + '</td>';
-						sOut += '<td style="padding-left:100px;" class="center-cell">파일신시간암호화:</td><td>' + aData[18] + '</td></tr>';
-						sOut += '<tr><td class="center-cell">USB포트사용:</td><td>' + aData[19] + '</td>';
-						sOut += '<td style="padding-left:100px;" class="center-cell">시리얼포트사용:</td><td>' + aData[20] + '</td></tr>';
-						sOut += '<tr><td class="center-cell">무선랜사용:</td><td>' + aData[21] + '</td>';
-						sOut += '<td style="padding-left:100px;" class="center-cell">메일반출사용:</td><td>' + aData[22] + '</td></tr>';
-						sOut += '<tr><td class="center-cell">민감파일접근시삭제:</td><td>' + aData[23] + '</td>';
-						sOut += '<td style="padding-left:100px;" class="center-cell">보호파일접근가능:</td><td>' + aData[24] + '</td></tr>';
-						sOut += '<tr><td class="center-cell">공유폴더사용가능:</td><td>' + aData[25] + '</td>';
-						sOut += '<td style="padding-left:100px;" class="center-cell">CD사용가능:</td><td>' + aData[26] + '</td></tr>';
-
-						sOut += '</table>'; 
-						sFrame += sOut;
-						sFrame += '</div>';	
-						
-						sFrame += '<div id="tab2" class="tab-pane">';
-						
- 						var sOut = '<table class="table ">';
-						sOut += '<tr><td class="center-cell">직책:</td><td>' + aData[5] + '</td>';
-						sOut += '<td style="padding-left:100px;" class="center-cell">계급:</td><td>' + aData[6] + '</td></tr>';
-						sOut += '<tr><td class="center-cell">연락처:</td><td>' + aData[7] + '</td>';
-						sOut += '<td style="padding-left:100px;" class="center-cell">IP주소:</td><td>' + aData[9] + '</td></tr>';
-						sOut += '<tr><td class="center-cell">MAC주소:</td><td>' + aData[10] + '</td>';
-						sOut += '<td style="padding-left:100px;" class="center-cell">PC이름:</td><td>' + aData[11] + '</td></tr>';
-						sOut += '<tr><td class="center-cell">적용시간:</td><td>' + aData[12] + '</td>';
-						sOut += '<td style="padding-left:100px;" class="center-cell">요청시간:</td><td>' + aData[13] + '</td></tr>';
-
-						
-						/*  
-						
-														<th>직책</th><!-- 숨김  -->
-														<th>계급</th><!-- 숨김  -->
-														<th>연락처</th>		<!-- 숨김  -->
-																				
-														<th>IP</th>			<!-- 숨김  -->
-														<th>MAC</th><!-- 숨김  -->
-														<th>PC이름</th><!-- 숨김  -->
-														<th>적용시간</th><!-- 숨김  -->
-														<th>요청시간</th><!-- 숨김  -->
-														<th>적용정책</th><!-- 숨김  -->
-						*/
-						
-						
-						
-						sOut += '</table>'; 
-						sFrame += sOut;
-						sFrame += '</div>';	
-						
-						
-						
-						sFrame += '</div>';	
-						sFrame += '</div>';
-					
-						return sFrame;
+						return sOut;
 					}
 					
 					var jTable = jQuery('#table_userinfo');
@@ -579,16 +507,16 @@
 							table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
 						}
 					});
-
 				}
 			});
 			});
 			});
+			});
+			}); 
 		});
-        
+jQuery('#preloader').hide();
+
     });
 </script>
-		
-		
 	</body>
 </html>

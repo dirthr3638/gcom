@@ -5,6 +5,8 @@ import java.util.List;
 
 import gcom.Model.*;
 import gcom.service.Device.*;
+import gcom.service.Personal.IPersonalService;
+import gcom.service.Personal.PersonalServiceImpl;
 import gcom.service.Policy.IPolicyService;
 import gcom.service.Policy.PolicyServiceImpl;
 import gcom.service.UserAgent.*;
@@ -98,36 +100,13 @@ public class getAction {
 		return result;						
 	}
 	
-	public HashMap<String, Object> getServerInspectionList(HashMap<String, Object> map){
+	public HashMap<String, Object> getMailExportList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		IDeviceInfoService as = new DeviceInfoServiceImpl();
-		List<UsbDevInfoModel> data = as.getUnAuthUsbList(map);
+		IPersonalService as = new PersonalServiceImpl();
+		List<MailExportModel> data = as.getMailExportList(map);
 		result.put("data", data);
-		int total = as.getUnAuthUsbListCount(map);
-		result.put("recordsTotal", total);
-		result.put("recordsFiltered", total);
-		
-		return result;						
-	}
-	
-	public HashMap<String, Object> getAgentInspectionList(HashMap<String, Object> map){
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		IDeviceInfoService as = new DeviceInfoServiceImpl();
-		List<UsbDevInfoModel> data = as.getUnAuthUsbList(map);
-		result.put("data", data);
-		int total = as.getUnAuthUsbListCount(map);
-		result.put("recordsTotal", total);
-		result.put("recordsFiltered", total);
-		
-		return result;						
-	}
+		int total = as.getMailExportListCount(map);
 
-	public HashMap<String, Object> getMailList(HashMap<String, Object> map){
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		IDeviceInfoService as = new DeviceInfoServiceImpl();
-		List<UsbDevInfoModel> data = as.getUnAuthUsbList(map);
-		result.put("data", data);
-		int total = as.getUnAuthUsbListCount(map);
 		result.put("recordsTotal", total);
 		result.put("recordsFiltered", total);
 		
@@ -136,10 +115,11 @@ public class getAction {
 	
 	public HashMap<String, Object> getMsnTalkList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		IDeviceInfoService as = new DeviceInfoServiceImpl();
-		List<UsbDevInfoModel> data = as.getUnAuthUsbList(map);
+		IPersonalService as = new PersonalServiceImpl();
+		List<MsnTalkModel> data = as.getMsnTalkList(map);
 		result.put("data", data);
-		int total = as.getUnAuthUsbListCount(map);
+		int total = as.getMsnTalkListCount(map);
+
 		result.put("recordsTotal", total);
 		result.put("recordsFiltered", total);
 		
@@ -148,15 +128,31 @@ public class getAction {
 	
 	public HashMap<String, Object> getMsnFileList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		IDeviceInfoService as = new DeviceInfoServiceImpl();
-		List<UsbDevInfoModel> data = as.getUnAuthUsbList(map);
+		IPersonalService as = new PersonalServiceImpl();
+		List<MsnFileModel> data = as.getMsnFileList(map);
 		result.put("data", data);
-		int total = as.getUnAuthUsbListCount(map);
+		int total = as.getMsnFileListCount(map);
 		result.put("recordsTotal", total);
 		result.put("recordsFiltered", total);
 		
 		return result;						
 	}
+
+	public HashMap<String, Object> getPrivacyFileList(HashMap<String, Object> map){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IPersonalService as = new PersonalServiceImpl();
+		List<PrivacyLogModel> data = as.getPrivacyFileList(map);
+		result.put("data", data);
+		int total = as.getMsnFileListCount(map);
+//		int total = 100;
+
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;						
+	}
+
+	
 	
 	public HashMap<String, Object> getUserPolicyList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();
@@ -181,4 +177,30 @@ public class getAction {
 		
 		return result;						
 	}
+
+	public HashMap<String, Object> getAuditClientLogList(HashMap<String, Object> map){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IPolicyService as = new PolicyServiceImpl();
+		List<AuditClientModel> data = as.getAuditClientLogList(map);
+		result.put("data", data);
+		int total = as.getAuditClientLogListCount(map);
+
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;						
+	}
+
+	public HashMap<String, Object> getAuditServerLogList(HashMap<String, Object> map){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IPolicyService as = new PolicyServiceImpl();
+		List<AuditServerModel> data = as.getAuditServerLogList(map);
+		result.put("data", data);
+		int total = as.getAuditServerLogListCount(map);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;						
+	}
+
 }

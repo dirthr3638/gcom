@@ -371,6 +371,8 @@
 			});
 			});
 		});
+		jQuery('#preloader').hide();
+
     });
 </script>
 		

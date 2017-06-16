@@ -2,6 +2,8 @@
 	pageEncoding="utf-8"%>
 <%-- <% String menu_parent = request.getParameter("menu_parent"); %>
  --%>
+ 
+ 
 <aside id="aside">
 	<nav id="sideNav">
 		<!-- MAIN MENU -->
@@ -31,8 +33,8 @@
 			</a>
 				<ul>
 					<li ${menu_sub_first == 3100 ? 'class="active"' : ''}><a href="/report/policy">정책변경로그</a></li>
-					<li ${menu_sub_first == 3200 ? 'class="active"' : ''}><a href="/report/agentinspection">에이전트감사로그</a></li>
-					<li ${menu_sub_first == 3300 ? 'class="active"' : ''}><a href="/report/serverinspection">서버감사로그</a></li>
+					<li ${menu_sub_first == 3200 ? 'class="active"' : ''}><a href="/report/audit/agent">에이전트감사로그</a></li>
+					<li ${menu_sub_first == 3300 ? 'class="active"' : ''}><a href="/report/audit/server">서버감사로그</a></li>
 				</ul>
 			</li>
 			<li ${menu_parent == 4000 ? 'class="active"' : ''}><a href="#"> <i
@@ -55,7 +57,7 @@
 </aside>
 
 		<!-- PRELOADER -->
-<div id="preloader">
+<div id="preloader" >
 	<div class="inner">
 		<span class="loader"></span>
 	</div>

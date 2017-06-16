@@ -27,7 +27,7 @@ public class reportMailLogController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/report/user_report.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/report/log_export_mail.jsp").forward(request, response);
 	}
 
 }

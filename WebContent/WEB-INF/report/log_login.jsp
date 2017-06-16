@@ -494,6 +494,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 			});
 			}); 
 		});
+jQuery('#preloader').hide();
         
     });
 </script>
