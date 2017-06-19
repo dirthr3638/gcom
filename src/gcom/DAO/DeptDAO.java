@@ -124,4 +124,45 @@ public class DeptDAO {
 		return data;
 		
 	}
+	
+	public List<DeptTreeModel> getSelectDeptListForJSTree(int adminNumber){
+		List<DeptTreeModel> data = new ArrayList<DeptTreeModel>();
+		
+		String sql= 
+"SELECT if(no = ? , 0, parent) AS parent,"
++" no, leaf, admin_no, name, short_name, valid, sort_index,child_count, recent_no, min_child_no, max_child_no"
++" from "
++" (select * from dept_info order by parent, no) dept_info_sorted,"
++" (select @pv := ?) initialisation where (find_in_set(parent, @pv) > 0 or no = @pv) and"
++" @pv := concat(@pv, ',', no);";
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  adminNumber);
+			pstmt.setInt(2,  adminNumber);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				DeptTreeModel model = new DeptTreeModel();
+				model.setId(Integer.toString(rs.getInt("no")));
+				model.setParent( Integer.toString(rs.getInt("parent")));
+				model.setText(rs.getString("short_name"));
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return data;
+		
+	}
 }

@@ -27,4 +27,15 @@ public class DeptServiceImpl implements IDeptService {
 		return result;
 		
 	}	
+
+	public List<DeptTreeModel> getSelectDeptListForJSTree(int adminNumber){
+		
+		DeptDAO dao = new DeptDAO();
+		
+		List<DeptTreeModel> result = dao.getSelectDeptListForJSTree(adminNumber);
+		
+		return result;
+		
+	}	
+
 }
