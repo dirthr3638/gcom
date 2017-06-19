@@ -432,10 +432,13 @@ sql += whereSql;
 		String name = map.get("name").toString();
 		String serial = map.get("serial").toString();
 		String desc = map.get("desc").toString();
+		String allow = map.get("allow").toString();
 
 		if(!name.equals("")) 	whereSql += "AND usb.name LIKE ? ";
 		if(!serial.equals("")) 	whereSql += "AND usb.serial_number LIKE ? ";
 		if(!desc.equals("")) 	whereSql += "AND usb.description LIKE ? ";
+		if(!allow.equals("")) 	whereSql += "AND usb.allow = ? ";
+
 		
 		String sql= 
 "SELECT "
@@ -451,7 +454,11 @@ sql += whereSql;
 			if(!name.equals("")) pstmt.setString(i++, "%" + name + "%");
 			if(!serial.equals("")) pstmt.setString(i++, "%" + serial + "%");
 			if(!desc.equals("")) 	pstmt.setString(i++, "%" + desc + "%");
-			
+			if(!allow.equals("")){
+				int iAllow = Integer.parseInt(allow.toString());
+				pstmt.setInt(i, iAllow);
+			}
+
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -477,14 +484,16 @@ sql += whereSql;
 	public List<UsbDevInfoModel> getUnAuthUsbList(HashMap<String, Object> map){
 		List<UsbDevInfoModel> data = new ArrayList<UsbDevInfoModel>();
 		
-		String whereSql = "WHERE usb.allow = 0 ";
+		String whereSql = "WHERE 1=1 ";
 		String name = map.get("name").toString();
 		String serial = map.get("serial").toString();
 		String desc = map.get("desc").toString();
+		String allow = map.get("allow").toString();
 
 		if(!name.equals("")) 	whereSql += "AND usb.name LIKE ? ";
 		if(!serial.equals("")) 	whereSql += "AND usb.serial_number LIKE ? ";
 		if(!desc.equals("")) 	whereSql += "AND usb.description LIKE ? ";
+		if(!allow.equals("")) 	whereSql += "AND usb.allow = ? ";
 		
 		whereSql += "ORDER BY usb.no DESC LIMIT ?, ? ";	
 		
@@ -508,6 +517,10 @@ sql += whereSql;
 			if(!name.equals("")) pstmt.setString(i++, "%" + name + "%");
 			if(!serial.equals("")) pstmt.setString(i++, "%" + serial + "%");
 			if(!desc.equals("")) 	pstmt.setString(i++, "%" + desc + "%");
+			if(!allow.equals("")){
+				int iAllow = Integer.parseInt(allow.toString());
+				pstmt.setInt(i++, iAllow);
+			}
 
 			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
 			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));

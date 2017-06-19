@@ -34,37 +34,18 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>에이전트감사로그</h1>
+					<h1>비인가USB관리</h1>
 				</header>
 				<!-- /page title -->
 			
 				<div id="content" class="dashboard padding-20">
 					<div class="row">
-						<div class="col-md-2">
-							<div id="panel-2" class="panel panel-default">
-								<div class="panel-heading">
-									<span class="title elipsis">
-										<strong>조직도</strong> <!-- panel title -->
-									</span>
-								</div>
-
-								<!-- panel content -->
-								<div id="dept_tree" class="panel-body">
-
-								</div>
-								<!-- /panel content -->
-
-							</div>
-							<!-- /PANEL -->
-					
-						</div>
-
-						<div class="col-md-10">
+						<div class="col-md-12">
 							<div id="panel-2" class="panel panel-default">
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>에이전트감사로그</strong> <!-- panel title -->
+										<strong>비인가USB관리</strong> 
 									</span>
 								</div>
 	
@@ -179,55 +160,6 @@
 
 <script>
 
-	//라디오타입에 따라 컬럼 hide/show
-	var setColumnType = function(cType){
-		
-		var datatable = $('#table_userinfo').dataTable().api();
-		var aColumn = datatable.columns('.agentinfo' );
-		var uColumn = datatable.columns('.userinfo' );
-		if(cType == 1){
-			uColumn.visible(true);
-			aColumn.visible(false);			
-
- 			var jTable = $('#table_userinfo').dataTable();;
-
-//			var nsTr = $('tbody > td > .datables-td-detail').parents('tr')[0];
-			var nsTr = $('#table_userinfo tr');
-			for(var i = 0; i < nsTr.length; i++){
-				var nTr = nsTr[i];
-				jTable.fnClose(nTr);
-			}
-		}else if(cType == 2){
-			uColumn.visible(false);
-			aColumn.visible(true);	
-
-			var nsTr = $('#table_userinfo tr td').find('span.datables-td-detail');
-			nsTr.addClass("datatables-close").removeClass("datatables-open");
-		}		
-	}
-
- 	function setTree(){
-		$.ajax({      
-	        type:"POST",  
-	        url:'/common/tree/dept',
-	        async: false,
-	        //data:{},
-	        success:function(args){   
-	            $("#dept_tree").html(args);      
-	        },   
-	        //beforeSend:showRequest,  
-	        error:function(e){  
-	            console.log(e.responseText);  
-	        }  
-	    }); 
-	}
- 	
- 	function searchUserLog(){
- 		var datatable = $('#table_userinfo').dataTable().api();
-		datatable.ajax.reload();   	
- 	
- 	}
-
  	function onClickPrintButton(){
  		var $buttons = $('.export-print');
  		$buttons.click();
@@ -271,12 +203,8 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  function(param) {
-								param.user_id = $('#filterUserId').val();
-								param.user_name = $('#filterUserName').val();
-								param.start_date = $('#filterStartDate').val();
-								param.end_date = $('#filterEndDate').val();
+								param.allow = 0;
 								
-								param.dept = getCheckedDept();
 					        },
  					        "beforeSend" : function(){
 								jQuery('#preloader').show();

@@ -22,12 +22,14 @@ public class axUnauthUsbListController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		getAction action = new getAction();
+		
 		map.put("startRow", Integer.parseInt( request.getParameter("start").toString()) );
 		map.put("endRow", Integer.parseInt( request.getParameter("length").toString()) );
 
-		map.put("name", request.getParameter("usb_name").toString());
-		map.put("serial", request.getParameter("serial").toString());
-		map.put("desc", request.getParameter("desc").toString());
+		map.put("name", request.getParameterMap().containsKey("name") ? request.getParameter("name").toString() : "") ;
+		map.put("serial", request.getParameterMap().containsKey("serial") ? request.getParameter("serial").toString() : "");
+		map.put("desc", request.getParameterMap().containsKey("desc") ? request.getParameter("desc").toString() : "");
+		map.put("allow", request.getParameterMap().containsKey("allow") ? request.getParameter("allow").toString() : "");
 		
 		HashMap<String, Object> data = action.getUnAuthUsbList(map);
 
