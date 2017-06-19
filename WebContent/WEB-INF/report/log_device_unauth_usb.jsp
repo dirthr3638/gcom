@@ -208,7 +208,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 								param.usb_name = $('#filterUsbName').val();
 								param.serial = $('#filterSerial').val();
 								param.desc = $('#filterDesc').val();
-								
+								param.allow = 0;								
 					        },
  					        "beforeSend" : function(){
 								jQuery('#preloader').show();

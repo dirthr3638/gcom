@@ -5,15 +5,6 @@
      <ul>
          <li class="jstree-open" data-jstree='{"type":"root"}'>Company
              <ul>
-                 <li>나오면안됨
-                     <ul>
-                         <li>사업 1팀</li>
-                         <li>사입 2팀</li>
-                         <li>디자인팀</li>
-                     </ul>
-                 </li>
-
-                 <li>IT지원</li>
              </ul>
          </li>
      </ul>

@@ -3,9 +3,10 @@
 <!doctype html>
 <html lang="utf-8">
 	<head>
+	
 		<meta charset="utf-8" />
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		<title>GuardCom Report</title>
+		<title>GuardCom Console</title>
 
 		<!-- mobile settings -->
 		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
@@ -26,26 +27,44 @@
 		<div id="wrapper" class="clearfix">
 
 			<% request.setAttribute("menu_parent", 4000); %> 
-			<% request.setAttribute("menu_sub_first", 4100); %> 
+			<% request.setAttribute("menu_sub_first", 4200); %> 
 			<jsp:include page="/WEB-INF/common/left_menu.jsp" flush="false" />
-			<jsp:include page="/WEB-INF/common/top_navi.jsp" flush="false" />			
-
+			<jsp:include page="/WEB-INF/common/top_navi.jsp" flush="false" />	
 			<section id="middle">
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>USB관리</h1>
+					<h1>USB연결 차단로그</h1>
 				</header>
 				<!-- /page title -->
 			
 				<div id="content" class="dashboard padding-20">
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-2">
+							<div id="panel-2" class="panel panel-default">
+								<div class="panel-heading">
+									<span class="title elipsis">
+										<strong>조직도</strong> <!-- panel title -->
+									</span>
+								</div>
+
+								<!-- panel content -->
+								<div id="dept_tree" class="panel-body">
+
+								</div>
+								<!-- /panel content -->
+
+							</div>
+							<!-- /PANEL -->
+					
+						</div>
+
+						<div class="col-md-10">
 							<div id="panel-2" class="panel panel-default">
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>USB관리</strong> 
+										<strong>USB연결 차단로그</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -81,13 +100,13 @@
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">작업시작일</td>
+															<td width="35%">검색시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																													
-														<tr >         
-															<td width="35%">작업종료일</td>
+														</tr>																															
+														<tr>         
+															<td width="35%">검색종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
@@ -111,15 +130,21 @@
 											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
-														<th>번호</th>
+														<th style="width:20px"></th>
+														<th>부서</th>
+														<th>아이디</th>
 														<th>이름</th>
-														<th>vid</th>
-														<th>pid</th>
-														<th>시리얼번호</th>
-														<th >허용여부</th>
-														<th >비고</th>
-
-
+														<th>번호</th>
+														<th >직책</th>
+														<th >계급</th>														
+														<th >IP</th>
+														<th >MAC</th>
+														<th >PC이름</th>
+														<th >연결시간(서버)</th>
+														<th >연결시간(PC)</th>
+														<th >장치이름</th>
+														<th >장치속성</th>
+														<th >차단분류</th>
 													</tr>
 												</thead>				
 												<tbody>
@@ -153,6 +178,55 @@
 
 <script>
 
+	//라디오타입에 따라 컬럼 hide/show
+	var setColumnType = function(cType){
+		
+		var datatable = $('#table_userinfo').dataTable().api();
+		var aColumn = datatable.columns('.agentinfo' );
+		var uColumn = datatable.columns('.userinfo' );
+		if(cType == 1){
+			uColumn.visible(true);
+			aColumn.visible(false);			
+
+ 			var jTable = $('#table_userinfo').dataTable();;
+
+//			var nsTr = $('tbody > td > .datables-td-detail').parents('tr')[0];
+			var nsTr = $('#table_userinfo tr');
+			for(var i = 0; i < nsTr.length; i++){
+				var nTr = nsTr[i];
+				jTable.fnClose(nTr);
+			}
+		}else if(cType == 2){
+			uColumn.visible(false);
+			aColumn.visible(true);	
+
+			var nsTr = $('#table_userinfo tr td').find('span.datables-td-detail');
+			nsTr.addClass("datatables-close").removeClass("datatables-open");
+		}		
+	}
+	
+ 	function setTree(){
+		$.ajax({      
+	        type:"POST",  
+	        url:'/common/tree/dept',
+	        async: false,
+	        //data:{},
+	        success:function(args){   
+	            $("#dept_tree").html(args);      
+	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	            console.log(e.responseText);  
+	        }  
+	    }); 
+	}
+ 	
+ 	function searchUserLog(){
+ 		var datatable = $('#table_userinfo').dataTable().api();
+		datatable.ajax.reload();   	
+ 	
+ 	}
+
  	function onClickPrintButton(){
  		var $buttons = $('.export-print');
  		$buttons.click();
@@ -174,6 +248,7 @@
    		});
 
 		
+     	setTree();
 
 loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
 loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
@@ -191,12 +266,16 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
 						"ajax" : {
-							"url":'/ax/unauthusb/list',
+							"url":'/ax/usbblocklist',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  function(param) {
-								param.allow = 0;
+								param.user_id = $('#filterUserId').val();
+								param.user_name = $('#filterUserName').val();
+								param.start_date = $('#filterStartDate').val();
+								param.end_date = $('#filterEndDate').val();
 								
+								param.dept = getCheckedDept();
 					        },
  					        "beforeSend" : function(){
 								jQuery('#preloader').show();
@@ -238,27 +317,50 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 				 		"serverSide" : true,
 				 	    "ordering": true,
 						"columns": [{
-							data: "usbId",							
+							data: "exportNo",							
 							"orderable": false	//추가정보
 						}, {
-							data: "name",
+							data: "deptName",
 							"orderable": false	//부서
 						}, {
-							data: "vid",
+							data: "userId",
 							"orderable": false	//아이디
 						}, {
-							data: "pid",
+							data: "userName",
 							"orderable": false	//이름
 						}, {
-							data: "serialNumber",
+							data: "userNo",
 							"orderable": false	//번호
 						}, {
-							data: "allow",
+							data: "duty",
 							"orderable": false	//직책
-							
 						}, {
-							data: "description",
-							"orderable": false	//직책
+							data: "rank",
+							"orderable": false	//계급
+						}, {
+							data: "ipAddr",
+							"orderable": false	//IP
+						}, {
+							data: "macAddr",
+							"orderable": false	//MAC
+						}, {
+							data: "pcName",
+							"orderable": false	//PC이름
+						}, {
+							data: "connectServerTime",
+							"orderable": false	//연결시간(서버)
+						}, {
+							data: "connectClientTime",
+							"orderable": false	//연결시간(PC)
+						}, {
+							data: "deviceName",
+							"orderable": false	//장치이름
+						}, {
+							data: "deviceProperty",
+							"orderable": false	//장치속성
+						}, {
+							data: "notice",
+							"orderable": false	//차단분류
 						}],
 						// set the initial value
 						"pageLength": 20,
@@ -280,7 +382,10 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						"columnDefs": [
 						{	
 							"targets": [0],	//추가정보
-							"class":"center-cell"
+							"class":"center-cell add_detail_info",
+							"render":function(data,type,row){
+								return '<span class="datables-td-detail datatables-close"></span>';
+							}
 						},         
 						{  // set default column settings
 							'targets': [1]	//부서
@@ -297,12 +402,59 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						}, {	
 							"targets": [5]	//직책
 							,"class" : "center-cell"
-							,"render":function(data,type,row){
-								return data == 'true' ? '허용' : '미허용';
-							}
-
 						}, {	
-							"targets": [6]	//직책
+							"targets": [6]	//계급
+							,"class" : "center-cell"
+						}, 
+						{	
+							"targets": [7]	//IP
+							,"class" : "center-cell"
+							,"visible" : false
+							,"render":function(data,type,row){
+	 							if(data == ''){
+	 								return '-'
+	 							}else{
+	 								return data;
+	 							}
+	 						}								
+						}, {	
+							"targets": [8]	//MAC
+							,"class" : "center-cell"
+							,"visible" : false
+	 						,"render":function(data,type,row){
+	 							if(data == ''){
+	 								return '-'
+	 							}else{
+	 								return data;
+	 							}
+	 						}								
+						}, {	
+							"targets": [9]	//PC이름
+							,"class" : "center-cell"
+							,"visible" : false
+	 						,"render":function(data,type,row){
+	 							if(data == ''){
+	 								return '-'
+	 							}else{
+	 								return data;
+	 							}
+	 						}								
+						}, {	
+							"targets": [10]	//서버연결시간
+							,"class" : "center-cell"
+							,"visible" : false
+						}, {	
+							"targets": [11]	//PC연결시간
+							,"class" : "center-cell"
+						}, {	
+							"targets": [12]	//장치이름
+							,"class" : "center-cell"
+						}, {	
+							"targets": [13]	//장치속성
+							,"class" : "center-cell"
+							,"visible" : false	
+						}, {	
+							"targets": [14]	//차단분류
 						,"class" : "center-cell"
 					}],						
 						"initComplete": function( settings, json ) {
@@ -310,6 +462,32 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						}
 					});
 					
+					function fnFormatDetails(oTable, nTr) {
+						var aData = oTable.fnGetData(nTr);
+						var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
+						sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
+						sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td>';
+						sOut += '<td class="center-cell">서버연결시간:</td><td>' + aData.connectServerTime + '</td></tr>';
+						sOut += '<tr><td class="center-cell">장치속성:</td><td colspan="5">' + aData.deviceProperty + '</td></tr>';
+												
+						sOut += '</table>';
+
+						return sOut;
+					}
+					
+					var jTable = jQuery('#table_userinfo');
+					jTable.on('click', ' tbody td .datables-td-detail', function () {
+						var nTr = jQuery(this).parents('tr')[0];
+						if (table.fnIsOpen(nTr)) {
+							/* This row is already open - close it */
+							jQuery(this).addClass("datatables-close").removeClass("datatables-open");
+							table.fnClose(nTr);
+						} else {
+							/* Open this row */
+							jQuery(this).addClass("datatables-open").removeClass("datatables-close");
+							table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+						}
+					});
 				}
 			});
 			});
@@ -317,8 +495,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 			});
 			}); 
 		});
-jQuery('#preloader').hide();
-
+		jQuery('#preloader').hide();
     });
 </script>
 	</body>
