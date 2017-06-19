@@ -29,7 +29,7 @@
 							</a>
 							<ul class="dropdown-menu hold-on-click">
 								<li><!-- settings -->
-									<a href="/report/adminprofile"><i class="fa fa-th-large"></i>관리콘솔</a>
+									<a href="/dashboard"><i class="fa fa-th-large"></i>관리콘솔</a>
 								</li>
 
 								<li><!-- settings -->

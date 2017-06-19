@@ -2,21 +2,22 @@ package gcom.controller.front.admin;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//디바이스정책
-@WebServlet("/admin/policy/device")
-public class policyDeviceController extends HttpServlet {
+//정책할당
+@WebServlet("/admin/user/assign")
+public class userPolicyAssignController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public policyDeviceController() {
+    public userPolicyAssignController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,6 +29,6 @@ public class policyDeviceController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
     	
-		request.getRequestDispatcher("/WEB-INF/admin/policy_manage/admin_policy_device.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/admin/user_manage/admin_user_assign.jsp").forward(request, response);
 	}
 }

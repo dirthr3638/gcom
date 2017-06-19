@@ -29,6 +29,10 @@
 							</a>
 							<ul class="dropdown-menu hold-on-click">
 								<li><!-- settings -->
+									<a href="/report/users"><i class="fa fa-th-large"></i>레포트페이지</a>
+								</li>
+
+								<li><!-- settings -->
 									<a href="page-user-profile.html"><i class="fa fa-cogs"></i>정보변경</a>
 								</li>
 

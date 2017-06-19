@@ -23,20 +23,10 @@
 		<!-- WRAPPER -->
 		<div id="wrapper" class="clearfix">
 
-			<!-- 
-				ASIDE 
-				Keep it outside of #wrapper (responsive purpose)
-			-->
-			<jsp:include page="/WEB-INF/common/left_menu.jsp" flush="false" />
-			
-			<!-- /ASIDE -->
-			<!-- HEADER -->
-			<jsp:include page="/WEB-INF/common/top_navi.jsp" flush="false" />			
-			<!-- /HEADER -->
 
-			<!-- 
-				MIDDLE 
-			-->
+			<% request.setAttribute("menu_parent", 1000); %> 
+			<jsp:include page="/WEB-INF/common/left_menu.jsp" flush="false" />
+			<jsp:include page="/WEB-INF/common/top_navi.jsp" flush="false" />			
 			<section id="middle">
 				<div id="content" class="dashboard padding-20">
 
