@@ -14,8 +14,8 @@
 		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		
 		<!-- THEME CSS -->
-		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
+		<link href="/assets/css/user_essentials.css" rel="stylesheet" type="text/css" />
+		<link href="/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
 		<link href="/assets/css/color_scheme/darkblue.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		
 		<style type="text/css">
@@ -41,7 +41,6 @@
 				padding:0px 5px;
 				display:inline-block;
 			}
-
 		</style>
 	</head>
 	<body class="smoothscroll enable-animation ">
@@ -63,26 +62,26 @@
 									<div style="width:300px; margin:0 auto;"><img src="/assets/images/guardcom_login_logo.png" width="100%"></div>
 								</div>
 		
-								<form class="nomargin" method="post" action="#" autocomplete="off">
+								<form id="frmLogin" name="frmLogin" class="nomargin" role="form" action="/login/check" method="post">
 									<div class="clearfix">
 										<div class="form-group">
 											<div class="radio_login"><label><input type="radio" name="loginType" value="U" checked/>User</label></div>
 											<div class="radio_login"><label><input type="radio" name="loginType" value="C" />Console</label></div>
-											<div class="radio_login"><label><input type="radio" name="loginType" value="R" />Report</label></div>
+											<!-- <div class="radio_login"><label><input type="radio" name="loginType" value="R" />Report</label></div> -->
 										</div>
 										<!-- ID -->
 										<div class="form-group">
-											<input type="text" name="email" class="form-control" placeholder="ID" required="">
+											<input required type="text" name="att_staf_id" id="att_staf_id" class="form-control" placeholder="ID" />
 										</div>
 										
 										<!-- Password -->
 										<div class="form-group">
-											<input type="password" name="password" class="form-control" placeholder="Password" required="">
+											<input required type="password" name="att_staf_pwd" id="att_staf_pwd" class="form-control" placeholder="Password" />
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-12 col-sm-12 col-xs-12 text-center">
-											<button class="btn btn-primary" style="width:100%;">로그인</button>
+											<button id="btnLogin" class="btn btn-primary" style="width:100%;" >로그인</button>
 										</div>
 									</div>
 		
@@ -112,18 +111,79 @@
 		</div>
 		<!-- /wrapper -->
 		
-		<!-- PRELOADER -->
-		<div id="preloader">
-			<div class="inner">
-				<span class="loader"></span>
-			</div>
-		</div>
-		<!-- /PRELOADER -->
-		
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="/assets/js/app.js"></script>
+		<script type="text/javascript" src="/assets/plugins/jquery/jquery.form.js" ></script>
+		<script type="text/javascript" src="/assets/js/scripts.js"></script>
 
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#btnLogin").on("click" , function(e){
+					e.preventDefault();
+					fn_login_proc();
+				});
+				
+			});
+			
+			function fn_login_input_valid() {
+				var id = $('#att_staf_id').val();
+				var pw = $('#att_staf_pwd').val();
+				
+				if (id.length < 1 || id == '' ) {
+					alert("ID 입력은 필수 입니다. 확인해주세요.");
+					return false;
+				}
+				
+				if (pw.length < 1 || pw == '' ) {
+					alert("Password 입력은 필수 입니다. 확인해주세요.");
+					return false;
+				}
+				
+				return true;
+			}
+			
+			function fn_login_proc() {
+				var validator = fn_login_input_valid();
+				
+				if(!validator){
+					return false;
+				}
+				
+				var option = {
+				        url:       		"/login/check",
+				    	type:      		"post",       
+				    	success:     	fn_login_callback,
+				    	fail:			callbackFail,
+				    	cache: 			false,
+				        resetForm: 		false 
+				};
+				$("#frmLogin").ajaxSubmit(option);
+				
+			}
+			
+			function callbackFail(){}
+
+			function fn_login_callback(data){
+				
+				if(data.returnCode == "S"){
+					location.href= data.goUrl;
+				}else{
+					switch (data.returnCode){
+					  case "E":
+						alert(data.message);
+					    break;
+					  case "NI":
+						  alert("등록되지 않은 계정입니다. 계정 신청 후 사용하시기 바랍니다.");
+					    break;
+					  case "DI":
+						alert("아이디 또는 암호를 확인해 주세요.");
+					    break;
+					  default:
+					}
+				}
+				
+			}
+		</script>
 	</body>
 </html>

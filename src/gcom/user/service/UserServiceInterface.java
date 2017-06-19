@@ -25,4 +25,6 @@ public interface UserServiceInterface {
 
 	public void updateNoticeViewCount(HashMap<String, Object> map) throws Exception;
 
+	public List<HashMap<String, Object>> getMemberPolicyDetail(HashMap<String, Object> map);
+
 }

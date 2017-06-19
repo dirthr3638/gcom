@@ -3,8 +3,6 @@
 <%@ page import="gcom.user.model.MemberPolicyModel"%>
 <% 
 	MemberPolicyModel data = (MemberPolicyModel)request.getAttribute("userPolicyInfo");
-	System.out.println(data.toString());
-	
 %>
 <table class="table table-bordered table-striped">
 	<% if (data == null) { %>
@@ -379,7 +377,7 @@
 						<input type="radio" name="isFilePattern" disabled="disabled"><i></i> 미적용
 					</label>
 					<label class="radio nomargin-top nomargin-bottom">
-						<a href="#" onClick="javascript:fn_sel_policy_detailOpen('isFilePattern', '<%= data.getPatternFileControl() %>');" ><i class="fa fa-search"></i> 상세정책보기</a> 
+						<a href="#" onClick="javascript:fn_sel_policy_detailOpen('isFilePattern', '<%= data.getFilePatternCode() %>');" ><i class="fa fa-search"></i> 상세정책보기</a> 
 					</label>
 				<% } else {%>
 					<label class="radio nomargin-top nomargin-bottom">
@@ -423,11 +421,13 @@
 	</tbody>
 </table>
 
+<div id="policy_detail_div"></div>
+
 <script type="text/javascript">
 	function fn_sel_policy_detailOpen(group, key_code) {
 		$.ajax({      
 	        type:"POST",  
-	        url:'/ax/main/modal/policy',
+	        url:'/ax/main/policy/modal',
 	        async: false,
 	        data:{
 	        	group : group,
@@ -435,7 +435,8 @@
 	        	_ : $.now()
 	        },
 	        success:function(args){
-	            $("#member_policy_div").html(args);
+	            $("#policy_detail_div").html(args);
+	            $('#modalPolicyDetail').modal('show');
 	        },   
 	        //beforeSend:showRequest,  
 	        error:function(e){  

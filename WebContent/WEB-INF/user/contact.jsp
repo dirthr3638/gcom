@@ -67,7 +67,7 @@
 					<!-- /Alert Mandatory -->
 
 
-					<form action="php/contact.php" method="post" enctype="multipart/form-data">
+					<form action="#" method="post" enctype="multipart/form-data">
 						<fieldset>
 							<input type="hidden" name="action" value="contact_send" />
 
