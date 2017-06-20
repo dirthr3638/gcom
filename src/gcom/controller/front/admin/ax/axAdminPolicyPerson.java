@@ -23,9 +23,7 @@ public class axAdminPolicyPerson extends HttpServlet {
         	 loadAxUrl = "/WEB-INF/admin/policy_manage/ax/policy_person_process_list_ax.jsp";	
          } else if ("pattern".equals(tabCode)) {
         	 loadAxUrl = "/WEB-INF/admin/policy_manage/ax/policy_person_pattern_list_ax.jsp";
-         } else if ("mail".equals(tabCode)) {
-        	 loadAxUrl = "/WEB-INF/admin/policy_manage/ax/policy_person_mail_list_ax.jsp";
-         }
+         } 
 		
 		request.getRequestDispatcher(loadAxUrl).forward(request, response);
 	}

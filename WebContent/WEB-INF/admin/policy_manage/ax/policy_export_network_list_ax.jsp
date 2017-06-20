@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<table id="table-mail-policy" class="table table-bordered table-striped">
+<table id="table-network-policy" class="table table-bordered table-striped">
 	<thead>
 		<tr>
 			<td>ID</td>
-			<td>패턴 이름</td>
-			<td>패턴 데이터</td>
+			<td>포트이름</td>
+			<td>포트번호</td>
 			<td>설명</td>
 			<td>사용여부</td>
 		</tr>
@@ -16,7 +16,7 @@
 
 <script type="text/javascript">
 
-	function fn_get_mail_policy_data() {
+	function fn_get_network_policy_data() {
 		console.log("dataTable");
 		loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
 		loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
@@ -27,11 +27,11 @@
 			 
 			if (jQuery().dataTable) {
 		
-				var table = jQuery('#table-mail-policy');
+				var table = jQuery('#table-network-policy');
 				table.dataTable({
 					"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right"><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 					"ajax" : {
-					"url":'/ax/admin/policy/pattern/list',
+					"url":'/ax/admin/policy/network/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  {},
@@ -63,15 +63,15 @@
 			     ],
 		 		"serverSide" : true,
 		 		"columns": [{
-					data: "patNo"			//ID
+					data: "netNo"			//ID
 				}, {
-					data: "PatName"			//패턴 이름
+					data: "netName"			//포트 이름
 				}, {
-					data: "data"			//패턴 데이터
+					data: "port"			//포트 번호
 				}, {
-					data: "notice"			//설명
+					data: "descriptor"		//설명
 				}, {                                   
-					data: "valid"			//사용여부
+					data: "allow"			//사용여부
 				}],  
 				"pageLength": 20,
 				"iDisplayLength": 20,
@@ -92,10 +92,10 @@
 					"class":"center-cell"
 					,"visible":false
 				}, {  
-					'targets': [1]	//패턴 이름
+					'targets': [1]	//포트 이름
 					,"class":"center-cell"
 				}, {	
-					"targets": [2]	//패펀 데이터
+					"targets": [2]	//포트 번호
 					,"class":"center-cell"
 				}, {	
 					"targets": [3]	//설명

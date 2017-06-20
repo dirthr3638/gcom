@@ -16,8 +16,10 @@ import gcom.Model.MailExportModel;
 import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
 import gcom.Model.PolicyMessengerModel;
+import gcom.Model.PolicyNetworkModel;
 import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
+import gcom.Model.PolicySerialModel;
 import gcom.Model.PrintFileModel;
 import gcom.Model.PrivacyLogModel;
 import gcom.Model.SystemInfoModel;
@@ -1033,6 +1035,162 @@ sql += whereSql;
 		int result = 0;
 		
 		String sql= "SELECT COUNT(*) as cnt FROM pattern_info ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public List<PolicyNetworkModel> getPolicyNetworkList(HashMap<String, Object> map) {
+		List<PolicyNetworkModel> data = new ArrayList<PolicyNetworkModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		String sql =
+				"SELECT "
+					+ "no as net_no, "
+					+ "name as net_name, "
+					+ "port, "
+					+ "descriptor, "
+					+ "allow "
+				+ "FROM net_port_info "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PolicyNetworkModel model = new PolicyNetworkModel();
+				model.setNetNo(rs.getInt("net_no"));
+				model.setNetName(rs.getString("net_name"));
+				model.setPort(rs.getString("port"));
+				model.setDescriptor(rs.getString("descriptor"));
+				model.setAllow(rs.getInt("allow"));
+
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public int getPolicyNetworkListCount(HashMap<String, Object> map) {
+		int result = 0;
+		
+		String sql= "SELECT COUNT(*) as cnt FROM net_port_info ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public List<PolicySerialModel> getPolicySerialList(HashMap<String, Object> map) {
+		List<PolicySerialModel> data = new ArrayList<PolicySerialModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		String sql =
+				"SELECT "
+					+ "no as serial_no, "
+					+ "name as serial_name, "
+					+ "allow, "
+					+ "description "
+				+ "FROM com_port_info "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PolicySerialModel model = new PolicySerialModel();
+				model.setSerialNo(rs.getInt("serial_no"));
+				model.setSerialName(rs.getString("serial_name"));
+				model.setDescription(rs.getString("description"));
+				model.setAllow(rs.getInt("allow"));
+
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public int getPolicySerialListCount(HashMap<String, Object> map) {
+		int result = 0;
+		
+		String sql= "SELECT COUNT(*) as cnt FROM com_port_info ";
 			
 		try{
 			con = ds.getConnection();

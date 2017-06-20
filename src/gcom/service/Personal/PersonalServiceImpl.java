@@ -8,10 +8,11 @@ import gcom.Model.MailExportModel;
 import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
 import gcom.Model.PolicyMessengerModel;
+import gcom.Model.PolicyNetworkModel;
 import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
+import gcom.Model.PolicySerialModel;
 import gcom.Model.PrivacyLogModel;
-import gcom.Model.SystemInfoModel;
 
 public class PersonalServiceImpl implements IPersonalService {
 	
@@ -62,5 +63,20 @@ public class PersonalServiceImpl implements IPersonalService {
 	public int getPolicyPatternListCount(HashMap<String, Object> map) {
 		return poDao.getPolicyPatternListCount(map);	
 	}
+	public List<PolicyNetworkModel> getPolicyNetworkList(HashMap<String, Object> map) {
+		return poDao.getPolicyNetworkList(map);	
+	}
+	public int getPolicyNetworkListCount(HashMap<String, Object> map) {
+		return poDao.getPolicyNetworkListCount(map);	
+	}
+	
+	public List<PolicySerialModel> getPolicySerialList(HashMap<String, Object> map) {
+		return poDao.getPolicySerialList(map);
+	}
+	
+	public int getPolicySerialListCount(HashMap<String, Object> map) {
+		return poDao.getPolicySerialListCount(map);	
+	}
+	
 
 }

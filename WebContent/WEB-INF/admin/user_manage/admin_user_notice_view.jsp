@@ -46,33 +46,39 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>공시사항</strong> <!-- panel title -->
+										<strong>공지사항 보기</strong> <!-- panel title -->
 									</span>
 								</div>
 	
 								<!-- panel content -->
 								<div class="panel-body">
 									<div class="row">
-										<div class="col-md-12" style="overflow: hidden;">
-											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_notice" style="width:100%; min-width: 600px;">
-												<col width="80px">
-												<col>
-												<col width="120px">
-												<col width="150px">
-												<col width="50px">
-												<thead>
-													<tr>
-														<th>ID</th>
-														<th>No</th>
-														<th>제목</th>
-														<th>작성자</th>
-														<th>작성일</th>
-														<th>조회</th>
-													</tr>
-												</thead>				
-												<tbody>
-												</tbody>
-											</table>									
+										<div class="container">
+											<h1 class="blog-post-title"></h1>
+											<ul class="blog-post-info list-inline">
+												<li>
+													<a href="#">
+														<i class="fa fa-clock-o"></i> 
+														<span class="font-lato">등록일 : </span>
+													</a>
+												</li>
+												<li>
+													<a href="#">
+														<i class="fa fa-eye" aria-hidden="true"></i> 
+														<span class="font-lato">조회 : </span>
+													</a>
+												</li>
+												<li>
+													<a href="#">
+														<i class="fa fa-user"></i> 
+														<span class="font-lato"></span>
+													</a>
+												</li>
+											</ul>
+											<!-- article content -->
+											<div class="row" style="border:1px solid #f1f1f1; min-height:700px; padding:10px 20px;">
+											</div>
+											<!-- /article content -->
 										</div>
 									</div>
 									
@@ -282,6 +288,7 @@
 								var data = notice.row( $(this).parent() ).data();
 								
 								if($(this).index() == 1){	// 제목 클릭
+									alert("bbsId :" + data.bbsId);
 									location.href  = '/admin/user/notice/view?bbsId=' +  data.bbsId;
 								}
 							});
