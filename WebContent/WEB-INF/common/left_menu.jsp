@@ -30,7 +30,6 @@
 					<i class="main-icon fa fa-th-large"></i> <span>정책관리</span>
 			</a>
 				<ul>
-					<li ${menu_sub_first == 3100 ? 'class="active"' : ''}><a href="/admin/policy/device">디바이스정책</a></li>
 					<li ${menu_sub_first == 3200 ? 'class="active"' : ''}><a href="/admin/policy/person">개인정보정책</a></li>
 					<li ${menu_sub_first == 3300 ? 'class="active"' : ''}><a href="/admin/policy/export">포트/웹정책</a></li>
 				</ul>

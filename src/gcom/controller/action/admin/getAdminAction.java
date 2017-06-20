@@ -9,6 +9,9 @@ import gcom.service.System.ISystemService;
 import gcom.service.System.SystemServiceImpl;
 import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
+import gcom.user.model.UserNoticeModel;
+import gcom.user.service.UserServiceImpl;
+import gcom.user.service.UserServiceInterface;
 
 public class getAdminAction {
 
@@ -67,6 +70,42 @@ public class getAdminAction {
 		List<PolicyPatternModel> data = as.getPolicyPatternList(map);
 		result.put("data", data);
 		int total = as.getPolicyPatternListCount(map);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;
+	}
+
+	public HashMap<String, Object> getPolicyNetworkList(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		PersonalServiceImpl as = new PersonalServiceImpl();
+		List<PolicyNetworkModel> data = as.getPolicyNetworkList(map);
+		result.put("data", data);
+		int total = as.getPolicyNetworkListCount(map);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;
+	}
+
+	public HashMap<String, Object> getPolicySerialList(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		PersonalServiceImpl as = new PersonalServiceImpl();
+		List<PolicySerialModel> data = as.getPolicySerialList(map);
+		result.put("data", data);
+		int total = as.getPolicySerialListCount(map);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;
+	}
+
+	public HashMap<String, Object> getAdminNoticeList(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		UserServiceInterface us = new UserServiceImpl();
+		List<UserNoticeModel> data = us.getUserNoticeList(map);
+		result.put("data", data);
+		int total = us.getUserNoticeListCount(map);
 		result.put("recordsTotal", total);
 		result.put("recordsFiltered", total);
 		

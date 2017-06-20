@@ -10,14 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class axCommonUI
  */
-@WebServlet("/ax/admin/policy/device")
-public class axAdminPolicyDevice extends HttpServlet {
+@WebServlet("/ax/admin/policy/export")
+public class axAdminPolicyExport extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String tabCode = request.getParameter("tabCode").toString();
+		String loadAxUrl = "/WEB-INF/admin/policy_manage/ax/policy_export_network_list_ax.jsp";
+		 if ("network".equals(tabCode)) {
+			 loadAxUrl = "/WEB-INF/admin/policy_manage/ax/policy_export_network_list_ax.jsp";
+         } else if ("serial".equals(tabCode)) {
+        	 loadAxUrl = "/WEB-INF/admin/policy_manage/ax/policy_export_serial_list_ax.jsp";	
+         } 
 		
-		request.setAttribute("tabCode", tabCode);
-		request.getRequestDispatcher("/WEB-INF/admin/policy_manage/ax/admin_policy_device_ax.jsp").forward(request, response);
+		request.getRequestDispatcher(loadAxUrl).forward(request, response);
 	}
 }

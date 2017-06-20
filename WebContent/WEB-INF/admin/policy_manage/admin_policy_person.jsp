@@ -52,17 +52,18 @@
 	
 								<!-- panel content -->
 								<div class="panel-body">
-									<div class="col-md-12" style="overflow: hidden;">
-										<div class="aside-tabs">
-											<ul class="nav nav-tabs nav-top-border">
-												<li class="active"><a href="#" onClick="javascript:fn_policy_person_list('msg');" data-toggle="tab">메신저 감사</a></li>
-												<li><a href="#" onClick="javascript:fn_policy_person_list('process');" data-toggle="tab">프로세스 차단</a></li>
-												<li><a href="#" onClick="javascript:fn_policy_person_list('pattern');" data-toggle="tab">민감정보</a></li>
-												<li><a href="#" onClick="javascript:fn_policy_person_list('mail');" data-toggle="tab">메일</a></li>
-											</ul>
-											
-											<div id="policy_person_div" class="tab-content"></div>
-										</div>	
+									<div class="row">
+										<div class="col-md-12" style="overflow: hidden;">
+											<div class="aside-tabs">
+												<ul class="nav nav-tabs nav-top-border">
+													<li class="active"><a href="#" onClick="javascript:fn_policy_person_list('msg');" data-toggle="tab">메신저 감사</a></li>
+													<li><a href="#" onClick="javascript:fn_policy_person_list('process');" data-toggle="tab">프로세스 차단</a></li>
+													<li><a href="#" onClick="javascript:fn_policy_person_list('pattern');" data-toggle="tab">민감정보</a></li>
+												</ul>
+												
+												<div id="policy_person_div" class="tab-content"></div>
+											</div>	
+										</div>
 									</div>
 									
 									
@@ -112,9 +113,7 @@
 			            	fn_get_process_policy_data();
 			            } else if (tabCode == 'pattern') {
 			            	fn_get_pattern_policy_data();
-			            } else if (tabCode == 'mail') {
-			            	fn_get_mail_policy_data();
-			            }
+			            } 
 			        },   
 			        error:function(e){  
 			            console.log(e.responseText);  
