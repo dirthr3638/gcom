@@ -5,7 +5,7 @@
 	MemberPolicyModel data = (MemberPolicyModel)request.getAttribute("userPolicyInfo");
 %>
 <table class="table table-bordered table-striped">
-	<% if (data == null) { %>
+	<% if ("".equals(data.getUserId())) { %>
 	<tbody>
 		<tr>
 			<td>사용자 정책이 존재 하지 않습니다.</td>
