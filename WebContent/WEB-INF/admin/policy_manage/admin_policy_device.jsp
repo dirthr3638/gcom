@@ -161,7 +161,7 @@
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
 
 <script>
-
+	/*
 	$(document).ready(function(){
 		fn_policy_divice_list('disk')
 	});
@@ -184,7 +184,7 @@
 	        }  
 	    });
 	}
-		
+	*/
 </script>
 	</body>
 </html>

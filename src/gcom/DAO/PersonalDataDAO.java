@@ -15,8 +15,12 @@ import javax.sql.DataSource;
 import gcom.Model.MailExportModel;
 import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
+import gcom.Model.PolicyMessengerModel;
+import gcom.Model.PolicyPatternModel;
+import gcom.Model.PolicyProcessModel;
 import gcom.Model.PrintFileModel;
 import gcom.Model.PrivacyLogModel;
+import gcom.Model.SystemInfoModel;
 import gcom.Model.UserAgentModel;
 import gcom.Model.UserPolicyModel;
 
@@ -811,6 +815,247 @@ sql += whereSql;
 		}
 		
 		return data;
+	}
+
+	public List<PolicyMessengerModel> getPolicyMessengerList(HashMap<String, Object> map) {
+		List<PolicyMessengerModel> data = new ArrayList<PolicyMessengerModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		String sql =
+				"SELECT " 
+					+ "no as msg_no, "
+					+ "name as msg_name, "
+					+ "process_name, "
+					+ "txt_log, "
+					+ "txt_block, "
+					+ "file_log, "
+					+ "file_block "
+			    + "FROM msg_info "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PolicyMessengerModel model = new PolicyMessengerModel();
+				model.setMsgNo(rs.getInt("msg_no"));
+				model.setMsgName(rs.getString("msg_name"));
+				model.setProcessName(rs.getString("process_name"));
+				model.setTxtLog(rs.getInt("txt_log"));
+				model.setTxtBlock(rs.getInt("txt_block"));
+				model.setFileLog(rs.getInt("file_log"));
+				model.setFileBlock(rs.getInt("file_block"));
+
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public int getPolicyMessengerListCount(HashMap<String, Object> map) {
+		int result = 0;
+			
+		String sql= "SELECT COUNT(*) as cnt FROM msg_info ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public List<PolicyProcessModel> getPolicyProcessList(HashMap<String, Object> map) {
+		List<PolicyProcessModel> data = new ArrayList<PolicyProcessModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		String sql =
+				"SELECT "
+					+ "no as pro_no, "
+					+ "process_name, "
+					+ "IFNULL(hash, '') as hash, "
+					+ "notice, "
+					+ "valid "
+				+ "FROM process_info "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PolicyProcessModel model = new PolicyProcessModel();
+				model.setProNo(rs.getInt("pro_no"));
+				model.setProcessName(rs.getString("process_name"));
+				model.setHash(rs.getString("hash"));
+				model.setNotice(rs.getString("notice"));
+				model.setValid(rs.getInt("valid"));
+
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public int getPolicyProcessListCount(HashMap<String, Object> map) {
+		int result = 0;
+		
+		String sql= "SELECT COUNT(*) as cnt FROM process_info ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public List<PolicyPatternModel> getPolicyPatternList(HashMap<String, Object> map) {
+		List<PolicyPatternModel> data = new ArrayList<PolicyPatternModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		String sql =
+				"SELECT "
+					+ "no as pat_no, "
+					+ "description as pat_name, "
+					+ "IFNULL(data, '') as data, "
+					+ "notice, "
+					+ "valid "
+				+ "FROM pattern_info "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PolicyPatternModel model = new PolicyPatternModel();
+				model.setPatNo(rs.getInt("pat_no"));
+				model.setPatName(rs.getString("pat_name"));
+				model.setData(rs.getString("data"));
+				model.setNotice(rs.getString("notice"));
+				model.setValid(rs.getInt("valid"));
+
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public int getPolicyPatternListCount(HashMap<String, Object> map) {
+		int result = 0;
+		
+		String sql= "SELECT COUNT(*) as cnt FROM pattern_info ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
 	}
 	
 }
