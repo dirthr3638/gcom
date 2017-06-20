@@ -44,8 +44,8 @@
 					<div id="panel-1" class="panel panel-default">
 						<div class="panel-heading">
 							<span class="title elipsis">
-								<strong>SALES SUMMARY</strong> <!-- panel title -->
-								<small class="size-12 weight-300 text-mutted hidden-xs">2015</small>
+								<strong>정책통계</strong> <!-- panel title -->
+								<small class="size-12 weight-300 text-mutted hidden-xs">2017</small>
 							</span>
 
 							<!-- right options -->
@@ -75,7 +75,7 @@
 							<ul class="easypiecharts list-unstyled">
 								<li class="clearfix">
 									<span class="stat-number">18.125</span>
-									<span class="stat-title">New Customers</span>
+									<span class="stat-title">사용자</span>
 
 									<span class="easyPieChart" data-percent="86" data-easing="easeOutBounce" data-barColor="#F8CB00" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
 										<span class="percent"></span>
@@ -83,7 +83,7 @@
 								</li>
 								<li class="clearfix">
 									<span class="stat-number">60%</span>
-									<span class="stat-title">Returning Customers</span>
+									<span class="stat-title">에이전트설치율</span>
 
 									<span class="easyPieChart" data-percent="59.83" data-easing="easeOutBounce" data-barColor="#F86C6B" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
 										<span class="percent"></span>
@@ -91,17 +91,9 @@
 								</li>
 								<li class="clearfix">
 									<span class="stat-number">12%</span>
-									<span class="stat-title">Canceled Orders</span>
+									<span class="stat-title">문의답변율</span>
 
 									<span class="easyPieChart" data-percent="12" data-easing="easeOutBounce" data-barColor="#98AD4E" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
-										<span class="percent"></span>
-									</span> 
-								</li>
-								<li class="clearfix">
-									<span class="stat-number">97%</span>
-									<span class="stat-title">Positive Feedbacks</span>
-
-									<span class="easyPieChart" data-percent="97" data-easing="easeOutBounce" data-barColor="#0058AA" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
 										<span class="percent"></span>
 									</span> 
 								</li>
@@ -125,8 +117,8 @@
 							<div class="box danger"><!-- default, danger, warning, info, success -->
 
 								<div class="box-title"><!-- add .noborder class if box-body is removed -->
-									<h4><a href="#">9866 Feedbacks</a></h4>
-									<small class="block">654 New fedbacks today</small>
+									<h4><a href="#">총9866명 사용자</a></h4>
+									<small class="block">Today 6 명</small>
 									<i class="fa fa-comments"></i>
 								</div>
 
@@ -148,8 +140,8 @@
 							<div class="box warning"><!-- default, danger, warning, info, success -->
 
 								<div class="box-title"><!-- add .noborder class if box-body is removed -->
-									<h4>$10M Profit</h4>
-									<small class="block">1,2 M Profit for this month</small>
+									<h4>7501개 에이전트</h4>
+									<small class="block">Today 5PC 설치</small>
 									<i class="fa fa-bar-chart-o"></i>
 								</div>
 
@@ -171,8 +163,8 @@
 							<div class="box default"><!-- default, danger, warning, info, success -->
 
 								<div class="box-title"><!-- add .noborder class if box-body is removed -->
-									<h4>58944 Orders</h4>
-									<small class="block">18 New Orders</small>
+									<h4>371 처리되지않은 문의</h4>
+									<small class="block">Today 18개 문의</small>
 									<i class="fa fa-shopping-cart"></i>
 								</div>
 
@@ -195,7 +187,7 @@
 
 								<div class="box-title"><!-- add .noborder class if box-body is removed -->
 									<h4>3485 Online</h4>
-									<small class="block">78185 Unique visitors today</small>
+									<small class="block">접속현황</small>
 									<i class="fa fa-globe"></i>
 								</div>
 
@@ -233,16 +225,16 @@
 							<div id="panel-2" class="panel panel-default">
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>OVERVIEW</strong> <!-- panel title -->
+										<strong>Required</strong> <!-- panel title -->
 									</span>
 
 									<!-- tabs nav -->
 									<ul class="nav nav-tabs pull-right">
 										<li class="active"><!-- TAB 1 -->
-											<a href="#ttab1_nobg" data-toggle="tab">Top Sales</a>
+											<a href="#ttab1_nobg" data-toggle="tab">요청내역</a>
 										</li>
 										<li class=""><!-- TAB 2 -->
-											<a href="#ttab2_nobg" data-toggle="tab">Most Visited</a>
+											<a href="#ttab2_nobg" data-toggle="tab">문의사항</a>
 										</li>
 									</ul>
 									<!-- /tabs nav -->
@@ -316,7 +308,7 @@
 
 												<a class="size-12" href="#">
 													<i class="fa fa-arrow-right text-muted"></i> 
-													More Top Sales
+													요청내역 페이지 이동
 												</a>
 
 											</div>
@@ -383,7 +375,7 @@
 
 												<a class="size-12" href="#">
 													<i class="fa fa-arrow-right text-muted"></i> 
-													More Most Visited
+													문의사항 페이지이동
 												</a>
 
 											</div>
@@ -417,7 +409,7 @@
 							<div id="panel-3" class="panel panel-default">
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>RECENT ACTIVITIES</strong> <!-- panel title -->
+										<strong>클라이언트 감사</strong> <!-- panel title -->
 									</span>
 								</div>
 
@@ -428,83 +420,42 @@
 										
 										<li>
 											<span class="label label-danger"><i class="fa fa-bell-o size-15"></i></span>
-											Urgent task: add new theme to fastAdmin
-										</li>
-
-										<li>
-											<span class="label label-success"><i class="fa fa-user size-15"></i></span>
-											<a href="#">5 pending memership</a>
-										</li>
-
-										<li>
-											<span class="label label-warning"><i class="fa fa-comment size-15"></i></span>
-											<a href="#">24 New comments that needs your approval</a>
-										</li>
-
-										<li>
-											<span class="label label-default"><i class="fa fa-briefcase size-15"></i></span>
-											No work for tomorrow &ndash; everyone is free! 
-										</li>
-
-										<li>
-											<span class="label label-info"><i class="fa fa-shopping-cart size-15"></i></span>
-											You have new 3 orders unprocessed
-										</li>
-
-										<li>
-											<span class="label label-success"><i class="fa fa-bar-chart-o size-15"></i></span>
-											Generate the finance report for the previous year
+											가드컴 에이전트 제거
 										</li>
 
 										<li>
 											<span class="label label-success bg-black"><i class="fa fa-cogs size-15"></i></span>
-											CentOS server need a kernel update
+											설정 변경:[공용 로그인모드 :사용안함]
 										</li>
 
 										<li>
-											<span class="label label-warning"><i class="fa fa-file-excel-o size-15"></i></span>
-											<a href="#">XCel finance report for 2014 released</a>
+											<span class="label label-warning"><i class="fa fa-user size-15"></i></span>
+											로그아웃(화면 잠금)
 										</li>
-
+										<li>
+											<span class="label label-warning"><i class="fa fa-user size-15"></i></span>
+											로그인 성공
+										</li>
+									
 										<li>
 											<span class="label label-danger"><i class="fa fa-bell-o size-15"></i></span>
-											Power grid is off. Moving to solar backup.
-										</li>
-
-										<li>
-											<span class="label label-warning"><i class="fa fa-comment size-15"></i></span>
-											<a href="#">24 New comments that need your approval</a>
-										</li>
-
-										<li>
-											<span class="label label-default"><i class="fa fa-briefcase size-15"></i></span>
-											No work for tomorrow &ndash; everyone is free! 
-										</li>
-
-										<li>
-											<span class="label label-info"><i class="fa fa-shopping-cart size-15"></i></span>
-											You have new 3 orders unprocessed
-										</li>
-
-										<li>
-											<span class="label label-success"><i class="fa fa-bar-chart-o size-15"></i></span>
-											Generate the finance report for the previous year
+											가드컴 에이전트 제거
 										</li>
 
 										<li>
 											<span class="label label-success bg-black"><i class="fa fa-cogs size-15"></i></span>
-											CentOS server need a kernel update
+											설정 변경:[공용 로그인모드 :사용안함]
 										</li>
 
 										<li>
-											<span class="label label-warning"><i class="fa fa-file-excel-o size-15"></i></span>
-											<a href="#">XCel finance report for 2014 released</a>
+											<span class="label label-warning"><i class="fa fa-user size-15"></i></span>
+											로그아웃(화면 잠금)
+										</li>
+										<li>
+											<span class="label label-warning"><i class="fa fa-user size-15"></i></span>
+											로그인 성공
 										</li>
 
-										<li>
-											<span class="label label-danger"><i class="fa fa-bell-o size-15"></i></span>
-											Power grid is off. Moving to solar backup.
-										</li>
 									</ul>
 
 								</div>
@@ -513,7 +464,7 @@
 								<!-- panel footer -->
 								<div class="panel-footer">
 
-									<a href="#"><i class="fa fa-arrow-right text-muted"></i> View Activities Archive</a>
+									<a href="#"><i class="fa fa-arrow-right text-muted"></i>감사내역페이지 이동 </a>
 
 								</div>
 								<!-- /panel footer -->
@@ -574,17 +525,29 @@
 										if (jQuery("#flot-sales").length > 0) {
 
 											/* DEFAULTS FLOT COLORS */
-											var $color_border_color = "#eaeaea",		/* light gray 	*/
-												$color_second 		= "#6595b4";		/* blue      	*/
+										var $color_border_color = "#eaeaea";		/* light gray 	*/
+											$color_grid_color 	= "#dddddd"			/* silver	 	*/
+											$color_main 		= "#E24913";		/* red       	*/
+											$color_second 		= "#6595b4";		/* blue      	*/
+											$color_third 		= "#FF9F01";		/* orange   	*/
+											$color_fourth 		= "#7e9d3a";		/* green     	*/
+											$color_fifth 		= "#BD362F";		/* dark red  	*/
+											$color_mono 		= "#000000";		/* black 	 	*/
 
+/* 											var d = [
+											     	[1196463600000, 0], [1196550000000, 0], [1196636400000, 0], [1196722800000, 77], [1196809200000, 3636], [1196895600000, 3575], [1196982000000, 2736], [1197068400000, 1086], [1197154800000, 676], [1197241200000, 1205], [1197327600000, 906], [1197414000000, 710], [1197500400000, 639], [1197586800000, 540], [1197673200000, 435], [1197759600000, 301], [1197846000000, 575], [1197932400000, 481], [1198018800000, 591], [1198105200000, 608], [1198191600000, 459], [1198278000000, 234], [1198364400000, 4568], [1198450800000, 686], [1198537200000, 4122], [1198623600000, 449], [1198710000000, 468], [1198796400000, 392], [1198882800000, 282], [1198969200000, 208], [1199055600000, 229], [1199142000000, 177], [1199228400000, 374], [1199314800000, 436], [1199401200000, 404], [1199487600000, 544], [1199574000000, 500], [1199660400000, 476], [1199746800000, 462], [1199833200000, 500], [1199919600000, 700], [1200006000000, 750], [1200092400000, 600], [1200178800000, 500], [1200265200000, 900], [1200351600000, 930], [1200438000000, 1200], [1200524400000, 980], [1200610800000, 950], [1200697200000, 900], [1200783600000, 1000], [1200870000000, 1050], [1200956400000, 1150], [1201042800000, 1100], [1201129200000, 1200], [1201215600000, 1300], [1201302000000, 1700], [1201388400000, 1450], [1201474800000, 1500], [1201561200000, 1510], [1201647600000, 1510], [1201734000000, 1510], [1201820400000, 1700], [1201906800000, 1800], [1201993200000, 1900], [1202079600000, 2000], [1202166000000, 2100], [1202252400000, 2200], [1202338800000, 2300], [1202425200000, 2400], [1202511600000, 2550], [1202598000000, 2600], [1202684400000, 2500], [1202770800000, 2700], [1202857200000, 2750], [1202943600000, 2800], [1203030000000, 3245], [1203116400000, 3345], [1203202800000, 3000], [1203289200000, 3200], [1203375600000, 3300], [1203462000000, 3400], [1203548400000, 3600], [1203634800000, 3700], [1203721200000, 3800], [1203807600000, 4000], [1203894000000, 4500]];
+										    var d2 = [
+											     	[1196463600000, 20], [1196550000000, 80], [1196636400000, 122], [1196722800000, 1200], [1196809200000, 1800], [1196895600000, 1800], [1196982000000, 1800], [1197068400000, 1000], [1197154800000, 676], [1197241200000, 12], [1197327600000, 3200], [1197414000000, 100], [1197500400000, 300], [1197586800000, 200], [1197673200000, 435], [1197759600000, 301], [1197846000000, 575], [1197932400000, 481], [1198018800000, 591], [1198105200000, 608], [1198191600000, 459], [1198278000000, 234], [1198364400000, 4568], [1198450800000, 686], [1198537200000, 4122], [1198623600000, 449], [1198710000000, 468], [1198796400000, 392], [1198882800000, 282], [1198969200000, 208], [1199055600000, 229], [1199142000000, 177], [1199228400000, 374], [1199314800000, 800], [1199401200000, 404], [1199487600000, 544], [1199574000000, 500], [1199660400000, 476], [1199746800000, 462], [1199833200000, 500], [1199919600000, 700], [1200006000000, 750], [1200092400000, 600], [1200178800000, 500], [1200265200000, 900], [1200351600000, 930], [1200438000000, 300], [1200524400000, 700], [1200610800000, 500], [1200697200000, 20], [1200783600000, 500], [1200870000000, 3000], [1200956400000, 2000], [1201042800000, 1100], [1201129200000, 1200], [1201215600000, 1300], [1201302000000, 1700], [1201388400000, 1450], [1201474800000, 1500], [1201561200000, 1510], [1201647600000, 1510], [1201734000000, 1510], [1201820400000, 70], [1201906800000, 1800], [1201993200000, 1900], [1202079600000, 2000], [1202166000000, 2100], [1202252400000, 2200], [1202338800000, 2300], [1202425200000, 2400], [1202511600000, 2550], [1202598000000, 2600], [1202684400000, 2500], [1202770800000, 2700], [1202857200000, 2750], [1202943600000, 2800], [1203030000000, 3245], [1203116400000, 345], [1203202800000, 300], [1203289200000, 320], [1203375600000, 300], [1203462000000, 340], [1203548400000, 300], [1203634800000, 370], [1203721200000, 380], [1203807600000, 400], [1203894000000, 450]];
+										 */
+										 var d = [
+										      	[1, 0], [2, 500], [3, 0], [4, 77], [5, 366], [6, 360], [7, 370], [8, 380], [9, 400], [10, 450]];
+										      var d2 = [
+										      	[1, 200], [2, 80],  [3, 320], [4, 300], [5, 340], [6, 300], [7, 180], [8, 180], [9, 200], [10, 150]];
 
-											var d = [
-												[1196463600000, 0], [1196550000000, 0], [1196636400000, 0], [1196722800000, 77], [1196809200000, 3636], [1196895600000, 3575], [1196982000000, 2736], [1197068400000, 1086], [1197154800000, 676], [1197241200000, 1205], [1197327600000, 906], [1197414000000, 710], [1197500400000, 639], [1197586800000, 540], [1197673200000, 435], [1197759600000, 301], [1197846000000, 575], [1197932400000, 481], [1198018800000, 591], [1198105200000, 608], [1198191600000, 459], [1198278000000, 234], [1198364400000, 4568], [1198450800000, 686], [1198537200000, 4122], [1198623600000, 449], [1198710000000, 468], [1198796400000, 392], [1198882800000, 282], [1198969200000, 208], [1199055600000, 229], [1199142000000, 177], [1199228400000, 374], [1199314800000, 436], [1199401200000, 404], [1199487600000, 544], [1199574000000, 500], [1199660400000, 476], [1199746800000, 462], [1199833200000, 500], [1199919600000, 700], [1200006000000, 750], [1200092400000, 600], [1200178800000, 500], [1200265200000, 900], [1200351600000, 930], [1200438000000, 1200], [1200524400000, 980], [1200610800000, 950], [1200697200000, 900], [1200783600000, 1000], [1200870000000, 1050], [1200956400000, 1150], [1201042800000, 1100], [1201129200000, 1200], [1201215600000, 1300], [1201302000000, 1700], [1201388400000, 1450], [1201474800000, 1500], [1201561200000, 1510], [1201647600000, 1510], [1201734000000, 1510], [1201820400000, 1700], [1201906800000, 1800], [1201993200000, 1900], [1202079600000, 2000], [1202166000000, 2100], [1202252400000, 2200], [1202338800000, 2300], [1202425200000, 2400], [1202511600000, 2550], [1202598000000, 2600], [1202684400000, 2500], [1202770800000, 2700], [1202857200000, 2750], [1202943600000, 2800], [1203030000000, 3245], [1203116400000, 3345], [1203202800000, 3000], [1203289200000, 3200], [1203375600000, 3300], [1203462000000, 3400], [1203548400000, 3600], [1203634800000, 3700], [1203721200000, 3800], [1203807600000, 4000], [1203894000000, 4500]];
-										
-											for (var i = 0; i < d.length; ++i) {
+							/* 				for (var i = 0; i < d.length; ++i) {
 												d[i][0] += 60 * 60 * 1000;
 											}
-										
+							 */			
 											var options = {
 
 												xaxis : {
@@ -629,11 +592,11 @@
 													defaultTheme : false
 												},
 
-												colors : [$color_second],
+												colors : [$color_main, $color_second],
 										
 											};
 										
-											var plot = jQuery.plot(jQuery("#flot-sales"), [d], options);
+											var plot = jQuery.plot(jQuery("#flot-sales"), [d,d2], options);
 										}
 
 									});

@@ -32,13 +32,9 @@
 									<a href="/dashboard"><i class="fa fa-th-large"></i>관리콘솔</a>
 								</li>
 
-								<li><!-- settings -->
-									<a href="/report/adminprofile"><i class="fa fa-cogs"></i>정보변경</a>
-								</li>
-
 								<li class="divider"></li>
 								<li><!-- logout -->
-									<a href="page-login.html"><i class="fa fa-power-off"></i>로그아웃</a>
+									<a href="/"><i class="fa fa-power-off"></i>로그아웃</a>
 								</li>
 							</ul>
 						</li>

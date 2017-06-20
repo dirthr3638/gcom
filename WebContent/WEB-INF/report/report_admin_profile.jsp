@@ -16,7 +16,7 @@
 		<!-- THEME CSS -->
 		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
 		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/black.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 
 	</head>
@@ -28,11 +28,11 @@
 				ASIDE 
 				Keep it outside of #wrapper (responsive purpose)
 			-->
-			<jsp:include page="/WEB-INF/common/report_left_menu.jsp" flush="false" />
+			<jsp:include page="/WEB-INF/common/left_menu.jsp" flush="false" />
 			
 			<!-- /ASIDE -->
 			<!-- HEADER -->
-			<jsp:include page="/WEB-INF/common/report_top_navi.jsp" flush="false" />			
+			<jsp:include page="/WEB-INF/common/top_navi.jsp" flush="false" />			
 			<!-- /HEADER -->
 
 			<!-- 

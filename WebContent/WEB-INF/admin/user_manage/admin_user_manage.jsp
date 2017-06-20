@@ -3,7 +3,6 @@
 <!doctype html>
 <html lang="utf-8">
 	<head>
-	
 		<meta charset="utf-8" />
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 		<title>GuardCom Report</title>
@@ -35,7 +34,7 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>에이전트감사로그</h1>
+					<h1>사용자정보</h1>
 				</header>
 				<!-- /page title -->
 			
@@ -65,7 +64,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>에이전트감사로그</strong> <!-- panel title -->
+										<strong>사용자리스트</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -79,7 +78,6 @@
 		
 											<!-- Info -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
-											
 											
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
@@ -101,15 +99,9 @@
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">작업시작일</td>
+															<td width="35%">연락처</td>
 															<td>
-							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-															</td>
-														</tr>																													
-														<tr >         
-															<td width="35%">작업종료일</td>
-															<td>
-							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+																<input type="text" name="filterUserPhone" id="filterUserPhone" value="" class="form-control required">
 															</td>
 														</tr>																															
 														
@@ -131,37 +123,22 @@
 											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
-														<th style="width:20px"></th>
+														<th></th>
 														<th>부서</th>
 														<th>아이디</th>
 														<th>이름</th>
-														<th>번호</th>
 														<th >직책</th>
-														<th >계급</th>														
-														<th >IP</th>
-														<th >MAC</th>
-														<th >PC이름</th>
-														<th >작업모듈</th>
-														<th >작업내역</th>
-														<th >작업시간(서버)</th>
-														<th >작업시간</th>
-														<th >상태</th>
-
+														<th >계급</th>
+														<th >연락처</th>
 													</tr>
-												</thead>				
+												</thead>
+				
 												<tbody>
 												</tbody>
-											</table>									
+											</table>
+										
 										</div>
 									</div>
-									
-									
-									<div class="ld_modal hidden" >
-									    <div class="ld_center" >
-									        <img alt="" src="/assets/images/loaders/loading.gif" />
-									    </div>
-									</div>
-									
 								</div>
 								<!-- /panel content -->
 							</div>
@@ -180,33 +157,17 @@
 
 <script>
 
-	//라디오타입에 따라 컬럼 hide/show
-	var setColumnType = function(cType){
-		
-		var datatable = $('#table_userinfo').dataTable().api();
-		var aColumn = datatable.columns('.agentinfo' );
-		var uColumn = datatable.columns('.userinfo' );
-		if(cType == 1){
-			uColumn.visible(true);
-			aColumn.visible(false);			
+	
+	var getFilterInfo = function(){
+		var param = new Object();
+		param.user_id = $('#filterUserId').val();
+		param.user_name = $('#filterUserName').val();
+		param.user_phone = $('#filterUserPhone').val();
+		param.dept = getCheckedDept();
 
- 			var jTable = $('#table_userinfo').dataTable();;
-
-//			var nsTr = $('tbody > td > .datables-td-detail').parents('tr')[0];
-			var nsTr = $('#table_userinfo tr');
-			for(var i = 0; i < nsTr.length; i++){
-				var nTr = nsTr[i];
-				jTable.fnClose(nTr);
-			}
-		}else if(cType == 2){
-			uColumn.visible(false);
-			aColumn.visible(true);	
-
-			var nsTr = $('#table_userinfo tr td').find('span.datables-td-detail');
-			nsTr.addClass("datatables-close").removeClass("datatables-open");
-		}		
-	}
-
+		return param;
+	};
+	
  	function setTree(){
 		$.ajax({      
 	        type:"POST",  
@@ -242,14 +203,11 @@
  	}
  	
 	$(document).ready(function(){
-		
 		$(".select2theme").select2({
    			  minimumResultsForSearch: -1,
    			  dropdownAutoWidth : true,
    			  width: 'auto'
    		});
-
-		
      	setTree();
 
 loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
@@ -265,18 +223,16 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 					
 					var table = jQuery('#table_userinfo');
 					table.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
 						"ajax" : {
-							"url":'/ax/audit/client/list',
+							"url":'/ax/userinfo/list',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  function(param) {
 								param.user_id = $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
-								param.start_date = $('#filterStartDate').val();
-								param.end_date = $('#filterEndDate').val();
-								
+								param.user_phone = $('#filterUserPhone').val();
 								param.dept = getCheckedDept();
 					        },
  					        "beforeSend" : function(){
@@ -285,9 +241,9 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 					        "dataSrc": function ( json ) {
 								jQuery('#preloader').hide();
 				                return json.data;
-				            }   
+				            }
 						},
-						lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
+						lengthMenu: [[20, 100, 99999], [20, 100, "전체"]],
 						tableTools: {
 					          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
 					        },
@@ -316,11 +272,13 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 					              }, 
 
 					     ],
+						
 				 		"serverSide" : true,
+				 		"processing": true,
 				 	    "ordering": true,
 						"columns": [{
-							data: "exportNo",							
-							"orderable": false	//추가정보
+							data: "userNo",							
+							"orderable": false		//추가정보
 						}, {
 							data: "deptName",
 							"orderable": false	//부서
@@ -330,46 +288,23 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						}, {
 							data: "userName",
 							"orderable": false	//이름
-						}, {
-							data: "userNo",
-							"orderable": false	//번호
-						}, {
+						},
+						{
 							data: "duty",
 							"orderable": false	//직책
 						}, {
 							data: "rank",
 							"orderable": false	//계급
 						}, {
-							data: "ipAddr",
-							"orderable": false	//IP
-						}, {
-							data: "macAddr",
-							"orderable": false	//MAC
-						}, {
-							data: "pcName",
-							"orderable": false	//PC이름
-						}, {
-							data: "moduleName",
-							"orderable": false	//작업모듈
-						}, {
-							data: "description",
-							"orderable": false	//작업내역
-						}, {
-							data: "serverTime",
-							"orderable": false	//작업시간(서버)
-						}, {
-							data: "clientTime",
-							"orderable": false	//작업시간(PC)
-						}, {
-							data: "status",
-							"orderable": false	//상태
+							data: "phone",
+							"orderable": false	//연락
 						}],
 						// set the initial value
 						"pageLength": 20,
 						"iDisplayLength": 20,
 						"pagingType": "bootstrap_full_number",
 						"language": {
-							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
+							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
 							"infoEmpty": "검색된 데이터가 없습니다.",
 							"zeroRecords" :"검색된 데이터가 없습니다.",
 							"lengthMenu": "  _MENU_ 개",
@@ -384,10 +319,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						"columnDefs": [
 						{	
 							"targets": [0],	//추가정보
-							"class":"center-cell add_detail_info",
-							"render":function(data,type,row){
-								return '<span class="datables-td-detail datatables-close"></span>';
-							}
+							"class":"center-cell",
 						},         
 						{  // set default column settings
 							'targets': [1]	//부서
@@ -399,96 +331,20 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"targets": [3]	//이름
 							,"class":"center-cell"
 						}, {	
-							"targets": [4],	//번호
-							"class":"center-cell"
+							"targets": [4]	//직책
+							,"class" : "userinfo center-cell"
 						}, {	
-							"targets": [5]	//직책
-							,"class" : "center-cell"
+							"targets": [5]	//계급
+							,"class" : "userinfo center-cell"
 						}, {	
-							"targets": [6]	//계급
-							,"class" : "center-cell"
-						}, 
-						{	
-							"targets": [7]	//IP
-							,"class" : "center-cell"
-							,"visible" : false
-							,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [8]	//MAC
-							,"class" : "center-cell"
-							,"visible" : false
-	 						,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [9]	//PC이름
-							,"class" : "center-cell"
-							,"visible" : false
-	 						,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [10]	//작업모듈
-							,"class" : "center-cell"
-						}, {	
-							"targets": [11]	//작업내역
-						}, {	
-							"targets": [12]	//시간(서버)
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {	
-							"targets": [13]	//시간(PC)
-							,"class" : "center-cell"
-						}, {	
-							"targets": [14]	//상태
-							,"class" : "center-cell"
+							"targets": [6]	//연락처
+							,"class" : "userinfo center-cell"
 						}],						
 						"initComplete": function( settings, json ) {
 							$('.export-print').hide();
 						}
 					});
 					
-					function fnFormatDetails(oTable, nTr) {
-						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
-						sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
-						sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-						sOut += '<tr><td class="center-cell">PC명:</td><td>' + aData.serverTime + '</td><td></td><td></td></tr>';
-						
-						sOut += '<td class="center-cell"></td><td></td></tr>';
-												
-						sOut += '</table>';
-
-						return sOut;
-					}
-					
-					var jTable = jQuery('#table_userinfo');
-					jTable.on('click', ' tbody td .datables-td-detail', function () {
-						var nTr = jQuery(this).parents('tr')[0];
-						if (table.fnIsOpen(nTr)) {
-							/* This row is already open - close it */
-							jQuery(this).addClass("datatables-close").removeClass("datatables-open");
-							table.fnClose(nTr);
-						} else {
-							/* Open this row */
-							jQuery(this).addClass("datatables-open").removeClass("datatables-close");
-							table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
-						}
-					});
 				}
 			});
 			});
@@ -497,8 +353,10 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 			}); 
 		});
 jQuery('#preloader').hide();
-
+       
     });
 </script>
+		
+		
 	</body>
 </html>

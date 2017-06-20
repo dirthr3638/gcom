@@ -6,6 +6,8 @@ import java.util.List;
 import gcom.Model.*;
 import gcom.service.System.ISystemService;
 import gcom.service.System.SystemServiceImpl;
+import gcom.service.UserAgent.IUserAgentService;
+import gcom.service.UserAgent.UserAgentServiceImpl;
 import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
 
@@ -34,6 +36,19 @@ public class getAdminAction {
 		result.put("recordsFiltered", total);
 		
 		return result;		
+	}
+	
+	public HashMap<String, Object> getUserInfoList(HashMap<String, Object> map){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IUserAgentService as = new UserAgentServiceImpl();
+		List<UserInfoModel> data = as.getUserInfoList(map);
+		result.put("data", data);
+		int total = as.getUserInfoListCount(map);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;		
+		
 	}
 	
 }

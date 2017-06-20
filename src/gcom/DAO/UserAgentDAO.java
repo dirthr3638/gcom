@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 
 import gcom.Model.PrintFileModel;
 import gcom.Model.UserAgentModel;
+import gcom.Model.UserInfoModel;
 import gcom.Model.UserPolicyModel;
 
 
@@ -219,6 +220,78 @@ sql += whereSql;
 	}
 	
 	
+
+
+	public int getUserPolicyListCount(HashMap<String, Object> map){
+		int result = 0;
+		
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+
+		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
+		
+		
+		
+		String sql= 
+"SELECT "
++ "COUNT(*) cnt "
++ "FROM policy_info AS policy "
++ "INNER JOIN agent_info AS agent ON agent.no = policy.agent_no "
++ "INNER JOIN user_info AS ur ON ur.no = agent.own_user_no "
++ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	
 	public List<UserPolicyModel> getUserPolicyList(HashMap<String, Object> map){
 		List<UserPolicyModel> data = new ArrayList<UserPolicyModel>();
 		
@@ -343,6 +416,166 @@ sql += whereSql;
 				model.setPatternFileControl(rs.getInt("pattern_file_control"));
 				data.add(model);
 			}
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+	
+
+	public int getUserInfoListCount(HashMap<String, Object> map){
+		int result = 0;
+		
+		String whereSql = "WHERE userinfo.valid=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		String user_phone = map.get("user_phone").toString();
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+			
+		
+		if(!user_id.equals("")) 	whereSql += "AND userinfo.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND userinfo.name LIKE ? ";
+		if(!user_phone.equals("")) 	whereSql += "AND userinfo.phone LIKE ? ";
+		
+		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";
+		
+		String sql= 
+"SELECT "
++ "COUNT(*) AS cnt " 
++ "FROM user_info AS userinfo "
++ "INNER JOIN dept_info AS dept ON userinfo.dept_no = dept.no ";
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	
+	public List<UserInfoModel> getUserInfoList(HashMap<String, Object> map){
+		List<UserInfoModel> data = new ArrayList<UserInfoModel>();
+		
+		String whereSql = "WHERE userinfo.valid=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		String user_phone = map.get("user_phone").toString();
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+
+		if(!user_id.equals("")) 	whereSql += "AND userinfo.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND userinfo.name LIKE ? ";
+		if(!user_phone.equals("")) 	whereSql += "AND userinfo.phone LIKE ? ";
+		
+		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";
+		
+		whereSql += "ORDER BY userinfo.no desc LIMIT ?, ? ";	
+		
+		String sql= 
+"SELECT "
++ "userinfo.no AS user_no, "
++ "userinfo.dept_no,"
++ "userinfo.duty,"
++ "userinfo.rank,"
++ "userinfo.name, "
++ "userinfo.phone, "
++ "userinfo.id,"
++ "userinfo.valid,"
++ "dept.short_name AS dept_name "
++ "FROM user_info AS userinfo "
++ "INNER JOIN dept_info AS dept ON userinfo.dept_no = dept.no ";
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+
+			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
+			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				UserInfoModel model = new UserInfoModel();
+				model.setUserNo(rs.getInt("user_no"));
+				model.setDuty(rs.getString("duty"));
+				model.setRank(rs.getString("rank"));
+				model.setUserName(rs.getString("name"));
+				model.setPhone(rs.getString("phone"));
+				model.setUserId(rs.getString("id"));
+				model.setDeptName(rs.getString("dept_name"));
+
+				data.add(model);
+			}
+			
 		}catch(SQLException ex){
 			ex.printStackTrace();
 		}finally {
