@@ -16,7 +16,6 @@ public class UserContactModel {
 	private String regDt = "";
 	private String commentYN = "";
 	private String commnetRegStafId = "";
-	private String commnetRegStafName = "";
 	private String replyContent = "";
 	private String commentRegDt = "";
 	

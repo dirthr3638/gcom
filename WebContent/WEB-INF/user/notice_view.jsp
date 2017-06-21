@@ -38,7 +38,7 @@
 						<li>
 							<a href="#">
 								<i class="fa fa-clock-o"></i> 
-								<span class="font-lato">등록일 : <%= data.getBbsRegDate() %></span>
+								<span class="font-lato">작성일 : <%= data.getBbsRegDate() %></span>
 							</a>
 						</li>
 						<li>

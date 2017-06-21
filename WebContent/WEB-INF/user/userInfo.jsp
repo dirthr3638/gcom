@@ -42,11 +42,11 @@
 						<form role="form" action="#" method="post">
 							<div class="form-group">
 								<label class="control-label">이름</label>
-								<input type="text" class="form-control" value="<%= name %>" />
+								<input type="text" class="form-control" value="<%= name %>" disabled />
 							</div>
 							<div class="form-group">
 								<label class="control-label">핸드폰</label>
-								<input type="text" class="form-control" placeholder="010-1111-1111" value="<%= phone %>" />
+								<input type="text" class="form-control" placeholder="010-1111-1111" value="<%= phone %>" disabled/>
 							</div>
 							<div class="form-group">
 								<label class="control-label">변경 할 비밀번호</label>
@@ -59,15 +59,15 @@
 							
 							<div class="form-group">
 								<label class="control-label">소속</label>
-								<input type="text" class="form-control" value="<%= deptName %>" />
+								<input type="text" class="form-control" value="<%= deptName %>" disabled />
 							</div>
 							<div class="form-group">
 								<label class="control-label">직책</label>
-								<input type="text" class="form-control" value="<%= duty %>" />
+								<input type="text" class="form-control" value="<%= duty %>" disabled />
 							</div>
 							<div class="form-group">
 								<label class="control-label">비고</label>
-								<textarea class="form-control" rows="3" placeholder="About Me..."></textarea>
+								<textarea class="form-control" rows="3" disabled ></textarea>
 							</div>
 							<div class="margiv-top10">
 								<a href="#" class="btn btn-primary"><i class="fa fa-check"></i> 정보 수정 </a>
@@ -98,10 +98,10 @@
 
 					<!-- SIDE NAV -->
 					<ul class="side-nav list-group margin-bottom-60" id="sidebar-nav">
-						<li class="list-group-item"><a href="page-profile.html"><i class="fa fa-eye"></i> PROFILE</a></li>
+						<!-- <li class="list-group-item"><a href="page-profile.html"><i class="fa fa-eye"></i> PROFILE</a></li>
 						<li class="list-group-item"><a href="page-profile-projects.html"><i class="fa fa-tasks"></i> PROJECTS</a></li>
 						<li class="list-group-item"><a href="page-profile-comments.html"><i class="fa fa-comments-o"></i> COMMENTS</a></li>
-						<li class="list-group-item"><a href="page-profile-history.html"><i class="fa fa-history"></i> HISTORY</a></li>
+						<li class="list-group-item"><a href="page-profile-history.html"><i class="fa fa-history"></i> HISTORY</a></li> -->
 						<li class="list-group-item active"><a href="page-profile-settings.html"><i class="fa fa-gears"></i> SETTINGS</a></li>
 					</ul>
 					<!-- /SIDE NAV -->
