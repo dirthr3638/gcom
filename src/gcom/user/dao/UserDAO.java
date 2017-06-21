@@ -517,6 +517,50 @@ public class UserDAO {
 		
 		return list;
 	}
+
+	public HashMap<String, Object> insertContactSave(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		String titel = map.get("titel").toString();
+		String body = map.get("body").toString();
+		int userNo = Integer.parseInt(map.get("user_no").toString());
+		String eMail = map.get("eMail").toString();
+		int conType = Integer.parseInt(map.get("conType").toString());
+		
+		String returnCode = "S";
+		
+		String sql= "INSERT INTO user_contact_info (contact_title, contact_body, reg_user_staf_no, reg_dt, email, contact_type, comment_yn) " 
+					+ " VALUES ( ?, ?, ?, NOW(), ?, ?, 'N') ";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, titel);
+			pstmt.setString(2, body);
+			pstmt.setInt(3, userNo);
+			pstmt.setString(4, eMail);
+			pstmt.setInt(5, conType);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			result.put("returnCode", returnCode);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", "E");
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 	
 	/*
 	public List<HashMap<String, Object>> getUserSystemPolicyList(String code) {

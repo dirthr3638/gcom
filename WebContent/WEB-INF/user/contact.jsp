@@ -67,23 +67,23 @@
 					<!-- /Alert Mandatory -->
 
 
-					<form action="/contact/save" method="post" enctype="multipart/form-data">
+					<form id="frmContact" action="/contact/save" method="post">
 						<fieldset>
-							<input type="hidden" name="action" value="contact_send" />
+							<!-- <input type="hidden" name="action" value="contact_send" /> -->
 
 							<div class="row">
 								<div class="form-group">
 									<div class="col-md-12">
 										<label for="contact:name">성명 *</label>
-										<input type="text" value="<%= name %>" class="form-control" name="contact[name][required]" id="contact:name" disabled />
+										<input type="text" value="<%= name %>" class="form-control" name="name" id="name" disabled />
 									</div>
 									<div class="col-md-12">
 										<label for="contact:phone">핸드폰 *</label>
-										<input type="text" value="<%= phone %>" class="form-control" name="contact[phone]" id="contact:phone" disabled />
+										<input type="text" value="<%= phone %>" class="form-control" name="phone" id="phone" disabled />
 									</div>
 									<div class="col-md-12">
 										<label for="contact:email">이메일 </label>
-										<input type="email" value="" class="form-control" name="contact[email][required]" id="contact:email" placeholder="E-Mail" />
+										<input type="email" value="" class="form-control" name="user_mail" id="user_mail" placeholder="E-Mail" />
 									</div>
 								</div>
 							</div>
@@ -91,12 +91,11 @@
 								<div class="form-group">
 									<div class="col-md-8">
 										<label for="contact:subject">제목 *</label>
-										<input required type="text" value="" class="form-control" name="contact[subject][required]" id="contact:subject" placeholder="Subject">
+										<input required type="text" value="" class="form-control" name="contact_subject" id="contact_subject" placeholder="제목">
 									</div>
 									<div class="col-md-4">
 										<label for="contact_department">문의구분</label>
-										<select class="form-control pointer" name="contact[department]">
-											<option value="">--- Select ---</option>
+										<select class="form-control pointer" name="contact_type" id="contact_type">
 											<option value="1">단순문의</option>
 											<option value="2">서비스문의</option>
 											<option value="3">버그문의</option>
@@ -108,7 +107,7 @@
 								<div class="form-group">
 									<div class="col-md-12">
 										<label for="contact:message">문의내용 *</label>
-										<textarea required maxlength="10000" rows="8" class="form-control" name="contact[message]" id="contact:message"></textarea>
+										<textarea required maxlength="10000" rows="8" class="form-control" name="contact_body" id="contact_body"></textarea>
 									</div>
 								</div>
 							</div>
@@ -129,7 +128,7 @@
 						</fieldset>
 						<div class="row">
 							<div class="col-md-12">
-								<button id="btnRegContact" class="btn btn-primary"><i class="fa fa-check"></i> 문의등록</button>
+								<button id="btnContactSave" class="btn btn-primary"><i class="fa fa-check"></i> 문의등록</button>
 							</div>
 						</div>
 					</form>
@@ -175,48 +174,38 @@
 	
 		<!-- PAGE LEVEL SCRIPTS -->
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
-
+		<script type="text/javascript" src="/assets/plugins/jquery/jquery.form.js" ></script>
+		
 		<script type="text/javascript">
 		
-		function fn_reg_contact_login_proc() {
-			/*
-			var validator = fn_login_input_valid();
-			
-			if(!validator){
-				return false;
-			}
-			*/
+		function fn_reg_contact_proc() {
 			
 			var option = {
 			        url:       		"/contact/save",
 			    	type:      		"post",       
-			    	success:     	fn_login_callback,
+			    	success:     	fn_contact_callback,
 			    	fail:			callbackFail,
 			    	cache: 			false,
-			        resetForm: 		false 
+			        resetForm: 		true,
 			};
-			$("#frmLogin").ajaxSubmit(option);
 			
+			$("#frmContact").ajaxSubmit(option);			
 		}
 		
 		function callbackFail(){}
 		
-		function fn_login_callback(data){
+		function fn_contact_callback(data){
 			
-			if(data.returnCode == "S"){
-				location.href= data.goUrl;
+			if(data.returnCode== "S"){
+				alert("문의가 등록 되었습니다.");
+				var datatable = $('#contact_table').dataTable().api();
+				datatable.ajax.reload();
 			}else{
 				switch (data.returnCode){
 				  case "E":
-					alert(data.message);
+					  alert("문의 등록에 실패 하였습니다.");
 				    break;
-				  case "NI":
-					  alert("등록되지 않은 계정입니다. 계정 신청 후 사용하시기 바랍니다.");
-				    break;
-				  case "DI":
-					alert("아이디 또는 암호를 확인해 주세요.");
-				    break;
-				  default:
+				   default:
 				}
 			}
 			
@@ -230,10 +219,11 @@
 	    			  width: 'auto'
 	    		  });
 	    		  
-	    		  $("#btnRegContact").on("click" , function(e){
-	    			  e.preventDefault();
-	    			  fn_reg_contact_login_proc();
-	    		  });
+	    		  $("#btnContactSave").on("click" , function(e){
+						e.preventDefault();
+						fn_reg_contact_proc();
+					});
+	    		  
 	    	}); 
 	        
 	     	loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){

@@ -27,4 +27,6 @@ public interface UserServiceInterface {
 
 	public List<HashMap<String, Object>> getMemberPolicyDetail(HashMap<String, Object> map);
 
+	public HashMap<String, Object> insertContactSave(HashMap<String, Object> map) throws Exception;
+
 }

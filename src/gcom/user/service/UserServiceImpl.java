@@ -58,4 +58,8 @@ public class UserServiceImpl implements UserServiceInterface {
 		return result;
 	}
 	
+	public HashMap<String, Object> insertContactSave(HashMap<String, Object> map) throws Exception {
+		return userDAO.insertContactSave(map);
+	}
+	
 }

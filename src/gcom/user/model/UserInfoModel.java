@@ -1,7 +1,5 @@
 package gcom.user.model;
 
-import java.util.HashMap;
-
 import lombok.Data;
 
 @Data
