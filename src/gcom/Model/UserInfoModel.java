@@ -15,4 +15,5 @@ public class UserInfoModel {
 	private String macAddr = "";
 	private String pcName = "";
 	private String deptName = "";
+	private String phone = "";
 }

@@ -60,9 +60,9 @@
 		<!-- aside fixed background -->
 	</span>
 </aside>
-<!-- 
+
 <div id="preloader" >
 	<div class="inner">
 		<span class="loader"></span>
 	</div>
-</div> -->
+</div> 

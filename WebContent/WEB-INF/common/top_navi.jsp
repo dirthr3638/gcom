@@ -33,12 +33,12 @@
 								</li>
 
 								<li><!-- settings -->
-									<a href="page-user-profile.html"><i class="fa fa-cogs"></i>정보변경</a>
+									<a href="/report/adminprofile"><i class="fa fa-cogs"></i>정보변경</a>
 								</li>
 
 								<li class="divider"></li>
 								<li><!-- logout -->
-									<a href="page-login.html"><i class="fa fa-power-off"></i>로그아웃</a>
+									<a href="/logout"><i class="fa fa-power-off"></i>로그아웃</a>
 								</li>
 							</ul>
 						</li>
