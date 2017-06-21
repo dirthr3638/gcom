@@ -38,7 +38,7 @@
 
 								<li class="divider"></li>
 								<li><!-- logout -->
-									<a href="/"><i class="fa fa-power-off"></i>로그아웃</a>
+									<a href="/logout"><i class="fa fa-power-off"></i>로그아웃</a>
 								</li>
 							</ul>
 						</li>
