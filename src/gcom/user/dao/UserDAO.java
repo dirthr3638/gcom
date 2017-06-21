@@ -172,7 +172,7 @@ public class UserDAO {
 		
 		String sql= 
 				"SELECT COUNT(*) AS cnt FROM user_notice_bbs AS bbs "
-				+ "INNER JOIN user_info AS user_info ON bbs.reg_staf_id = user_info.id "
+				+ "LEFT JOIN admin_info AS admin ON bbs.reg_staf_no = admin.no "
 				+ "WHERE bbs.del_yn = 'N' ";
 		
 		if(!"".equals(search_text)){
@@ -221,12 +221,12 @@ public class UserDAO {
 				"SELECT bbs.bbs_id, "
 			    + "bbs.bbs_title, "
 			    + "bbs.special_type, "
-			    + "user_info.name, "
+			    + "admin.id, "
 			    + "DATE(bbs.reg_dt) AS reg_dt, "
 			    + "bbs_hit.hit_cnt, "
 			    + "bbs.attfile_yn "
 				+ "FROM user_notice_bbs AS bbs "
-				+ "INNER JOIN user_info AS user_info ON bbs.reg_staf_id = user_info.id "
+				+ "LEFT JOIN admin_info AS admin ON bbs.reg_staf_no = admin.no "
 				+ "INNER JOIN user_notice_bbs_hit AS bbs_hit ON bbs.bbs_id = bbs_hit.bbs_id "
 				+ "WHERE bbs.del_yn = 'N' ";
 				
@@ -259,7 +259,7 @@ public class UserDAO {
 				model.setBbsId(rs.getInt("bbs_id"));
 				model.setBbsTitle(rs.getString("bbs_title"));
 				model.setBbsSpecialYN(rs.getString("special_type"));
-				model.setBbsRegStaf(rs.getString("name"));
+				model.setBbsRegStaf(rs.getString("id"));
 				model.setBbsRegDate(rs.getString("reg_dt"));
 				model.setBbsClickCnt(rs.getInt("hit_cnt"));
 				model.setBbsAttfileYN(rs.getString("attfile_yn"));
@@ -290,13 +290,13 @@ public class UserDAO {
 				"SELECT bbs.bbs_id, "
 			    + "bbs.bbs_title, "
 			    + "bbs.special_type, "
-			    + "user_info.name, "
+			    + "admin.id, "
 			    + "DATE(bbs.reg_dt) AS reg_dt, "
 			    + "bbs_hit.hit_cnt, "
 			    + "bbs.attfile_yn, "
 			    + "bbs.bbs_body "
 				+ "FROM user_notice_bbs AS bbs "
-				+ "INNER JOIN user_info AS user_info ON bbs.reg_staf_id = user_info.id "
+				+ "LEFT JOIN admin_info AS admin ON bbs.reg_staf_no = admin.no "
 				+ "INNER JOIN user_notice_bbs_hit AS bbs_hit ON bbs.bbs_id = bbs_hit.bbs_id "
 				+ "WHERE bbs.del_yn = 'N' "
 				+ "AND bbs.bbs_id = ?";
@@ -311,7 +311,7 @@ public class UserDAO {
 				model.setBbsId(rs.getInt("bbs_id"));
 				model.setBbsTitle(rs.getString("bbs_title"));
 				model.setBbsSpecialYN(rs.getString("special_type"));
-				model.setBbsRegStaf(rs.getString("name"));
+				model.setBbsRegStaf(rs.getString("id"));
 				model.setBbsRegDate(rs.getString("reg_dt"));
 				model.setBbsClickCnt(rs.getInt("hit_cnt"));
 				model.setBbsAttfileYN(rs.getString("attfile_yn"));
@@ -370,15 +370,17 @@ public class UserDAO {
 				"SELECT COUNT(*) as cnt FROM (SELECT con.contact_id, "
 				+ "con.contact_type, "
 				+ "con.contact_title, "
-				+ "con.id, "
-				+ "con.reg_dt, "
+				+ "user_info.id, "
+				+ "DATE(con.reg_dt) as reg_dt, "
 				+ "con.comment_yn, "
-				+ "con_comm.reg_staf_id as comment_reg_staf_id, "
-				+ "con_comm.reply_content, "
-				+ "con_comm.reg_dt as comment_reg_dt "
+				+ "IFNULL(admin_info.id, '') as comment_reg_staf_id, "
+				+ "IFNULL(con_comm.reply_content, '') as reply_content, "
+				+ "IFNULL(con_comm.reg_dt, '') as comment_reg_dt "
 				+ "FROM user_contact_info AS con "
+				+ "LEFT JOIN user_info AS user_info ON con.reg_user_staf_no = user_info.no "
 				+ "LEFT JOIN user_contact_comment AS con_comm ON con.contact_id = con_comm.contact_id "
-				+ "WHERE con.id = ? ) AS T ";
+				+ "LEFT JOIN admin_info AS admin_info ON con_comm.reg_admin_staf_no = admin_info.no "
+				+ "WHERE user_info.id = ?  ) AS T ";
 		
 		try{
 			con = ds.getConnection();
@@ -416,17 +418,17 @@ public class UserDAO {
 				"SELECT con.contact_id, "
 				+ "con.contact_type, "
 				+ "con.contact_title, "
-				+ "con.id, "
+				+ "user_info.id, "
 				+ "DATE(con.reg_dt) as reg_dt, "
 				+ "con.comment_yn, "
-				+ "IFNULL(con_comm.reg_staf_id, '')as comment_reg_staf_id, "
-				+ "IFNULL(user_info.name, '') as comment_reg_staf_name, "
+				+ "IFNULL(admin_info.id, '')as comment_reg_staf_id, "
 				+ "IFNULL(con_comm.reply_content, '') as reply_content, "
 				+ "IFNULL(con_comm.reg_dt, '') as comment_reg_dt "
 				+ "FROM user_contact_info AS con "
+				+ "LEFT JOIN user_info AS user_info ON con.reg_user_staf_no = user_info.no "
 				+ "LEFT JOIN user_contact_comment AS con_comm ON con.contact_id = con_comm.contact_id "
-				+ "LEFT JOIN user_info AS user_info ON con_comm.reg_staf_id = user_info.id "
-				+ "WHERE con.id = ? "
+				+ "LEFT JOIN admin_info AS admin_info ON con_comm.reg_admin_staf_no = admin_info.no "
+				+ "WHERE user_info.id = ? "
 				+ "ORDER BY con.contact_id DESC, con.reg_dt DESC "
 				+ "LIMIT ? ,? ";
 		
@@ -449,7 +451,6 @@ public class UserDAO {
 				model.setRegDt(rs.getString("reg_dt"));
 				model.setCommentYN(rs.getString("comment_yn"));
 				model.setCommnetRegStafId(rs.getString("comment_reg_staf_id"));
-				model.setCommnetRegStafName(rs.getString("comment_reg_staf_name"));
 				model.setReplyContent(rs.getString("reply_content"));
 				model.setCommentRegDt(rs.getString("comment_reg_dt"));
 								

@@ -67,7 +67,7 @@
 					<!-- /Alert Mandatory -->
 
 
-					<form action="#" method="post" enctype="multipart/form-data">
+					<form action="/contact/save" method="post" enctype="multipart/form-data">
 						<fieldset>
 							<input type="hidden" name="action" value="contact_send" />
 
@@ -75,15 +75,15 @@
 								<div class="form-group">
 									<div class="col-md-12">
 										<label for="contact:name">성명 *</label>
-										<input type="text" value="<%= name %>" class="form-control" name="contact[name][required]" id="contact:name" disabled>
+										<input type="text" value="<%= name %>" class="form-control" name="contact[name][required]" id="contact:name" disabled />
 									</div>
 									<div class="col-md-12">
 										<label for="contact:phone">핸드폰 *</label>
-										<input type="text" value="<%= phone %>" class="form-control" name="contact[phone]" id="contact:phone" disabled>
+										<input type="text" value="<%= phone %>" class="form-control" name="contact[phone]" id="contact:phone" disabled />
 									</div>
 									<div class="col-md-12">
-										<label for="contact:email">이메일 *</label>
-										<input type="email" value="" class="form-control" name="contact[email][required]" id="contact:email" placeholder="E-Mail" required>
+										<label for="contact:email">이메일 </label>
+										<input type="email" value="" class="form-control" name="contact[email][required]" id="contact:email" placeholder="E-Mail" />
 									</div>
 								</div>
 							</div>
@@ -129,7 +129,7 @@
 						</fieldset>
 						<div class="row">
 							<div class="col-md-12">
-								<button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> 문의등록</button>
+								<button id="btnRegContact" class="btn btn-primary"><i class="fa fa-check"></i> 문의등록</button>
 							</div>
 						</div>
 					</form>
@@ -177,6 +177,50 @@
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
 
 		<script type="text/javascript">
+		
+		function fn_reg_contact_login_proc() {
+			/*
+			var validator = fn_login_input_valid();
+			
+			if(!validator){
+				return false;
+			}
+			*/
+			
+			var option = {
+			        url:       		"/contact/save",
+			    	type:      		"post",       
+			    	success:     	fn_login_callback,
+			    	fail:			callbackFail,
+			    	cache: 			false,
+			        resetForm: 		false 
+			};
+			$("#frmLogin").ajaxSubmit(option);
+			
+		}
+		
+		function callbackFail(){}
+		
+		function fn_login_callback(data){
+			
+			if(data.returnCode == "S"){
+				location.href= data.goUrl;
+			}else{
+				switch (data.returnCode){
+				  case "E":
+					alert(data.message);
+				    break;
+				  case "NI":
+					  alert("등록되지 않은 계정입니다. 계정 신청 후 사용하시기 바랍니다.");
+				    break;
+				  case "DI":
+					alert("아이디 또는 암호를 확인해 주세요.");
+				    break;
+				  default:
+				}
+			}
+			
+		}
 							
 		$(document).ready(function(){
 	     	$(document).ready(function() {
@@ -184,6 +228,11 @@
 	    			  minimumResultsForSearch: -1,
 	    			  dropdownAutoWidth : true,
 	    			  width: 'auto'
+	    		  });
+	    		  
+	    		  $("#btnRegContact").on("click" , function(e){
+	    			  e.preventDefault();
+	    			  fn_reg_contact_login_proc();
 	    		  });
 	    	}); 
 	        
@@ -226,7 +275,7 @@
      								}, {
      									data: "commentYN"			//답변여부
      								}, {
-     									data: "commnetRegStafName"	//답변등록자
+     									data: "commnetRegStafId"	//답변등록자
      								}, {
      									data: "commentRegDt"		//답변등록일
      								}, {
@@ -299,7 +348,7 @@
      								if( reFlag == 'Y' ) {
      									sOut += '<tr><td class="comment-cell">답변 : ';
      									sOut += '<i class="fa fa-clock-o"></i> '+ aData.commentRegDt + '&nbsp;&nbsp;&nbsp;&nbsp;';
-     									sOut += '<i class="fa fa-user"></i> '+ aData.commnetRegStafName ;
+     									sOut += '<i class="fa fa-user"></i> '+ aData.commnetRegStafId ;
      									sOut += '</td></tr>';
      									sOut += '<tr><td class="comment-cell" style="padding:20px 10px;">'+ aData.replyContent +'</td></tr>';
      								} else {
