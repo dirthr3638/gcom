@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*"%>
-<%@ page import="gcom.user.model.UserNoticeModel"%>
-<% 
-	UserNoticeModel data = (UserNoticeModel)request.getAttribute("UserNoticeDetail");
-%>
+
 <!doctype html>
 <html lang="utf-8">
 	<head>
@@ -22,6 +19,15 @@
 		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
 		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
 		<link href="/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="/assets/css/smart_editor2/smart_editor2.css" rel="stylesheet" type="text/css" />
+		
+		<script type="text/javascript" src="/assets/js/lib/jindo2.all.js"></script>
+		<script type="text/javascript" src="/assets/js/lib/jindo_component.js"></script>
+		<script type="text/javascript" src="/assets/js/service/HuskyEZCreator.js"></script>
+		<script type="text/javascript" src="/assets/js/service/SE2BasicCreator.js"></script>
+		<script type="text/javascript" src="/assets/js/service/SE2M_Configuration.js"></script>
+		<script type="text/javascript" src="/assets/js/smarteditor2.min.js"></script>
+		
 		
 	</head>
 	<body>
@@ -48,7 +54,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>공지사항 보기</strong> <!-- panel title -->
+										<strong>공지사항 작성</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -56,35 +62,7 @@
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-md-12" style="padding:10px 40px;">
-											<h1 class="blog-post-title"><%= data.getBbsTitle() %></h1>
-											<ul class="blog-post-info list-inline">
-												<li>
-													<a href="#">
-														<i class="fa fa-clock-o"></i> 
-														<span class="font-lato">작성일 : <%= data.getBbsRegDate() %></span>
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<i class="fa fa-eye" aria-hidden="true"></i> 
-														<span class="font-lato">조회 : <%= data.getBbsClickCnt() %></span>
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<i class="fa fa-user"></i> 
-														<span class="font-lato"><%= data.getBbsRegStaf() %></span>
-													</a>
-												</li>
-												</ul>
-											<!-- article content -->
-											<div class="row" style="border:1px solid #f1f1f1; min-height:700px; padding:10px 20px;">
-												<%= data.getBbsBody() %>
-											</div>
-											<div class="row">
-												<a href="/admin/user/notice" class="btn btn-primary pull-right"><i class="fa fa-list"></i>목록</a>
-											</div>
-											<!-- /article content -->
+											<textarea name="ir1" id="ir1" rows="10" cols="100">에디터에 기본으로 삽입할 글(수정 모드)이 없다면 이 value 값을 지정하지 않으시면 됩니다.</textarea>
 										</div>
 									</div>
 									
@@ -103,6 +81,16 @@
 				</div>
 			</section>
 		</div>
-
+		
+		<script type="text/javascript">
+		var oEditors = [];
+		
+		nhn.husky.EZCreator.createInIFrame({
+		    oAppRef: oEditors,
+		    elPlaceHolder: "ir1",
+		    sSkinURI: "/assets/SmartEditor2Skin.html",
+		    fCreator: "createSEditor2"
+		});
+		</script>
 	</body>
 </html>

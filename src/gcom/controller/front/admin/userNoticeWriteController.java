@@ -14,14 +14,14 @@ import gcom.user.service.UserServiceImpl;
 import gcom.user.service.UserServiceInterface;
 
 //공지사항보기
-@WebServlet("/admin/user/notice/view")
-public class userNoticeViewController extends HttpServlet {
+@WebServlet("/admin/user/notice/write")
+public class userNoticeWriteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public userNoticeViewController() {
+    public userNoticeWriteController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,20 +31,7 @@ public class userNoticeViewController extends HttpServlet {
 	 */
     @Override  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("bbs_id", request.getParameter("bbsId"));
-		
-		UserServiceInterface userService = new UserServiceImpl();
-			
-		try {
-			UserNoticeModel model = userService.getUserNoticeDetail(param);
-			request.setAttribute("UserNoticeDetail", model);
-			
-			userService.updateNoticeViewCount(param);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
     	
-		request.getRequestDispatcher("/WEB-INF/admin/user_manage/admin_user_notice_view.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/admin/user_manage/admin_user_notice_write.jsp").forward(request, response);
 	}
 }

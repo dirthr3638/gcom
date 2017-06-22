@@ -53,6 +53,7 @@
 								<!-- panel content -->
 								<div class="panel-body">
 									<div class="row">
+										<button id="btnNoticeWrite" class="btn btn-primary pull-right" style="margin-right: 40px;">게시글작성</button>
 										<div class="col-md-12" style="overflow: hidden;">
 											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_notice" style="width:100%; min-width: 600px;">
 												<col width="80px">
@@ -153,6 +154,10 @@
 		   			  dropdownAutoWidth : true,
 		   			  width: 'auto'
 		   		});
+				
+				$('#btnNoticeWrite').click(function(){
+					location.href = "/admin/user/notice/write" ;					
+				});
 		
 				loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
 				loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
