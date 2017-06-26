@@ -2,8 +2,10 @@ package gcom.controller.action;
 
 import java.util.List;
 
-import gcom.Model.*;
-import gcom.service.Department.*;
+import gcom.Model.DeptModel;
+import gcom.Model.DeptTreeModel;
+import gcom.service.Department.DeptServiceImpl;
+import gcom.service.Department.IDeptService;
 
 public class deptAction {
 

@@ -1,14 +1,8 @@
 package gcom.controller.action;
 
 import java.util.HashMap;
-import java.util.List;
 
 import gcom.DAO.LoginDAO;
-import gcom.Model.*;
-import gcom.service.Device.*;
-import gcom.service.Policy.IPolicyService;
-import gcom.service.Policy.PolicyServiceImpl;
-import gcom.service.UserAgent.*;
 
 public class commonAction {
 	

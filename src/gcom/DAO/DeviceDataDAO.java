@@ -12,9 +12,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import gcom.Model.PrintFileModel;
-import gcom.Model.UsbConnectModel;
-import gcom.Model.UsbDevInfoModel;;
+import gcom.Model.PrintFileModel;;
 
 
 public class DeviceDataDAO {

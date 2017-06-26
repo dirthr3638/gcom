@@ -3,8 +3,18 @@ package gcom.controller.action.admin;
 import java.util.HashMap;
 import java.util.List;
 
-import gcom.Model.*;
+import gcom.Model.FileInfoModel;
+import gcom.Model.PolicyMessengerModel;
+import gcom.Model.PolicyNetworkModel;
+import gcom.Model.PolicyPatternModel;
+import gcom.Model.PolicyProcessModel;
+import gcom.Model.PolicySerialModel;
+import gcom.Model.SubAdminModel;
+import gcom.Model.SystemInfoModel;
+import gcom.Model.UserInfoModel;
 import gcom.service.Personal.PersonalServiceImpl;
+import gcom.service.Policy.IPolicyService;
+import gcom.service.Policy.PolicyServiceImpl;
 import gcom.service.System.ISystemService;
 import gcom.service.System.SystemServiceImpl;
 import gcom.service.UserAgent.IUserAgentService;
@@ -41,10 +51,10 @@ public class getAdminAction {
 		
 		return result;		
 	}
-
+	
 	public HashMap<String, Object> getPolicyMessengerList(HashMap<String, Object> map) {
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		PersonalServiceImpl as = new PersonalServiceImpl();
+		IPolicyService as = new PolicyServiceImpl();
 		List<PolicyMessengerModel> data = as.getPolicyMessengerList(map);
 		result.put("data", data);
 		int total = as.getPolicyMessengerListCount(map);
@@ -54,9 +64,10 @@ public class getAdminAction {
 		return result;
 	}
 
+	
 	public HashMap<String, Object> getPolicyProcessList(HashMap<String, Object> map) {
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		PersonalServiceImpl as = new PersonalServiceImpl();
+		IPolicyService as = new PolicyServiceImpl();
 		List<PolicyProcessModel> data = as.getPolicyProcessList(map);
 		result.put("data", data);
 		int total = as.getPolicyProcessListCount(map);
@@ -66,9 +77,10 @@ public class getAdminAction {
 		return result;
 	}
 
+	
 	public HashMap<String, Object> getPolicyPatternList(HashMap<String, Object> map) {
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		PersonalServiceImpl as = new PersonalServiceImpl();
+		IPolicyService as = new PolicyServiceImpl();
 		List<PolicyPatternModel> data = as.getPolicyPatternList(map);
 		result.put("data", data);
 		int total = as.getPolicyPatternListCount(map);
@@ -78,9 +90,10 @@ public class getAdminAction {
 		return result;
 	}
 
+	
 	public HashMap<String, Object> getPolicyNetworkList(HashMap<String, Object> map) {
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		PersonalServiceImpl as = new PersonalServiceImpl();
+		IPolicyService as = new PolicyServiceImpl();
 		List<PolicyNetworkModel> data = as.getPolicyNetworkList(map);
 		result.put("data", data);
 		int total = as.getPolicyNetworkListCount(map);
@@ -89,10 +102,12 @@ public class getAdminAction {
 		
 		return result;
 	}
+	
+
 
 	public HashMap<String, Object> getPolicySerialList(HashMap<String, Object> map) {
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		PersonalServiceImpl as = new PersonalServiceImpl();
+		IPolicyService as = new PolicyServiceImpl();
 		List<PolicySerialModel> data = as.getPolicySerialList(map);
 		result.put("data", data);
 		int total = as.getPolicySerialListCount(map);

@@ -8,11 +8,6 @@
 
 package gcom.common.services;
 
-import java.security.MessageDigest;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
 /**
  * Created by user on 2016-08-03.
  * by k2jeans

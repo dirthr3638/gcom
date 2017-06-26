@@ -57,6 +57,7 @@
 										<div class="col-md-12" style="overflow: hidden;">
 											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_notice" style="width:100%; min-width: 600px;">
 												<col width="80px">
+												<col width="70px">
 												<col>
 												<col width="120px">
 												<col width="150px">
@@ -65,10 +66,13 @@
 													<tr>
 														<th>ID</th>
 														<th>No</th>
-														<th>제목</th>
+														<th>중요</th>
+														<th class="center-cell">제목</th>
 														<th>작성자</th>
 														<th>작성일</th>
 														<th>조회</th>
+														<th>파일첨부여부</th>
+														<th>파일ID</th>
 													</tr>
 												</thead>				
 												<tbody>
@@ -228,8 +232,18 @@
 										
 									}
 								}, {
+									data: "bbsSpecialYN",
+									"orderable": false	//중요
+									,render : function(data, type, row) {
+										return data == 'Y' ? '<span style="color:red;"><i class="fa fa-star"></i></span>' : '';	
+									}
+								}, {
 									data: "bbsTitle",
 									"orderable": false	//제목
+									,render : function(data, type, row) {
+										var file = row.bbsAttfileYN == 'Y'? '<i class="fa fa-paperclip"></i>' : '';
+										return '<b style=\"cursor:pointer;\" >' + data + '</b>&nbsp;<span style="color:green; font-size:15px;">' + file + '</span>';
+									}
 								}, {
 									data: "bbsRegStaf",
 									"orderable": false	//작성자
@@ -239,6 +253,12 @@
 								}, {
 									data: "bbsClickCnt",
 									"orderable": false	//조회수
+								}, {
+									data: "bbsAttfileYN",
+									"orderable": false	//파일첨부여부
+								}, {
+									data: "attfileId",
+									"orderable": false	//파일ID
 								}],
 								"pageLength": 20,
 								"iDisplayLength": 20,
@@ -265,19 +285,30 @@
 									'targets': [1]	//No
 									,"class":"center-cell"
 								}, {	
-									"targets": [2]	//제목
+									"targets": [2]	//중요
 									,"class":"center-cell"
 								}, {	
-									"targets": [3]	//작성자
-									,"class":"center-cell"
+									"targets": [3]	//제목
+									,"class":"left-cell"
 								}, {	
-									"targets": [4],	//작성일
+									"targets": [4],	//작성자
 									"class":"center-cell"
 								}, {	
-									"targets": [5]	//조회수
+									"targets": [5]	//작성일
 									,"class" : "center-cell"
+								}, {	
+									"targets": [6]	//조회수
+									,"class" : "center-cell"
+								}, {	
+									"targets": [7]	//파일 여부
+									,"class" : "center-cell"
+									,"visible": false
+								}, {	
+									"targets": [8]	//파일 ID
+									,"class" : "center-cell"
+									,"visible": false
 								}],						
-								"initComplete": function( settings, json ) {
+									"initComplete": function( settings, json ) {
 									
 								}
 							});
@@ -286,8 +317,8 @@
 							notice.on( 'click', 'td', function () {
 								var data = notice.row( $(this).parent() ).data();
 								
-								if($(this).index() == 1){	// 제목 클릭
-									location.href  = '/admin/user/notice/view?bbsId=' +  data.bbsId;
+								if($(this).index() == 2){	// 제목 클릭
+									location.href  = '/admin/user/notice/view?bbsId=' + data.bbsId +'&fileYn=' + data.bbsAttfileYN + '&file=' + data.attfileId ;
 								}
 							});
 						}

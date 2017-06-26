@@ -12,7 +12,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import gcom.Model.PrintFileModel;
 import gcom.Model.UserAgentModel;
 import gcom.Model.UserInfoModel;
 import gcom.Model.UserPolicyModel;

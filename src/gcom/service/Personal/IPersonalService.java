@@ -3,6 +3,7 @@ package gcom.service.Personal;
 import java.util.HashMap;
 import java.util.List;
 
+import gcom.Model.FileInfoModel;
 import gcom.Model.MailExportModel;
 import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
@@ -17,4 +18,5 @@ public interface IPersonalService {
 	public int getMsnFileListCount(HashMap<String, Object> map);
 	public List<PrivacyLogModel> getPrivacyFileList(HashMap<String, Object> map);
 	public int getPrivacyFileListCount(HashMap<String, Object> map);
+	public FileInfoModel getAttFileInfo(HashMap<String, Object> map);
 }

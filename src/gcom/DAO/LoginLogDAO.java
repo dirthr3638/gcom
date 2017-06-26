@@ -13,7 +13,6 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import gcom.Model.LoginLogModel;
-import gcom.Model.UserAgentModel;
 
 
 public class LoginLogDAO {
