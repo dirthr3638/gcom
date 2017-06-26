@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class UserPolicyLogModel {
-	private int usbNo;
+	private int policyNo;
 	private int userNo;
 	private String userName = "";
 	private String userId = "";

@@ -5,6 +5,8 @@ import java.util.List;
 
 import gcom.Model.*;
 import gcom.service.Personal.PersonalServiceImpl;
+import gcom.service.Policy.IPolicyService;
+import gcom.service.Policy.PolicyServiceImpl;
 import gcom.service.System.ISystemService;
 import gcom.service.System.SystemServiceImpl;
 import gcom.service.UserAgent.IUserAgentService;
@@ -120,6 +122,20 @@ public class getAdminAction {
 		List<UserInfoModel> data = as.getUserInfoList(map);
 		result.put("data", data);
 		int total = as.getUserInfoListCount(map);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;		
+		
+	}
+	
+	public HashMap<String, Object> getRequestedPolicyList(HashMap<String, Object> map){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IPolicyService as = new PolicyServiceImpl();
+		List<PolicyRequestInfo> data = as.getRequestedPolicyList(map);
+		result.put("data", data);
+		int total = as.getRequestedPolicyListCount(map);
+
 		result.put("recordsTotal", total);
 		result.put("recordsFiltered", total);
 		

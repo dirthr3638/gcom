@@ -6,6 +6,7 @@ import java.util.List;
 import gcom.Model.AuditClientModel;
 import gcom.Model.AuditServerModel;
 import gcom.Model.LoginLogModel;
+import gcom.Model.PolicyRequestInfo;
 import gcom.Model.UsbDevInfoModel;
 import gcom.Model.UserAgentModel;
 import gcom.Model.UserPolicyLogModel;
@@ -20,6 +21,10 @@ public interface IPolicyService {
 	
 	public List<AuditServerModel> getAuditServerLogList(HashMap<String, Object> map);	
 	public int getAuditServerLogListCount(HashMap<String, Object> map);
+	
+	public List<PolicyRequestInfo> getRequestedPolicyList(HashMap<String, Object> map);	
+	public int getRequestedPolicyListCount(HashMap<String, Object> map);
+	
 	
 	public String getAuditServerWorkData(int key);
 }

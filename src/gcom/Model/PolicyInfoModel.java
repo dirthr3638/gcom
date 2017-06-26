@@ -3,18 +3,8 @@ package gcom.Model;
 import lombok.Data;
 
 @Data
-public class UserPolicyModel {
+public class PolicyInfoModel {
 	private int policyNo;
-	private int userNo;
-	private String userName = "";
-	private String userId = "";
-	private int deptId ;
-	private String duty = "";
-	private String rank = "";
-	private String ipAddr = "";
-	private String macAddr = "";
-	private String pcName = "";
-	private String deptName = "";
 	private Boolean isUninstall;
 	private Boolean isFileEncryption;
 	private Boolean isCdEncryption;
@@ -70,9 +60,9 @@ public class UserPolicyModel {
 	}
 	public void setIsPrint(int value){
 		if(value == 0){
-			isUninstall = false;
+			isPrint = false;
 		}else{
-			isUninstall = true;
+			isPrint = true;
 		}
 	}
 	public void setIsCdEnabled(int value){
