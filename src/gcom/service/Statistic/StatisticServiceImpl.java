@@ -5,11 +5,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import gcom.DAO.CommonStatistcDAO;
 import gcom.DAO.PolicyStatistcDAO;
 import gcom.Model.statistic.FlotChartDataModel;
+import gcom.Model.statistic.UserAgentStatisticModel;
 
 public class StatisticServiceImpl implements IStatisticService {
 	
+	CommonStatistcDAO coDao = new CommonStatistcDAO();
 	PolicyStatistcDAO poDao = new PolicyStatistcDAO();
 	
 	public FlotChartDataModel getUSBChartDayData(Map<String, Object> map){
@@ -43,7 +46,10 @@ public class StatisticServiceImpl implements IStatisticService {
 	public FlotChartDataModel getPatternChartMonthData(Map<String, Object> map){
 		return calcChartMonth(map, poDao.getPatternChartMonthData(map));		
 	}
-
+	
+	public UserAgentStatisticModel getUserAgentStatisticData(Map<String, Object> map){
+		return coDao.getUserAgentStatisticData(map);		
+	}
 	
 	public FlotChartDataModel calcChartDate(Map<String, Object> map, FlotChartDataModel input){
 	   List<List<Long>> data = input.getItem();

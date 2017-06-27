@@ -1,17 +1,3 @@
-/** ********************************************** **
-	@Author			Dorin Grigoras
-	@Website		www.stepofweb.com
-	@Last Update	Friday, August 21, 2015
-
-	NOTE! 	Do not change anything here if you want to
-			be able to update in the future! Please use
-			your custom script (eg. custom.js).
-
-	TABLE CONTENTS
-	-------------------------------
-
-
-*************************************************** **/
 	window.width = jQuery(window).width();
 
 	jQuery(window).ready(function() {

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -20,6 +21,7 @@ import gcom.Model.PrintFileModel;
 import gcom.Model.UserAgentModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
+import gcom.Model.statistic.AuditClientSimpleModel;
 
 
 public class PolicyDataDAO {
@@ -440,6 +442,77 @@ sql += whereSql;
 		return data;
 	}
 	
+	public List<AuditClientSimpleModel> getAuditClientSimpleLogList(Map<String, Object> map){
+		List<AuditClientSimpleModel> data = new ArrayList<AuditClientSimpleModel>();
+		
+		String whereSql = "WHERE 1=1 ";
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
+		
+		whereSql += "ORDER BY audit.no DESC LIMIT 8 ";	
+		
+		String sql= 
+"SELECT "
++ "audit.no AS audit_no, "
++ "audit.description, "
++ "audit.level, "
++ "ur.name AS user_name, "
++ "dept.short_name "
++ "FROM client_audit AS audit "
++ "INNER JOIN user_info AS ur ON ur.no = audit.user_no "
++ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
+
+
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				AuditClientSimpleModel model = new AuditClientSimpleModel();
+				model.setAuditNo(rs.getInt("audit_no"));
+				model.setAction(rs.getString("description"));
+				model.setDeptName(rs.getString("short_name"));
+				model.setUserName(rs.getString("user_name"));
+				model.setLevel(rs.getInt("level"));
+				data.add(model);
+			}
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
 	
 	public int getAuditServerLogListCount(HashMap<String, Object> map){
 		int result = 0;

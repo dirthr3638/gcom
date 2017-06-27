@@ -3,6 +3,11 @@ package gcom.controller.action;
 import java.util.HashMap;
 import java.util.Map;
 
+import gcom.Model.statistic.UserAgentStatisticModel;
+import gcom.service.Policy.IPolicyService;
+import gcom.service.Policy.PolicyServiceImpl;
+import gcom.service.Request.IRequestService;
+import gcom.service.Request.RequestServiceImpl;
 import gcom.service.Statistic.IStatisticService;
 import gcom.service.Statistic.StatisticServiceImpl;
 
@@ -28,4 +33,28 @@ public class getStatisticAction {
 		
 		return result;						
 	}
+	
+	public UserAgentStatisticModel getUserAgentStatisticData(Map<String, Object> map){
+		IStatisticService as = new StatisticServiceImpl();
+		return as.getUserAgentStatisticData(map);	
+	}
+	
+	public Map<String, Object> getSimpleContactList(Map<String, Object> map){
+		IRequestService as = new RequestServiceImpl();
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("data", as.getSimpleContactList(map));			
+
+		return result;
+		
+	}
+	
+	public Map<String, Object> getAuditClientSimpleLogList(Map<String, Object> map){
+		IPolicyService as = new PolicyServiceImpl();
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("data", as.getAuditClientSimpleLogList(map));			
+
+		return result;
+		
+	}
+	
 }

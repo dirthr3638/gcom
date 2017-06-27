@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ContactSimpleModel {
 	private int contactNo;
-	private int contactSubject;
+	private String contactSubject;
 	private String contactDept;
 	private String contactWriter;
 }
