@@ -12,6 +12,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.mysql.jdbc.Statement;
+
+import gcom.Model.FileInfoModel;
 import gcom.Model.MailExportModel;
 import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
@@ -20,11 +23,8 @@ import gcom.Model.PolicyNetworkModel;
 import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
-import gcom.Model.PrintFileModel;
 import gcom.Model.PrivacyLogModel;
-import gcom.Model.SystemInfoModel;
-import gcom.Model.UserAgentModel;
-import gcom.Model.UserPolicyModel;
+import gcom.common.services.ConfigInfo;
 
 
 public class PersonalDataDAO {
@@ -818,155 +818,105 @@ sql += whereSql;
 		
 		return data;
 	}
+	
 
-	public List<PolicyMessengerModel> getPolicyMessengerList(HashMap<String, Object> map) {
-		List<PolicyMessengerModel> data = new ArrayList<PolicyMessengerModel>();
-		int start_date = Integer.parseInt(map.get("startRow").toString());
-		int end_date = Integer.parseInt(map.get("endRow").toString());
+	public HashMap<String, Object> insertNoticeWriteSave(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		String bbs_title = map.get("bbs_title").toString();
+		String bbs_body = map.get("bbs_body").toString();
+		String bbs_body_trim = map.get("bbs_body_trim").toString();
+		String special_type = map.get("special_type").toString();
+		String attfile_yn = map.get("attfile_yn").toString();
+		int reg_staf_no = Integer.parseInt(map.get("reg_staf_no").toString());
 		
-		String sql =
-				"SELECT " 
-					+ "no as msg_no, "
-					+ "name as msg_name, "
-					+ "process_name, "
-					+ "txt_log, "
-					+ "txt_block, "
-					+ "file_log, "
-					+ "file_block "
-			    + "FROM msg_info "
-			    + "ORDER BY no desc LIMIT ?, ? ";
+		String save_file_nm =  map.get("save_file_nm").toString();
+		String view_file_nm =  map.get("view_file_nm").toString();
+		String att_file_path =  map.get("att_file_path").toString();
+		
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
+		
+		
+		
+		String sql= "INSERT INTO services_file_upload_info (att_file_path, view_file_nm, save_file_nm) "
+					+ "VALUES (?, ?, ?) ";
 		
 		try{
-			
 			con = ds.getConnection();
-			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  start_date);
-			pstmt.setInt(2,  end_date);
+			con.setAutoCommit(false);
 			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()){
-				PolicyMessengerModel model = new PolicyMessengerModel();
-				model.setMsgNo(rs.getInt("msg_no"));
-				model.setMsgName(rs.getString("msg_name"));
-				model.setProcessName(rs.getString("process_name"));
-				model.setTxtLog(rs.getInt("txt_log"));
-				model.setTxtBlock(rs.getInt("txt_block"));
-				model.setFileLog(rs.getInt("file_log"));
-				model.setFileBlock(rs.getInt("file_block"));
-
-				data.add(model);
+			if (attfile_yn.equals("Y")) {
+				pstmt=con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+				pstmt.setString(1, att_file_path);
+				pstmt.setString(2, view_file_nm);
+				pstmt.setString(3, save_file_nm);
+				pstmt.executeUpdate();
+				
+				rs = pstmt.getGeneratedKeys();
+				
+				if (rs.next()) {
+					int fileKey = rs.getInt(1);
+					
+					sql= "INSERT INTO user_notice_bbs (bbs_title, special_type, bbs_body, bbs_body_trim, reg_staf_no, reg_dt, attfile_yn, attfile_id) " 
+							+ "VALUES (?, ?, ?, ?, ?, NOW(), ?, ? )";
+					
+					pstmt=con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+					pstmt.setString(1, bbs_title);
+					pstmt.setString(2, special_type);
+					pstmt.setString(3, bbs_body);
+					pstmt.setString(4, bbs_body_trim);
+					pstmt.setInt(5, reg_staf_no);
+					pstmt.setString(6, attfile_yn);
+					pstmt.setInt(7, fileKey);
+					pstmt.executeUpdate();
+					
+					rs = pstmt.getGeneratedKeys();
+					
+					if (rs.next()) {
+						int bbsKey = rs.getInt(1);
+						sql = "INSERT INTO user_notice_bbs_hit (bbs_id) VALUES (?)";
+						
+						pstmt=con.prepareStatement(sql);
+						pstmt.setInt(1, bbsKey);
+						pstmt.executeUpdate();
+					}
+					
+				}
+				
+			} else {
+				
+				sql= "INSERT INTO user_notice_bbs (bbs_title, special_type, bbs_body, bbs_body_trim, reg_staf_no, reg_dt, attfile_yn) " 
+						+ "VALUES (?, ?, ?, ?, ?, NOW(), ? )";
+				
+				pstmt=con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+				pstmt.setString(1, bbs_title);
+				pstmt.setString(2, special_type);
+				pstmt.setString(3, bbs_body);
+				pstmt.setString(4, bbs_body_trim);
+				pstmt.setInt(5, reg_staf_no);
+				pstmt.setString(6, attfile_yn);
+				pstmt.executeUpdate();
+				
+				rs = pstmt.getGeneratedKeys();
+				
+				if (rs.next()) {
+					int bbsKey = rs.getInt(1);
+					sql = "INSERT INTO user_notice_bbs_hit (bbs_id) VALUES (?)";
+					
+					pstmt=con.prepareStatement(sql);
+					pstmt.setInt(1, bbsKey);
+					pstmt.executeUpdate();
+				}
+				
 			}
+									
+			con.commit();
+			result.put("returnCode", returnCode);
 			
+
+		
 		}catch(SQLException ex){
-			ex.printStackTrace();
-		}finally {
-			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(con!=null)con.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-		return data;
-	}
-
-	public int getPolicyMessengerListCount(HashMap<String, Object> map) {
-		int result = 0;
-			
-		String sql= "SELECT COUNT(*) as cnt FROM msg_info ";
-			
-		try{
-			con = ds.getConnection();
-			pstmt=con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()){
-				result = rs.getInt("cnt");				
-			}
-			
-		}catch(SQLException ex){
-			ex.printStackTrace();
-		}finally {
-			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(con!=null)con.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-		return result;
-	}
-
-	public List<PolicyProcessModel> getPolicyProcessList(HashMap<String, Object> map) {
-		List<PolicyProcessModel> data = new ArrayList<PolicyProcessModel>();
-		int start_date = Integer.parseInt(map.get("startRow").toString());
-		int end_date = Integer.parseInt(map.get("endRow").toString());
-		
-		String sql =
-				"SELECT "
-					+ "no as pro_no, "
-					+ "process_name, "
-					+ "IFNULL(hash, '') as hash, "
-					+ "notice, "
-					+ "valid "
-				+ "FROM process_info "
-			    + "ORDER BY no desc LIMIT ?, ? ";
-		
-		try{
-			
-			con = ds.getConnection();
-			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  start_date);
-			pstmt.setInt(2,  end_date);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()){
-				PolicyProcessModel model = new PolicyProcessModel();
-				model.setProNo(rs.getInt("pro_no"));
-				model.setProcessName(rs.getString("process_name"));
-				model.setHash(rs.getString("hash"));
-				model.setNotice(rs.getString("notice"));
-				model.setValid(rs.getInt("valid"));
-
-				data.add(model);
-			}
-			
-		}catch(SQLException ex){
-			ex.printStackTrace();
-		}finally {
-			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(con!=null)con.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-		return data;
-	}
-
-	public int getPolicyProcessListCount(HashMap<String, Object> map) {
-		int result = 0;
-		
-		String sql= "SELECT COUNT(*) as cnt FROM process_info ";
-			
-		try{
-			con = ds.getConnection();
-			pstmt=con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()){
-				result = rs.getInt("cnt");				
-			}
-			
-		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
 			try{
@@ -981,39 +931,32 @@ sql += whereSql;
 		return result;
 	}
 
-	public List<PolicyPatternModel> getPolicyPatternList(HashMap<String, Object> map) {
-		List<PolicyPatternModel> data = new ArrayList<PolicyPatternModel>();
-		int start_date = Integer.parseInt(map.get("startRow").toString());
-		int end_date = Integer.parseInt(map.get("endRow").toString());
+	public FileInfoModel getAttFileInfo(HashMap<String, Object> map) {
+		FileInfoModel model = new FileInfoModel();
+		int fileId = Integer.parseInt(map.get("file_id").toString());
 		
 		String sql =
 				"SELECT "
-					+ "no as pat_no, "
-					+ "description as pat_name, "
-					+ "IFNULL(data, '') as data, "
-					+ "notice, "
-					+ "valid "
-				+ "FROM pattern_info "
-			    + "ORDER BY no desc LIMIT ?, ? ";
+					+ "attfile_id, "
+					+ "att_file_path, "
+					+ "view_file_nm, "
+					+ "save_file_nm "
+				+ "FROM services_file_upload_info "
+			    + "WHERE attfile_id = ? ";
 		
 		try{
 			
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  start_date);
-			pstmt.setInt(2,  end_date);
+			pstmt.setInt(1,  fileId);
 			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
-				PolicyPatternModel model = new PolicyPatternModel();
-				model.setPatNo(rs.getInt("pat_no"));
-				model.setPatName(rs.getString("pat_name"));
-				model.setData(rs.getString("data"));
-				model.setNotice(rs.getString("notice"));
-				model.setValid(rs.getInt("valid"));
-
-				data.add(model);
+				model.setAttFileId(rs.getInt("attfile_id"));
+				model.setAttFilePath(rs.getString("att_file_path"));
+				model.setAttViewFileName(rs.getString("view_file_nm"));
+				model.setAttSaveFileName(rs.getString("save_file_nm"));
 			}
 			
 		}catch(SQLException ex){
@@ -1028,192 +971,7 @@ sql += whereSql;
 			}
 		}
 		
-		return data;
-	}
-
-	public int getPolicyPatternListCount(HashMap<String, Object> map) {
-		int result = 0;
-		
-		String sql= "SELECT COUNT(*) as cnt FROM pattern_info ";
-			
-		try{
-			con = ds.getConnection();
-			pstmt=con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()){
-				result = rs.getInt("cnt");				
-			}
-			
-		}catch(SQLException ex){
-			ex.printStackTrace();
-		}finally {
-			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(con!=null)con.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-		return result;
-	}
-
-	public List<PolicyNetworkModel> getPolicyNetworkList(HashMap<String, Object> map) {
-		List<PolicyNetworkModel> data = new ArrayList<PolicyNetworkModel>();
-		int start_date = Integer.parseInt(map.get("startRow").toString());
-		int end_date = Integer.parseInt(map.get("endRow").toString());
-		
-		String sql =
-				"SELECT "
-					+ "no as net_no, "
-					+ "name as net_name, "
-					+ "port, "
-					+ "descriptor, "
-					+ "allow "
-				+ "FROM net_port_info "
-			    + "ORDER BY no desc LIMIT ?, ? ";
-		
-		try{
-			
-			con = ds.getConnection();
-			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  start_date);
-			pstmt.setInt(2,  end_date);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()){
-				PolicyNetworkModel model = new PolicyNetworkModel();
-				model.setNetNo(rs.getInt("net_no"));
-				model.setNetName(rs.getString("net_name"));
-				model.setPort(rs.getString("port"));
-				model.setDescriptor(rs.getString("descriptor"));
-				model.setAllow(rs.getInt("allow"));
-
-				data.add(model);
-			}
-			
-		}catch(SQLException ex){
-			ex.printStackTrace();
-		}finally {
-			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(con!=null)con.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-		return data;
-	}
-
-	public int getPolicyNetworkListCount(HashMap<String, Object> map) {
-		int result = 0;
-		
-		String sql= "SELECT COUNT(*) as cnt FROM net_port_info ";
-			
-		try{
-			con = ds.getConnection();
-			pstmt=con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()){
-				result = rs.getInt("cnt");				
-			}
-			
-		}catch(SQLException ex){
-			ex.printStackTrace();
-		}finally {
-			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(con!=null)con.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-		return result;
-	}
-
-	public List<PolicySerialModel> getPolicySerialList(HashMap<String, Object> map) {
-		List<PolicySerialModel> data = new ArrayList<PolicySerialModel>();
-		int start_date = Integer.parseInt(map.get("startRow").toString());
-		int end_date = Integer.parseInt(map.get("endRow").toString());
-		
-		String sql =
-				"SELECT "
-					+ "no as serial_no, "
-					+ "name as serial_name, "
-					+ "allow, "
-					+ "description "
-				+ "FROM com_port_info "
-			    + "ORDER BY no desc LIMIT ?, ? ";
-		
-		try{
-			
-			con = ds.getConnection();
-			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  start_date);
-			pstmt.setInt(2,  end_date);
-			
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()){
-				PolicySerialModel model = new PolicySerialModel();
-				model.setSerialNo(rs.getInt("serial_no"));
-				model.setSerialName(rs.getString("serial_name"));
-				model.setDescription(rs.getString("description"));
-				model.setAllow(rs.getInt("allow"));
-
-				data.add(model);
-			}
-			
-		}catch(SQLException ex){
-			ex.printStackTrace();
-		}finally {
-			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(con!=null)con.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-		return data;
-	}
-
-	public int getPolicySerialListCount(HashMap<String, Object> map) {
-		int result = 0;
-		
-		String sql= "SELECT COUNT(*) as cnt FROM com_port_info ";
-			
-		try{
-			con = ds.getConnection();
-			pstmt=con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()){
-				result = rs.getInt("cnt");				
-			}
-			
-		}catch(SQLException ex){
-			ex.printStackTrace();
-		}finally {
-			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(con!=null)con.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-		return result;
+		return model;
 	}
 	
 }

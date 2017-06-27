@@ -8,6 +8,11 @@ import gcom.DAO.PolicyDataDAO;
 import gcom.Model.AuditClientModel;
 import gcom.Model.AuditServerModel;
 import gcom.Model.PolicyRequestInfo;
+import gcom.Model.PolicyMessengerModel;
+import gcom.Model.PolicyNetworkModel;
+import gcom.Model.PolicyPatternModel;
+import gcom.Model.PolicyProcessModel;
+import gcom.Model.PolicySerialModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.statistic.AuditClientSimpleModel;
 
@@ -56,6 +61,45 @@ public class PolicyServiceImpl implements IPolicyService {
 	public String getAuditServerWorkData(int key){
 		return poDao.getAuditServerWorkData(key);
 	}
-
+	
+	public List<PolicyMessengerModel> getPolicyMessengerList(HashMap<String, Object> map) {
+		return poDao.getPolicyMessengerList(map);		
+	}
+	
+	public int getPolicyMessengerListCount(HashMap<String, Object> map) {
+		return poDao.getPolicyMessengerListCount(map);		
+	}
+	
+	public List<PolicyProcessModel> getPolicyProcessList(HashMap<String, Object> map) {
+		return poDao.getPolicyProcessList(map);	
+	}
+	
+	public int getPolicyProcessListCount(HashMap<String, Object> map) {
+		return poDao.getPolicyProcessListCount(map);		
+	}
+	
+	public List<PolicyPatternModel> getPolicyPatternList(HashMap<String, Object> map) {
+		return poDao.getPolicyPatternList(map);	
+	}
+	
+	public int getPolicyPatternListCount(HashMap<String, Object> map) {
+		return poDao.getPolicyPatternListCount(map);	
+	}
+	
+	public List<PolicyNetworkModel> getPolicyNetworkList(HashMap<String, Object> map) {
+		return poDao.getPolicyNetworkList(map);	
+	}
+	
+	public int getPolicyNetworkListCount(HashMap<String, Object> map) {
+		return poDao.getPolicyNetworkListCount(map);	
+	}
+	
+	public List<PolicySerialModel> getPolicySerialList(HashMap<String, Object> map) {
+		return poDao.getPolicySerialList(map);
+	}
+	
+	public int getPolicySerialListCount(HashMap<String, Object> map) {
+		return poDao.getPolicySerialListCount(map);	
+	}
 
 }

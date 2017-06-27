@@ -11,6 +11,7 @@ public class UserNoticeModel {
 	private String bbsRegDate = "";
 	private String bbsSpecialYN = "";
 	private String bbsAttfileYN = "";
+	private int attfileId = 0;
 	private int bbsClickCnt = 0;
 	private String bbsBody="";
 	

@@ -3,13 +3,28 @@ package gcom.controller.action;
 import java.util.HashMap;
 import java.util.List;
 
-import gcom.Model.*;
-import gcom.service.Device.*;
+import gcom.Model.AuditClientModel;
+import gcom.Model.AuditServerModel;
+import gcom.Model.DiskExportModel;
+import gcom.Model.LoginLogModel;
+import gcom.Model.MailExportModel;
+import gcom.Model.MsnFileModel;
+import gcom.Model.MsnTalkModel;
+import gcom.Model.PrintFileModel;
+import gcom.Model.PrivacyLogModel;
+import gcom.Model.UsbConnectModel;
+import gcom.Model.UsbDevInfoModel;
+import gcom.Model.UserAgentModel;
+import gcom.Model.UserPolicyLogModel;
+import gcom.Model.UserPolicyModel;
+import gcom.service.Device.DeviceInfoServiceImpl;
+import gcom.service.Device.IDeviceInfoService;
 import gcom.service.Personal.IPersonalService;
 import gcom.service.Personal.PersonalServiceImpl;
 import gcom.service.Policy.IPolicyService;
 import gcom.service.Policy.PolicyServiceImpl;
-import gcom.service.UserAgent.*;
+import gcom.service.UserAgent.IUserAgentService;
+import gcom.service.UserAgent.UserAgentServiceImpl;
 
 public class getAction {
 

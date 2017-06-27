@@ -1,8 +1,5 @@
 package gcom.Model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import lombok.Data;
 
 @Data

@@ -224,7 +224,8 @@ public class UserDAO {
 			    + "admin.id, "
 			    + "DATE(bbs.reg_dt) AS reg_dt, "
 			    + "bbs_hit.hit_cnt, "
-			    + "bbs.attfile_yn "
+			    + "bbs.attfile_yn, "
+			    + "bbs.attfile_id "
 				+ "FROM user_notice_bbs AS bbs "
 				+ "LEFT JOIN admin_info AS admin ON bbs.reg_staf_no = admin.no "
 				+ "INNER JOIN user_notice_bbs_hit AS bbs_hit ON bbs.bbs_id = bbs_hit.bbs_id "
@@ -263,6 +264,7 @@ public class UserDAO {
 				model.setBbsRegDate(rs.getString("reg_dt"));
 				model.setBbsClickCnt(rs.getInt("hit_cnt"));
 				model.setBbsAttfileYN(rs.getString("attfile_yn"));
+				model.setAttfileId(rs.getInt("attfile_id"));
 				
 				list.add(model);
 			}

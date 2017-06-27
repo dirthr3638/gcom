@@ -4,11 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import gcom.DAO.ManagementDataDAO;
-import gcom.DAO.PersonalDataDAO;
-import gcom.Model.MailExportModel;
-import gcom.Model.MsnFileModel;
-import gcom.Model.MsnTalkModel;
-import gcom.Model.PrivacyLogModel;
 import gcom.Model.SubAdminModel;
 
 public class ManagementServiceImpl implements IManagementService {
@@ -21,6 +16,10 @@ public class ManagementServiceImpl implements IManagementService {
 	}
 	public int getAdminListCount(HashMap<String, Object> map){
 		return poDao.getAdminListCount(map);		
+	}
+	
+	public SubAdminModel getAdminUserInfo(HashMap<String, Object> map) {
+		return poDao.getAdminUserInfo(map);	
 	}
 
 }

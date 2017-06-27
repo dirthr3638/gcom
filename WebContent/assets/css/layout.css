@@ -2683,6 +2683,26 @@ ul.easypiecharts li span.stat-title {
   z-index: 100001;
 }
 
+.inline-list {
+	list-style: none;
+	padding: 0;
+	margin-bottom: 15px;
+}
+
+.inline-list li {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0px 10px;
+}
+
+.fl_left {
+	float: left;
+}
+
+.fl_right {
+	float: right;
+}
+
 @-webkit-keyframes spinner {
   0% {
     -webkit-transform: rotate(0deg);

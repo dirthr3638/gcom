@@ -8,4 +8,5 @@ import gcom.Model.SubAdminModel;
 public interface IManagementService {
 	public List<SubAdminModel> getAdminList(HashMap<String, Object> map);
 	public int getAdminListCount(HashMap<String, Object> map);
+	public SubAdminModel getAdminUserInfo(HashMap<String, Object> map);
 }

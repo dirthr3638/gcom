@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import gcom.Model.DiskExportModel;
-import gcom.Model.LoginLogModel;
 import gcom.Model.PrintFileModel;
 import gcom.Model.UsbConnectModel;
 import gcom.Model.UsbDevInfoModel;
-import gcom.Model.UserAgentModel;
 
 public interface IDeviceInfoService {
 
