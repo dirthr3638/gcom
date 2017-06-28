@@ -14,6 +14,7 @@ import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.PrivacyLogModel;
+import gcom.Model.UserInfoModel;
 
 public class PersonalServiceImpl implements IPersonalService {
 	
@@ -54,4 +55,5 @@ public class PersonalServiceImpl implements IPersonalService {
 	public FileInfoModel getAttFileInfo(HashMap<String, Object> map) {
 		return poDao.getAttFileInfo(map);	
 	}
+	
 }

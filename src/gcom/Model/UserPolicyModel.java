@@ -4,8 +4,10 @@ import lombok.Data;
 
 @Data
 public class UserPolicyModel {
-	private int usbNo;
+	// 기본 사용자 정보
+	private int agentNo;
 	private int userNo;
+	private int policyNo;
 	private String userName = "";
 	private String userId = "";
 	private int deptId ;
@@ -15,33 +17,42 @@ public class UserPolicyModel {
 	private String macAddr = "";
 	private String pcName = "";
 	private String deptName = "";
-	private Boolean isUninstall;
-	private Boolean isFileEncryption;
-	private Boolean isCdEncryption;
-	private Boolean isPrint;
-	private Boolean isCdEnabled;
-	private Boolean isCdExport;
-	private Boolean isWlan;
-	private Boolean isNetShare;
-	private Boolean isWebExport;
-	private Boolean isStorageExport;
-	private Boolean isStorageAdmin;
+	
+	// Enabled 정책 데이터
+	private Boolean isUninstall = false;
+	private Boolean isFileEncryption = false;
+	private Boolean isCdEncryption = false;
+	private Boolean isPrint = false;
+	private Boolean isCdEnabled = false;
+	private Boolean isCdExport = false;
+	private Boolean isWlan = false;
+	private Boolean isNetShare = false;
+	private Boolean isWebExport = false;
+	private Boolean isStorageExport = false;
+	private Boolean isStorageAdmin = false;
 
-	private Boolean isUsbBlock;
+	// LongText형 List 정책 정보 Enabled 가공
+	private Boolean isUsbBlock = false;
+	private Boolean isComPortBlock = false;
+	private Boolean isNetPortBlock = false;
+	private Boolean isProcessList = false;
+	private Boolean isFilePattern = false;
+	private Boolean isWebAddr = false;
+	private Boolean isMsgBlock = false;
 	
-	private Boolean isComPortBlock;
+	// LongText형 List 정책 정보 적용 코드 데이터 (String)
+	private String usbBlockCode = "";
+	private String comPortBlockCode = "";
+	private String netPortBlockCode = "";
+	private String processListCode = "";
+	private String filePatternCode = "";
+	private String webAddrCode = "";
+	private String msgBlockCode = "";
 	
-	private Boolean isNetPortBlock;
-	
-	private Boolean isProcessList;
-	private Boolean isFilePattern;
-	
-	private Boolean isWebAddr;
-	
-	private String waterMarkInfo = "";
-	private Boolean isWaterMark;
+	// 워터 마크 관련 데이터
+	private Boolean isWaterMark = false;
 	private String waterMarkEndDate = "";
-	private int waterMarkType;
+	private int waterMarkType = 0;
 	
 	private int printLogDesc;	//0:로그 전송 안함	1:이벤트 로그	2: 파일 원본 로그
 	//private String quarantinePathAccessCode = "";
@@ -70,9 +81,9 @@ public class UserPolicyModel {
 	}
 	public void setIsPrint(int value){
 		if(value == 0){
-			isUninstall = false;
+			isPrint = false;
 		}else{
-			isUninstall = true;
+			isPrint = true;
 		}
 	}
 	public void setIsCdEnabled(int value){
@@ -128,13 +139,16 @@ public class UserPolicyModel {
 	public void setIsUsbBlock(String value){
 		if(value.substring(0,1).equals("Y")){
 			isUsbBlock = true;
+			usbBlockCode = value.substring(2, value.length());
 		}else{
 			isUsbBlock = false;
 		};		
 	}
+	
 	public void setIsComPortBlock(String value){
 		if(value.substring(0,1).equals("Y")){
 			isComPortBlock = true;
+			comPortBlockCode = value.substring(2, value.length());
 		}else{
 			isComPortBlock = false;
 		};		
@@ -142,6 +156,7 @@ public class UserPolicyModel {
 	public void setIsNetPortBlock(String value){
 		if(value.substring(0,1).equals("Y")){
 			isNetPortBlock = true;
+			netPortBlockCode = value.substring(2, value.length());
 		}else{
 			isNetPortBlock = false;
 		};		
@@ -149,33 +164,46 @@ public class UserPolicyModel {
 	public void setIsWebAddr(String value){
 		if(value.substring(0,1).equals("Y")){
 			isWebAddr = true;
+			webAddrCode = value.substring(2, value.length());
 		}else{
 			isWebAddr = false;
 		};		
 	}
+	
+	public void setIsMsgBlock(String value){
+		if(value.substring(0,1).equals("Y")){
+			isMsgBlock = true;
+			msgBlockCode = value.substring(2, value.length());
+		}else{
+			isMsgBlock = false;
+		};		
+	}
+	
 	public void setWatermarkInfo(String value){
 		String[] spv = value.split(",");
 		if(spv[0].equals("Y")){
 			isWaterMark = true;
+			waterMarkEndDate = spv[1];
 		}else{
 			isWaterMark = false;
 		}
-		waterMarkEndDate = spv[1];
 	}
 
-	public void setIsProcessList(int value){
-		if(value == 0){
+	public void setIsProcessList(String value){
+		if("".equals(value)){
 			isProcessList = false;
 		}else{
 			isProcessList = true;
+			processListCode = value;
 		}
 	}
 	
-	public void setIsFilePattern(int value){
-		if(value == 0){
+	public void setIsFilePattern(String value){
+		if("".equals(value)){
 			isFilePattern = false;
 		}else{
 			isFilePattern = true;
+			filePatternCode = value;
 		}
 	}
 }

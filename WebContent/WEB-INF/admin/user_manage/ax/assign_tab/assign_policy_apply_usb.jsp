@@ -1,25 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*"%>
 
-<table id="table-messenger-policy" class="table table-bordered table-striped">
+<div>
+	<table class="table table-bordered">
+		<tr>
+			<td class="th-cell-gray" width="25%">USB 차단 선택</td>
+			<td width="25%">
+				<label class="radio nomargin-top nomargin-bottom">
+					<input type="radio" name="radio_usb_block" value="Y" /><i></i> 허용
+				</label>
+				<label class="radio nomargin-top nomargin-bottom">
+					<input type="radio" name="radio_usb_block" value="N" /><i></i> 차단
+				</label>
+			</td>
+			<td class="th-cell-gray" width="25%">적용상태</td>
+			<td width="25%">
+			</td>
+		</tr>
+	</table>
+</div>
+
+<table class="table table-bordered table-striped" id="usb_policy_table">
 	<thead>
 		<tr>
-			<td>ID</td>
-			<td>메신저명</td>
-			<td>파일명</td>
-			<td>Message로깅</td>
-			<td>Message차단</td>
-			<td>File전송로깅</td>
-			<td>File전송차단</td>
+			<td>장치명</td>
+			<td>벤더식별자(VID)</td>
+			<td>제품식별자(PID)</td>
+			<td>일련번호(SerialNumber)</td>
+			<td>설명</td>
 		</tr>
 	</thead>
 	<tbody>
 	</tbody>
 </table>
-
+											
 <script type="text/javascript">
-
-	function fn_get_messenger_policy_data() {
-		
+	function usb_policy_table(){
 		loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
 		loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
 		loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
@@ -29,14 +45,17 @@
 			 
 			if (jQuery().dataTable) {
 		
-				var table = jQuery('#table-messenger-policy');
+				var table = jQuery('#usb_policy_table');
 				table.dataTable({
 					"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right"><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 					"ajax" : {
-					"url":'/ax/admin/policy/messenger/list',
+					"url":'/ax/admin/policy/usbblock/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
-				   	"data" :  {},
+				   	"data" :  {
+				   		menu_code : 'apply',
+				   		_ : $.now()
+				   	},
 			        "beforeSend" : function(){
 						jQuery('#preloader').show();
 			        },
@@ -128,4 +147,35 @@
 		});
 	}
 </script>
-		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
