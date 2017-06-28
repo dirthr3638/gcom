@@ -77,7 +77,7 @@ public class StatisticServiceImpl implements IStatisticService {
 			   if(item.get(0).longValue() == startDay){
 				   exist = true;
 				   List<Long> temp = new ArrayList<Long>();
-				   temp.add(item.get(0) + oneDay);
+				   temp.add(item.get(0));
 				   temp.add(item.get(1));				   
 				   newData.add(temp);
 				   break;
@@ -86,7 +86,7 @@ public class StatisticServiceImpl implements IStatisticService {
 		   //일자가 존재 하지 않는다면, 0 삽입해줌
 		   if(exist == false){
 			   List<Long> inputData = new ArrayList<Long>();
-			   inputData.add(startDay + oneDay);
+			   inputData.add(startDay);
 			   inputData.add((long) 0);
 			   newData.add(inputData);
 		   }

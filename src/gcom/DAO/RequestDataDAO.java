@@ -40,11 +40,11 @@ public class RequestDataDAO {
 	public List<RequestSimpleModel> getSimpleRequestList(Map<String, Object> map){
 		List<RequestSimpleModel> data = new ArrayList<RequestSimpleModel>();
 		
-		String whereSql = "WHERE ur.valid=1 ";
+		String whereSql = " ";
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
 
-		if(map.containsKey("dept") && map.get("dept") != null){
+/*		if(map.containsKey("dept") && map.get("dept") != null){
 			oDept = (String[])map.get("dept");			
 			for (String id : oDept){
 				if(idList.length() > 0 )	
@@ -55,23 +55,34 @@ public class RequestDataDAO {
 		}
 		
 		if(oDept != null)			whereSql += "AND dept.dept_no in ("+idList+") ";
-		
-		whereSql += "ORDER BY contact.contact_id desc LIMIT 7 ";	
+*/		
 		
 		String sql= 
-"SELECT 2 AS req_type, "
-+ "dept.short_name AS dept_name, "
-+ "req.req_id "
-+ "req.mem_name "
-+ "FROM user_account_request AS req "
-+ "INNER JOIN dept_info AS dept ON dept.no = req.dept_no "
-+ "UNION "
-+ "SELECT 1 AS req_type, "
-+ "req.no AS req_id "
-+ "dept.short_name AS dept_name, "
-+ "ur.name AS mem_name FROM policy_request_info AS req  "
-+ "INNER JOIN user_info AS ur ON ur.no = req.user_no  "
-+ "INNER JOIN dept_info AS dept ON ur.dept_no = dept.no ";
+"SELECT * "
++ "FROM (  "
+	+ "(SELECT 2 AS req_type, "
+	+ "req.req_id, "
+	+ "dept.short_name AS dept_name, "
+	+ "req.mem_name, "
+	+ "req.req_date AS reg_date "
+	+ "FROM user_account_request AS req   "
+	+ "INNER JOIN dept_info AS dept "
+	+ "ON dept.no = req.dept_no  "
+	+ "ORDER BY req.req_date DESC LIMIT 7)  "
+	+ " "
+	+ "UNION"
+	+ " "
+	+ "(SELECT 1 AS req_type, "
+	+ "req.no AS req_id, "
+	+ "dept.short_name AS dept_name, "
+	+ "ur.name AS mem_name, "
+	+ "req.request_server_time AS reg_date "
+	+ "FROM policy_request_info AS req  "
+	+ "INNER JOIN user_info AS ur ON ur.no = req.user_no  "
+	+ "INNER JOIN dept_info AS dept ON ur.dept_no = dept.no  "
+	+ "ORDER BY req.request_server_time DESC LIMIT 7)"
++ ") AS T "
++ "ORDER BY reg_date DESC LIMIT 7 ";
 
 		sql += whereSql;			
 			
@@ -80,12 +91,12 @@ public class RequestDataDAO {
 			pstmt=con.prepareStatement(sql);
 
 			int i = 1;
-			if(oDept != null){
+/*			if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
 					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
 				}
 			}
-
+*/
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){

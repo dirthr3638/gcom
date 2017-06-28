@@ -44,9 +44,9 @@
 					<div id="panel-1" class="panel panel-default">
 						<div class="panel-heading" style="height: 65px;">
 							<span class="title elipsis">
-								<strong>정책통계</strong> <!-- panel title -->
+								<strong><i class="fa fa-area-chart"></i>&nbsp;&nbsp;정책통계</strong> <!-- panel title -->
 								<small class="size-12 weight-300 text-mutted hidden-xs"></small>
-								
+								<%-- 
 								<label class="radio" style="margin-left: 10px">
 									<input type="radio" name="table-type" value="1" checked="checked" onclick="onTypeCheck(this)">
 									<i></i> 일
@@ -77,15 +77,50 @@
 								<label class="text"> 
 				
 								<a href="#" class="btn btn-default btn-s btn-block">적용</a>								
-								</label>
+								</label> --%>
 								<!-- 연, 월 , 일  -->
 								<!-- 기준일 -->								
 								<!-- 범위 -->
 							</span>
-
 							<!-- right options -->
 							<ul class="options pull-right list-inline">
-								<li><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="Colapse" data-placement="bottom"></a></li>
+								<li>								
+								<label class="radio" style="margin-left: 10px">
+									<input type="radio" name="chart-type" value="DAY" checked="checked" onclick="onTypeCheck(this)">
+									<i></i> 일
+								</label></li>
+								<li style="border-left: 0px"><label class="radio">
+									<input type="radio" name="chart-type" value="MONTH" onclick="onTypeCheck(this)">
+									<i></i> 월
+								</label></li>
+								<li class="day_input" style="border-left: 0px">
+								<label class="text"> 
+
+									<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false" placeholder="기준일 (기본:오늘)"  >
+								</label>								
+								
+								</li>
+								<li class="day_input" style="border-left: 0px">
+								<label class="text"> 
+									<input type="text" class="form-control" id="filterDateRange" placeholder="범위 (기본:30)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' onchange="setFlotChart()">
+								</label>								
+								
+								</li>
+								<li class="month_input" style="border-left: 0px">
+								<label class="text"> 
+
+									<input type="text" class="form-control datepicker" id="filterEndMonth" data-format="yyyy-mm" data-lang="en" data-RTL="false" placeholder="기준월 (기본:이번달)" >
+								</label>								
+								
+								</li>
+								<li class="month_input" style="border-left: 0px"> 
+								<label class="text"> 
+									<input type="text" class="form-control" id="filterMonthRange" placeholder="범위 (기본:12)" onkeypress='return event.charCode >= 48 && event.charCode <= 57' onchange="setFlotChart()">
+								</label>								
+								
+								</li>
+
+								<li><a href="#" class="opt" title="search" data-placement="bottom" onclick="chartReSetData()"><i class="fa fa-search" style="font-size: 22px"></i> </a></li>
 							</ul>
 							<!-- /right options -->
 
@@ -93,8 +128,9 @@
 
 						<!-- panel content -->
 						<div class="panel-body">
-
-							<div id="flot-sales" class="fullwidth height-250"></div>
+							<div id="flot-sales" class="fullwidth height-250">
+							
+							</div>
 
 						</div>
 						<!-- /panel content -->
@@ -259,7 +295,7 @@
 							<div id="panel-2" class="panel panel-default">
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>Required</strong> <!-- panel title -->
+										<strong><i class="fa fa-question-circle" aria-hidden="true"></i>&nbsp;&nbsp;사용자 요청/문의</strong> <!-- panel title -->
 									</span>
 
 									<!-- tabs nav -->
@@ -285,12 +321,12 @@
 										<div id="ttab1_nobg" class="tab-pane active"><!-- TAB 1 요청내역 -->
 
 											<div class="table-responsive">
-												<table class="table table-striped table-hover table-bordered">
+												<table class="table table-striped table-hover table-bordered" id="request_table" style="width:100%">
 													<thead>
 														<tr>
-															<th>Product Name</th>
-															<th>Price</th>
-															<th>Sold</th>
+															<th>요청구분</th>
+															<th>부서</th>
+															<th>요청자</th>
 															<th></th>
 														</tr>
 													</thead>
@@ -359,55 +395,12 @@
 							<div id="panel-3" class="panel panel-default">
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>클라이언트 감사</strong> <!-- panel title -->
+										<strong><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;클라이언트 감사</strong> <!-- panel title -->
 									</span>
 								</div>
 
 								<!-- panel content -->
-								<div class="panel-body">
-
-									<ul class="list-unstyled list-hover slimscroll height-300" data-slimscroll-visible="true">
-										
-										<li>
-											<span class="label label-danger"><i class="fa fa-bell-o size-15"></i></span>
-											가드컴 에이전트 제거
-										</li>
-
-										<li>
-											<span class="label label-success bg-black"><i class="fa fa-cogs size-15"></i></span>
-											설정 변경:[공용 로그인모드 :사용안함]
-										</li>
-
-										<li>
-											<span class="label label-warning"><i class="fa fa-user size-15"></i></span>
-											로그아웃(화면 잠금)
-										</li>
-										<li>
-											<span class="label label-warning"><i class="fa fa-user size-15"></i></span>
-											로그인 성공
-										</li>
-									
-										<li>
-											<span class="label label-danger"><i class="fa fa-bell-o size-15"></i></span>
-											가드컴 에이전트 제거
-										</li>
-
-										<li>
-											<span class="label label-success bg-black"><i class="fa fa-cogs size-15"></i></span>
-											설정 변경:[공용 로그인모드 :사용안함]
-										</li>
-
-										<li>
-											<span class="label label-warning"><i class="fa fa-user size-15"></i></span>
-											로그아웃(화면 잠금)
-										</li>
-										<li>
-											<span class="label label-warning"><i class="fa fa-user size-15"></i></span>
-											로그인 성공
-										</li>
-
-									</ul>
-
+								<div class="panel-body" id="simple_audit_list">
 								</div>
 								<!-- /panel content -->
 
@@ -435,6 +428,9 @@
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
 		<script type="text/javascript" src="/assets/js/app.js"></script>
+		<script type="text/javascript" src="/assets/js/date.js"></script>
+
+		<script type="text/javascript" src="/assets/js/dashboard_function.js"></script>
 
 		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.resize.min.js"></script>
@@ -452,7 +448,8 @@
 		<!-- PAGE LEVEL SCRIPT -->
 		<script type="text/javascript">
 		
-		var currentType = 1;
+		var currentType = 'DAY';
+		var setChardData = new Object();
 		
 		function getChartData(input){
 			var data;
@@ -478,40 +475,113 @@
 			if(currentType != radio.value){
 				currentType = radio.value;
 				setChartData(currentType);
-
 			}
 		}
 		
 		function setChartData(type){
 			filter = new Object();
-			if(type == 1){	//일
-				$('#day_input').show();
-				$('#month_input').hide();
+			if(type == 'DAY'){	//일
+				$('.day_input').show();
+				$('.month_input').hide();
 
-			}else if (type == 2){	//월
-				$('#day_input').hide();
-				$('#month_input').show();
+			}else if (type == 'MONTH'){	//월
+				$('.day_input').hide();
+				$('.month_input').show();
 
 			}
 			
+		}		
+		
+		
+/* 		var startdate="2017-03-20 00:00:00"
+ */
+		
+		
+		
+		//console.log((new Date().getTime() / 1000));
+
+		function setChartSetting(){
+	
+			var chartSetting = new Object();
+			var startdate = new Date().format("yyyy-MM-dd 00:00:00");
+			chartSetting.setType = 'DAY';		
+			chartSetting.dateFormat = "%y-%0m-%0d";
+			chartSetting.timeFormat = "%m-%d";
+			
+			
+			if(currentType == 'DAY'){
+				chartSetting.setRange = '30';
+ 				if($('#filterEndDate').val() != ''){
+ 					startdate = new Date($('#filterEndDate').val()).format("yyyy-MM-dd 00:00:00");
+ 					console.log(startdate);
+ 				}
+ 				if($('#filterDateRange').val() != ''){
+ 					chartSetting.setRange = $('#filterDateRange').val();
+ 				}
+ 				chartSetting.setType = 'DAY';		
+ 				chartSetting.dateFormat = "%y-%0m-%0d";
+ 				chartSetting.timeFormat = "%m/%d";
+ 				
+
+			}else if(currentType == 'MONTH'){
+				chartSetting.setRange = '12';
+
+				if($('#filterEndMonth').val() != ''){
+					startdate = new Date($('#filterEndMonth').val().toString() + '-01').format("yyyy-MM-01 00:00:00");
+ 					console.log(startdate);
+ 				}else{
+ 					startdate = new Date().format("yyyy-MM-01 00:00:00");
+ 				}
+ 				if($('#filterMonthRange').val() != ''){
+ 					chartSetting.setRange = $('#filterMonthRange').val();
+ 				}
+ 				chartSetting.setType = 'MONTH';		
+ 				chartSetting.dateFormat = "%y-%0m";
+ 				chartSetting.timeFormat = "%y/%m";
+ 				
+			}
+
+			var a=startdate.split(" ");
+			var d=a[0].split("-");
+			var t=a[1].split(":");
+			criteriaTime= new Date(d[0],(d[1]-1),d[2],t[0],t[1],t[2]);
+			
+			chartSetting.setValue = criteriaTime.getTime();
+			
+			return chartSetting;
 		}
 		
+		function chartReSetData(){
+			setChardData = setChartSetting();
+			setFlotChart();
+		}
+		var plot = null;
+		var togglePlot = function(seriesIdx)
+		{
+			console.log(seriesIdx);
+			
+			console.log(plot);
+		  var someData = plot.getData();
+		  someData[seriesIdx].lines.show = !someData[seriesIdx].lines.show;
+		  someData[seriesIdx].points.show = !someData[seriesIdx].points.show;
+		  
+		  plot.setData(someData);
+		  plot.draw();
+		}
 		
-		function setFlotChart(obj){
-			var input = new Object();
-
-			var criteriaTime = 0;
+		setChardData = setChartSetting();
+		function setFlotChart(){
+			var input = setChardData;
+//			var input = setChartSetting();
+		
+			
+/* 			var criteriaTime = 0;
 			var startdate="2017-03-20 00:00:00"
 			var a=startdate.split(" ");
 			var d=a[0].split("-");
 			var t=a[1].split(":");
 			criteriaTime= new Date(d[0],(d[1]-1),d[2],t[0],t[1],t[2]);
-
-			input.setValue = criteriaTime.getTime();
-			//console.log(input.setValue);
-			input.setRange = '20';
-			input.setType = 'DAY';
-
+ */
 			var chartData = getChartData(input);
 			
 			if (jQuery("#flot-sales").length > 0) {
@@ -529,19 +599,24 @@
 				var datasets = {
 						"USB": {
 							label: "USB차단",
-							data : chartData.USB.item
+							data : chartData.USB.item,
+							idx: 0
 						},        
 				 		"EXPORT": {
 							label: "파일반출",
-							data: chartData.EXPORT.item
+							data: chartData.EXPORT.item,
+							idx: 1
 						},
 						"PRINT": {
 							label: "프린트",
-							data: chartData.PRINT.item
+							data: chartData.PRINT.item,
+							idx: 2
+							
 						},
 						"PATTERN": {
 							label: "민감정보",
-							data: chartData.PATTERN.item
+							data: chartData.PATTERN.item,
+							idx: 3
 						}
 				 }
 				
@@ -557,12 +632,10 @@
 					xaxis : {
 						mode : "time",
 						tickLength : 1,
-						tickSize: [1, "day"],
+						tickSize: [1, input.setType.toLowerCase()],
 						tickDecimals: 0,
-						timeformat: "%m/%d",
+						timeformat: input.timeFormat,
 						timezone: "browser"
-
-						//timeformat: "%y/%m",
 					},
 					yaxis : {
 						tickDecimals: 0,
@@ -602,37 +675,129 @@
 
 					tooltipOpts : {
 						content : "일자: %x <span class='block'>%y개</span>",
-						dateFormat : "%y-%0m-%0d",
+						dateFormat : input.dateFormat,
 						defaultTheme : false
 					},
-
+					legend: {
+				        labelFormatter: function(label, series){
+				          return '<a href="#" onClick="togglePlot('+series.idx+'); return false;">'+label+'</a>';
+				        }
+				    },
 					colors : [$color_main, $color_second, $color_third, $color_fourth],										
 				};
 			
-				var plot = jQuery.plot(jQuery("#flot-sales"), data, options);
+				plot = jQuery.plot(jQuery("#flot-sales"), data, options);
 			}
 
 		}
 
 		jQuery('#preloader').hide();
-
+		
 		$(function(){
-			
-			$('#month_input').hide();
-
+			$('.month_input').hide();
+			getDashboardSimpleAuditForm();
 			setFlotChart();
+			setInterval(getDashboardSimpleAuditForm, 3000); 
+			setInterval(setFlotChart, 30000); 
+
+			//setFlotChart();
 			
 			$("#flot-sales").bind("plotclick", function (event, pos, item) {
 				if (item) {
 /*					$("#clickdata").text(" - click point " + item.dataIndex + " in " + item.series.label);
 					plot.highlight(item.series, item.datapoint);  */
-					alert(item);
-
 				}
 			});
+
+			var requestTable = jQuery('#request_table');
+			requestTable.dataTable({
+				"dom": 't',
+				//dom: 'Bfrtip',
+				"ajax" : {
+					"url":'/ax/simplerequest/list',
+				   	"type":'POST',
+				   	"dataSrc" : "data",
+				   	"data" :  function(param) {
+			        },
+				        "beforeSend" : function(){
+				        },
+			        "dataSrc": function ( json ) {
+		                return json.data;
+		            }   
+				},
+				tableTools: {
+			        },
+				"columns": [{
+					data: "requestType",							
+					"orderable": false	//추가정보
+				}, {
+					data: "requestDept",
+					"orderable": false	//부서
+				}, {
+					data: "requestWriter",
+					"orderable": false	//아이디
+				}, {
+					data: "requestNo",
+					"orderable": false	//이름
+				}],
+				// set the initial value
+				"pageLength": 20,
+				"iDisplayLength": 20,
+				"pagingType": "bootstrap_full_number",
+				"language": {
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
+					"infoEmpty": "검색된 데이터가 없습니다.",
+					"zeroRecords" :"검색된 데이터가 없습니다.",
+					"lengthMenu": "  _MENU_ 개",
+					"paginate": {
+						"previous":"Prev",
+						"next": "Next",
+						"last": "Last",
+						"first": "First"
+					},
+					
+				},
+				"columnDefs": [
+				{	
+					"targets": [0],	
+					"class":"center-cell",
+					"render": function(data, type, row){
+						if(data == 2){
+							return "계정등록요청"
+						}else if(data == 1){
+							return "정책변경요청"							
+						}
+						
+					}
+					
+				},         
+				{  // set default column settings
+					'targets': [1]	
+					,"class":"center-cell"
+				}, {	
+					"targets": [2]	
+					,"class":"center-cell"
+				}, {	
+					"targets": [3]	
+					,"class":"center-cell",
+						"render":function(data,type,row){
+							return '<a href="#" class="btn btn-default btn-xs btn-block">View</a>';
+						}
+				}]
+			});
+
 			
-			var table = jQuery('#contact_table');
-			table.dataTable({
+			var contactTable = jQuery('#contact_table');
+			
+			$("#placeholder").bind("plotclick", function (event, pos, item) {
+		        if (item) { 
+		            //window.location = links[item.dataIndex];
+		            console.log(item);
+		           // here you can write location = "http://your-doamin.com";
+		        }
+		    });
+			
+			contactTable.dataTable({
 				"dom": 't',
 				//dom: 'Bfrtip',
 				"ajax" : {
@@ -649,7 +814,6 @@
 				},
 				tableTools: {
 			        },
-		 	    "ordering": true,
 				"columns": [{
 					data: "contactSubject",							
 					"orderable": false	//추가정보
