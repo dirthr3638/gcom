@@ -2,10 +2,12 @@ package gcom.service.Policy;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gcom.DAO.PolicyDataDAO;
 import gcom.Model.AuditClientModel;
 import gcom.Model.AuditServerModel;
+import gcom.Model.PolicyRequestInfo;
 import gcom.Model.PolicyMessengerModel;
 import gcom.Model.PolicyNetworkModel;
 import gcom.Model.PolicyPatternModel;
@@ -13,6 +15,7 @@ import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
+import gcom.Model.statistic.AuditClientSimpleModel;
 
 public class PolicyServiceImpl implements IPolicyService {
 	
@@ -34,12 +37,25 @@ public class PolicyServiceImpl implements IPolicyService {
 		
 	}
 	
+	public List<AuditClientSimpleModel> getAuditClientSimpleLogList(Map<String, Object> map){
+		return poDao.getAuditClientSimpleLogList(map); 
+	}
+	
 	public List<AuditServerModel> getAuditServerLogList(HashMap<String, Object> map){
 		return poDao.getAuditServerLogList(map);
 		
 	}
 	public int getAuditServerLogListCount(HashMap<String, Object> map){
 		return poDao.getAuditServerLogListCount(map);
+		
+	}
+	
+	public List<PolicyRequestInfo> getRequestedPolicyList(HashMap<String, Object> map){
+		return poDao.getRequestedPolicyList(map);
+		
+	}
+	public int getRequestedPolicyListCount(HashMap<String, Object> map){
+		return poDao.getRequestedPolicyListCount(map);
 		
 	}
 	

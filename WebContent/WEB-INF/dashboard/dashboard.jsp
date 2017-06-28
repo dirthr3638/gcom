@@ -42,16 +42,50 @@
 								All pannels should have an unique ID or the panel collapse status will not be stored!
 					-->
 					<div id="panel-1" class="panel panel-default">
-						<div class="panel-heading">
+						<div class="panel-heading" style="height: 65px;">
 							<span class="title elipsis">
 								<strong>정책통계</strong> <!-- panel title -->
-								<small class="size-12 weight-300 text-mutted hidden-xs">2017</small>
+								<small class="size-12 weight-300 text-mutted hidden-xs"></small>
+								
+								<label class="radio" style="margin-left: 10px">
+									<input type="radio" name="table-type" value="1" checked="checked" onclick="onTypeCheck(this)">
+									<i></i> 일
+								</label>
+								<label class="radio">
+									<input type="radio" name="table-type" value="2" onclick="onTypeCheck(this)">
+									<i></i> 월
+								</label>
+								<small id='day_input'>
+								<label class="text"> 
+
+									<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false" placeholder="기준일 (기본:오늘)">
+								</label>								
+								<label class="text"> 
+									<input type="text" class="form-control" id="filterEndDate" placeholder="범위 (기본:30)" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+								</label>								
+								</small>
+
+								<small id='month_input'>
+								<label class="text"> 
+
+									<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm" data-lang="en" data-RTL="false" placeholder="기준월 (기본:이번달)">
+								</label>								
+								<label class="text"> 
+									<input type="text" class="form-control" id="filterEndDate" placeholder="범위 (기본:12)" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+								</label>								
+								</small>
+								<label class="text"> 
+				
+								<a href="#" class="btn btn-default btn-s btn-block">적용</a>								
+								</label>
+								<!-- 연, 월 , 일  -->
+								<!-- 기준일 -->								
+								<!-- 범위 -->
 							</span>
 
 							<!-- right options -->
 							<ul class="options pull-right list-inline">
 								<li><a href="#" class="opt panel_colapse" data-toggle="tooltip" title="Colapse" data-placement="bottom"></a></li>
-								<li><a href="#" class="opt panel_fullscreen hidden-xs" data-toggle="tooltip" title="Fullscreen" data-placement="bottom"><i class="fa fa-expand"></i></a></li>
 							</ul>
 							<!-- /right options -->
 
@@ -74,26 +108,26 @@
 							-->
 							<ul class="easypiecharts list-unstyled">
 								<li class="clearfix">
-									<span class="stat-number">18.125</span>
+									<span class="stat-number">${data.totalUserCount}명</span>
 									<span class="stat-title">사용자</span>
 
-									<span class="easyPieChart" data-percent="86" data-easing="easeOutBounce" data-barColor="#F8CB00" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
+									<span class="easyPieChart" data-percent="${data.connectRate}" data-easing="easeOutBounce" data-barColor="#F8CB00" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
 										<span class="percent"></span>
 									</span> 
 								</li>
 								<li class="clearfix">
-									<span class="stat-number">60%</span>
+									<span class="stat-number">${data.installRate}%</span>
 									<span class="stat-title">에이전트설치율</span>
 
-									<span class="easyPieChart" data-percent="59.83" data-easing="easeOutBounce" data-barColor="#F86C6B" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
+									<span class="easyPieChart" data-percent="${data.installRate}" data-easing="easeOutBounce" data-barColor="#F86C6B" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
 										<span class="percent"></span>
 									</span> 
 								</li>
 								<li class="clearfix">
-									<span class="stat-number">12%</span>
+									<span class="stat-number">${data.commentRate}%</span>
 									<span class="stat-title">문의답변율</span>
 
-									<span class="easyPieChart" data-percent="12" data-easing="easeOutBounce" data-barColor="#98AD4E" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
+									<span class="easyPieChart" data-percent="${data.commentRate}" data-easing="easeOutBounce" data-barColor="#98AD4E" data-trackColor="#dddddd" data-scaleColor="#dddddd" data-size="60" data-lineWidth="4">
 										<span class="percent"></span>
 									</span> 
 								</li>
@@ -111,20 +145,21 @@
 					<div class="row">
 
 						<!-- Feedback Box -->
-						<div class="col-md-3 col-sm-6">
+						<div class="col-md-4 col-sm-6">
 
 							<!-- BOX -->
 							<div class="box danger"><!-- default, danger, warning, info, success -->
 
 								<div class="box-title"><!-- add .noborder class if box-body is removed -->
-									<h4><a href="#">총9866명 사용자</a></h4>
-									<small class="block">Today 6 명</small>
-									<i class="fa fa-comments"></i>
+									<h4><a href="#">총${data.totalUserCount}명 사용자</a></h4>
+									<small class="block">접속자 ${data.connectAgentCount} 명</small>
+									<i class="fa fa-users"></i>
 								</div>
 
-								<div class="box-body text-center">
-									<span class="sparkline" data-plugin-options='{"type":"bar","barColor":"#ffffff","height":"35px","width":"100%","zeroAxis":"false","barSpacing":"2"}'>
-										331,265,456,411,367,319,402,312,300,312,283,384,372,269,402,319,416,355,416,371,423,259,361,312,269,402,327
+ 								<div class="box-body text-center">
+									<span class="sparkline" data-plugin-options='{"type":"bar","barColor":"#ffffff","height":"35px","width":"100%","zeroAxis":"false","barSpacing":"2", "disableTooltips":"true"}'>
+										331,265,456,411,367,319,402,312,300,312,283,384,372,269,
+										402,319,416,355,416,371
 									</span>
 								</div>
 
@@ -134,19 +169,19 @@
 						</div>
 
 						<!-- Profit Box -->
-						<div class="col-md-3 col-sm-6">
+						<div class="col-md-4 col-sm-6">
 
 							<!-- BOX -->
 							<div class="box warning"><!-- default, danger, warning, info, success -->
 
 								<div class="box-title"><!-- add .noborder class if box-body is removed -->
-									<h4>7501개 에이전트</h4>
-									<small class="block">Today 5PC 설치</small>
+									<h4>${data.installedAgentCount}개 에이전트</h4>
+									<small class="block">Today ${data.todayInstalledCount}PC 설치</small>
 									<i class="fa fa-bar-chart-o"></i>
 								</div>
 
 								<div class="box-body text-center">
-									<span class="sparkline" data-plugin-options='{"type":"bar","barColor":"#ffffff","height":"35px","width":"100%","zeroAxis":"false","barSpacing":"2"}'>
+									<span class="sparkline" data-plugin-options='{"type":"bar","barColor":"#ffffff","height":"35px","width":"100%","zeroAxis":"false","barSpacing":"2", "disableTooltips":"true"}'>
 										331,265,456,411,367,319,402,312,300,312,283,384,372,269,402,319,416,355,416,371,423,259,361,312,269,402,327
 									</span>
 								</div>
@@ -156,20 +191,19 @@
 
 						</div>
 
-						<!-- Orders Box -->
-						<div class="col-md-3 col-sm-6">
+						<div class="col-md-4 col-sm-6">
 
 							<!-- BOX -->
 							<div class="box default"><!-- default, danger, warning, info, success -->
 
 								<div class="box-title"><!-- add .noborder class if box-body is removed -->
-									<h4>371 처리되지않은 문의</h4>
-									<small class="block">Today 18개 문의</small>
-									<i class="fa fa-shopping-cart"></i>
+									<h4>${data.nonCommentContactCount}개 미처리 문의   </h4>
+									<small class="block">Today ${data.todayContactCount}개 문의</small>
+									<i class="fa fa-commenting"></i>
 								</div>
 
 								<div class="box-body text-center">
-									<span class="sparkline" data-plugin-options='{"type":"bar","barColor":"#ffffff","height":"35px","width":"100%","zeroAxis":"false","barSpacing":"2"}'>
+									<span class="sparkline" data-plugin-options='{"type":"bar","barColor":"#ffffff","height":"35px","width":"100%","zeroAxis":"false","barSpacing":"2", "disableTooltips":"true", "disableTooltips":"true"}'>
 										331,265,456,411,367,319,402,312,300,312,283,384,372,269,402,319,416,355,416,371,423,259,361,312,269,402,327
 									</span>
 								</div>
@@ -180,12 +214,12 @@
 						</div>
 
 						<!-- Online Box -->
-						<div class="col-md-3 col-sm-6">
+						<!-- <div class="col-md-3 col-sm-6">
 
-							<!-- BOX -->
-							<div class="box success"><!-- default, danger, warning, info, success -->
+							BOX
+							<div class="box success">default, danger, warning, info, success
 
-								<div class="box-title"><!-- add .noborder class if box-body is removed -->
+								<div class="box-title">add .noborder class if box-body is removed
 									<h4>3485 Online</h4>
 									<small class="block">접속현황</small>
 									<i class="fa fa-globe"></i>
@@ -198,9 +232,9 @@
 								</div>
 
 							</div>
-							<!-- /BOX -->
+							/BOX
 
-						</div>
+						</div> -->
 
 					</div>
 					<!-- /BOXES -->
@@ -248,7 +282,7 @@
 									<!-- tabs content -->
 									<div class="tab-content transparent">
 
-										<div id="ttab1_nobg" class="tab-pane active"><!-- TAB 1 CONTENT -->
+										<div id="ttab1_nobg" class="tab-pane active"><!-- TAB 1 요청내역 -->
 
 											<div class="table-responsive">
 												<table class="table table-striped table-hover table-bordered">
@@ -261,48 +295,6 @@
 														</tr>
 													</thead>
 													<tbody>
-														<tr>
-															<td><a href="#">Apple iPhone 5 - 32GB</a></td>
-															<td>$612.50</td>
-															<td>789</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
-														<tr>
-															<td><a href="#">Allview Ax4 Nano - Cortex A7 Dual-Core 1.30GHz, 7"</a></td>
-															<td>$215.50</td>
-															<td>3411</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
-														<tr>
-															<td><a href="#">Motorola Droid 4 XT894 - 16GB - Black </a></td>
-															<td>$878.50</td>
-															<td>784</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
-														<tr>
-															<td><a href="#">Intel Core i5-4460, 3.2GHz</a></td>
-															<td>$42.33</td>
-															<td>3556</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
-														<tr>
-															<td><a href="#">Samsung Galaxy Note 3 </a></td>
-															<td>$655.00</td>
-															<td>3987</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
-														<tr>
-															<td><a href="#">HyperX FURY Blue 8GB, DDR3, 1600MHz</a></td>
-															<td>$19.50</td>
-															<td>2334</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
-														<tr>
-															<td><a href="#">Gigabyte NVIDIA GeForce GT 730</a></td>
-															<td>$122.00</td>
-															<td>3499</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
 													</tbody>
 												</table>
 
@@ -315,61 +307,19 @@
 
 										</div><!-- /TAB 1 CONTENT -->
 
-										<div id="ttab2_nobg" class="tab-pane"><!-- TAB 2 CONTENT -->
+										<div id="ttab2_nobg" class="tab-pane"><!-- TAB 2 문의사항 -->
 
 											<div class="table-responsive">
-												<table class="table table-striped table-hover table-bordered">
+												<table class="table table-striped table-hover table-bordered" id="contact_table" style="width:100%">
 													<thead>
 														<tr>
-															<th>Product Name</th>
-															<th>Price</th>
-															<th>Sold</th>
+															<th>제목</th>
+															<th>부서</th>
+															<th>작성자</th>
 															<th></th>
 														</tr>
 													</thead>
 													<tbody>
-														<tr>
-															<td><a href="#">Motorola Droid 4 XT894 - 16GB - Black </a></td>
-															<td>$878.50</td>
-															<td>784</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
-														<tr>
-															<td><a href="#">Gigabyte NVIDIA GeForce GT 730</a></td>
-															<td>$122.00</td>
-															<td>3499</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
-														<tr>
-															<td><a href="#">HyperX FURY Blue 8GB, DDR3, 1600MHz</a></td>
-															<td>$19.50</td>
-															<td>2334</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
-														<tr>
-															<td><a href="#">Intel Core i5-4460, 3.2GHz</a></td>
-															<td>$42.33</td>
-															<td>3556</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
-														<tr>
-															<td><a href="#">Samsung Galaxy Note 3 </a></td>
-															<td>$655.00</td>
-															<td>3987</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
-														<tr>
-															<td><a href="#">Apple iPhone 5 - 32GB</a></td>
-															<td>$612.50</td>
-															<td>789</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
-														<tr>
-															<td><a href="#">Allview Ax4 Nano - Cortex A7 Dual-Core 1.30GHz, 7"</a></td>
-															<td>$215.50</td>
-															<td>3411</td>
-															<td><a href="#" class="btn btn-default btn-xs btn-block">View</a></td>
-														</tr>
 													</tbody>
 												</table>
 
@@ -485,142 +435,273 @@
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
 		<script type="text/javascript" src="/assets/js/app.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.resize.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.time.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.fillbetween.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.orderBars.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.pie.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.tooltip.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+
 		<!-- PAGE LEVEL SCRIPT -->
 		<script type="text/javascript">
-			/* 
-				Toastr Notification On Load 
-
-				TYPE:
-					primary
-					info
-					error
-					success
-					warning
-
-				POSITION
-					top-right
-					top-left
-					top-center
-					
-					
-					top-full-width
-					bottom-right
-					bottom-left
-					bottom-center
-					bottom-full-width
-					
-				false = click link (example: "http://www.stepofweb.com")
-			*/
-
-			/** SALES CHART
-			******************************************* **/
-			loadScript(plugin_path + "chart.flot/jquery.flot.min.js", function(){
-				loadScript(plugin_path + "chart.flot/jquery.flot.resize.min.js", function(){
-					loadScript(plugin_path + "chart.flot/jquery.flot.time.min.js", function(){
-						loadScript(plugin_path + "chart.flot/jquery.flot.fillbetween.min.js", function(){
-							loadScript(plugin_path + "chart.flot/jquery.flot.orderBars.min.js", function(){
-								loadScript(plugin_path + "chart.flot/jquery.flot.pie.min.js", function(){
-									loadScript(plugin_path + "chart.flot/jquery.flot.tooltip.min.js", function(){
-
-										if (jQuery("#flot-sales").length > 0) {
-
-											/* DEFAULTS FLOT COLORS */
-										var $color_border_color = "#eaeaea";		/* light gray 	*/
-											$color_grid_color 	= "#dddddd"			/* silver	 	*/
-											$color_main 		= "#E24913";		/* red       	*/
-											$color_second 		= "#6595b4";		/* blue      	*/
-											$color_third 		= "#FF9F01";		/* orange   	*/
-											$color_fourth 		= "#7e9d3a";		/* green     	*/
-											$color_fifth 		= "#BD362F";		/* dark red  	*/
-											$color_mono 		= "#000000";		/* black 	 	*/
-
-											var datasets = {
-													"USB": {
-														label: "USB차단",
-														data: [[1988, 483994], [1989, 479060], [1990, 457648], [1991, 401949], [1992, 424705], [1993, 402375], [1994, 377867], [1995, 357382], [1996, 337946], [1997, 336185], [1998, 328611], [1999, 329421], [2000, 342172], [2001, 344932], [2002, 387303], [2003, 440813], [2004, 480451], [2005, 504638], [2006, 528692]]
-													},        
-													"FILE": {
-														label: "파일전송",
-														data: [[1988, 218000], [1989, 203000], [1990, 171000], [1992, 42500], [1993, 37600], [1994, 36600], [1995, 21700], [1996, 19200], [1997, 21300], [1998, 13600], [1999, 14000], [2000, 19100], [2001, 21300], [2002, 23600], [2003, 25100], [2004, 26100], [2005, 31100], [2006, 34700]]
-													},
-													"PRINT": {
-														label: "프린트",
-														data: [[1988, 62982], [1989, 62027], [1990, 60696], [1991, 62348], [1992, 58560], [1993, 247303], [1994, 207303], [1995, 287303], [1996, 50554], [1997, 127303], [1998, 187303], [1999, 47529], [2000, 47778], [2001, 48760], [2002, 50949], [2003, 287303], [2004, 60234], [2005, 60076], [2006, 59213]]
-													},
-													"PATTERN": {
-														label: "민감정보",
-														data: [[1988, 55627], [1989, 55475], [1990, 58464], [1991, 55134], [1992, 52436], [1993, 47139], [1994, 43962], [1995, 43238], [1996, 42395], [1997, 40854], [1998, 40993], [1999, 41822], [2000, 41147], [2001, 40474], [2002, 40604], [2003, 40044], [2004, 38816], [2005, 38060], [2006, 36984]]
-											}}
-											
-											var data = []; var i = 0;
-											data.push(datasets['USB']);
-											data.push(datasets['FILE']);
-											data.push(datasets['PRINT']);
-											data.push(datasets['PATTERN']);
-
-											
-											var options = {
-
-												xaxis : {
-//													mode : "time",
-//													tickLength : 5
-													tickDecimals: 0
-												},
-
-												series : {
-													lines : {
-														show : true,
-														lineWidth : 1,
-														fill : true,
-														fillColor : {
-															colors : [{
-																opacity : 0.1
-															}, {
-																opacity : 0.15
-															}]
-														}
-													},
-												   //points: { show: true },
-													shadowSize : 0
-												},
-
-												selection : {
-													mode : "x"
-												},
-
-												grid : {
-													hoverable : true,
-													clickable : true,
-													tickColor : $color_border_color,
-													borderWidth : 0,
-													borderColor : $color_border_color,
-												},
-
-												tooltip : true,
-
-												tooltipOpts : {
-													content : "일자: %x <span class='block'>%y개</span>",
-													dateFormat : "%y-%0m-%0d",
-													defaultTheme : false
-												},
-
-												colors : [$color_main, $color_second, $color_third, $color_fourth],
-										
-											};
-										
-											var plot = jQuery.plot(jQuery("#flot-sales"), data, options);
-										}
-
-									});
-								});
-							});
-						});
-					});
-				});
-			});
 		
-			jQuery('#preloader').hide();
+		var currentType = 1;
+		
+		function getChartData(input){
+			var data;
+			$.ajax({      
+		        type:"POST",  
+		        url:'/ax/admin/statistic/chart',
+		        async: false,
+		        data:input,
+		        success:function(args){   
+		        	//console.log(args)
+		        	data = args;
 
+		        },   
+		        //beforeSend:showRequest,  
+		        error:function(e){  
+		            console.log(e.responseText);  
+		        }  
+		    }); 
+			return data;
+		}
+		
+		function onTypeCheck(radio){
+			if(currentType != radio.value){
+				currentType = radio.value;
+				setChartData(currentType);
+
+			}
+		}
+		
+		function setChartData(type){
+			filter = new Object();
+			if(type == 1){	//일
+				$('#day_input').show();
+				$('#month_input').hide();
+
+			}else if (type == 2){	//월
+				$('#day_input').hide();
+				$('#month_input').show();
+
+			}
+			
+		}
+		
+		
+		function setFlotChart(obj){
+			var input = new Object();
+
+			var criteriaTime = 0;
+			var startdate="2017-03-20 00:00:00"
+			var a=startdate.split(" ");
+			var d=a[0].split("-");
+			var t=a[1].split(":");
+			criteriaTime= new Date(d[0],(d[1]-1),d[2],t[0],t[1],t[2]);
+
+			input.setValue = criteriaTime.getTime();
+			//console.log(input.setValue);
+			input.setRange = '20';
+			input.setType = 'DAY';
+
+			var chartData = getChartData(input);
+			
+			if (jQuery("#flot-sales").length > 0) {
+
+				/* DEFAULTS FLOT COLORS */
+			var $color_border_color = "#eaeaea";		/* light gray 	*/
+				$color_grid_color 	= "#dddddd"			/* silver	 	*/
+				$color_main 		= "#E24913";		/* red       	*/
+				$color_second 		= "#6595b4";		/* blue      	*/
+				$color_third 		= "#FF9F01";		/* orange   	*/
+				$color_fourth 		= "#7e9d3a";		/* green     	*/
+				$color_fifth 		= "#BD362F";		/* dark red  	*/
+				$color_mono 		= "#000000";		/* black 	 	*/
+
+				var datasets = {
+						"USB": {
+							label: "USB차단",
+							data : chartData.USB.item
+						},        
+				 		"EXPORT": {
+							label: "파일반출",
+							data: chartData.EXPORT.item
+						},
+						"PRINT": {
+							label: "프린트",
+							data: chartData.PRINT.item
+						},
+						"PATTERN": {
+							label: "민감정보",
+							data: chartData.PATTERN.item
+						}
+				 }
+				
+				var data = []; var i = 0;
+				data.push(datasets['USB']);
+			 	data.push(datasets['EXPORT']);
+			 	data.push(datasets['PRINT']);
+				data.push(datasets['PATTERN']);
+				
+				
+				var options = {
+
+					xaxis : {
+						mode : "time",
+						tickLength : 1,
+						tickSize: [1, "day"],
+						tickDecimals: 0,
+						timeformat: "%m/%d",
+						timezone: "browser"
+
+						//timeformat: "%y/%m",
+					},
+					yaxis : {
+						tickDecimals: 0,
+					},
+					series : {
+						lines : {
+							show : true,
+							lineWidth : 1,
+							fill : true,
+							fillColor : {
+								colors : [{
+									opacity : 0.1
+								}, {
+									opacity : 0.15
+								}]
+							}
+						},
+					   points: { show: true },
+						shadowSize : 0
+					},
+
+					selection : {
+						mode : "x"
+					},
+					points: {
+						show: true
+					},
+					grid : {
+						hoverable : true,
+						clickable : true,
+						tickColor : $color_border_color,
+						borderWidth : 0,
+						borderColor : $color_border_color,
+					},
+
+					tooltip : true,
+
+					tooltipOpts : {
+						content : "일자: %x <span class='block'>%y개</span>",
+						dateFormat : "%y-%0m-%0d",
+						defaultTheme : false
+					},
+
+					colors : [$color_main, $color_second, $color_third, $color_fourth],										
+				};
+			
+				var plot = jQuery.plot(jQuery("#flot-sales"), data, options);
+			}
+
+		}
+
+		jQuery('#preloader').hide();
+
+		$(function(){
+			
+			$('#month_input').hide();
+
+			setFlotChart();
+			
+			$("#flot-sales").bind("plotclick", function (event, pos, item) {
+				if (item) {
+/*					$("#clickdata").text(" - click point " + item.dataIndex + " in " + item.series.label);
+					plot.highlight(item.series, item.datapoint);  */
+					alert(item);
+
+				}
+			});
+			
+			var table = jQuery('#contact_table');
+			table.dataTable({
+				"dom": 't',
+				//dom: 'Bfrtip',
+				"ajax" : {
+					"url":'/ax/simplecantact/list',
+				   	"type":'POST',
+				   	"dataSrc" : "data",
+				   	"data" :  function(param) {
+			        },
+				        "beforeSend" : function(){
+				        },
+			        "dataSrc": function ( json ) {
+		                return json.data;
+		            }   
+				},
+				tableTools: {
+			        },
+		 	    "ordering": true,
+				"columns": [{
+					data: "contactSubject",							
+					"orderable": false	//추가정보
+				}, {
+					data: "contactDept",
+					"orderable": false	//부서
+				}, {
+					data: "contactWriter",
+					"orderable": false	//아이디
+				}, {
+					data: "contactNo",
+					"orderable": false	//이름
+				}],
+				// set the initial value
+				"pageLength": 20,
+				"iDisplayLength": 20,
+				"pagingType": "bootstrap_full_number",
+				"language": {
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
+					"infoEmpty": "검색된 데이터가 없습니다.",
+					"zeroRecords" :"검색된 데이터가 없습니다.",
+					"lengthMenu": "  _MENU_ 개",
+					"paginate": {
+						"previous":"Prev",
+						"next": "Next",
+						"last": "Last",
+						"first": "First"
+					},
+					
+				},
+				"columnDefs": [
+				{	
+					"targets": [0],	
+					"class":"center-left"
+				},         
+				{  // set default column settings
+					'targets': [1]	
+					,"class":"center-cell"
+				}, {	
+					"targets": [2]	
+					,"class":"center-cell"
+				}, {	
+					"targets": [3]	
+					,"class":"center-cell",
+						"render":function(data,type,row){
+							return '<a href="#" class="btn btn-default btn-xs btn-block">View</a>';
+						}
+				}]
+			});
+
+		})
+			
 			</script>
 	</body>
 </html>

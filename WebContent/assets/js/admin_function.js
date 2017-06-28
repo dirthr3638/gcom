@@ -230,3 +230,4 @@ function getPolicyIcon(data){
 	return sOut;
 
 }
+

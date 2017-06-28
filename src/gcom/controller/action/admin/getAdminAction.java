@@ -8,6 +8,7 @@ import gcom.Model.PolicyMessengerModel;
 import gcom.Model.PolicyNetworkModel;
 import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
+import gcom.Model.PolicyRequestInfo;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.SubAdminModel;
 import gcom.Model.SystemInfoModel;
@@ -155,6 +156,20 @@ public class getAdminAction {
 		result.put("recordsFiltered", total);
 		
 		return result;		
+	}
+	
+	public HashMap<String, Object> getRequestedPolicyList(HashMap<String, Object> map){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IPolicyService as = new PolicyServiceImpl();
+		List<PolicyRequestInfo> data = as.getRequestedPolicyList(map);
+		result.put("data", data);
+		int total = as.getRequestedPolicyListCount(map);
+
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;		
+		
 	}
 	
 }

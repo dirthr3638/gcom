@@ -3,22 +3,8 @@ package gcom.Model;
 import lombok.Data;
 
 @Data
-public class UserPolicyLogModel {
+public class PolicyInfoModel {
 	private int policyNo;
-	private int userNo;
-	private String userName = "";
-	private String userId = "";
-	private int deptId ;
-	private String duty = "";
-	private String rank = "";
-	private String ipAddr = "";
-	private String macAddr = "";
-	private String pcName = "";
-	private String deptName = "";
-	private String requestServerTime = "";
-	private String requestClientTime = "";
-	private String applyTime = "";
-	
 	private Boolean isUninstall;
 	private Boolean isFileEncryption;
 	private Boolean isCdEncryption;

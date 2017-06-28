@@ -3,22 +3,19 @@ package gcom.Model;
 import lombok.Data;
 
 @Data
-public class UserPolicyLogModel {
+public class PolicyRequestInfo {
 	private int policyNo;
 	private int userNo;
 	private String userName = "";
 	private String userId = "";
-	private int deptId ;
 	private String duty = "";
 	private String rank = "";
 	private String ipAddr = "";
 	private String macAddr = "";
 	private String pcName = "";
 	private String deptName = "";
-	private String requestServerTime = "";
-	private String requestClientTime = "";
-	private String applyTime = "";
-	
+	private String phone = "";
+
 	private Boolean isUninstall;
 	private Boolean isFileEncryption;
 	private Boolean isCdEncryption;
@@ -51,6 +48,8 @@ public class UserPolicyLogModel {
 	//private String quarantinePathAccessCode = "";
 	private int patternFileControl;   //검출된 패턴파일 처리 방법 0:격리 1:삭제
 
+	private PolicyInfoModel oldPolicy = null;
+	
 	public void setIsUninstall(int value){
 		if(value == 0){
 			isUninstall = false;
