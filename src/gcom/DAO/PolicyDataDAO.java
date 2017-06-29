@@ -25,8 +25,11 @@ import gcom.Model.PolicyNetworkModel;
 import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
+
+import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
 import gcom.Model.statistic.AuditClientSimpleModel;
+
 
 
 public class PolicyDataDAO {
@@ -1067,6 +1070,219 @@ sql += whereSql;
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+
+	public List<UserPolicyModel> getPolicyAssignMemberList(HashMap<String, Object> map) {
+		List<UserPolicyModel> data = new ArrayList<UserPolicyModel>();
+		
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+		if(!user_id.equals("")) 	whereSql += "AND ui.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ui.name LIKE ? ";
+
+		if(oDept != null)			whereSql += "AND ai.dept_no in ("+idList+") ";
+
+		
+		whereSql += "ORDER BY ui.no DESC LIMIT ?, ? ";	
+		
+		String sql= 
+			"SELECT "
+				+ "ai.no as agentNo, "
+			    + "ui.no as userNo, "
+			    + "ai.policy_no as policyNo, "
+			    + "ai.dept_no as deptId, "
+			    + "ui.id as userId, "
+			    + "ui.name as userName, "
+			    + "ui.duty as duty, "
+			    + "ui.rank as rank, "
+				+ "ai.ip_addr as ipAddr, "
+			    + "ai.mac_addr as macAddr, "
+			    + "ai.pc_name as pcName, "
+			    + "di.short_name as deptName, "
+			    
+			    + "IFNULL(pi.uninstall_enabled, 0) as isUninstall, "
+			    + "IFNULL(pi.file_encryption_enabled, 0) as isFileEncryption, "
+			    + "IFNULL(pi.cd_encryption_enabled, 0) as isCdEncryption, "
+			    + "IFNULL(pi.printer_enabled, 0) as isPrint, "
+			    + "IFNULL(pi.cd_enabled, 0) as isCdEnabled, "
+			    + "IFNULL(pi.cd_export_enabled, 0) as isCdExport, "
+			    + "IFNULL(pi.wlan_enabled, 0) as isWlan, "
+			    + "IFNULL(pi.net_share_enabled, 0) as isNetShare, "
+			    + "IFNULL(pi.web_export_enabled, 0) as isWebExport, "
+			    + "IFNULL(pi.removal_storage_export_enabled, 0) as isStorageExport, "
+			    + "IFNULL(pi.removal_storage_admin_mode, 0) as isStorageAdmin, "
+			    
+			    + "IFNULL(pi.usb_dev_list, 'N') as isUsbBlock, "
+			    + "IFNULL(pi.com_port_list, 'N') as isComPortBlock, "
+			    + "IFNULL(pi.net_port_list, 'N') as isNetPortBlock, "
+			    + "IFNULL(pi.process_list, '') as isProcessList, "
+			    + "IFNULL(pi.file_pattern_list, '') as isFilePattern, "
+			    + "IFNULL(pi.web_addr_list, 'N') as isWebAddr, "
+			    + "IFNULL(pi.msg_block_list, 'N') as isMsgBlock, "
+			    + "IFNULL(pi.watermark_descriptor, 'N') as isWaterMark, "
+			    + "IFNULL(pi.print_log_descriptor, 0) as printLogDesc, "
+			    + "IFNULL(pi.pattern_file_control, 0) as patternFileControl "
+			+ "FROM agent_info AS ai "
+			+ "INNER JOIN user_info AS ui ON ai.own_user_no = ui.no "
+			+ "LEFT JOIN policy_info AS pi ON ai.policy_no = pi.no "
+			+ "INNER JOIN dept_info as di ON ai.dept_no = di.no ";
+
+
+		sql += whereSql;
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+		
+			int i = 1;
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+		
+			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
+			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				UserPolicyModel model = new UserPolicyModel();
+				model.setAgentNo(rs.getInt("agentNo"));
+				model.setUserNo(rs.getInt("userNo"));
+				model.setPolicyNo(rs.getInt("policyNo"));
+				model.setDeptId(rs.getInt("deptId"));
+				model.setUserId(rs.getString("userId"));
+				model.setUserName(rs.getString("userName"));
+				model.setDuty(rs.getString("duty"));
+				model.setRank(rs.getString("rank"));
+				model.setIpAddr(rs.getString("ipAddr"));
+				model.setMacAddr(rs.getString("macAddr"));
+				model.setPcName(rs.getString("pcName"));
+				model.setDeptName(rs.getString("deptName"));
+				model.setIsUninstall(rs.getInt("isUninstall"));
+				model.setIsFileEncryption(rs.getInt("isFileEncryption"));
+				model.setIsCdEncryption(rs.getInt("isCdEncryption"));
+				model.setIsPrint(rs.getInt("isPrint"));
+				model.setIsCdEnabled(rs.getInt("isCdEnabled"));
+				model.setIsCdExport(rs.getInt("isCdExport"));
+				model.setIsWlan(rs.getInt("isWlan"));
+				model.setIsNetShare(rs.getInt("isNetShare"));
+				model.setIsWebExport(rs.getInt("isWebExport"));
+				model.setIsStorageExport(rs.getInt("isStorageExport"));
+				model.setIsStorageAdmin(rs.getInt("isStorageAdmin"));
+				model.setIsUsbBlock(rs.getString("isUsbBlock"));
+				model.setIsComPortBlock(rs.getString("isComPortBlock"));
+				model.setIsNetPortBlock(rs.getString("isNetPortBlock"));
+				model.setIsProcessList(rs.getString("isProcessList"));
+				model.setIsFilePattern(rs.getString("isFilePattern"));
+				model.setIsWebAddr(rs.getString("isWebAddr"));
+				model.setIsMsgBlock(rs.getString("isMsgBlock"));
+				model.setWatermarkInfo(rs.getString("isWaterMark"));
+				model.setPrintLogDesc(rs.getInt("printLogDesc"));
+				model.setPatternFileControl(rs.getInt("patternFileControl"));
+				
+				data.add(model);
+			}
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+
+	public int getPolicyAssignMemberListCount(HashMap<String, Object> map) {
+		int result = 0;
+		
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+		if(oDept != null)			whereSql += "AND ai.dept_no in ("+idList+") ";
+
+		if(!user_id.equals("")) 	whereSql += "AND ui.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ui.name LIKE ? ";
+	
+		String sql= 
+				"SELECT "
+						+ "COUNT(*) AS cnt "
+						+ "FROM agent_info AS ai "
+						+ "INNER JOIN user_info AS ui ON ai.own_user_no = ui.no "
+						+ "LEFT JOIN policy_info AS pi ON ai.policy_no = pi.no ";
+
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){

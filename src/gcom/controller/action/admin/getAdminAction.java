@@ -13,6 +13,9 @@ import gcom.Model.PolicySerialModel;
 import gcom.Model.SubAdminModel;
 import gcom.Model.SystemInfoModel;
 import gcom.Model.UserInfoModel;
+import gcom.Model.UserPolicyLogModel;
+import gcom.Model.UserPolicyModel;
+import gcom.service.Personal.IPersonalService;
 import gcom.service.Personal.PersonalServiceImpl;
 import gcom.service.Policy.IPolicyService;
 import gcom.service.Policy.PolicyServiceImpl;
@@ -141,6 +144,18 @@ public class getAdminAction {
 		
 		return result;		
 		
+	}
+
+	public HashMap<String, Object> getPolicyAssignMemberList(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IPolicyService as = new PolicyServiceImpl();
+		List<UserPolicyModel> data = as.getPolicyAssignMemberList(map);
+		result.put("data", data);
+		int total = as.getPolicyAssignMemberListCount(map);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;		
 	}
 	
 	public HashMap<String, Object> getRequestedPolicyList(HashMap<String, Object> map){

@@ -13,6 +13,8 @@ import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.UserPolicyLogModel;
+
+import gcom.Model.UserPolicyModel;
 import gcom.Model.statistic.AuditClientSimpleModel;
 
 public interface IPolicyService {
@@ -41,4 +43,6 @@ public interface IPolicyService {
 	public int getPolicyNetworkListCount(HashMap<String, Object> map);
 	public List<PolicySerialModel> getPolicySerialList(HashMap<String, Object> map);
 	public int getPolicySerialListCount(HashMap<String, Object> map);
+	public List<UserPolicyModel> getPolicyAssignMemberList(HashMap<String, Object> map);
+	public int getPolicyAssignMemberListCount(HashMap<String, Object> map);
 }

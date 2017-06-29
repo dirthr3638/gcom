@@ -14,6 +14,7 @@ import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.UserPolicyLogModel;
+import gcom.Model.UserPolicyModel;
 import gcom.Model.statistic.AuditClientSimpleModel;
 
 public class PolicyServiceImpl implements IPolicyService {
@@ -100,6 +101,14 @@ public class PolicyServiceImpl implements IPolicyService {
 	
 	public int getPolicySerialListCount(HashMap<String, Object> map) {
 		return poDao.getPolicySerialListCount(map);	
+	}
+	
+	public List<UserPolicyModel> getPolicyAssignMemberList(HashMap<String, Object> map) {
+		return poDao.getPolicyAssignMemberList(map);	
+	}
+	
+	public int getPolicyAssignMemberListCount(HashMap<String, Object> map) {
+		return poDao.getPolicyAssignMemberListCount(map);	
 	}
 
 }

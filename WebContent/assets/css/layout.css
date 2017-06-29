@@ -2581,8 +2581,9 @@ ul.easypiecharts li span.stat-title {
 }
 
 .policy_icon{
-	margin-left: 10px;
-	margin-right: 10px;
+	margin-left: 6px;
+	margin-right: 6px;
+	cursor:help;
 }
 
 
@@ -2701,6 +2702,10 @@ ul.easypiecharts li span.stat-title {
 
 .fl_right {
 	float: right;
+}
+
+.th-cell-gray {
+	background-color: #fcfcfc;
 }
 
 @-webkit-keyframes spinner {

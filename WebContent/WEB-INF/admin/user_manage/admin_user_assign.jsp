@@ -20,6 +20,7 @@
 		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+		
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -34,7 +35,7 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>에이전트감사로그</h1>
+					<h1>정책할당</h1>
 				</header>
 				<!-- /page title -->
 			
@@ -64,7 +65,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>에이전트감사로그</strong> <!-- panel title -->
+										<strong>정책할당 정보</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -79,11 +80,11 @@
 											<!-- Info -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
 											
-											
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
+											<button type="button" class="btn btn-blue pull-right" onclick="fn_apply_policy()"><i class="fa fa-check" aria-hidden="true">&nbsp;정책할당</i></button>
 											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
@@ -127,25 +128,64 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12" style="overflow: hidden;">
-											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
+											<table class="table table-bordered x-scroll-table" id="table_apply_policy" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
-														<th style="width:20px"></th>
+														<th style="width:30px">상세</th>
+														<th style="width:20px"><input type="checkbox" id="all_check_info" name="all_check_info" /></th>
 														<th>부서</th>
 														<th>아이디</th>
 														<th>이름</th>
 														<th>번호</th>
-														<th >직책</th>
-														<th >계급</th>														
-														<th >IP</th>
-														<th >MAC</th>
-														<th >PC이름</th>
-														<th >작업모듈</th>
-														<th >작업내역</th>
-														<th >작업시간(서버)</th>
-														<th >작업시간</th>
-														<th >상태</th>
-
+														<th>직책</th>
+														<th>계급</th>														
+														<th>IP</th>
+														<th>MAC</th>
+														<th>PC이름</th>
+														<th>정책요약</th>
+                                                       <!--  
+                                                       	<th>정책NO</th>
+                                                        
+                                                        <th>에이전트삭제가능</th>   
+                                                        <th>파일실시간암호화</th>
+                                                        <th>CD실시간암호화</th>
+                                                        
+                                                        <th>프린트사용여부</th>
+                                                        
+                                                        <th>CD사용가능여부</th>
+                                                        <th>CD반출여부</th>
+                                                        <th>무선랜사용가능여부</th>
+                                                        <th>공유폴더사용여부</th>
+                                                        <th>메일반출여부</th>
+                                                        
+                                                        <th>USB포트사용여부</th>
+                                                        <th>USB차단코드</th>
+                                                        
+                                                        <th>시리얼포트사용여부</th>
+                                                        <th>시리얼포트차단코드</th>
+                                                        
+                                                        <th>네트워크포트사용여부</th>
+                                                        <th>네트워크포트차단코드</th>
+                                                        
+                                                        <th>프로그램차단여부</th>
+                                                        <th>프로그램차단코드</th>
+                                                        
+                                                        <th>민감패턴차단여부</th>
+                                                        <th>민감패턴차단코드</th>
+                                                        <th>민감패턴파일처리코드</th>
+                                                        
+                                                        <th>사이트차단여부</th>
+                                                        <th>사이트차단코드</th>
+                                                        
+                                                        <th>메신저차단여부</th>
+                                                        <th>메신저차단코드</th>
+                                                        
+                                                        <th>워터마크</th>
+                                                        <th>워터적용코드</th>
+                                                        <th>워터마크적용일시</th>
+                                                                                                                
+                                                        <th>프린터인쇄로그설정</th>
+														-->
 													</tr>
 												</thead>				
 												<tbody>
@@ -154,13 +194,14 @@
 										</div>
 									</div>
 									
-									
 									<div class="ld_modal hidden" >
 									    <div class="ld_center" >
 									        <img alt="" src="/assets/images/loaders/loading.gif" />
 									    </div>
 									</div>
 									
+									<!-- 정책 할당 Ajax Div -->
+									<div id="policy_apply_div"></div>
 								</div>
 								<!-- /panel content -->
 							</div>
@@ -176,36 +217,11 @@
 		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+		<script type="text/javascript" src="/assets/js/admin_function.js"></script>
 
-<script>
-
-	//라디오타입에 따라 컬럼 hide/show
-	var setColumnType = function(cType){
-		
-		var datatable = $('#table_userinfo').dataTable().api();
-		var aColumn = datatable.columns('.agentinfo' );
-		var uColumn = datatable.columns('.userinfo' );
-		if(cType == 1){
-			uColumn.visible(true);
-			aColumn.visible(false);			
-
- 			var jTable = $('#table_userinfo').dataTable();;
-
-//			var nsTr = $('tbody > td > .datables-td-detail').parents('tr')[0];
-			var nsTr = $('#table_userinfo tr');
-			for(var i = 0; i < nsTr.length; i++){
-				var nTr = nsTr[i];
-				jTable.fnClose(nTr);
-			}
-		}else if(cType == 2){
-			uColumn.visible(false);
-			aColumn.visible(true);	
-
-			var nsTr = $('#table_userinfo tr td').find('span.datables-td-detail');
-			nsTr.addClass("datatables-close").removeClass("datatables-open");
-		}		
-	}
-
+<script type="text/javascript">
+	
+	// 조직도 
  	function setTree(){
 		$.ajax({      
 	        type:"POST",  
@@ -222,21 +238,73 @@
 	    }); 
 	}
  	
+ 	// 검색 버튼 클릭 시 
  	function searchUserLog(){
- 		var datatable = $('#table_userinfo').dataTable().api();
+ 		var datatable = $('#table_apply_policy').dataTable().api();
 		datatable.ajax.reload();   	
  	
  	}
 
+ 	// 인쇄 버튼 클릭 시 
  	function onClickPrintButton(){
  		var $buttons = $('.export-print');
  		$buttons.click();
  	}
  	
+ 	// 내보내기 버튼 클릭 시 
  	function onClickExcelButton(){
 		console.log('excel')
  		var $buttons = $('.export-csv');
  		$buttons.click();
+ 		
+ 	}
+ 	
+ 	// 정책할당 버튼 클릭 시 
+ 	function fn_apply_policy() {
+ 		var checkedLen = $("input:checkbox[name='policy_app_check']:checked").length;
+ 		if (checkedLen < 1) {
+ 			alert("정책 할당을 위해서 하나 이상의 회원을 클릭해 주세요.");
+ 		}
+ 		
+ 		var apTable = jQuery('#table_apply_policy').DataTable();
+ 		var apply_arr = new Array();
+ 		
+		$(":checkbox[name='policy_app_check']:checked").each(function(pi,po){
+			var check_row = $(this).parents('tr').get(0);
+			var check_item = apTable.row(check_row).data();
+			apply_arr.push(check_item);
+		});
+		
+		$.ajax({      
+		    type:"POST",  
+		    url:'/admin/user/assign/apply',
+		    async: false,
+		    data:{
+		    	apply_list : JSON.stringify(apply_arr),
+		    	_ : $.now()
+		    },
+		    success:function(data){
+		    	$("#policy_apply_div").html(data);
+	            $('#modalApplyPolicy').modal('show');
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+ 		
+ 	}
+ 	
+ 	// 체크 박스 클릭 시 전체 체크 여부 확인
+ 	var check_Info = function() {
+		
+ 		var checkboxLen =  $("input:checkbox[name='policy_app_check']").length;
+ 		var checkedLen = $("input:checkbox[name='policy_app_check']:checked").length;
+
+ 		if(checkboxLen == checkedLen){
+ 			$("#all_check_info").prop("checked", true);
+ 		} else {
+ 			$("#all_check_info").prop("checked", false);
+ 		}
  		
  	}
  	
@@ -247,7 +315,16 @@
    			  dropdownAutoWidth : true,
    			  width: 'auto'
    		});
-
+		
+		//전체 체크 박스 선택 시
+		$("#all_check_info").click(function(){
+			
+		      if($(this).is(":checked")) {
+		    	  $(".policy_app_check").prop("checked", true);
+		      } else {
+		    	  $(".policy_app_check").prop("checked", false);
+		      }
+		});
 		
      	setTree();
 
@@ -262,19 +339,19 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 
 					var export_filename = 'Filename';
 					
-					var table = jQuery('#table_userinfo');
+					var table = jQuery('#table_apply_policy');
 					table.dataTable({
 						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
 						"ajax" : {
-							"url":'/ax/audit/client/list',
+							"url":'/ax/policy/assign/list',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  function(param) {
-								param.user_id = $('#filterUserId').val();
+								param.user_id 	= $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
 								param.start_date = $('#filterStartDate').val();
-								param.end_date = $('#filterEndDate').val();
+								param.end_date 	= $('#filterEndDate').val();
 								
 								param.dept = getCheckedDept();
 					        },
@@ -318,8 +395,14 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 				 		"serverSide" : true,
 				 	    "ordering": true,
 						"columns": [{
-							data: "exportNo",							
-							"orderable": false	//추가정보
+							data: "userNo",							
+							"orderable": false	// 추가정보
+						}, {
+							data: "agentNo",
+							"orderable": false	// select box
+							,"render":function(data,type,row){
+								return '<input type="checkbox" name="policy_app_check" class="policy_app_check" value="' + data + '" onClick="javascript:check_Info()"/>';
+							}
 						}, {
 							data: "deptName",
 							"orderable": false	//부서
@@ -348,20 +431,98 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							data: "pcName",
 							"orderable": false	//PC이름
 						}, {
-							data: "moduleName",
-							"orderable": false	//작업모듈
+							data: "policyNo",
+							"orderable": false	//정책요약
+							,"render":function(data,type,row){
+								return getPolicyIcon(row); 
+							}
 						}, {
-							data: "description",
-							"orderable": false	//작업내역
-						}, {
-							data: "serverTime",
-							"orderable": false	//작업시간(서버)
-						}, {
-							data: "clientTime",
-							"orderable": false	//작업시간(PC)
-						}, {
-							data: "status",
-							"orderable": false	//상태
+							data: "policyNo",
+							"orderable": false	//정책NO
+						},{
+							data: "isUninstall",
+							"orderable": false	//에이전트삭제가능
+						},{
+							data: "isFileEncryption",
+							"orderable": false	//파일실시간암호화
+						},{
+							data: "isCdEncryption",
+							"orderable": false	//CD실시간암호화
+						},{
+							data: "isPrint",
+							"orderable": false	//프린트사용여부
+						},{
+							data: "isCdEnabled",
+							"orderable": false	//CD사용가능여부
+						},{
+							data: "isCdExport",
+							"orderable": false	//CD반출여부
+						},{
+							data: "isWlan",
+							"orderable": false	//무선랜사용가능여부
+						},{
+							data: "isNetShare",
+							"orderable": false	//공유폴더사용여부
+						},{
+							data: "isWebExport",
+							"orderable": false	//메일반출여부
+						},{
+							data: "isUsbBlock",
+							"orderable": false	//USB포트사용여부
+						},{
+							data: "usbBlockCode",
+							"orderable": false	//USB차단코드
+						},{
+							data: "isComPortBlock",
+							"orderable": false	//시리얼포트사용여부
+						},{
+							data: "comPortBlockCode",
+							"orderable": false	//시리얼포트차단코드
+						},{
+							data: "isNetPortBlock",
+							"orderable": false	//네트워크포트사용여부
+						},{
+							data: "netPortBlockCode",
+							"orderable": false	//네트워크포트차단코드
+						},{
+							data: "isProcessList",
+							"orderable": false	//프로그램차단여부
+						},{
+							data: "processListCode",
+							"orderable": false	//프로그램차단코드
+						},{
+							data: "isFilePattern",
+							"orderable": false	//민감패턴차단여부
+						},{
+							data: "filePatternCode",
+							"orderable": false	//민감패턴차단코드
+						},{
+							data: "patternFileControl",
+							"orderable": false	//민감패턴파일처리코드
+						},{
+							data: "isWebAddr",
+							"orderable": false	//사이트차단여부
+						},{
+							data: "webAddrCode",
+							"orderable": false	//사이트차단코드
+						},{
+							data: "isMsgBlock",
+							"orderable": false	//메신저차단여부
+						},{
+							data: "msgBlockCode",
+							"orderable": false	//메신저차단코드
+						},{
+							data: "isWaterMark",
+							"orderable": false	//워터마크
+						},{
+							data: "waterMarkType",
+							"orderable": false	//워터적용코드
+						},{
+							data: "waterMarkEndDate",
+							"orderable": false	//워터마크적용일시
+						},{
+							data: "printLogDesc",
+							"orderable": false	//프린터인쇄로그설정
 						}],
 						// set the initial value
 						"pageLength": 20,
@@ -382,100 +543,169 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						},
 						"columnDefs": [
 						{	
-							"targets": [0],	//추가정보
+							"targets": [0],	// 추가정보
 							"class":"center-cell add_detail_info",
 							"render":function(data,type,row){
 								return '<span class="datables-td-detail datatables-close"></span>';
 							}
-						},         
-						{  // set default column settings
-							'targets': [1]	//부서
+						}, {
+							'targets': [1]	// select box
 							,"class":"center-cell"
 						}, {	
-							"targets": [2]	//아이디
+							"targets": [2]	//부서
 							,"class":"center-cell"
 						}, {	
-							"targets": [3]	//이름
+							"targets": [3]	//아이디
 							,"class":"center-cell"
 						}, {	
-							"targets": [4],	//번호
+							"targets": [4],	//이름
 							"class":"center-cell"
 						}, {	
-							"targets": [5]	//직책
+							"targets": [5]	//번호
 							,"class" : "center-cell"
 						}, {	
-							"targets": [6]	//계급
+							"targets": [6]	//직책
 							,"class" : "center-cell"
 						}, 
 						{	
-							"targets": [7]	//IP
+							"targets": [7]	//계급
 							,"class" : "center-cell"
-							,"visible" : false
+						}, {	
+							"targets": [8]	//IP
+							,"class" : "center-cell"
 							,"render":function(data,type,row){
 	 							if(data == ''){
 	 								return '-'
 	 							}else{
 	 								return data;
 	 							}
-	 						}								
+	 						}							
 						}, {	
-							"targets": [8]	//MAC
+							"targets": [9]	//MAC
 							,"class" : "center-cell"
-							,"visible" : false
 	 						,"render":function(data,type,row){
 	 							if(data == ''){
 	 								return '-'
 	 							}else{
 	 								return data;
 	 							}
-	 						}								
+	 						}		
+	 													
 						}, {	
-							"targets": [9]	//PC이름
+							"targets": [10]	//PC이름
 							,"class" : "center-cell"
-							,"visible" : false
-	 						,"render":function(data,type,row){
+							,"render":function(data,type,row){
 	 							if(data == ''){
 	 								return '-'
 	 							}else{
 	 								return data;
 	 							}
-	 						}								
+	 						}	
 						}, {	
-							"targets": [10]	//작업모듈
+							"targets": [11]	//정책요약
 							,"class" : "center-cell"
 						}, {	
-							"targets": [11]	//작업내역
-						}, {	
-							"targets": [12]	//시간(서버)
-							,"class" : "center-cell"
+							"targets": [12]	//정책NO
 							,"visible" : false
 						}, {	
-							"targets": [13]	//시간(PC)
-							,"class" : "center-cell"
+							"targets": [13]	// 에이전트삭제가능
+							,"visible" : false
 						}, {	
-							"targets": [14]	//상태
-							,"class" : "center-cell"
+							"targets": [14]	// 파일실시간암호화
+							,"visible" : false
+						}, {	
+							"targets": [15]	// CD실시간암호화
+							,"visible" : false
+						}, {	
+							"targets": [16]	// 프린트사용여부
+							,"visible" : false
+						}, {	
+							"targets": [17]	// CD사용가능여부
+							,"visible" : false
+						}, {	
+							"targets": [18]	// CD반출여부
+							,"visible" : false
+						}, {	
+							"targets": [19]	// 무선랜사용가능여부
+							,"visible" : false
+						}, {	
+							"targets": [20]	// 공유폴더사용여부
+							,"visible" : false
+						}, {	
+							"targets": [21]	// 메일반출여부
+							,"visible" : false
+						}, {	
+							"targets": [22]	// USB포트사용여부
+							,"visible" : false
+						}, {	
+							"targets": [23]	// USB차단코드
+							,"visible" : false
+						}, {	
+							"targets": [24]	// 시리얼포트사용여부
+							,"visible" : false
+						}, {	
+							"targets": [25]	// 시리얼포트차단코드
+							,"visible" : false
+						}, {	
+							"targets": [26]	// 네트워크포트사용여부
+							,"visible" : false
+						}, {	
+							"targets": [27]	// 네트워크포트차단코드
+							,"visible" : false
+						}, {	
+							"targets": [28]	// 프로그램차단여부
+							,"visible" : false
+						}, {	
+							"targets": [29]	// 프로그램차단코드
+							,"visible" : false
+						}, {	
+							"targets": [30]	// 민감패턴차단여부
+							,"visible" : false
+						}, {	
+							"targets": [31]	// 민감패턴차단코드
+							,"visible" : false
+						}, {	
+							"targets": [32]	// 민감패턴파일처리코드
+							,"visible" : false
+						}, {	
+							"targets": [33]	// 사이트차단여부
+						,	"visible" : false
+						}, {	
+							"targets": [34]	// 사이트차단코드
+							,"visible" : false
+						}, {	
+							"targets": [35]	// 메신저차단여부
+							,"visible" : false
+						}, {	
+							"targets": [36]	// 메신저차단코드
+							,"visible" : false
+						}, {	
+							"targets": [37]	// 워터마크
+							,"visible" : false
+						}, {	
+							"targets": [38]	// 워터적용코드
+							,"visible" : false
+						}, {	
+							"targets": [39]	// 워터마크적용일시
+							,"visible" : false
+						}, {	
+							"targets": [40]	// 프린터인쇄로그설정
+							,"visible" : false
 						}],						
 						"initComplete": function( settings, json ) {
 							$('.export-print').hide();
 						}
 					});
 					
+					
 					function fnFormatDetails(oTable, nTr) {
 						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
-						sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
-						sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-						sOut += '<tr><td class="center-cell">PC명:</td><td>' + aData.serverTime + '</td><td></td><td></td></tr>';
-						
-						sOut += '<td class="center-cell"></td><td></td></tr>';
-												
-						sOut += '</table>';
+						var sOut = getApplyPolicyDetailItem(aData);
 
 						return sOut;
 					}
 					
-					var jTable = jQuery('#table_userinfo');
+					var jTable = jQuery('#table_apply_policy');
 					jTable.on('click', ' tbody td .datables-td-detail', function () {
 						var nTr = jQuery(this).parents('tr')[0];
 						if (table.fnIsOpen(nTr)) {
