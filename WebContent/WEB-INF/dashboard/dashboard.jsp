@@ -555,18 +555,19 @@
 			setChardData = setChartSetting();
 			setFlotChart();
 		}
+		var option = null;
 		var plot = null;
 		var togglePlot = function(seriesIdx)
 		{
-			console.log(seriesIdx);
-			
-			console.log(plot);
 		  var someData = plot.getData();
 		  someData[seriesIdx].lines.show = !someData[seriesIdx].lines.show;
 		  someData[seriesIdx].points.show = !someData[seriesIdx].points.show;
 		  
 		  plot.setData(someData);
-		  plot.draw();
+		  //plot.setupGrid();
+		  //plot.draw();
+		  plot = jQuery.plot(jQuery("#flot-sales"), someData, options);
+
 		}
 		
 		setChardData = setChartSetting();
@@ -627,7 +628,7 @@
 				data.push(datasets['PATTERN']);
 				
 				
-				var options = {
+				options = {
 
 					xaxis : {
 						mode : "time",
@@ -698,7 +699,6 @@
 			getDashboardSimpleAuditForm();
 			setFlotChart();
 			setInterval(getDashboardSimpleAuditForm, 3000); 
-			setInterval(setFlotChart, 30000); 
 
 			//setFlotChart();
 			
