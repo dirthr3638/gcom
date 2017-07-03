@@ -1,5 +1,6 @@
 package gcom.service.Department;
 
+import java.util.HashMap;
 import java.util.List;
 
 import gcom.Model.DeptModel;
@@ -9,4 +10,8 @@ public interface IDeptService {
 	List<DeptModel> getDeptList(int adminNumber);
 	List<DeptTreeModel> getDeptListForJSTree(int adminNumber);
 	List<DeptTreeModel> getSelectDeptListForJSTree(int adminNumber);
+	DeptModel getDeptInfo(int deptNo);
+	HashMap<String, Object> insertDeptInfo(DeptModel model);
+	HashMap<String, Object> updateDeptNameInfo(DeptModel model);
+	HashMap<String, Object> removeDeptInfo(int deptNo);
 }

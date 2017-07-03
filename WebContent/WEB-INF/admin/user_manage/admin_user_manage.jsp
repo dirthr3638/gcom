@@ -78,6 +78,8 @@
 		
 											<!-- Info -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
+											<button type="button" class="btn btn-danger" onclick="onClickExcelButton()"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>
+											<button type="button" class="btn btn-success" onclick="onClickExcelButton()"><i class="fa fa-plus" aria-hidden="true">&nbsp;추가</i></button>
 											
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
@@ -123,19 +125,21 @@
 											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
-														<th></th>
+														<th style="width:20px"><input type="checkbox" id="all_check_info" name="all_check_info" /></th>
 														<th>부서</th>
 														<th>아이디</th>
 														<th>이름</th>
 														<th >직책</th>
 														<th >계급</th>
 														<th >연락처</th>
+														<th >수정</th>
 													</tr>
 												</thead>
 				
 												<tbody>
 												</tbody>
 											</table>
+										
 										
 										</div>
 									</div>
@@ -209,6 +213,20 @@
    			  width: 'auto'
    		});
      	setTree();
+     	
+     	
+		//전체 체크 박스 선택 시
+		$("#all_check_info").click(function(){
+			
+		      if($(this).is(":checked")) {
+		    	  $(".user_app_check").prop("checked", true);
+		      } else {
+		    	  $(".user_app_check").prop("checked", false);
+		      }
+		});
+
+     	
+     	
 
 loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
 loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
@@ -278,7 +296,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 				 	    "ordering": true,
 						"columns": [{
 							data: "userNo",							
-							"orderable": false		//추가정보
+							"orderable": false		
 						}, {
 							data: "deptName",
 							"orderable": false	//부서
@@ -297,6 +315,9 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"orderable": false	//계급
 						}, {
 							data: "phone",
+							"orderable": false	//연락
+						}, {
+							data: "userNo",
 							"orderable": false	//연락
 						}],
 						// set the initial value
@@ -320,6 +341,9 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						{	
 							"targets": [0],	//추가정보
 							"class":"center-cell",
+							"render":function(data,type,row){
+								return '<input type="checkbox" name="user_app_check" class="user_app_check" value="' + data + '" onClick="javascript:check_info()"/>';
+							}
 						},         
 						{  // set default column settings
 							'targets': [1]	//부서
@@ -332,13 +356,20 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							,"class":"center-cell"
 						}, {	
 							"targets": [4]	//직책
-							,"class" : "userinfo center-cell"
+							,"class" : "center-cell"
 						}, {	
 							"targets": [5]	//계급
-							,"class" : "userinfo center-cell"
+							,"class" : "center-cell"
 						}, {	
 							"targets": [6]	//연락처
-							,"class" : "userinfo center-cell"
+							,"class" : "center-cell"
+						}, {	
+							"targets": [7]	//
+							,"class" : "center-cell",
+							"render":function(data,type,row){
+ 								var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:enrollPassInfo(\''+ row.permitAdmin  +'\', \'' + row.permitDate + '\')"><i class="fa fa-gear" aria-hidden="true">&nbsp;수정</i></button>';
+ 								return ret;
+							}
 						}],						
 						"initComplete": function( settings, json ) {
 							$('.export-print').hide();

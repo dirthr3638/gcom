@@ -231,3 +231,37 @@ function getPolicyIcon(data){
 
 }
 
+	function completeAlert(){
+		
+		vex.dialog.open({
+			message: '완료되었습니다.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		})
+	}
+	
+ 	function failAlert(){
+		vex.defaultOptions.className = 'vex-theme-os'
+			
+			vex.dialog.open({
+				message: '서버와의 통신에 문제가 발생하였습니다.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			})
+ 	}
+ 	
+ 	function infoAlert(str){
+		vex.defaultOptions.className = 'vex-theme-os'
+			
+			vex.dialog.open({
+				message: str,
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			})
+ 	}

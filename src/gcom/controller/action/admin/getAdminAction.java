@@ -2,6 +2,7 @@ package gcom.controller.action.admin;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gcom.Model.FileInfoModel;
 import gcom.Model.PolicyMessengerModel;
@@ -12,6 +13,7 @@ import gcom.Model.PolicyRequestInfo;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.SubAdminModel;
 import gcom.Model.SystemInfoModel;
+import gcom.Model.UserEnrollModel;
 import gcom.Model.UserInfoModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
@@ -19,6 +21,8 @@ import gcom.service.Personal.IPersonalService;
 import gcom.service.Personal.PersonalServiceImpl;
 import gcom.service.Policy.IPolicyService;
 import gcom.service.Policy.PolicyServiceImpl;
+import gcom.service.Request.IRequestService;
+import gcom.service.Request.RequestServiceImpl;
 import gcom.service.System.ISystemService;
 import gcom.service.System.SystemServiceImpl;
 import gcom.service.UserAgent.IUserAgentService;
@@ -170,6 +174,24 @@ public class getAdminAction {
 		
 		return result;		
 		
+	}
+
+	public HashMap<String, Object> getEnrollRequestList(Map<String, Object> map){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IRequestService as = new RequestServiceImpl();
+		List<UserEnrollModel> data = as.getEnrollRequestList(map);
+		result.put("data", data);
+		int total = as.getEnrollRequestListCount(map);
+
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;								
+	}
+	
+	public HashMap<String, Object> getEnrollRequestCheckDupl(HashMap<String, Object> map) {
+		IRequestService as = new RequestServiceImpl();
+		return as.getEnrollRequestCheckDupl(map);
 	}
 	
 }
