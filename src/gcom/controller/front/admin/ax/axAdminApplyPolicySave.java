@@ -2,6 +2,8 @@ package gcom.controller.front.admin.ax;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import gcom.Model.SubAdminModel;
+import gcom.common.services.JSONUtil;
 import gcom.controller.action.admin.insertAdminAction;
 import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
@@ -23,37 +26,19 @@ import gcom.user.service.UserServiceInterface;
 /**
  * Servlet implementation class axCommonUI
  */
-@WebServlet("/admin/user/notice/save")
-public class axAdminNoticeWriteSave extends HttpServlet {
+@WebServlet("/admin/user/apply/save")
+public class axAdminApplyPolicySave extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpServletRequest httpReq = (HttpServletRequest)request;
-    	HttpSession session = httpReq.getSession(false);
-    	
-    	String user_id = (String)session.getAttribute("user_id");
-    	HashMap<String, Object> param = new HashMap<String, Object>();
-    	param.put("user_id", user_id);
-    	
-    	IManagementService managementService = new ManagementServiceImpl();
-    	SubAdminModel admin = managementService.getAdminUserInfo(param);
 		
-		
-		param.put("reg_staf_no", admin.getAdminNo());
-		param.put("bbs_title", request.getParameter("title"));
-		param.put("bbs_body", request.getParameter("body"));
-		param.put("special_type", request.getParameter("special"));
-		param.put("bbs_body_trim", request.getParameter("body_trim"));
-		param.put("save_file_nm", request.getParameter("save_file_nm"));
-		param.put("view_file_nm", request.getParameter("view_file_nm"));
-		param.put("att_file_path", request.getParameter("file_path"));
-		param.put("attfile_yn", request.getParameter("attfile_yn"));
+		HashMap<String, Object> param = JSONUtil.convertJsonToHashMap(request.getParameter("apply_policy").toString());
 		
 		insertAdminAction action = new insertAdminAction();
 		
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
-			data = action.insertNoticeWriteSave(param);
+			data = action.applyPolicyDataSave(param);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

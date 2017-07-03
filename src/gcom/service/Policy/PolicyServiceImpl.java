@@ -13,6 +13,8 @@ import gcom.Model.PolicyNetworkModel;
 import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
+import gcom.Model.PolicyWebSiteBlocklModel;
+import gcom.Model.UsbDevInfoModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
 import gcom.Model.statistic.AuditClientSimpleModel;
@@ -109,6 +111,22 @@ public class PolicyServiceImpl implements IPolicyService {
 	
 	public int getPolicyAssignMemberListCount(HashMap<String, Object> map) {
 		return poDao.getPolicyAssignMemberListCount(map);	
+	}
+	
+	public List<UsbDevInfoModel> getPolicyUsbBlockList(HashMap<String, Object> map) {
+		return poDao.getPolicyUsbBlockList(map);	
+	}
+	
+	public int getPolicyUsbBlockListCount(HashMap<String, Object> map) {
+		return poDao.getPolicyUsbBlockListCount(map);	
+	}
+	
+	public List<PolicyWebSiteBlocklModel> getPolicyWebSiteBlockList(HashMap<String, Object> map){
+		return poDao.getPolicyWebSiteBlockList(map);	
+	}
+	
+	public int getPolicyWebSiteBlockListCount(HashMap<String, Object> map){
+		return poDao.getPolicyWebSiteBlockListCount(map);	
 	}
 
 }

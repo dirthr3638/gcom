@@ -21,4 +21,5 @@ public interface IPersonalService {
 	public int getPrivacyFileListCount(HashMap<String, Object> map);
 	public FileInfoModel getAttFileInfo(HashMap<String, Object> map);
 	public HashMap<String, Object> insertNoticeWriteSave(HashMap<String, Object> map);
+	public HashMap<String, Object> applyPolicyDataSave(HashMap<String, Object> map);
 }

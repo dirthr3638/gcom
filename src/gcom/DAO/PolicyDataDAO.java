@@ -18,6 +18,7 @@ import gcom.Model.AuditServerModel;
 import gcom.Model.PolicyInfoModel;
 import gcom.Model.PolicyRequestInfo;
 import gcom.Model.PrintFileModel;
+import gcom.Model.UsbDevInfoModel;
 import gcom.Model.UserAgentModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.PolicyMessengerModel;
@@ -25,7 +26,7 @@ import gcom.Model.PolicyNetworkModel;
 import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
-
+import gcom.Model.PolicyWebSiteBlocklModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
 import gcom.Model.statistic.AuditClientSimpleModel;
@@ -786,6 +787,7 @@ sql += whereSql;
 				"SELECT "
 					+ "no as pro_no, "
 					+ "process_name, "
+					+ "IFNULL(process_path,'') as process_path, "
 					+ "IFNULL(hash, '') as hash, "
 					+ "notice, "
 					+ "valid "
@@ -805,6 +807,7 @@ sql += whereSql;
 				PolicyProcessModel model = new PolicyProcessModel();
 				model.setProNo(rs.getInt("pro_no"));
 				model.setProcessName(rs.getString("process_name"));
+				model.setProcessPath(rs.getString("process_path"));
 				model.setHash(rs.getString("hash"));
 				model.setNotice(rs.getString("notice"));
 				model.setValid(rs.getInt("valid"));
@@ -1553,7 +1556,168 @@ sql += whereSql;
 		
 		return data;
 	}
-	
-	
+
+
+	public List<UsbDevInfoModel> getPolicyUsbBlockList(HashMap<String, Object> map) {
+		List<UsbDevInfoModel> data = new ArrayList<UsbDevInfoModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		String sql =
+				"SELECT "
+					+ "no as usb_id, "
+					+ "name as usb_name, "
+					+ "vid, "
+					+ "pid, "
+					+ "serial_number, "
+					+ "allow, "
+					+ "description "
+				+ "FROM usb_dev_info "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				UsbDevInfoModel model = new UsbDevInfoModel();
+				model.setUsbId(rs.getInt("usb_id"));
+				model.setName(rs.getString("usb_name"));
+				model.setVid(rs.getString("vid"));
+				model.setPid(rs.getString("pid"));
+				model.setSerialNumber(rs.getString("serial_number"));
+				model.setDescription(rs.getString("description"));
+				
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+
+	public int getPolicyUsbBlockListCount(HashMap<String, Object> map) {
+		int result = 0;
+		
+		String sql= "SELECT COUNT(*) as cnt FROM usb_dev_info ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+
+	public List<PolicyWebSiteBlocklModel> getPolicyWebSiteBlockList(HashMap<String, Object> map) {
+		List<PolicyWebSiteBlocklModel> data = new ArrayList<PolicyWebSiteBlocklModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		String sql =
+				"SELECT "
+					+ "no as site_id, "
+					+ "address, "
+					+ "allow, "
+					+ "description "
+				+ "FROM web_addr_info "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PolicyWebSiteBlocklModel model = new PolicyWebSiteBlocklModel();
+				model.setSiteId(rs.getInt("site_id"));
+				model.setAddress(rs.getString("address"));
+				model.setAllow(rs.getInt("allow"));
+				model.setDescription(rs.getString("description"));
+				
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+
+	public int getPolicyWebSiteBlockListCount(HashMap<String, Object> map) {
+		int result = 0;
+		
+		String sql= "SELECT COUNT(*) as cnt FROM web_addr_info ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 	
 }

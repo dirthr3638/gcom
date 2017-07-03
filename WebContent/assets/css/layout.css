@@ -2708,6 +2708,10 @@ ul.easypiecharts li span.stat-title {
 	background-color: #fcfcfc;
 }
 
+.invisible-col {
+	display: none !important;
+}
+
 @-webkit-keyframes spinner {
   0% {
     -webkit-transform: rotate(0deg);

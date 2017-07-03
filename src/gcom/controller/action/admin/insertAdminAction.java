@@ -12,4 +12,9 @@ public class insertAdminAction {
 		return as.insertNoticeWriteSave(map);
 	}
 
+	public HashMap<String, Object> applyPolicyDataSave(HashMap<String, Object> map) {
+		IPersonalService as = new PersonalServiceImpl();
+		return as.applyPolicyDataSave(map);
+	}
+
 }

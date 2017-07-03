@@ -974,5 +974,211 @@ sql += whereSql;
 		
 		return model;
 	}
+
+	public String insertPolicyDataSave(HashMap<String, Object> map) {
+		
+		int agent_id = Integer.parseInt(map.get("agnet_no").toString());
+		int user_id = Integer.parseInt(map.get("user_no").toString());
+		int isUninstall = Integer.parseInt(map.get("isUninstall").toString());
+		int isFileEncryption = Integer.parseInt(map.get("isFileEncryption").toString());
+		int isCdEncryption = Integer.parseInt(map.get("isCdEncryption").toString());
+		int isPrint = Integer.parseInt(map.get("isPrint").toString());
+		int isCdEnabled = Integer.parseInt(map.get("isCdEnabled").toString());
+		int isCdExport = Integer.parseInt(map.get("isCdExport").toString());
+		int isWlan = Integer.parseInt(map.get("isWlan").toString());
+		int isNetShare = Integer.parseInt(map.get("isNetShare").toString());
+		int isWebExport = Integer.parseInt(map.get("isWebExport").toString());
+		int patternFileControl = Integer.parseInt(map.get("patternFileControl").toString());
+		String printLogDesc = map.get("printLogDesc").toString();
+		String isUsbBlock = map.get("isUsbBlock").toString();
+		String isComPortBlock = map.get("isComPortBlock").toString();
+		String isNetPortBlock = map.get("isNetPortBlock").toString();
+		String isProcessList = map.get("isProcessList").toString();
+		String isFilePattern = map.get("isFilePattern").toString();
+		String isWebAddr = map.get("isWebAddr").toString();
+		String isMsgBlock = map.get("isMsgBlock").toString();
+		String waterMark = map.get("waterMark").toString();
+		
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
+		
+		String sql= "INSERT INTO policy_info ("
+					+ "agent_no, "
+					+ "update_server_time, " 
+					+ "uninstall_enabled, " 
+					+ "file_encryption_enabled, " 
+					+ "cd_encryption_enabled, " 
+					+ "printer_enabled, " 
+					+ "cd_enabled, " 
+					+ "cd_export_enabled, " 
+					+ "wlan_enabled, " 
+					+ "net_share_enabled, " 
+					+ "web_export_enabled, " 
+					+ "usb_dev_list, " 
+					+ "com_port_list, " 
+					+ "net_port_list, "
+					+ "process_list, " 
+					+ "file_pattern_list, " 
+					+ "web_addr_list, " 
+					+ "msg_block_list, " 
+					+ "watermark_descriptor, " 
+					+ "print_log_descriptor, " 
+					+ "pattern_file_control )" 
+				+ "VALUES ( ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try{
+			
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+			
+			pstmt.setInt(1, agent_id);
+			pstmt.setInt(2, isUninstall);
+			pstmt.setInt(3, isFileEncryption);
+			pstmt.setInt(4, isCdEncryption);
+			pstmt.setInt(5, isPrint);
+			pstmt.setInt(6, isCdEnabled);
+			pstmt.setInt(7, isCdExport);
+			pstmt.setInt(8, isWlan);
+			pstmt.setInt(9, isNetShare);
+			pstmt.setInt(10, isWebExport);
+			pstmt.setString(11, isUsbBlock);
+			pstmt.setString(12, isComPortBlock);
+			pstmt.setString(13, isNetPortBlock);
+			pstmt.setString(14, isProcessList);
+			pstmt.setString(15, isFilePattern);
+			pstmt.setString(16, isWebAddr);
+			pstmt.setString(17, isMsgBlock);
+			pstmt.setString(18, waterMark);
+			pstmt.setString(19, printLogDesc);
+			pstmt.setInt(20, patternFileControl);
+			pstmt.executeUpdate();
+			
+			rs = pstmt.getGeneratedKeys();
+			
+			if (rs.next()) {
+				int policy_id = rs.getInt(1);
+				sql = "UPDATE agent_info SET policy_no = ? WHERE no = ? AND own_user_no = ? ";
+				
+				pstmt=con.prepareStatement(sql);
+				pstmt.setInt(1, policy_id);
+				pstmt.setInt(2, agent_id);
+				pstmt.setInt(3, user_id);
+				pstmt.executeUpdate();
+			}
+									
+			con.commit();
+		
+		}catch(SQLException ex){
+			returnCode = ConfigInfo.RETURN_CODE_ERROR;
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return returnCode;
+	}
+
+	public String updatePolicyDataSave(HashMap<String, Object> map) {
+		
+		int policy_id = Integer.parseInt(map.get("policy_no").toString());
+		int isUninstall = Integer.parseInt(map.get("isUninstall").toString());
+		int isFileEncryption = Integer.parseInt(map.get("isFileEncryption").toString());
+		int isCdEncryption = Integer.parseInt(map.get("isCdEncryption").toString());
+		int isPrint = Integer.parseInt(map.get("isPrint").toString());
+		int isCdEnabled = Integer.parseInt(map.get("isCdEnabled").toString());
+		int isCdExport = Integer.parseInt(map.get("isCdExport").toString());
+		int isWlan = Integer.parseInt(map.get("isWlan").toString());
+		int isNetShare = Integer.parseInt(map.get("isNetShare").toString());
+		int isWebExport = Integer.parseInt(map.get("isWebExport").toString());
+		int patternFileControl = Integer.parseInt(map.get("patternFileControl").toString());
+		String printLogDesc = map.get("printLogDesc").toString();
+		String isUsbBlock = map.get("isUsbBlock").toString();
+		String isComPortBlock = map.get("isComPortBlock").toString();
+		String isNetPortBlock = map.get("isNetPortBlock").toString();
+		String isProcessList = map.get("isProcessList").toString();
+		String isFilePattern = map.get("isFilePattern").toString();
+		String isWebAddr = map.get("isWebAddr").toString();
+		String isMsgBlock = map.get("isMsgBlock").toString();
+		String waterMark = map.get("waterMark").toString();
+		
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
+		
+		String sql= "UPDATE policy_info "
+				+ "SET "
+					+ "update_server_time= NOW(), " 
+					+ "uninstall_enabled= ?, " 
+					+ "file_encryption_enabled= ?, " 
+					+ "cd_encryption_enabled= ?, " 
+					+ "printer_enabled= ?, " 
+					+ "cd_enabled= ?, " 
+					+ "cd_export_enabled= ?, " 
+					+ "wlan_enabled= ?, " 
+					+ "net_share_enabled= ?, " 
+					+ "web_export_enabled= ?, " 
+					+ "usb_dev_list= ?, " 
+					+ "com_port_list= ?, " 
+					+ "net_port_list= ?, "
+					+ "process_list= ?, " 
+					+ "file_pattern_list= ?, " 
+					+ "web_addr_list= ?, " 
+					+ "msg_block_list= ?, " 
+					+ "watermark_descriptor= ?, " 
+					+ "print_log_descriptor= ?, " 
+					+ "pattern_file_control= ? " 
+				+ "WHERE no= ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			
+			pstmt.setInt(1, isUninstall);
+			pstmt.setInt(2, isFileEncryption);
+			pstmt.setInt(3, isCdEncryption);
+			pstmt.setInt(4, isPrint);
+			pstmt.setInt(5, isCdEnabled);
+			pstmt.setInt(6, isCdExport);
+			pstmt.setInt(7, isWlan);
+			pstmt.setInt(8, isNetShare);
+			pstmt.setInt(9, isWebExport);
+			pstmt.setString(10, isUsbBlock);
+			pstmt.setString(11, isComPortBlock);
+			pstmt.setString(12, isNetPortBlock);
+			pstmt.setString(13, isProcessList);
+			pstmt.setString(14, isFilePattern);
+			pstmt.setString(15, isWebAddr);
+			pstmt.setString(16, isMsgBlock);
+			pstmt.setString(17, waterMark);
+			pstmt.setString(18, printLogDesc);
+			pstmt.setInt(19, patternFileControl);
+			pstmt.setInt(20, policy_id);
+			pstmt.executeUpdate();
+									
+			con.commit();
+		
+		}catch(SQLException ex){
+			returnCode = ConfigInfo.RETURN_CODE_ERROR;
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return returnCode;
+	}
 	
 }

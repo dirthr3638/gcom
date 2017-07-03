@@ -13,11 +13,11 @@ import com.google.gson.Gson;
 
 import gcom.controller.action.admin.getAdminAction;
 
-@WebServlet("/ax/admin/policy/usbblock/list")
-public class axAdminPolicyUsbBlockListController extends HttpServlet {
+@WebServlet("/ax/admin/policy/website/list")
+public class axAdminPolicySiteBlockListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public axAdminPolicyUsbBlockListController() {
+    public axAdminPolicySiteBlockListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,7 +28,7 @@ public class axAdminPolicyUsbBlockListController extends HttpServlet {
 		
 		map.put("startRow", Integer.parseInt( request.getParameter("start").toString()) );
 		map.put("endRow", Integer.parseInt( request.getParameter("length").toString()) );
-		HashMap<String, Object> data = action.getPolicyUsbBlockList(map);
+		HashMap<String, Object> data = action.getPolicyWebSiteBlockList(map);
 
 		data.putAll(data);
 		response.setContentType("application/json; charset=UTF-8");
