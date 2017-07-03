@@ -12,6 +12,8 @@ import gcom.Model.PolicyNetworkModel;
 import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
+import gcom.Model.PolicyWebSiteBlocklModel;
+import gcom.Model.UsbDevInfoModel;
 import gcom.Model.UserPolicyLogModel;
 
 import gcom.Model.UserPolicyModel;
@@ -45,4 +47,8 @@ public interface IPolicyService {
 	public int getPolicySerialListCount(HashMap<String, Object> map);
 	public List<UserPolicyModel> getPolicyAssignMemberList(HashMap<String, Object> map);
 	public int getPolicyAssignMemberListCount(HashMap<String, Object> map);
+	public List<UsbDevInfoModel> getPolicyUsbBlockList(HashMap<String, Object> map);
+	public int getPolicyUsbBlockListCount(HashMap<String, Object> map);
+	public List<PolicyWebSiteBlocklModel> getPolicyWebSiteBlockList(HashMap<String, Object> map);
+	public int getPolicyWebSiteBlockListCount(HashMap<String, Object> map);
 }

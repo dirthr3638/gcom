@@ -11,9 +11,11 @@ import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicyRequestInfo;
 import gcom.Model.PolicySerialModel;
+import gcom.Model.PolicyWebSiteBlocklModel;
 import gcom.Model.SubAdminModel;
 import gcom.Model.SystemInfoModel;
 import gcom.Model.UserEnrollModel;
+import gcom.Model.UsbDevInfoModel;
 import gcom.Model.UserInfoModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
@@ -192,6 +194,32 @@ public class getAdminAction {
 	public HashMap<String, Object> getEnrollRequestCheckDupl(HashMap<String, Object> map) {
 		IRequestService as = new RequestServiceImpl();
 		return as.getEnrollRequestCheckDupl(map);
+	}
+	
+	public HashMap<String, Object> getPolicyUsbBlockList(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IPolicyService as = new PolicyServiceImpl();
+		List<UsbDevInfoModel> data = as.getPolicyUsbBlockList(map);
+		result.put("data", data);
+		int total = as.getPolicyUsbBlockListCount(map);
+
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;		
+	}
+
+	public HashMap<String, Object> getPolicyWebSiteBlockList(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IPolicyService as = new PolicyServiceImpl();
+		List<PolicyWebSiteBlocklModel> data = as.getPolicyWebSiteBlockList(map);
+		result.put("data", data);
+		int total = as.getPolicyWebSiteBlockListCount(map);
+
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;		
 	}
 	
 }

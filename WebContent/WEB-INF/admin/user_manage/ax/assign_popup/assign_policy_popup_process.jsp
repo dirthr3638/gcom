@@ -2,52 +2,53 @@
 <%@ page import="java.util.*"%>
 <% 
 	boolean onlyFlag = Boolean.parseBoolean(request.getParameter("onlyFlag"));
-	boolean isFilePattern = Boolean.parseBoolean(request.getParameter("isFilePattern"));
-	String filePatternCode = request.getParameter("filePatternCode").toString();
-	String applyCode = filePatternCode.length() > 0 ? filePatternCode : "";
-	String scriptCode = onlyFlag? filePatternCode : "";
+	boolean isProcessList = Boolean.parseBoolean(request.getParameter("isProcessList"));
+	String processListCode = request.getParameter("processListCode").toString();
+	String applyCode = processListCode.length() > 0 ? processListCode : "";
+	String scriptCode = onlyFlag? processListCode : "";
 		
 %>
 <div>
 	<table class="table table-bordered">
 		<tr>
-			<td class="th-cell-gray center-cell" width="150px" style="vertical-align: middle;">패턴 차단 선택</td>
+			<td class="th-cell-gray center-cell" width="150px" style="vertical-align: middle;">프로세스 차단 선택</td>
 			<td class="center-cell" style="vertical-align: middle;">
 				<% if (onlyFlag) { %>
 					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_pattern_block" value="Y" <% if (!isFilePattern){ %> checked <%}%> /><i></i> 허용
+						<input type="radio" name="radio_process_block" value="Y" <% if (!isProcessList){ %> checked <%}%> /><i></i> 허용
 					</label>
 					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_pattern_block" value="N" <% if (isFilePattern){ %> checked <%}%> /><i></i> 차단
+						<input type="radio" name="radio_process_block" value="N"<% if (isProcessList){ %> checked <%}%>  /><i></i> 차단
 					</label>
 				<% } else { %>
 					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_pattern_block" value="Y" checked /><i></i> 허용
+						<input type="radio" name="radio_process_block" value="Y" checked /><i></i> 허용
 					</label>
 					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_pattern_block" value="N" /><i></i> 차단
+						<input type="radio" name="radio_process_block" value="N" /><i></i> 차단
 					</label>
 				<% } %>
 			</td>
 			<td class="th-cell-gray center-cell" width="120px" style="vertical-align: middle;">적용상태</td>
 			<td class="center-cell" style="vertical-align: middle;">
 				<% if (onlyFlag) { %>
-					<input type="text" id="att_pattern_type" name="att_pattern_type" class="form-control" value="<%= applyCode%>" disabled/>
+					<input type="text" id="att_process_type" name="att_process_type" class="form-control" value="<%= applyCode%>" disabled/>
 				<% } else { %>
-					<input type="text" id="att_pattern_type" name="att_pattern_type" class="form-control" value="" disabled />
+					<input type="text" id="att_process_type" name="att_process_type" class="form-control" value="" disabled />
 				<% } %>
 			</td>
 		</tr>
 	</table>
 </div>
 
-<table class="table table-bordered" id="pattern_table" style="width: 100%">
+<table class="table table-bordered" id="process_table" style="width: 100%">
 	<thead>
 		<tr>
 			<td>선택</td>
-			<td>패턴ID</td>
-			<td>패턴이름</td>
-			<td>패턴데이터</td>
+			<td>프로세스ID</td>
+			<td>프로세스이름</td>
+			<td>프로세스경로</td>
+			<td>해시데이터</td>
 			<td>설명</td>
 		</tr>
 	</thead>
@@ -58,34 +59,34 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	$("input[name=radio_pattern_block]").change(function() {
-		var chk_value = $(':radio[name="radio_pattern_block"]:checked').val();
-		var type = $('#att_pattern_type').val();		
+	$("input[name=radio_process_block]").change(function() {
+		var chk_value = $(':radio[name="radio_process_block"]:checked').val();
+		var type = $('#att_process_type').val();		
 		if (chk_value == 'Y') {
-			$('#att_pattern_type').val('');
-			$('.pattern_check').prop("checked",false);
+			$('#att_process_type').val('');
+			$('.porcess_check').prop("checked",false);
 		} else {
-			alert('차단 패턴을 선택하면 차단 됩니다.');
-			$('input:radio[name=radio_pattern_block]:input[value="Y"]').prop("checked", true);
+			alert('차단 프로세스를 선택하면 차단 됩니다.');
+			$('input:radio[name=radio_process_block]:input[value="Y"]').prop("checked", true);
 		} 
 	});
 });
 
-function setPatternSelectInfo(check_box) {
+function setPorcessSelectInfo(check_box) {
 	
-	var patCode = $(check_box).val();
-	var type = $('#att_pattern_type').val();
+	var prsCode = $(check_box).val();
+	var type = $('#att_process_type').val();
 	
 	if ($(check_box).is(':checked')) {
 		
 		if (type.length < 1) {
-			type += patCode;
-			$('input:radio[name=radio_pattern_block]:input[value="N"]').prop("checked", true);
+			type += prsCode;
+			$('input:radio[name=radio_process_block]:input[value="N"]').prop("checked", true);
 		} else {
-			type += "," + patCode;
+			type += "," + prsCode;
 		}
 		
-		$('#att_pattern_type').val(type);
+		$('#att_process_type').val(type);
 		
 	} else {
 
@@ -93,27 +94,27 @@ function setPatternSelectInfo(check_box) {
 		var result = [];
 
 		for (var i = 0 ; i < temp.length ; i++) {
-			if (temp[i] != patCode) {
+			if (temp[i] != prsCode) {
 				result.push(temp[i]);
 			}
 		}
 		
-		$('#att_pattern_type').val(result.toString());
+		$('#att_process_type').val(result.toString());
 		
 	}
 	
 }
 
-function pattern_table() {
+function process_table() {
 	
 		if (jQuery().dataTable) {
 	
-			var nprTable = jQuery('#pattern_table');
+			var nprTable = jQuery('#process_table');
 			nprTable.dataTable({
 				"dom": '<"row view-filter"<"col-sm-12"<"pull-left"><"pull-right"><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 				"ajax" : {
 				 	async: false,
-					"url":'/ax/admin/policy/pattern/list',
+					"url":'/ax/admin/policy/process/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  {},
@@ -127,23 +128,25 @@ function pattern_table() {
 				},
 		 		"serverSide" : true,
 		 		"columns": [{
-					data: "patNo",			// check_box (ID)
+					data: "proNo",			// check_box (ID)
 					render : function(data,type,row) {
 						var check = '<%= scriptCode %>';
 						var strData = data.toString();
 						
 						if (check.indexOf(strData) != -1 && check != '') {
-							return '<input type="checkbox" name="pattern_check" class="pattern_check" value="' + data + '" onClick="setPatternSelectInfo( this )" checked />';
+							return '<input type="checkbox" name="porcess_check" class="porcess_check" value="' + data + '" onClick="setPorcessSelectInfo( this )" checked />';
 						} else {
-							return '<input type="checkbox" name="pattern_check" class="pattern_check" value="' + data + '" onClick="setPatternSelectInfo( this )" />';							
+							return '<input type="checkbox" name="porcess_check" class="porcess_check" value="' + data + '" onClick="setPorcessSelectInfo( this )" />';							
 						}
 					}
 				}, {
-					data: "patNo"			// ID
+					data: "proNo"			// ID
 				}, {
-					data: "PatName"			// 패턴 이름
+					data: "processName"		// 프로세스 이름
 				}, {
-					data: "data"			// 패턴 데이터
+					data: "processPath"		// 프로세스 경로
+				}, {
+					data: "hash"			// 포르세스 해시 데이터
 				}, {
 					data: "notice"			// 설명
 				}],  
@@ -168,15 +171,18 @@ function pattern_table() {
 					'targets': [1]	// ID
 					,"class":"center-cell"
 				}, {  
-					'targets': [2]	// 패턴 이름
+					'targets': [2]	// 프로세스 이름
 					,"class":"center-cell"
 				}, {	
-					"targets": [3]	// 패턴 데이터
+					"targets": [3]	// 프로세스 경로
 					,"class":"center-cell"
 				}, {	
-					"targets": [4]	// 설명
+					"targets": [4]	// 포르세스 해시 데이터
+					,"class":"center-cell"
+				}, {	
+					"targets": [5]	// 설명
 				,"class":"center-cell"
-				}],
+			}],
 				"initComplete": function( settings, json ) {
 				}
 			});

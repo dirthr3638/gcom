@@ -20,4 +20,9 @@ public class insertAdminAction {
 		return as.insertUserInfoFromRequest(map);
 	}
 
+	public HashMap<String, Object> applyPolicyDataSave(HashMap<String, Object> map) {
+		IPersonalService as = new PersonalServiceImpl();
+		return as.applyPolicyDataSave(map);
+	}
+
 }

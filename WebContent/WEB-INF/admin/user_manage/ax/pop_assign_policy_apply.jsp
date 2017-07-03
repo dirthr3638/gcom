@@ -5,7 +5,8 @@
 	boolean onlyFlag = apply_list.size() == 1 ? true : false;
 	HashMap<String, Object> data = apply_list.get(0);
 %>
-<div id="modalApplyPolicy" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="margin-top: 10%;">
+<script type="text/javascript" src="/assets/js/admin_function.js"></script>
+<div id="modalApplyPolicy" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
 	<div class="modal-dialog" style="width:940px;">
 			<div class="modal-content">
 				<!-- Modal Header -->
@@ -39,7 +40,7 @@
 														<li><a href="#usb" data-toggle="tab"><i class="fa fa-usb" title="USB 차단정책"></i>USB</a></li>
 														<li><a href="#serial" data-toggle="tab"><i class="fa fa-plug" title="시리얼 포트 차단정책"></i>시리얼</a></li>
 														<li><a href="#network" data-toggle="tab"><i class="fa fa-sitemap" title="네트워크 포트 차단정책"></i>네트워크</a></li>
-														<li><a href="#program" data-toggle="tab"><i class="fa fa-desktop" title="프로그램 차단정책"></i>프로그램</a></li>
+														<li><a href="#program" data-toggle="tab"><i class="fa fa-desktop" title="프로세스 차단정책"></i>프로세스</a></li>
 														<li><a href="#pattern" data-toggle="tab"><i class="fa fa-clone" title="민감패턴 차단정책"></i>민감패턴</a></li>
 														<li><a href="#website" data-toggle="tab"><i class="fa fa-internet-explorer" title="사이트 차단정책"></i>사이트</a></li>
 														<li><a href="#msg" data-toggle="tab"><i class="fa fa-commenting" title="메신저 차단정책"></i>메신저</a></li>
@@ -88,40 +89,8 @@
 																		<td><input type="checkbox" value="Y" id="chk_isWebExport_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isWebExport"))){ %> checked <%}%> /></td>
 																	</tr>
 																	<tr>
-																		<td class="th-cell-gray">USB 장치 사용 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isUsbBlock_list" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isUsbBlock"))){ %> checked <%}%> /> <a href="#" ><i class="fa fa-list" aria-hidden="true"></i> 장치선택</a></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">시리얼 포트 사용 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isComPortBlock_list" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isComPortBlock"))){ %> checked <%}%> /></td>
-																	</tr>	
-																	<tr>
-																		<td class="th-cell-gray">네트워크 포트 사용 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isNetPortBlock_list" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isNetPortBlock"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">프로그램 차단 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isProcessList_list" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isProcessList"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">민감패턴 차단 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isFilePattern_list" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isFilePattern"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
 																		<td class="th-cell-gray">민감파일 접근 시 삭제</td>
-																		<td><input type="checkbox" value="1" id="chk_patternFileControl_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("patternFileControl"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">사이트차단</td>
-																		<td><input type="checkbox" value="1" id="chk_isWebAddr_list" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isWebAddr"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">메신저차단</td>
-																		<td><input type="checkbox" value="1" id="chk_isMsgBlock_list" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isMsgBlock"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">인쇄 워터마크 출력 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isWaterMark_list" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isWaterMark"))){ %> checked <%}%> /></td>
+																		<td><input type="checkbox" value="1" id="chk_patternFileControl_item" name="chk_policy_item" <% if (onlyFlag && Integer.parseInt(data.get("patternFileControl").toString()) == 1 ){ %> checked <%}%> /></td>
 																	</tr>
 																	<tr>
 																		<td class="th-cell-gray">프린터 인쇄 로그</td>
@@ -129,13 +98,13 @@
 																			<% if (onlyFlag){ 
 																				int printLogDesc = Integer.parseInt(data.get("printLogDesc").toString());
 																			%>  
-																				<input type="radio" value="0" id="radio_printLogDesc_item" name="radio_policy_item" <% if (printLogDesc == 0){ %> checked <%}%> />로그전송안함
-																				<input type="radio" value="1" id="radio_printLogDesc_item" name="radio_policy_item" <% if (printLogDesc == 1){ %> checked <%}%> />이벤트로그
-																				<input type="radio" value="2" id="radio_printLogDesc_item" name="radio_policy_item" <% if (printLogDesc == 2){ %> checked <%}%> />파일원본로그
+																				<input type="radio" value="0" id="radio_printLogDesc_item" name="radio_printLogDesc_item" <% if (printLogDesc == 0){ %> checked <%}%> />로그전송안함
+																				<input type="radio" value="1" id="radio_printLogDesc_item" name="radio_printLogDesc_item" <% if (printLogDesc == 1){ %> checked <%}%> />이벤트로그
+																				<input type="radio" value="2" id="radio_printLogDesc_item" name="radio_printLogDesc_item" <% if (printLogDesc == 2){ %> checked <%}%> />파일원본로그
 																			<% } else { %>
-																				<input type="radio" value="0" id="radio_printLogDesc_item" name="radio_policy_item" checked/>로그전송안함
-																				<input type="radio" value="1" id="radio_printLogDesc_item" name="radio_policy_item" />이벤트로그
-																				<input type="radio" value="2" id="radio_printLogDesc_item" name="radio_policy_item" />파일원본로그
+																				<input type="radio" value="0" id="radio_printLogDesc_item" name="radio_printLogDesc_item" checked/>로그전송안함
+																				<input type="radio" value="1" id="radio_printLogDesc_item" name="radio_printLogDesc_item" />이벤트로그
+																				<input type="radio" value="2" id="radio_printLogDesc_item" name="radio_printLogDesc_item" />파일원본로그
 																			<% } %>
 																		</td>
 																	</tr>
@@ -146,42 +115,75 @@
 														
 														<!-- USB 차단정책 -->
 														<div id="usb" class="tab-pane fade">
-															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_usb.jsp" flush="false" />
+															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_usb.jsp" flush="false" >
+																<jsp:param name="onlyFlag" value="<%= onlyFlag%>"/>
+   																<jsp:param name="isUsbBlock" value="<%= data.get(\"isUsbBlock\")%>"/>
+   																<jsp:param name="usbBlockCode" value="<%= data.get(\"usbBlockCode\").toString() %>"/>
+															</jsp:include>
 														</div>
 														
 														<!-- 시리얼 포트 차단정책 -->
 														<div id="serial" class="tab-pane fade">
-															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_serial.jsp" flush="false" />
+															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_serial.jsp" flush="false" >
+																<jsp:param name="onlyFlag" value="<%= onlyFlag%>"/>
+   																<jsp:param name="isComPortBlock" value="<%= data.get(\"isComPortBlock\")%>"/>
+   																<jsp:param name="comPortBlockCode" value="<%= data.get(\"comPortBlockCode\").toString() %>"/>
+   															</jsp:include>
 														</div>
 														
 														<!-- 네트워크 포트 차단정책 -->
 														<div id="network" class="tab-pane fade">
-															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_network.jsp" flush="false" />
+															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_network.jsp" flush="false" >
+																<jsp:param name="onlyFlag" value="<%= onlyFlag%>"/>
+   																<jsp:param name="isNetPortBlock" value="<%= data.get(\"isNetPortBlock\")%>"/>
+   																<jsp:param name="netPortBlockCode" value="<%= data.get(\"netPortBlockCode\").toString() %>"/>
+   															</jsp:include>
 														</div>
 														
 														<!-- 프로그램 차단정책 -->
 														<div id="program" class="tab-pane fade">
-															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_program.jsp" flush="false" />
+															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_process.jsp" flush="false" >
+																<jsp:param name="onlyFlag" value="<%= onlyFlag%>"/>
+   																<jsp:param name="isProcessList" value="<%= data.get(\"isProcessList\")%>"/>
+   																<jsp:param name="processListCode" value="<%= data.get(\"processListCode\").toString() %>"/>
+   															</jsp:include>
 														</div>
 														
 														<!-- 민감 패턴 차단정책 -->
 														<div id="pattern" class="tab-pane fade">
-															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_pattern.jsp" flush="false" />
+															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_pattern.jsp" flush="false" >
+																<jsp:param name="onlyFlag" value="<%= onlyFlag%>"/>
+   																<jsp:param name="isFilePattern" value="<%= data.get(\"isFilePattern\")%>"/>
+   																<jsp:param name="filePatternCode" value="<%= data.get(\"filePatternCode\").toString() %>"/>
+   															</jsp:include>
 														</div>
 														
 														<!-- 사이트 차단정책 -->
 														<div id="website" class="tab-pane fade">
-															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_website.jsp" flush="false" />
+															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_website.jsp" flush="false" >
+																<jsp:param name="onlyFlag" value="<%= onlyFlag%>"/>
+   																<jsp:param name="isWebAddr" value="<%= data.get(\"isWebAddr\")%>"/>
+   																<jsp:param name="webAddrCode" value="<%= data.get(\"webAddrCode\").toString() %>"/>
+   															</jsp:include>
 														</div>
 														
 														<!-- 메신저 차단정책 -->
 														<div id="msg" class="tab-pane fade">
-															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_msg.jsp" flush="false" />
+															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_msg.jsp" flush="false" >
+																<jsp:param name="onlyFlag" value="<%= onlyFlag%>"/>
+   																<jsp:param name="isMsgBlock" value="<%= data.get(\"isMsgBlock\")%>"/>
+   																<jsp:param name="msgBlockCode" value="<%= data.get(\"msgBlockCode\").toString() %>"/>
+   															</jsp:include>
 														</div>
 														
 														<!-- 워터마크 정책 -->
 														<div id="water" class="tab-pane fade">
-															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_water.jsp" flush="false" />
+															<jsp:include page="/WEB-INF/admin/user_manage/ax/assign_tab/assign_policy_apply_water.jsp" flush="false" >
+																<jsp:param name="onlyFlag" value="<%= onlyFlag%>"/>
+   																<jsp:param name="isWaterMark" value="<%= data.get(\"isWaterMark\")%>"/>
+   																<jsp:param name="waterMarkType" value="<%= data.get(\"waterMarkType\").toString() %>"/>
+   																<jsp:param name="waterMarkEndDate" value="<%= data.get(\"waterMarkEndDate\").toString() %>"/>
+   															</jsp:include>
 														</div>
 														
 													</div>
@@ -213,52 +215,72 @@
 		</div>
 	</div>
 </div>
+	<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
 
 <script type="text/javascript">
 
+	$(document).ready(function(){
+		usb_policy_table();
+		com_port_table();
+		net_port_table();
+		process_table();
+		pattern_table();
+		web_site_table();
+		msg_block_table();
+	});
+
 	function fn_policy_apply_save() {
-		var selPolicyData = getSelectPolicy();
+		var data = getPolicyApplyData();
+		var apply_list = getApplyPolicyUserData();
+		data['apply_list'] = apply_list;
 		
-		console.log(selPolicyData);
-		/* 
+		console.log(data);
+		
 		$.ajax({      
 		    type:"POST",  
-		    url:'/admin/user/assign/apply',
+		    url:'/admin/user/apply/save',
 		    async: false,
 		    data:{
-		    	apply_list : JSON.stringify(apply_arr),
+		    	apply_policy : JSON.stringify(data),
 		    	_ : $.now()
 		    },
 		    success:function(data){
-		    	$("#policy_apply_div").html(data);
-	            $('#modalApplyPolicy').modal('show');
+		    	if(data.returnCode == "S") {
+		    		alert("정책이 적용되었습니다.");
+		    		$('#modalApplyPolicy').modal('hide');
+		    	} else {
+		    		alert("정책이 적용에 실패했습니다.");
+		    		$('#modalApplyPolicy').modal('hide');
+		    	}
 		    },   
 		    error:function(e){  
 		        console.log(e.responseText);  
 		    }  
 		});
-		 */
+		
 	}
 	
-	function getSelectPolicy() {
+	function getApplyPolicyUserData(){
+		var arr = new Array();
 		var map = new Object();
 		
-		map['isUninstall'] = $('#chk_isUninstall_item').is(':checked') == true ? 1 : 0 ;
-		map['isPrint'] = $('#chk_isPrint_item').is(':checked') == true ? 1 : 0 ;
-		map['isWaterMark'] = $('#chk_isWaterMark_item').is(':checked') == true ? 1 : 0 ;
-		map['printLogDesc'] = $(':radio[name="radio_policy_item"]:checked').val();
-		map['isUsbBlock'] = $('#chk_isUsbBlock_item').is(':checked') == true ? 'Y' : 'N' ;
-		map['isComPortBlock'] = $('#chk_isComPortBlock_item').is(':checked') == true ? 'Y' : 'N' ;
-		map['isWlan'] = $('#chk_isWlan_item').is(':checked') == true ? 1 : 0 ;
-		map['isMailExport'] = $('#chk_isMailExport_item').is(':checked') == true ? 1 : 0 ;
-		map['isFilePattern'] = $('#chk_isUninstall_item').is(':checked') == true ? 1 : 0 ;
-		map['isProtect'] = $('#chk_isProtect_item').is(':checked') == true ? 1 : 0 ;
-		map['isNetShare'] = $('#chk_isNetShare_item').is(':checked') == true ? 1 : 0 ;
-		map['isCdEnabled'] = $('#chk_isCdEnabled_item').is(':checked') == true ? 1 : 0 ;
-		map['isFileEncryption'] = $('#chk_isFileEncryption_item').is(':checked') == true ? 1 : 0 ;
+		<% for(int i = 0; i < apply_list.size(); i++) { %>
 		
-		return map;
+			map['agent_no'] = <%= apply_list.get(i).get("agentNo") %>
+			map['user_no'] = <%= apply_list.get(i).get("userNo") %>
+			map['policy_no'] = <%= apply_list.get(i).get("policyNo") %>
+			
+			arr.push(map);
+		<% } %>
+		
+		console.log(arr);
+		
+		return arr;
 	}
+	
+	
+	
 </script>
 
 

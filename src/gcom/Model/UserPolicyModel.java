@@ -138,44 +138,49 @@ public class UserPolicyModel {
 	
 	public void setIsUsbBlock(String value){
 		if(value.substring(0,1).equals("Y")){
-			isUsbBlock = true;
-			usbBlockCode = value.substring(2, value.length());
-		}else{
 			isUsbBlock = false;
+			usbBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isUsbBlock = true;
+			usbBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		};		
 	}
 	
 	public void setIsComPortBlock(String value){
 		if(value.substring(0,1).equals("Y")){
-			isComPortBlock = true;
-			comPortBlockCode = value.substring(2, value.length());
-		}else{
 			isComPortBlock = false;
+			comPortBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isComPortBlock = true;
+			comPortBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		};		
 	}
 	public void setIsNetPortBlock(String value){
 		if(value.substring(0,1).equals("Y")){
-			isNetPortBlock = true;
-			netPortBlockCode = value.substring(2, value.length());
-		}else{
 			isNetPortBlock = false;
+			netPortBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isNetPortBlock = true;
+			netPortBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		};		
 	}
 	public void setIsWebAddr(String value){
 		if(value.substring(0,1).equals("Y")){
-			isWebAddr = true;
-			webAddrCode = value.substring(2, value.length());
-		}else{
 			isWebAddr = false;
+			webAddrCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isWebAddr = true;
+			webAddrCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		};		
 	}
 	
 	public void setIsMsgBlock(String value){
 		if(value.substring(0,1).equals("Y")){
-			isMsgBlock = true;
-			msgBlockCode = value.substring(2, value.length());
-		}else{
 			isMsgBlock = false;
+			msgBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isMsgBlock = true;
+			msgBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		};		
 	}
 	

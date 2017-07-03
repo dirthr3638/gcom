@@ -21,6 +21,11 @@
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
 		
+		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="/assets/js/app.js"></script>
+		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+		<script type="text/javascript" src="/assets/js/admin_function.js"></script>
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -143,49 +148,50 @@
 														<th>MAC</th>
 														<th>PC이름</th>
 														<th>정책요약</th>
-                                                       <!--  
+                                                      
+                                                        <!-- 
                                                        	<th>정책NO</th>
                                                         
                                                         <th>에이전트삭제가능</th>   
                                                         <th>파일실시간암호화</th>
                                                         <th>CD실시간암호화</th>
-                                                        
+
                                                         <th>프린트사용여부</th>
-                                                        
+
                                                         <th>CD사용가능여부</th>
                                                         <th>CD반출여부</th>
                                                         <th>무선랜사용가능여부</th>
                                                         <th>공유폴더사용여부</th>
                                                         <th>메일반출여부</th>
-                                                        
+
                                                         <th>USB포트사용여부</th>
                                                         <th>USB차단코드</th>
-                                                        
+
                                                         <th>시리얼포트사용여부</th>
                                                         <th>시리얼포트차단코드</th>
-                                                        
+
                                                         <th>네트워크포트사용여부</th>
                                                         <th>네트워크포트차단코드</th>
-                                                        
+
                                                         <th>프로그램차단여부</th>
                                                         <th>프로그램차단코드</th>
-                                                        
+
                                                         <th>민감패턴차단여부</th>
                                                         <th>민감패턴차단코드</th>
                                                         <th>민감패턴파일처리코드</th>
-                                                        
+
                                                         <th>사이트차단여부</th>
                                                         <th>사이트차단코드</th>
-                                                        
+
                                                         <th>메신저차단여부</th>
                                                         <th>메신저차단코드</th>
-                                                        
+
                                                         <th>워터마크</th>
                                                         <th>워터적용코드</th>
                                                         <th>워터마크적용일시</th>
-                                                                                                                
+                                                     
                                                         <th>프린터인쇄로그설정</th>
-														-->
+													 	-->
 													</tr>
 												</thead>				
 												<tbody>
@@ -200,8 +206,7 @@
 									    </div>
 									</div>
 									
-									<!-- 정책 할당 Ajax Div -->
-									<div id="policy_apply_div"></div>
+									
 								</div>
 								<!-- /panel content -->
 							</div>
@@ -210,16 +215,15 @@
 				</div>
 			</section>
 		</div>
+		
+		<!-- 정책 할당 Ajax Div -->
+		<div id="policy_apply_div"></div>
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
-		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="/assets/js/app.js"></script>
-		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
-		<script type="text/javascript" src="/assets/js/admin_function.js"></script>
 
 <script type="text/javascript">
+	var table;
 	
 	// 조직도 
  	function setTree(){
@@ -264,14 +268,15 @@
  		var checkedLen = $("input:checkbox[name='policy_app_check']:checked").length;
  		if (checkedLen < 1) {
  			alert("정책 할당을 위해서 하나 이상의 회원을 클릭해 주세요.");
+ 			return false;
  		}
  		
- 		var apTable = jQuery('#table_apply_policy').DataTable();
  		var apply_arr = new Array();
- 		
+ 		gdTable = table.api();
+		
 		$(":checkbox[name='policy_app_check']:checked").each(function(pi,po){
 			var check_row = $(this).parents('tr').get(0);
-			var check_item = apTable.row(check_row).data();
+			var check_item = gdTable.row(check_row).data();
 			apply_arr.push(check_item);
 		});
 		
@@ -339,9 +344,9 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 
 					var export_filename = 'Filename';
 					
-					var table = jQuery('#table_apply_policy');
-					table.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+					apTable = jQuery('#table_apply_policy');
+					table = apTable.dataTable({
+						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
 						"ajax" : {
 							"url":'/ax/policy/assign/list',
@@ -363,35 +368,6 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 				                return json.data;
 				            }   
 						},
-						lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
-						tableTools: {
-					          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
-					        },
-					    "buttons": [
-	 					              {
-						                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
-						                  extend: 'csvHtml5',
-						                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
-						                  bom: true,
-						                  exportOptions: {
-						                      modifier: {
-						                          search: 'applied',
-						                          order: 'applied'
-						                      }
-						                  }
-						              },  					              {
-					                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-					                  extend: 'print',
-					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-					                  exportOptions: {
-					                      modifier: {
-					                          search: 'applied',
-					                          order: 'applied'
-					                      }
-					                  }
-					              }, 
-
-					     ],
 				 		"serverSide" : true,
 				 	    "ordering": true,
 						"columns": [{
@@ -486,10 +462,10 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"orderable": false	//네트워크포트차단코드
 						},{
 							data: "isProcessList",
-							"orderable": false	//프로그램차단여부
+							"orderable": false	//프로세스차단여부
 						},{
 							data: "processListCode",
-							"orderable": false	//프로그램차단코드
+							"orderable": false	//프로세스차단코드
 						},{
 							data: "isFilePattern",
 							"orderable": false	//민감패턴차단여부
@@ -669,7 +645,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							,"visible" : false
 						}, {	
 							"targets": [33]	// 사이트차단여부
-						,	"visible" : false
+							,"visible" : false
 						}, {	
 							"targets": [34]	// 사이트차단코드
 							,"visible" : false
