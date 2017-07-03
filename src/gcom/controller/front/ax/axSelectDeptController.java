@@ -32,7 +32,7 @@ public class axSelectDeptController extends HttpServlet {
 		
 		deptAction da = new deptAction();
 		
-		String json = new Gson().toJson(da.getDeptListForJSTree(1));
+		String json = new Gson().toJson(da.getSelectDeptListForJSTree(1));
 		request.setAttribute("deptJson", json);
 		
 		request.getRequestDispatcher("/WEB-INF/common/tree_select_dept.jsp").forward(request, response);

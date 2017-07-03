@@ -16,13 +16,13 @@ import gcom.controller.action.deptAction;
  * Servlet implementation class axDeptController
  */
 @WebServlet("/common/tree/dept")
-public class axDeptController extends HttpServlet {
+public class axDeptTreeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public axDeptController() {
+    public axDeptTreeController() {
         super();
         // TODO Auto-generated constructor stub
     }

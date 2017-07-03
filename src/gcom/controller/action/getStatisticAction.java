@@ -1,8 +1,10 @@
 package gcom.controller.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import gcom.Model.statistic.AuditClientSimpleModel;
 import gcom.Model.statistic.UserAgentStatisticModel;
 import gcom.service.Policy.IPolicyService;
 import gcom.service.Policy.PolicyServiceImpl;
@@ -45,9 +47,16 @@ public class getStatisticAction {
 		result.put("data", as.getSimpleContactList(map));			
 
 		return result;
+	}
+
+	public Map<String, Object> getSimpleRequestList(Map<String, Object> map){
+		IRequestService as = new RequestServiceImpl();
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("data", as.getSimpleRequestList(map));			
+
+		return result;
 		
 	}
-	
 	public Map<String, Object> getAuditClientSimpleLogList(Map<String, Object> map){
 		IPolicyService as = new PolicyServiceImpl();
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -56,5 +65,12 @@ public class getStatisticAction {
 		return result;
 		
 	}
+	
+	public List<AuditClientSimpleModel> getSimpleAuditList(Map<String, Object> map){
+		IPolicyService as = new PolicyServiceImpl();
+		return as.getAuditClientSimpleLogList(map);
+		
+	}
+	
 	
 }

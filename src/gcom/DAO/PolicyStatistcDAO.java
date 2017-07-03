@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,15 +12,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import gcom.Model.AuditClientModel;
-import gcom.Model.AuditServerModel;
 import gcom.Model.statistic.FlotChartDataModel;
-import gcom.Model.PolicyInfoModel;
-import gcom.Model.PolicyRequestInfo;
-import gcom.Model.PrintFileModel;
-import gcom.Model.UserAgentModel;
-import gcom.Model.UserPolicyLogModel;
-import gcom.Model.UserPolicyModel;
 
 
 public class PolicyStatistcDAO {
@@ -69,7 +60,7 @@ public class PolicyStatistcDAO {
 "SELECT UNIX_TIMESTAMP(date_format(exp.export_client_time, '%Y/%m/%d'))*1000 AS reg_time, COUNT(*) AS cnt " 
 + "FROM disk_export_log AS exp "
 + "INNER JOIN user_info AS ur ON exp .user_no = ur.no "
-+ "WHERE exp.export_client_time >= '2015-04-23' GROUP BY DATE(exp.export_client_time) ";
++ "WHERE 1=1 GROUP BY DATE(exp.export_client_time) ";
 
 sql += whereSql;			
 			
@@ -143,7 +134,6 @@ sql += whereSql;
 + "COUNT(*) AS cnt " 
 + "FROM disk_export_log AS exp "
 + "INNER JOIN user_info AS ur ON exp .user_no = ur.no "
-+ "WHERE exp.export_client_time >= '2015-04-23' "
 + "GROUP BY YEAR(exp.export_client_time), MONTH(exp.export_client_time) ";
 
 sql += whereSql;			
@@ -369,7 +359,6 @@ sql += whereSql;
 + "COUNT(*) AS cnt " 
 + "FROM pattern_log AS pattern "
 + "INNER JOIN user_info AS ur ON pattern.user_no = ur.no "
-+ "WHERE pattern.found_client_time >= '2015-04-23' "
 + "GROUP BY DATE(pattern.found_client_time) ";
 
 sql += whereSql;			
@@ -444,7 +433,6 @@ sql += whereSql;
 + "COUNT(*) AS cnt " 
 + "FROM pattern_log AS pattern "
 + "INNER JOIN user_info AS ur ON pattern.user_no = ur.no "
-+ "WHERE pattern.found_client_time >= '2015-04-23' "
 + "GROUP BY YEAR(pattern.found_client_time ), MONTH(pattern.found_client_time ) ";
 
 sql += whereSql;			
@@ -519,7 +507,6 @@ sql += whereSql;
 + "COUNT(*) AS cnt "
 + "FROM usb_connect_log AS usb "
 + "INNER JOIN user_info AS ur ON usb.user_no = ur.no "
-+ "WHERE usb.connect_client_time >= '2015-04-23' "
 + "GROUP BY DATE(usb.connect_client_time) ";
 
 sql += whereSql;			
@@ -594,7 +581,6 @@ sql += whereSql;
 + "COUNT(*) AS cnt "
 + "FROM usb_connect_log AS usb "
 + "INNER JOIN user_info AS ur ON usb.user_no = ur.no "
-+ "WHERE usb.connect_client_time >= '2015-01-23' "
 + "GROUP BY YEAR(usb.connect_client_time), MONTH(usb.connect_client_time) ";
 
 sql += whereSql;			

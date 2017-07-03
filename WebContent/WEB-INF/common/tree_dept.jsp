@@ -34,7 +34,7 @@
 	         'check_callback' : true,
 	         'data' : JSON.parse('${deptJson}')
 	     },
-         'plugins' : [ 'types', 'dnd', 'checkbox', 'contextmenu' ],
+         'plugins' : [ 'types', 'dnd', 'checkbox'],
          'types' : {
              'default' : {
                  'icon' : 'fa fa-user-circle-o'
@@ -43,39 +43,11 @@
                  'icon' : 'fa fa-building'
              }
 	     },
-         "contextmenu":{         
-             "items": function($node) {
-                 var tree = $("#org_tree").jstree(true);
-                 return {
-                     "Create": {
-                         "separator_before": false,
-                         "separator_after": false,
-                         "label": "생성",
-                         "action": function (obj) { 
-                             $node = tree.create_node($node);
-                             tree.edit($node);
-                         }
-                     },
-                     "Rename": {
-                         "separator_before": false,
-                         "separator_after": false,
-                         "label": "이름변경",
-                         "action": function (obj) { 
-                             tree.edit($node);
-                         }
-                     },                         
-                     "Remove": {
-                         "separator_before": false,
-                         "separator_after": false,
-                         "label": "삭제",
-                         "action": function (obj) { 
-                             tree.delete_node($node);
-                         }
-                     }
-                 };
-             }
-         },
 	 });
+	 
+	 $('#org_tree').bind('loaded.jstree', function(e, data) {
+	 		$('#org_tree').jstree(true).check_all();		
+		})
  });
  
  </script>

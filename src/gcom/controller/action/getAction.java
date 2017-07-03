@@ -2,6 +2,7 @@ package gcom.controller.action;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gcom.Model.AuditClientModel;
 import gcom.Model.AuditServerModel;
@@ -15,6 +16,7 @@ import gcom.Model.PrivacyLogModel;
 import gcom.Model.UsbConnectModel;
 import gcom.Model.UsbDevInfoModel;
 import gcom.Model.UserAgentModel;
+import gcom.Model.UserEnrollModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
 import gcom.service.Device.DeviceInfoServiceImpl;
@@ -23,6 +25,8 @@ import gcom.service.Personal.IPersonalService;
 import gcom.service.Personal.PersonalServiceImpl;
 import gcom.service.Policy.IPolicyService;
 import gcom.service.Policy.PolicyServiceImpl;
+import gcom.service.Request.IRequestService;
+import gcom.service.Request.RequestServiceImpl;
 import gcom.service.UserAgent.IUserAgentService;
 import gcom.service.UserAgent.UserAgentServiceImpl;
 
@@ -217,5 +221,7 @@ public class getAction {
 		
 		return result;						
 	}
+	
+
 
 }

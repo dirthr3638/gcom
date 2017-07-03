@@ -470,7 +470,7 @@ sql += whereSql;
 		}
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		
-		whereSql += "ORDER BY audit.no DESC LIMIT 8 ";	
+		whereSql += "ORDER BY audit.no DESC LIMIT 9 ";	
 		
 		String sql= 
 "SELECT "
