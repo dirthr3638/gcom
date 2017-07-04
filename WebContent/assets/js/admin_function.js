@@ -109,50 +109,50 @@ function getApplyPolicyDetailItem(data){
 	}
 	
 	if(data.isUsbBlock == true){
-		sOut += '<td class="center-cell th-cell-gray">USB포트사용여부:</td><td>차단 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isUsbBlock' + ', '+ data.usbBlockCode +');" ><i class="fa fa-search"></i> 상세</a></td></tr>';	
+		sOut += '<td class="center-cell th-cell-gray">USB포트사용여부:</td><td>차단 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isUsbBlock\'' + ', \''+ data.usbBlockCode +'\');" ><i class="fa fa-search"></i> 상세</a></td></tr>';	
 	}else{
-		sOut += '<td class="center-cell th-cell-gray">USB포트사용여부:</td><td>허용 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isUsbBlock' + ', '+ data.usbBlockCode +');" ><i class="fa fa-search"></i> 상세</a></td></tr>';		
+		sOut += '<td class="center-cell th-cell-gray">USB포트사용여부:</td><td>허용 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isUsbBlock\'' + ', \''+ data.usbBlockCode +'\');" ><i class="fa fa-search"></i> 상세</a></td></tr>';		
 	}
 	
 	if(data.isComPortBlock == true){
-		sOut += '<tr><td class="center-cell th-cell-gray">시리얼포트사용여부:</td><td>차단 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isComPortBlock' + ', '+ data.comPortBlockCode +');" ><i class="fa fa-search"></i> 상세</a></td>';
+		sOut += '<tr><td class="center-cell th-cell-gray">시리얼포트사용여부:</td><td>차단 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isComPortBlock\'' + ', \''+ data.comPortBlockCode +'\');" ><i class="fa fa-search"></i> 상세</a></td>';
 	}else{
-		sOut += '<tr><td class="center-cell th-cell-gray">시리얼포트사용여부:</td><td>허용 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isComPortBlock' + ', '+ data.comPortBlockCode +');" ><i class="fa fa-search"></i> 상세</a></td>';		
+		sOut += '<tr><td class="center-cell th-cell-gray">시리얼포트사용여부:</td><td>허용 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isComPortBlock\'' + ', \''+ data.comPortBlockCode +'\');" ><i class="fa fa-search"></i> 상세</a></td>';		
 	}
 	
 	if(data.isNetPortBlock == true){
-		sOut += '<td class="center-cell th-cell-gray">네트워크포트사용여부:</td><td>차단 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isNetPortBlock' + ', '+ data.netPortBlockCode +');" ><i class="fa fa-search"></i> 상세</a></td></tr>';	
+		sOut += '<td class="center-cell th-cell-gray">네트워크포트사용여부:</td><td>차단 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isNetPortBlock\'' + ', \''+ data.netPortBlockCode +'\');" ><i class="fa fa-search"></i> 상세</a></td></tr>';	
 	}else{
-		sOut += '<td class="center-cell th-cell-gray">네트워크포트사용여부:</td><td>허용 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isNetPortBlock' + ', '+ data.netPortBlockCode +');" ><i class="fa fa-search"></i> 상세</a></td></tr>';			
+		sOut += '<td class="center-cell th-cell-gray">네트워크포트사용여부:</td><td>허용 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isNetPortBlock\'' + ', \''+ data.netPortBlockCode +'\');" ><i class="fa fa-search"></i> 상세</a></td></tr>';			
 	}
 	
 	if(data.isProcessList == true){
-		sOut += '<tr><td class="center-cell th-cell-gray">프로세스차단여부:</td><td>차단 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isProcessList' + ', '+ data.processListCode +');" ><i class="fa fa-search"></i> 상세</a></td>';
+		sOut += '<tr><td class="center-cell th-cell-gray">프로세스차단여부:</td><td>차단 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isProcessList\'' + ', \''+ data.processListCode +'\');" ><i class="fa fa-search"></i> 상세</a></td>';
 	}else{
 		sOut += '<tr><td class="center-cell th-cell-gray">프로세스차단여부:</td><td>허용 </td>';	
 	}
 	
 	if(data.isFilePattern == true){
 		var control_text = data.patternFileControl == 0 ? "격리" : "삭제";
-		sOut += '<td class="center-cell th-cell-gray">민감패턴차단여부:</td><td>차단 [검출패턴처리 : '+ control_text + '] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isFilePattern' + ', '+ data.filePatternCode +');" ><i class="fa fa-search"></i> 상세</a></td></tr>';	
+		sOut += '<td class="center-cell th-cell-gray">민감패턴차단여부:</td><td>차단 [검출패턴처리 : '+ control_text + '] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isFilePattern\'' + ', \''+ data.filePatternCode +'\');" ><i class="fa fa-search"></i> 상세</a></td></tr>';	
 	}else{
 		sOut += '<td class="center-cell th-cell-gray">민감패턴차단여부:</td><td>허용 </td></tr>';	
 	}
 	
 	if(data.isWebAddr == true){
-		sOut += '<tr><td class="center-cell th-cell-gray">사이트차단여부:</td><td>차단 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isWebAddr' + ', '+ data.webAddrCode +');" ><i class="fa fa-search"></i> 상세</a></td>';	
+		sOut += '<tr><td class="center-cell th-cell-gray">사이트차단여부:</td><td>차단 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWebAddr\'' + ', \''+ data.webAddrCode +'\');" ><i class="fa fa-search"></i> 상세</a></td>';	
 	}else{
-		sOut += '<tr><td class="center-cell th-cell-gray">사이트차단여부:</td><td>허용 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isWebAddr' + ', '+ data.webAddrCode +');" ><i class="fa fa-search"></i> 상세</a></td>';			
+		sOut += '<tr><td class="center-cell th-cell-gray">사이트차단여부:</td><td>허용 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWebAddr\'' + ', \''+ data.webAddrCode +'\');" ><i class="fa fa-search"></i> 상세</a></td>';			
 	}
 	
 	if(data.isMsgBlock == true){
-		sOut += '<td class="center-cell th-cell-gray">메신저차단여부:</td><td>차단 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isMsgBlock' + ', '+ data.msgBlockCode +');" ><i class="fa fa-search"></i> 상세</a></td></tr>';
+		sOut += '<td class="center-cell th-cell-gray">메신저차단여부:</td><td>차단 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isMsgBlock\'' + ', \''+ data.msgBlockCode +'\');" ><i class="fa fa-search"></i> 상세</a></td></tr>';
 	}else{
-		sOut += '<td class="center-cell th-cell-gray">메신저차단여부:</td><td>허용 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isMsgBlock' + ', '+ data.msgBlockCode +');" ><i class="fa fa-search"></i> 상세</a></td></tr>';
+		sOut += '<td class="center-cell th-cell-gray">메신저차단여부:</td><td>허용 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isMsgBlock\'' + ', \''+ data.msgBlockCode +'\');" ><i class="fa fa-search"></i> 상세</a></td></tr>';
 	}
 	
 	if(data.isWaterMark == true){
-		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>허용 ['+ data.waterMarkEndDate +'까지] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + 'isWaterMark' + ', '+ data.waterMarkType +');" ><i class="fa fa-search"></i> 상세</a></td>';	
+		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>허용 ['+ data.waterMarkEndDate +'까지] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></td>';	
 	}else{
 		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>불가</td>';			
 	}
@@ -281,7 +281,8 @@ function getPolicyIcon(data){
 }
 
 	function completeAlert(){
-		
+		vex.defaultOptions.className = 'vex-theme-os'
+			
 		vex.dialog.open({
 			message: '완료되었습니다.',
 			  buttons: [
@@ -314,3 +315,6 @@ function getPolicyIcon(data){
 				  })]
 			})
  	}
+ 	
+ 	
+ 	

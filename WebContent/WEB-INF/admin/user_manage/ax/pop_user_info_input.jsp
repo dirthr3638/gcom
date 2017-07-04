@@ -36,6 +36,7 @@
 									<!-- panel content -->
 									<div class="panel-body">
 										<div class="row">
+										
 											<div class="col-md-6" style="overflow: hidden;">
 												<label>부서</label>
 							                         <select class="form-control" id="user_dept">
