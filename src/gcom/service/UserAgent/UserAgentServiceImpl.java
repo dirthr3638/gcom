@@ -48,4 +48,8 @@ public class UserAgentServiceImpl implements IUserAgentService {
 		return uaDao.getUserInfoListCount(map);		
 	}
 
+	public UserInfoModel getUserInfo(HashMap<String, Object> map){
+		return uaDao.getUserInfo(map);
+	}
+	
 }

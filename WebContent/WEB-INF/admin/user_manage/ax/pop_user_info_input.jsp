@@ -1,13 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <div id="modalUserInfo" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="margin-top: 10%;">
 	<div class="modal-dialog" style="width:940px;">
 			<div class="modal-content">
-				<!-- Modal Header -->
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-					<h4 class="modal-title" id="myModalLabel">정책 항목 수정</h4>
+
+			<c:if test="${popup_type == 'modify'}">
+					<h4 class="modal-title" id="myModalLabel">사용자 정보 수정</h4>
+			</c:if>
+			<c:if test="${popup_type == 'create'}">
+					<h4 class="modal-title" id="myModalLabel">사용자 추가</h4>
+			</c:if>
+
 				</div>
 				<!-- /Modal Header -->
+				<input type="text" name="filterUserId" id="user_no" value="${userInfo.userNo}" class="form-control hidden">			
 				
 				<!-- Modal body -->
 				<div class="modal-body">
@@ -19,52 +29,120 @@
 							
 									<div class="panel-heading">
 										<span class="title elipsis">
-											<strong>개인정보정책 정보</strong> <!-- panel title -->
+											<strong>정보입력</strong> <!-- panel title -->
 										</span>
 									</div>
 		
 									<!-- panel content -->
 									<div class="panel-body">
 										<div class="row">
-											<div class="col-md-12" style="overflow: hidden;">
-													<table class="table table-bordered">
-														<tbody>
-															<tr>
-																<td class="th-cell-gray" width="300px;">에이전트 삭제 가능 여부</td>
-																<td><input type="checkbox" value="Y" id="chk_isUninstall_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isUninstall"))){ %> checked <%}%> /></td>
-															</tr>	
-															
-														</tbody>
-													</table>
+											<div class="col-md-6" style="overflow: hidden;">
+												<label>부서</label>
+							                         <select class="form-control" id="user_dept">
+				                              
+				                              
+<c:choose>
+	<c:when test="${fn:length(deptList) > 0}">
+		<c:forEach items="${deptList}" var="item">
+			<c:choose>
+				<c:when test="${userInfo.deptId == item.deptNo}">
+					<option value="${item.deptNo }" selected>${item.shortName }</option>				
+				</c:when>
+				<c:otherwise>
+					<option value="${item.deptNo }">${item.shortName }</option>				
+				</c:otherwise>
+				
+			</c:choose>
 
-												</div>	
-											</div>
+		</c:forEach>
+	</c:when>
+	<c:otherwise>
+       <option value="-1">선택가능한 부서가 없습니다</option>
+	</c:otherwise>
+</c:choose>				                              
+				                              
+				                                </select>
+											</div>	
+											<div class="col-md-6" style="overflow: hidden;">
+												<label>이름</label>
+												<input type="text" name="filterUserId" id="user_name" value="${userInfo.userName}" class="form-control required">			
+											</div>	
+										</div>
+				                         <br />
+
+										<div class="row">
+											<div class="col-md-6" style="overflow: hidden;">
+												<label>직책</label>
+												<input type="text" name="filterUserId" id="user_duty" value="${userInfo.duty}" class="form-control required">			
+				                                <br />
+											</div>	
+											<div class="col-md-6" style="overflow: hidden;">
+												<label>계급</label>
+												<input type="text" name="filterUserId" id="user_rank" value="${userInfo.rank}" class="form-control required">			
+											</div>	
+										</div>
+
+										<div class="row">
+											<div class="col-md-6" style="overflow: hidden;">
+												<label>아이디</label>
+												<input type="text" name="filterUserId" id="user_id" value="${userInfo.userId}" class="form-control required">			
+											</div>	
+											<div class="col-md-6" style="overflow: hidden;">
+												<label>핸드폰번호</label>
+												<input type="text" class="form-control" value="${userInfo.phone}" id="user_phone" placeholder="-를 포함하여 번호를입력하여 주세요">
+				                                <br />
+											</div>	
+										</div>
+										<div class="row">
+											<div class="col-md-6" style="overflow: hidden;">
+												<label>패스워드</label>
+												<input type="password" name="filterUserId" id="user_password" value="" class="form-control required">			
+				                                <br />
+											</div>	
+											<div class="col-md-6" style="overflow: hidden;">
+												<label>패스워드 재입력</label>
+												<input type="password" name="filterUserId" id="user_password2" value="" class="form-control required">			
+				                                <br />
+											</div>	
+
+										</div>
+										<div class="row">
+											<div class="col-md-6" style="overflow: hidden;">
+												<label>사번</label>
+												<input type="text" name="filterUserId" id="user_number" value="${userInfo.number}" class="form-control required">			
+				                                <br />
+											</div>	
+
 										</div>
 										
-										
-										<div class="ld_modal hidden" >
-										    <div class="ld_center" >
-										        <img alt="" src="/assets/images/loaders/loading.gif" />
-										    </div>
-										</div>
-										
-									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+				</div>
 				<!-- /Modal body -->
+				
+			<c:if test="${popup_type == 'modify'}">
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" onclick="fn_policy_apply_save();" ><i class="fa fa-check"></i> 정책적용</button>
+					<button type="button" class="btn btn-primary" onclick="fn_user_modify();" ><i class="fa fa-check"></i> 사용자수정</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> 닫기</button>
 				</div>
+			</c:if>
+			<c:if test="${popup_type == 'create'}">
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="fn_user_create();" ><i class="fa fa-check"></i> 사용자생성</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> 닫기</button>
+				</div>
+			</c:if>
+
 			</div>
 		</div>
 	</div>
+</div>
+		<script type="text/javascript" src="/assets/js/app.js"></script>
 
 <script type="text/javascript">
 
-	
 </script>
 
 

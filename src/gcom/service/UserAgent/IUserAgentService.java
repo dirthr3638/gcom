@@ -20,4 +20,8 @@ public interface IUserAgentService {
 	
 	public List<UserInfoModel> getUserInfoList(HashMap<String, Object> map);
 	public int getUserInfoListCount(HashMap<String, Object> map);
+
+	public UserInfoModel getUserInfo(HashMap<String, Object> map);
+
+
 }

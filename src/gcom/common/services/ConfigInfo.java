@@ -12,6 +12,8 @@ public class ConfigInfo {
 	public final static String EXIST_CHILD_DEPT = "ECD";		//하위부서 존재
 	public final static String EXIST_DEPT_AGENT = "EDA";		//에이전트 존재
 	public final static String EXIST_DEPT_USER= "EDU";		//중복된 아이디 존재
+	public final static String EXIST_USER_NUMBER= "EUN";		//중복된 아이디 존재
+	
 	
 	
 	

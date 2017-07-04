@@ -33,11 +33,11 @@ public class DeptDAO {
 		}
 	}
 	
-	public List<DeptModel> getDeptList(int adminNumber){
+	public List<DeptModel> getDeptList(int deptNo){
 		List<DeptModel> data = new ArrayList<DeptModel>();
 		
 		String sql= 
-"SELECT * from "
+"SELECT no, parent, short_name from "
 + "(select * from dept_info where valid = 1 order by parent, no) dept_info_sorted,"
 + "(select @pv := ?) initialisation where (find_in_set(parent, @pv) > 0 or no = @pv) and"
 + "@pv := concat(@pv, ',', no);";
@@ -45,16 +45,14 @@ public class DeptDAO {
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  adminNumber);
+			pstmt.setInt(1,  deptNo);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
 				DeptModel model = new DeptModel();
-				model.setParent(rs.getInt("no"));
-				model.setLeap(rs.getInt("no"));
-				model.setName(rs.getString("no"));
-				model.setShortName(rs.getString("no"));
-				model.setChildCount(rs.getInt("no"));
+				model.setDeptNo(rs.getInt("no"));
+				model.setParent(rs.getInt("parent"));
+				model.setShortName(rs.getString("short_name"));
 				
 				data.add(model);
 			}

@@ -590,4 +590,59 @@ sql += whereSql;
 		return data;
 	}
 	
+	public UserInfoModel getUserInfo(HashMap<String, Object> map){
+		UserInfoModel data = new UserInfoModel();
+		int user_no = Integer.parseInt(map.get("user_no").toString());
+		
+		String whereSql = "WHERE no = ? ";
+		
+		String sql= 
+"SELECT "
++ "no, "
++ "dept_no, "
++ "duty, "
++ "rank, "
++ "number, "
++ "name, "
++ "phone, "
++ "id FROM "
++ "user_info ";
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			pstmt.setInt(i++, user_no);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				
+				data.setUserNo(rs.getInt("no"));				
+				data.setDeptId(rs.getInt("dept_no"));				
+				data.setDuty(rs.getString("duty"));
+				data.setRank(rs.getString("rank"));
+				data.setNumber(rs.getString("number"));
+				data.setUserName(rs.getString("name"));
+				data.setPhone(rs.getString("phone"));
+				data.setUserId(rs.getString("id"));
+
+				}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+	
 }

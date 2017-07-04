@@ -20,6 +20,9 @@
 		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+           <link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+           <link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -78,8 +81,8 @@
 		
 											<!-- Info -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
-											<button type="button" class="btn btn-danger" onclick="onClickExcelButton()"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>
-											<button type="button" class="btn btn-success" onclick="onClickExcelButton()"><i class="fa fa-plus" aria-hidden="true">&nbsp;추가</i></button>
+											<button type="button" class="btn btn-danger" onclick="onClickRemoveUser()"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>
+											<button type="button" class="btn btn-success" onclick="onClickCreateUser()"><i class="fa fa-plus" aria-hidden="true">&nbsp;추가</i></button>
 											
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
@@ -132,7 +135,7 @@
 														<th >직책</th>
 														<th >계급</th>
 														<th >연락처</th>
-														<th >수정</th>
+														<th ></th>
 													</tr>
 												</thead>
 				
@@ -151,13 +154,17 @@
 				</div>
 			</section>
 		</div>
+		<div id="user_input_popup">
+		</div>
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
 		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+		<script type="text/javascript" src="/assets/js/admin_function.js"></script>
+           <script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
+           <script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
 
 <script>
 
@@ -200,20 +207,227 @@
  	}
  	
  	function onClickExcelButton(){
-		console.log('excel')
  		var $buttons = $('.export-csv');
  		$buttons.click();
  		
  	}
+ 	//user_input_popup
+ 	function onClickModifyUser(user_no){
+		$.ajax({      
+	        type:"GET",  
+	        url:'/ax/admin/userinput/modify',
+	        async: false,
+	        data:{
+	        	user_no : user_no,
+	        	_:$.now()
+	        },
+	        success:function(args){   
+	            $("#user_input_popup").html(args);      
+	            $("#modalUserInfo").modal('show');
+	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	            console.log(e.responseText);  
+	        }  
+	    }); 
+
+ 	}
+ 	
+	
+ 	
+	function onClickCreateUser(){
+		console.log('user create') 				
+		$.ajax({      
+	        type:"GET",  
+	        url:'/ax/admin/userinput/create',
+	        async: false,
+	        data:{
+	        	
+	        	_:$.now()
+	        },
+	        success:function(args){   
+	            $("#user_input_popup").html(args);      
+	            $("#modalUserInfo").modal('show');
+	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	            console.log(e.responseText);  
+	        }  
+	    }); 
+	}
+	
+
+	function getInputData(){
+		var data = new Object();
+
+		data.user_no = $('#user_no').val();
+		data.user_dept = $('#user_dept').val();
+		data.user_name = $('#user_name').val();
+		data.user_duty = $('#user_duty').val();
+		data.user_rank = $('#user_rank').val();
+		data.user_id = $('#user_id').val();
+		data.user_phone = $('#user_phone').val();
+		data.user_password = $('#user_password').val();
+		data.user_password2 = $('#user_password2').val();
+		data.user_number = $('#user_number').val();
+		
+		var result = validCheck(data);
+		if(result == true){
+			return data;			
+		}else{
+			return false;
+		}
+	}
+	
+	function validCheck(data){
+		
+		var result = true;
+		if(parseInt(data.user_dept) < 1){
+			infoAlert('부서c선택 값이 유효하지 않습니다.')
+			result = false;
+		}else if(data.user_name == ''){
+			infoAlert('이름을 입력하여주세요.')
+			result = false;
+		}else if(data.user_duty == ''){
+			infoAlert('직책을 입력하여주세요.')
+			result = false;
+		}else if(data.user_rank == ''){
+			infoAlert('계급을 입력하여주세요.')
+			result = false;
+		}else if(data.user_id == ''){
+			infoAlert('아이디를 입력하여주세요.')
+			result = false;
+		}else if(data.user_phone == ''){
+			infoAlert('핸드폰번호를 입력하여주세요.')
+			result = false;
+		}else if(data.user_number == ''){
+			infoAlert('사번을 입력하여주세요.')
+			result = false;
+		}else if(data.user_password == '' && '${popup_type}' == 'create'){
+			infoAlert('패스워드를 입력하여주세요.')
+			result = false;
+		}else if(data.user_password2 == '' && '${popup_type}' == 'create'){
+			infoAlert('확인 패스워드를 입력하여주세요.')
+			result = false;
+		}else if(data.user_password != data.user_password2 ){
+			infoAlert('패스워드가 일치하지 않습니다.')
+			result = false;
+		}
+		
+		return result;		
+	}
+
+	function onClickRemoveUser(user_no){
+		vex.dialog.open({
+			message: '해당 사용자 가 삭제됩니다. 계속하시겠습니까?',
+		  buttons: [
+		    $.extend({}, vex.dialog.buttons.YES, {
+		      text: '확인'
+		    }), $.extend({}, vex.dialog.buttons.NO, {
+		      text: '취소'
+		    })
+		  ],
+	 	    callback: function(data) {
+	 	      if (data) {
+	 	    	 DoRemoveUser(user_no);
+	 	      }
+	 	    }
+ 		});
+
+ 	}
+	
+	function DoRemoveUser(user_no){
+		$.ajax({      
+	        type:"POST",  
+	        url:'/admin/user/manage/do/remove',
+	        async: false,
+	        data:{
+	        	user_no : user_no,
+	        },
+	        success:function(args){ 
+	        	if(args.returnCode == 'S'){
+	        		reloadTablePreventPage();
+	    			infoAlert('사용자 삭제가 완료되었습니다.')
+	        	}else{
+	    			infoAlert('서버와의 통신에 실패하였습니다.')
+	        	}
+	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	            console.log(e.responseText);  
+	        }  
+	    }); 
+	}
+	
+	function fn_user_modify(){
+		var data = getInputData();
+		
+		if(data != false){
+			console.log('유저수정')
+			$.ajax({      
+		        type:"POST",  
+		        url:'/admin/user/manage/do/update',
+		        async: false,
+		        data: data,
+		        dataType: "json",
+		        success:function(args){
+		        	if(args.returnCode == 'S'){
+		        		reloadTablePreventPage();
+		    			infoAlert('수정이 완료되었습니다.')
+		        	}else if(args.returnCode == 'EUN'){
+		    			infoAlert('사번이 이미 존재합니다.')
+		        	}else{
+		    			infoAlert('서버와의 통신에 실패하였습니다.')
+		        	}
+		        },
+		        //beforeSend:showRequest,
+		        error:function(e){
+		            console.log(e.responseText);
+		        }  
+		    }); 
+		}
+	}
+
+	function fn_user_create(){	
+		var data = getInputData();
+		console.log(JSON.stringify(data))
+		if(data != false){
+			console.log('유저생성')
+			$.ajax({      
+		        type:"POST",  
+		        url:'/admin/user/manage/do/create',
+		        async: false,
+		        data: data,
+		        dataType: "json",
+		        success:function(args){ 
+		        	if(args.returnCode == 'S'){
+		        		reloadTablePreventPage();
+		    			infoAlert('사용자추가가 완료되었습니다.')
+		        	}else if(args.returnCode == 'EUN'){
+		    			infoAlert('사번이 이미 존재합니다.')
+		        	}else{
+		    			infoAlert('서버와의 통신에 실패하였습니다.')
+		        	}
+		        },   
+		        //beforeSend:showRequest,  
+		        error:function(e){  
+		            console.log(e.responseText);  
+		        }  
+		    }); 
+		}
+	}
+	
+ 	function reloadTablePreventPage(){
+ 		var datatable = $('#table_userinfo').dataTable().api();
+		datatable.ajax.reload(null, false);   	
+ 		
+ 	}
+
+
  	
 	$(document).ready(function(){
-		$(".select2theme").select2({
-   			  minimumResultsForSearch: -1,
-   			  dropdownAutoWidth : true,
-   			  width: 'auto'
-   		});
      	setTree();
-     	
+    	vex.defaultOptions.className = 'vex-theme-os';
      	
 		//전체 체크 박스 선택 시
 		$("#all_check_info").click(function(){
@@ -343,7 +557,8 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"class":"center-cell",
 							"render":function(data,type,row){
 								return '<input type="checkbox" name="user_app_check" class="user_app_check" value="' + data + '" onClick="javascript:check_info()"/>';
-							}
+							},
+							"visible":false
 						},         
 						{  // set default column settings
 							'targets': [1]	//부서
@@ -367,7 +582,9 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"targets": [7]	//
 							,"class" : "center-cell",
 							"render":function(data,type,row){
- 								var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:enrollPassInfo(\''+ row.permitAdmin  +'\', \'' + row.permitDate + '\')"><i class="fa fa-gear" aria-hidden="true">&nbsp;수정</i></button>';
+ 								var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:onClickModifyUser(' +row.userNo+ ')"><i class="fa fa-gear" aria-hidden="true">&nbsp;수정</i></button>';
+ 								ret += '<button type="button" class="btn btn-danger btn-xs" onclick="javascript:onClickRemoveUser(' +row.userNo+ ')"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>';
+
  								return ret;
 							}
 						}],						

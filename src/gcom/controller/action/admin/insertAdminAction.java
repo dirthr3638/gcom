@@ -7,6 +7,8 @@ import gcom.service.Personal.IPersonalService;
 import gcom.service.Personal.PersonalServiceImpl;
 import gcom.service.Request.IRequestService;
 import gcom.service.Request.RequestServiceImpl;
+import gcom.service.UserManage.IUserManageService;
+import gcom.service.UserManage.UserManageServiceImpl;
 
 public class insertAdminAction {
 
@@ -24,5 +26,11 @@ public class insertAdminAction {
 		IPersonalService as = new PersonalServiceImpl();
 		return as.applyPolicyDataSave(map);
 	}
+
+	public HashMap<String, Object> insertUserInfo(HashMap<String, Object> map) {
+		IUserManageService as = new UserManageServiceImpl();
+		return as.insertUserInfo(map);
+	}
+
 
 }

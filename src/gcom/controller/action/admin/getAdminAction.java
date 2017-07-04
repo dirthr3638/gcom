@@ -152,6 +152,12 @@ public class getAdminAction {
 		
 	}
 
+	public UserInfoModel getUserInfo(HashMap<String, Object> map){
+		IUserAgentService as = new UserAgentServiceImpl();		
+		return as.getUserInfo(map);				
+	}
+
+	
 	public HashMap<String, Object> getPolicyAssignMemberList(HashMap<String, Object> map) {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		IPolicyService as = new PolicyServiceImpl();

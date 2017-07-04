@@ -16,4 +16,5 @@ public class UserInfoModel {
 	private String pcName = "";
 	private String deptName = "";
 	private String phone = "";
+	private String number = "";
 }
