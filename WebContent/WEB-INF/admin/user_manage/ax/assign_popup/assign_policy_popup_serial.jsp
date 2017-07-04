@@ -1,112 +1,90 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
-<% 
-	boolean onlyFlag = Boolean.parseBoolean(request.getParameter("onlyFlag"));
-	boolean isComPortBlock = Boolean.parseBoolean(request.getParameter("isComPortBlock"));
-	String comPortBlockCode = request.getParameter("comPortBlockCode").toString();
-	String applyCode = comPortBlockCode.length() > 0 ? "," + comPortBlockCode : "";
-	String scriptCode = onlyFlag? comPortBlockCode : "";
-	
-	if (!isComPortBlock){ 
-		applyCode = "Y" + applyCode;
-	} else {
-		applyCode = "N" + applyCode;
-	}
+<%
+	String code = request.getParameter("code").toString();
 %>
-<div>
-	<table class="table table-bordered">
-		<tr>
-			<td class="th-cell-gray center-cell" width="150px" style="vertical-align: middle;">시리얼 포트 차단 선택</td>
-			<td class="center-cell" style="vertical-align: middle;">
-				<% if (onlyFlag) { %>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_com_port_block" value="Y" <% if (!isComPortBlock){ %> checked <%}%>/><i></i> 허용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_com_port_block" value="N" <% if (isComPortBlock){ %> checked <%}%>/><i></i> 차단
-					</label>
-				<% } else { %>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_com_port_block" value="Y" checked/><i></i> 허용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_com_port_block" value="N" /><i></i> 차단
-					</label>
-				<% } %>
-			</td>
-			<td class="th-cell-gray center-cell" width="120px" style="vertical-align: middle;">적용상태</td>
-			<td class="center-cell" style="vertical-align: middle;">
-				<% if (onlyFlag) { %>
-					<input type="text" id="att_com_port_type" name="att_com_port_type" class="form-control" value="<%= applyCode%>" disabled />
-				<% } else { %>
-					<input type="text" id="att_com_port_type" name="att_com_port_type" class="form-control" value="Y" disabled />
-				<% } %>
-			</td>
-		</tr>
-	</table>
-</div>
+<div id="modalComPortSettingInfo" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
+	<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+					<h4 class="modal-title" id="myModalLabel">시리얼포트 정책 적용 리스트</h4>
+				</div>
+				<!-- /Modal Header -->
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div id="content" class="dashboard padding-20">
+						<div class="row">
+							
+							<div class="col-md-12">
+								<div id="panel-2" class="panel panel-default">
+							
+									<div class="panel-heading">
+										<span class="title elipsis">
+											<strong>정책적용리스트</strong> <!-- panel title -->
+										</span>
+									</div>
+		
+									<!-- panel content -->
+									<div class="panel-body">
+										<% if("".equals(code)) {%>
+											<table class="table table-bordered" id="com_port_info_table" style="width:100%;">
+												<thead>
+													<tr>
+														<td>선택된 정책이 없습니다.</td>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										<% } else { %>
+											<table class="table table-bordered" id="com_port_info_table" style="width:100%;">
+												<thead>
+													<tr>
+														<th>선택</th>
+														<th>포트ID</th>
+														<th>포트이름</th>
+														<th>설명</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										<% } %>
+										<div class="ld_modal hidden" >
+										    <div class="ld_center" >
+										        <img alt="" src="/assets/images/loaders/loading.gif" />
+										    </div>
+										</div>
+										
+									</div>
+									<!-- /panel content -->
+								</div>
+							</div>
+						</div>
+					</div>
+				<!-- /Modal body -->
 
-<table class="table table-bordered" id="com_port_table" style="width:100%;">
-	<thead>
-		<tr>
-			<th>선택</th>
-			<th>포트ID</th>
-			<th>포트이름</th>
-			<th>설명</th>
-		</tr>
-	</thead>
-	<tbody>
-	</tbody>
-</table>
+				<!-- Modal Footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="fn_policy_apply_save();" ><i class="fa fa-check"></i> 정책적용</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> 닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 													
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		$("input[name=radio_com_port_block]").change(function() {
-			var chk_value = $(':radio[name="radio_com_port_block"]:checked').val();
-			var type = $('#att_com_port_type').val();		
-			if (chk_value == 'Y') {
-				$('#att_com_port_type').val(type.replace('N','Y'));	
-			} else {
-				$('#att_com_port_type').val(type.replace('Y','N'));
-			}
-		});
-	});
 	
-	function setSerialSelectInfo(check_box) {
-		
-		var serialCode = $(check_box).val();
-		var type = $('#att_com_port_type').val();
-		
-		if ($(check_box).is(':checked')) {
-			
-			type += "," + serialCode;
-			$('#att_com_port_type').val(type);
-			
-		} else {
-	
-			var temp = type.split(',');
-			var result = temp[0];
-			
-			if (temp.length > 1) {
-				for (var i = 1 ; i < temp.length ; i++) {
-					if (temp[i] != serialCode) {
-						result += "," + temp[i];
-					}
-				}
-				
-				$('#att_com_port_type').val(result);
-			}
-			
-		}
-		
-	}
-	
-	function com_port_table() {
+	function com_port_info_table() {
 		
 			if (jQuery().dataTable) {
 		
-				var cpTable = jQuery('#com_port_table');
+				var cpTable = jQuery('#com_port_info_table');
 				cpTable.dataTable({
 					"dom": '<"row view-filter"<"col-sm-12"<"pull-left"><"pull-right"><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 					"ajax" : {
@@ -126,15 +104,10 @@
 			 		"serverSide" : true,
 			 		"columns": [{
 						data: "serialNo",			// check_box (ID)
-						render : function(data,type,row) {
-							var check = '<%= scriptCode %>';
-							var strData = data.toString();
+						render : function(data, type, row, a){
+							var paging = a.settings._iDisplayStart;
+							return paging + a.row + 1;
 							
-							if (check.indexOf(strData) != -1 && check != '') {
-								return '<input type="checkbox" name="com_port_check" class="com_port_check" value="' + data + '" onClick="setSerialSelectInfo( this )" checked />';
-							} else {
-								return '<input type="checkbox" name="com_port_check" class="com_port_check" value="' + data + '" onClick="setSerialSelectInfo( this )" />';							
-							}
 						}
 					}, {
 						data: "serialNo"			// ID
@@ -162,6 +135,7 @@
 					{	
 						"targets": [0],	// check_box
 						"class":"center-cell"
+						,"visible" : false
 					}, {  
 						'targets': [1]	// ID
 						,"class":"center-cell"

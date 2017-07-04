@@ -26,6 +26,14 @@
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
 		<script type="text/javascript" src="/assets/js/admin_function.js"></script>
+		
+		<!-- Alert -->
+		<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+        <link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+
+        <script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
+        <script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+        
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -218,492 +226,573 @@
 		
 		<!-- 정책 할당 Ajax Div -->
 		<div id="policy_apply_div"></div>
+		
+		<!-- USER 할당된 정책 정보 Ajax PopUp Div -->
+		<div id="pop_policy_setting_info"></div>
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 
-<script type="text/javascript">
-	var table;
-	
-	// 조직도 
- 	function setTree(){
-		$.ajax({      
-	        type:"POST",  
-	        url:'/common/tree/dept',
-	        async: false,
-	        //data:{},
-	        success:function(args){   
-	            $("#dept_tree").html(args);      
-	        },   
-	        //beforeSend:showRequest,  
-	        error:function(e){  
-	            console.log(e.responseText);  
-	        }  
-	    }); 
-	}
- 	
- 	// 검색 버튼 클릭 시 
- 	function searchUserLog(){
- 		var datatable = $('#table_apply_policy').dataTable().api();
-		datatable.ajax.reload();   	
- 	
- 	}
-
- 	// 인쇄 버튼 클릭 시 
- 	function onClickPrintButton(){
- 		var $buttons = $('.export-print');
- 		$buttons.click();
- 	}
- 	
- 	// 내보내기 버튼 클릭 시 
- 	function onClickExcelButton(){
-		console.log('excel')
- 		var $buttons = $('.export-csv');
- 		$buttons.click();
- 		
- 	}
- 	
- 	// 정책할당 버튼 클릭 시 
- 	function fn_apply_policy() {
- 		var checkedLen = $("input:checkbox[name='policy_app_check']:checked").length;
- 		if (checkedLen < 1) {
- 			alert("정책 할당을 위해서 하나 이상의 회원을 클릭해 주세요.");
- 			return false;
- 		}
- 		
- 		var apply_arr = new Array();
- 		gdTable = table.api();
-		
-		$(":checkbox[name='policy_app_check']:checked").each(function(pi,po){
-			var check_row = $(this).parents('tr').get(0);
-			var check_item = gdTable.row(check_row).data();
-			apply_arr.push(check_item);
-		});
-		
-		$.ajax({      
-		    type:"POST",  
-		    url:'/admin/user/assign/apply',
-		    async: false,
-		    data:{
-		    	apply_list : JSON.stringify(apply_arr),
-		    	_ : $.now()
-		    },
-		    success:function(data){
-		    	$("#policy_apply_div").html(data);
-	            $('#modalApplyPolicy').modal('show');
-		    },   
-		    error:function(e){  
-		        console.log(e.responseText);  
-		    }  
-		});
- 		
- 	}
- 	
- 	// 체크 박스 클릭 시 전체 체크 여부 확인
- 	var check_Info = function() {
-		
- 		var checkboxLen =  $("input:checkbox[name='policy_app_check']").length;
- 		var checkedLen = $("input:checkbox[name='policy_app_check']:checked").length;
-
- 		if(checkboxLen == checkedLen){
- 			$("#all_check_info").prop("checked", true);
- 		} else {
- 			$("#all_check_info").prop("checked", false);
- 		}
- 		
- 	}
- 	
-	$(document).ready(function(){
-		
-		$(".select2theme").select2({
-   			  minimumResultsForSearch: -1,
-   			  dropdownAutoWidth : true,
-   			  width: 'auto'
-   		});
-		
-		//전체 체크 박스 선택 시
-		$("#all_check_info").click(function(){
+		<script type="text/javascript">
+			var table;
 			
-		      if($(this).is(":checked")) {
-		    	  $(".policy_app_check").prop("checked", true);
-		      } else {
-		    	  $(".policy_app_check").prop("checked", false);
-		      }
-		});
+			// 조직도 
+		 	function setTree(){
+				$.ajax({      
+			        type:"POST",  
+			        url:'/common/tree/dept',
+			        async: false,
+			        //data:{},
+			        success:function(args){   
+			            $("#dept_tree").html(args);      
+			        },   
+			        //beforeSend:showRequest,  
+			        error:function(e){  
+			            console.log(e.responseText);  
+			        }  
+			    }); 
+			}
+		 	
+		 	// 검색 버튼 클릭 시 
+		 	function searchUserLog(){
+		 		var datatable = $('#table_apply_policy').dataTable().api();
+				datatable.ajax.reload();   	
+		 	
+		 	}
 		
-     	setTree();
-
-loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
-loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.print.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.html5.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.js", function(){
- 
-				if (jQuery().dataTable) {
-
-					var export_filename = 'Filename';
-					
-					apTable = jQuery('#table_apply_policy');
-					table = apTable.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
-						//dom: 'Bfrtip',
-						"ajax" : {
-							"url":'/ax/policy/assign/list',
-						   	"type":'POST',
-						   	"dataSrc" : "data",
-						   	"data" :  function(param) {
-								param.user_id 	= $('#filterUserId').val();
-								param.user_name = $('#filterUserName').val();
-								param.start_date = $('#filterStartDate').val();
-								param.end_date 	= $('#filterEndDate').val();
-								
-								param.dept = getCheckedDept();
-					        },
- 					        "beforeSend" : function(){
-								jQuery('#preloader').show();
- 					        },
-					        "dataSrc": function ( json ) {
-								jQuery('#preloader').hide();
-				                return json.data;
-				            }   
-						},
-				 		"serverSide" : true,
-				 	    "ordering": true,
-						"columns": [{
-							data: "userNo",							
-							"orderable": false	// 추가정보
-						}, {
-							data: "agentNo",
-							"orderable": false	// select box
-							,"render":function(data,type,row){
-								return '<input type="checkbox" name="policy_app_check" class="policy_app_check" value="' + data + '" onClick="javascript:check_Info()"/>';
-							}
-						}, {
-							data: "deptName",
-							"orderable": false	//부서
-						}, {
-							data: "userId",
-							"orderable": false	//아이디
-						}, {
-							data: "userName",
-							"orderable": false	//이름
-						}, {
-							data: "userNo",
-							"orderable": false	//번호
-						}, {
-							data: "duty",
-							"orderable": false	//직책
-						}, {
-							data: "rank",
-							"orderable": false	//계급
-						}, {
-							data: "ipAddr",
-							"orderable": false	//IP
-						}, {
-							data: "macAddr",
-							"orderable": false	//MAC
-						}, {
-							data: "pcName",
-							"orderable": false	//PC이름
-						}, {
-							data: "policyNo",
-							"orderable": false	//정책요약
-							,"render":function(data,type,row){
-								return getPolicyIcon(row); 
-							}
-						}, {
-							data: "policyNo",
-							"orderable": false	//정책NO
-						},{
-							data: "isUninstall",
-							"orderable": false	//에이전트삭제가능
-						},{
-							data: "isFileEncryption",
-							"orderable": false	//파일실시간암호화
-						},{
-							data: "isCdEncryption",
-							"orderable": false	//CD실시간암호화
-						},{
-							data: "isPrint",
-							"orderable": false	//프린트사용여부
-						},{
-							data: "isCdEnabled",
-							"orderable": false	//CD사용가능여부
-						},{
-							data: "isCdExport",
-							"orderable": false	//CD반출여부
-						},{
-							data: "isWlan",
-							"orderable": false	//무선랜사용가능여부
-						},{
-							data: "isNetShare",
-							"orderable": false	//공유폴더사용여부
-						},{
-							data: "isWebExport",
-							"orderable": false	//메일반출여부
-						},{
-							data: "isUsbBlock",
-							"orderable": false	//USB포트사용여부
-						},{
-							data: "usbBlockCode",
-							"orderable": false	//USB차단코드
-						},{
-							data: "isComPortBlock",
-							"orderable": false	//시리얼포트사용여부
-						},{
-							data: "comPortBlockCode",
-							"orderable": false	//시리얼포트차단코드
-						},{
-							data: "isNetPortBlock",
-							"orderable": false	//네트워크포트사용여부
-						},{
-							data: "netPortBlockCode",
-							"orderable": false	//네트워크포트차단코드
-						},{
-							data: "isProcessList",
-							"orderable": false	//프로세스차단여부
-						},{
-							data: "processListCode",
-							"orderable": false	//프로세스차단코드
-						},{
-							data: "isFilePattern",
-							"orderable": false	//민감패턴차단여부
-						},{
-							data: "filePatternCode",
-							"orderable": false	//민감패턴차단코드
-						},{
-							data: "patternFileControl",
-							"orderable": false	//민감패턴파일처리코드
-						},{
-							data: "isWebAddr",
-							"orderable": false	//사이트차단여부
-						},{
-							data: "webAddrCode",
-							"orderable": false	//사이트차단코드
-						},{
-							data: "isMsgBlock",
-							"orderable": false	//메신저차단여부
-						},{
-							data: "msgBlockCode",
-							"orderable": false	//메신저차단코드
-						},{
-							data: "isWaterMark",
-							"orderable": false	//워터마크
-						},{
-							data: "waterMarkType",
-							"orderable": false	//워터적용코드
-						},{
-							data: "waterMarkEndDate",
-							"orderable": false	//워터마크적용일시
-						},{
-							data: "printLogDesc",
-							"orderable": false	//프린터인쇄로그설정
-						}],
-						// set the initial value
-						"pageLength": 20,
-						"iDisplayLength": 20,
-						"pagingType": "bootstrap_full_number",
-						"language": {
-							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
-							"infoEmpty": "검색된 데이터가 없습니다.",
-							"zeroRecords" :"검색된 데이터가 없습니다.",
-							"lengthMenu": "  _MENU_ 개",
-							"paginate": {
-								"previous":"Prev",
-								"next": "Next",
-								"last": "Last",
-								"first": "First"
-							},
-							
-						},
-						"columnDefs": [
-						{	
-							"targets": [0],	// 추가정보
-							"class":"center-cell add_detail_info",
-							"render":function(data,type,row){
-								return '<span class="datables-td-detail datatables-close"></span>';
-							}
-						}, {
-							'targets': [1]	// select box
-							,"class":"center-cell"
-						}, {	
-							"targets": [2]	//부서
-							,"class":"center-cell"
-						}, {	
-							"targets": [3]	//아이디
-							,"class":"center-cell"
-						}, {	
-							"targets": [4],	//이름
-							"class":"center-cell"
-						}, {	
-							"targets": [5]	//번호
-							,"class" : "center-cell"
-						}, {	
-							"targets": [6]	//직책
-							,"class" : "center-cell"
-						}, 
-						{	
-							"targets": [7]	//계급
-							,"class" : "center-cell"
-						}, {	
-							"targets": [8]	//IP
-							,"class" : "center-cell"
-							,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}							
-						}, {	
-							"targets": [9]	//MAC
-							,"class" : "center-cell"
-	 						,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}		
-	 													
-						}, {	
-							"targets": [10]	//PC이름
-							,"class" : "center-cell"
-							,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}	
-						}, {	
-							"targets": [11]	//정책요약
-							,"class" : "center-cell"
-						}, {	
-							"targets": [12]	//정책NO
-							,"visible" : false
-						}, {	
-							"targets": [13]	// 에이전트삭제가능
-							,"visible" : false
-						}, {	
-							"targets": [14]	// 파일실시간암호화
-							,"visible" : false
-						}, {	
-							"targets": [15]	// CD실시간암호화
-							,"visible" : false
-						}, {	
-							"targets": [16]	// 프린트사용여부
-							,"visible" : false
-						}, {	
-							"targets": [17]	// CD사용가능여부
-							,"visible" : false
-						}, {	
-							"targets": [18]	// CD반출여부
-							,"visible" : false
-						}, {	
-							"targets": [19]	// 무선랜사용가능여부
-							,"visible" : false
-						}, {	
-							"targets": [20]	// 공유폴더사용여부
-							,"visible" : false
-						}, {	
-							"targets": [21]	// 메일반출여부
-							,"visible" : false
-						}, {	
-							"targets": [22]	// USB포트사용여부
-							,"visible" : false
-						}, {	
-							"targets": [23]	// USB차단코드
-							,"visible" : false
-						}, {	
-							"targets": [24]	// 시리얼포트사용여부
-							,"visible" : false
-						}, {	
-							"targets": [25]	// 시리얼포트차단코드
-							,"visible" : false
-						}, {	
-							"targets": [26]	// 네트워크포트사용여부
-							,"visible" : false
-						}, {	
-							"targets": [27]	// 네트워크포트차단코드
-							,"visible" : false
-						}, {	
-							"targets": [28]	// 프로그램차단여부
-							,"visible" : false
-						}, {	
-							"targets": [29]	// 프로그램차단코드
-							,"visible" : false
-						}, {	
-							"targets": [30]	// 민감패턴차단여부
-							,"visible" : false
-						}, {	
-							"targets": [31]	// 민감패턴차단코드
-							,"visible" : false
-						}, {	
-							"targets": [32]	// 민감패턴파일처리코드
-							,"visible" : false
-						}, {	
-							"targets": [33]	// 사이트차단여부
-							,"visible" : false
-						}, {	
-							"targets": [34]	// 사이트차단코드
-							,"visible" : false
-						}, {	
-							"targets": [35]	// 메신저차단여부
-							,"visible" : false
-						}, {	
-							"targets": [36]	// 메신저차단코드
-							,"visible" : false
-						}, {	
-							"targets": [37]	// 워터마크
-							,"visible" : false
-						}, {	
-							"targets": [38]	// 워터적용코드
-							,"visible" : false
-						}, {	
-							"targets": [39]	// 워터마크적용일시
-							,"visible" : false
-						}, {	
-							"targets": [40]	// 프린터인쇄로그설정
-							,"visible" : false
-						}],						
-						"initComplete": function( settings, json ) {
-							$('.export-print').hide();
-						}
-					});
-					
-					
-					function fnFormatDetails(oTable, nTr) {
-						var aData = oTable.fnGetData(nTr);
-						var sOut = getApplyPolicyDetailItem(aData);
-
-						return sOut;
-					}
-					
-					var jTable = jQuery('#table_apply_policy');
-					jTable.on('click', ' tbody td .datables-td-detail', function () {
-						var nTr = jQuery(this).parents('tr')[0];
-						if (table.fnIsOpen(nTr)) {
-							/* This row is already open - close it */
-							jQuery(this).addClass("datatables-close").removeClass("datatables-open");
-							table.fnClose(nTr);
-						} else {
-							/* Open this row */
-							jQuery(this).addClass("datatables-open").removeClass("datatables-close");
-							table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
-						}
-					});
+		 	// 인쇄 버튼 클릭 시 
+		 	function onClickPrintButton(){
+		 		var $buttons = $('.export-print');
+		 		$buttons.click();
+		 	}
+		 	
+		 	// 내보내기 버튼 클릭 시 
+		 	function onClickExcelButton(){
+				console.log('excel')
+		 		var $buttons = $('.export-csv');
+		 		$buttons.click();
+		 		
+		 	}
+		 	
+		 	// 정책할당 버튼 클릭 시 
+		 	function fn_apply_policy() {
+		 		var checkedLen = $("input:checkbox[name='policy_app_check']:checked").length;
+		 		if (checkedLen < 1) {
+		 			infoAlert("정책 할당을 위해서 하나 이상의 회원을 클릭해 주세요.");
+		 			return false;
+		 		}
+		 		
+		 		var apply_arr = new Array();
+		 		gdTable = table.api();
+				
+				$(":checkbox[name='policy_app_check']:checked").each(function(pi,po){
+					var check_row = $(this).parents('tr').get(0);
+					var check_item = gdTable.row(check_row).data();
+					apply_arr.push(check_item);
+				});
+				
+				$.ajax({      
+				    type:"POST",  
+				    url:'/admin/user/assign/apply',
+				    async: false,
+				    data:{
+				    	apply_list : JSON.stringify(apply_arr),
+				    	_ : $.now()
+				    },
+				    success:function(data){
+				    	$("#policy_apply_div").html(data);
+			            $('#modalApplyPolicy').modal('show');
+				    },   
+				    error:function(e){  
+				        console.log(e.responseText);  
+				    }  
+				});
+		 		
+		 	}
+		 	
+		 	// 체크 박스 클릭 시 전체 체크 여부 확인
+		 	var check_Info = function() {
+				
+		 		var checkboxLen =  $("input:checkbox[name='policy_app_check']").length;
+		 		var checkedLen = $("input:checkbox[name='policy_app_check']:checked").length;
+		
+		 		if(checkboxLen == checkedLen){
+		 			$("#all_check_info").prop("checked", true);
+		 		} else {
+		 			$("#all_check_info").prop("checked", false);
+		 		}
+		 		
+		 	}
+		 	
+		 	function fn_sel_policy_detailOpen(type, code){
+		 		
+				if(type == 'isWaterMark') {
+					excuteInfoAlert("준비중입니다.");
+					return false;
 				}
-			});
-			});
-			});
-			});
-			}); 
-		});
-jQuery('#preloader').hide();
-
-    });
-</script>
+		 		/*
+		 		$.ajax({      
+				    type:"POST",  
+				    url:'/admin/user/assign/setting/info',
+				    async: false,
+				    data:{
+				    	type : type,
+				    	code : code,
+				    	_ : $.now()
+				    },
+				    success:function(data){
+				    	$("#pop_policy_setting_info").html(data);
+				    	
+				    	if (type == 'isUsbBlock') {
+				    		 $('#modalUsbSettingInfo').modal('show');
+				    		 if (code != '') {
+				    		 	usb_info_table();
+				    		 }
+				    	} else if (type == 'isComPortBlock') {
+				    		$('#modalComPortSettingInfo').modal('show');
+				    		if (code != '') {
+				    			 com_port_info_table();
+					    	}
+				    	} else if (type == 'isNetPortBlock') {
+				    		$('#modalNetPortSettingInfo').modal('show');
+				    		if (code != '') {
+				    			net_port_info_table();
+				    		}
+				    	} else if (type == 'isProcessList') {
+				    		$('#modalProcessSettingInfo').modal('show');
+				    		if (code != '') {
+				    			process_info_table();
+				    		}
+				    	} else if (type == 'isFilePattern') {
+				    		$('#modalPatternSettingInfo').modal('show');
+				    		if (code != '') {
+				    			pattern_info_table();
+				    		}
+				    	} else if (type == 'isWebAddr') {
+				    		$('#modalWebAddrSettingInfo').modal('show');
+				    		if (code != '') {
+				    			web_site_info_table();
+				    		}
+				    	} else if (type == 'isMsgBlock') {
+				    		$('#modalMsgBlockSettingInfo').modal('show');
+				    		if (code != '') {
+				    			msg_block_info_table();
+				    		}
+				    	} 
+			           
+				    },   
+				    error:function(e){  
+				        console.log(e.responseText);  
+				    }  
+				});*/
+		 	}
+		 	
+		 	function excuteInfoAlert(str){
+		 		
+		 		vex.defaultOptions.className = 'vex-theme-os'
+		 		
+		 		vex.dialog.open({
+					message: str,
+					  buttons: [
+					    $.extend({}, vex.dialog.buttons.YES, {
+					      text: '확인'
+					  })]
+				});
+			}
+		 	
+			$(document).ready(function(){
+				
+				
+				$(".select2theme").select2({
+		   			  minimumResultsForSearch: -1,
+		   			  dropdownAutoWidth : true,
+		   			  width: 'auto'
+		   		});
+				
+				//전체 체크 박스 선택 시
+				$("#all_check_info").click(function(){
+					
+				      if($(this).is(":checked")) {
+				    	  $(".policy_app_check").prop("checked", true);
+				      } else {
+				    	  $(".policy_app_check").prop("checked", false);
+				      }
+				});
+				
+		     	setTree();
+		
+		loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
+		loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
+		loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
+		loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.print.min.js", function(){
+		loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.html5.min.js", function(){
+		loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.js", function(){
+		 
+						if (jQuery().dataTable) {
+		
+							var export_filename = 'Filename';
+							
+							apTable = jQuery('#table_apply_policy');
+							table = apTable.dataTable({
+								"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+								//dom: 'Bfrtip',
+								"ajax" : {
+									"url":'/ax/policy/assign/list',
+								   	"type":'POST',
+								   	"dataSrc" : "data",
+								   	"data" :  function(param) {
+										param.user_id 	= $('#filterUserId').val();
+										param.user_name = $('#filterUserName').val();
+										param.start_date = $('#filterStartDate').val();
+										param.end_date 	= $('#filterEndDate').val();
+										
+										param.dept = getCheckedDept();
+							        },
+		 					        "beforeSend" : function(){
+										jQuery('#preloader').show();
+		 					        },
+							        "dataSrc": function ( json ) {
+										jQuery('#preloader').hide();
+						                return json.data;
+						            }   
+								},
+						 		"serverSide" : true,
+						 	    "ordering": true,
+								"columns": [{
+									data: "userNo",							
+									"orderable": false	// 추가정보
+								}, {
+									data: "agentNo",
+									"orderable": false	// select box
+									,"render":function(data,type,row){
+										return '<input type="checkbox" name="policy_app_check" class="policy_app_check" value="' + data + '" onClick="javascript:check_Info()"/>';
+									}
+								}, {
+									data: "deptName",
+									"orderable": false	//부서
+								}, {
+									data: "userId",
+									"orderable": false	//아이디
+								}, {
+									data: "userName",
+									"orderable": false	//이름
+								}, {
+									data: "userNo",
+									"orderable": false	//번호
+								}, {
+									data: "duty",
+									"orderable": false	//직책
+								}, {
+									data: "rank",
+									"orderable": false	//계급
+								}, {
+									data: "ipAddr",
+									"orderable": false	//IP
+								}, {
+									data: "macAddr",
+									"orderable": false	//MAC
+								}, {
+									data: "pcName",
+									"orderable": false	//PC이름
+								}, {
+									data: "policyNo",
+									"orderable": false	//정책요약
+									,"render":function(data,type,row){
+										return getPolicyIcon(row); 
+									}
+								}, {
+									data: "policyNo",
+									"orderable": false	//정책NO
+								},{
+									data: "isUninstall",
+									"orderable": false	//에이전트삭제가능
+								},{
+									data: "isFileEncryption",
+									"orderable": false	//파일실시간암호화
+								},{
+									data: "isCdEncryption",
+									"orderable": false	//CD실시간암호화
+								},{
+									data: "isPrint",
+									"orderable": false	//프린트사용여부
+								},{
+									data: "isCdEnabled",
+									"orderable": false	//CD사용가능여부
+								},{
+									data: "isCdExport",
+									"orderable": false	//CD반출여부
+								},{
+									data: "isWlan",
+									"orderable": false	//무선랜사용가능여부
+								},{
+									data: "isNetShare",
+									"orderable": false	//공유폴더사용여부
+								},{
+									data: "isWebExport",
+									"orderable": false	//메일반출여부
+								},{
+									data: "isUsbBlock",
+									"orderable": false	//USB포트사용여부
+								},{
+									data: "usbBlockCode",
+									"orderable": false	//USB차단코드
+								},{
+									data: "isComPortBlock",
+									"orderable": false	//시리얼포트사용여부
+								},{
+									data: "comPortBlockCode",
+									"orderable": false	//시리얼포트차단코드
+								},{
+									data: "isNetPortBlock",
+									"orderable": false	//네트워크포트사용여부
+								},{
+									data: "netPortBlockCode",
+									"orderable": false	//네트워크포트차단코드
+								},{
+									data: "isProcessList",
+									"orderable": false	//프로세스차단여부
+								},{
+									data: "processListCode",
+									"orderable": false	//프로세스차단코드
+								},{
+									data: "isFilePattern",
+									"orderable": false	//민감패턴차단여부
+								},{
+									data: "filePatternCode",
+									"orderable": false	//민감패턴차단코드
+								},{
+									data: "patternFileControl",
+									"orderable": false	//민감패턴파일처리코드
+								},{
+									data: "isWebAddr",
+									"orderable": false	//사이트차단여부
+								},{
+									data: "webAddrCode",
+									"orderable": false	//사이트차단코드
+								},{
+									data: "isMsgBlock",
+									"orderable": false	//메신저차단여부
+								},{
+									data: "msgBlockCode",
+									"orderable": false	//메신저차단코드
+								},{
+									data: "isWaterMark",
+									"orderable": false	//워터마크
+								},{
+									data: "waterMarkType",
+									"orderable": false	//워터적용코드
+								},{
+									data: "waterMarkEndDate",
+									"orderable": false	//워터마크적용일시
+								},{
+									data: "printLogDesc",
+									"orderable": false	//프린터인쇄로그설정
+								}],
+								// set the initial value
+								"pageLength": 20,
+								"iDisplayLength": 20,
+								"pagingType": "bootstrap_full_number",
+								"language": {
+									"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
+									"infoEmpty": "검색된 데이터가 없습니다.",
+									"zeroRecords" :"검색된 데이터가 없습니다.",
+									"lengthMenu": "  _MENU_ 개",
+									"paginate": {
+										"previous":"Prev",
+										"next": "Next",
+										"last": "Last",
+										"first": "First"
+									},
+									
+								},
+								"columnDefs": [
+								{	
+									"targets": [0],	// 추가정보
+									"class":"center-cell add_detail_info",
+									"render":function(data,type,row){
+										return '<span class="datables-td-detail datatables-close"></span>';
+									}
+								}, {
+									'targets': [1]	// select box
+									,"class":"center-cell"
+								}, {	
+									"targets": [2]	//부서
+									,"class":"center-cell"
+								}, {	
+									"targets": [3]	//아이디
+									,"class":"center-cell"
+								}, {	
+									"targets": [4],	//이름
+									"class":"center-cell"
+								}, {	
+									"targets": [5]	//번호
+									,"class" : "center-cell"
+								}, {	
+									"targets": [6]	//직책
+									,"class" : "center-cell"
+								}, 
+								{	
+									"targets": [7]	//계급
+									,"class" : "center-cell"
+								}, {	
+									"targets": [8]	//IP
+									,"class" : "center-cell"
+									,"render":function(data,type,row){
+			 							if(data == ''){
+			 								return '-'
+			 							}else{
+			 								return data;
+			 							}
+			 						}							
+								}, {	
+									"targets": [9]	//MAC
+									,"class" : "center-cell"
+			 						,"render":function(data,type,row){
+			 							if(data == ''){
+			 								return '-'
+			 							}else{
+			 								return data;
+			 							}
+			 						}		
+			 													
+								}, {	
+									"targets": [10]	//PC이름
+									,"class" : "center-cell"
+									,"render":function(data,type,row){
+			 							if(data == ''){
+			 								return '-'
+			 							}else{
+			 								return data;
+			 							}
+			 						}	
+								}, {	
+									"targets": [11]	//정책요약
+									,"class" : "center-cell"
+								}, {	
+									"targets": [12]	//정책NO
+									,"visible" : false
+								}, {	
+									"targets": [13]	// 에이전트삭제가능
+									,"visible" : false
+								}, {	
+									"targets": [14]	// 파일실시간암호화
+									,"visible" : false
+								}, {	
+									"targets": [15]	// CD실시간암호화
+									,"visible" : false
+								}, {	
+									"targets": [16]	// 프린트사용여부
+									,"visible" : false
+								}, {	
+									"targets": [17]	// CD사용가능여부
+									,"visible" : false
+								}, {	
+									"targets": [18]	// CD반출여부
+									,"visible" : false
+								}, {	
+									"targets": [19]	// 무선랜사용가능여부
+									,"visible" : false
+								}, {	
+									"targets": [20]	// 공유폴더사용여부
+									,"visible" : false
+								}, {	
+									"targets": [21]	// 메일반출여부
+									,"visible" : false
+								}, {	
+									"targets": [22]	// USB포트사용여부
+									,"visible" : false
+								}, {	
+									"targets": [23]	// USB차단코드
+									,"visible" : false
+								}, {	
+									"targets": [24]	// 시리얼포트사용여부
+									,"visible" : false
+								}, {	
+									"targets": [25]	// 시리얼포트차단코드
+									,"visible" : false
+								}, {	
+									"targets": [26]	// 네트워크포트사용여부
+									,"visible" : false
+								}, {	
+									"targets": [27]	// 네트워크포트차단코드
+									,"visible" : false
+								}, {	
+									"targets": [28]	// 프로그램차단여부
+									,"visible" : false
+								}, {	
+									"targets": [29]	// 프로그램차단코드
+									,"visible" : false
+								}, {	
+									"targets": [30]	// 민감패턴차단여부
+									,"visible" : false
+								}, {	
+									"targets": [31]	// 민감패턴차단코드
+									,"visible" : false
+								}, {	
+									"targets": [32]	// 민감패턴파일처리코드
+									,"visible" : false
+								}, {	
+									"targets": [33]	// 사이트차단여부
+									,"visible" : false
+								}, {	
+									"targets": [34]	// 사이트차단코드
+									,"visible" : false
+								}, {	
+									"targets": [35]	// 메신저차단여부
+									,"visible" : false
+								}, {	
+									"targets": [36]	// 메신저차단코드
+									,"visible" : false
+								}, {	
+									"targets": [37]	// 워터마크
+									,"visible" : false
+								}, {	
+									"targets": [38]	// 워터적용코드
+									,"visible" : false
+								}, {	
+									"targets": [39]	// 워터마크적용일시
+									,"visible" : false
+								}, {	
+									"targets": [40]	// 프린터인쇄로그설정
+									,"visible" : false
+								}],						
+								"initComplete": function( settings, json ) {
+									$('.export-print').hide();
+								}
+							});
+							
+							
+							function fnFormatDetails(oTable, nTr) {
+								var aData = oTable.fnGetData(nTr);
+								var sOut = getApplyPolicyDetailItem(aData);
+		
+								return sOut;
+							}
+							
+							var jTable = jQuery('#table_apply_policy');
+							jTable.on('click', ' tbody td .datables-td-detail', function () {
+								var nTr = jQuery(this).parents('tr')[0];
+								if (table.fnIsOpen(nTr)) {
+									/* This row is already open - close it */
+									jQuery(this).addClass("datatables-close").removeClass("datatables-open");
+									table.fnClose(nTr);
+								} else {
+									/* Open this row */
+									jQuery(this).addClass("datatables-open").removeClass("datatables-close");
+									table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+								}
+							});
+						}
+					});
+					});
+					});
+					});
+					}); 
+				});
+		jQuery('#preloader').hide();
+		
+		    });
+			
+		</script>
 	</body>
 </html>

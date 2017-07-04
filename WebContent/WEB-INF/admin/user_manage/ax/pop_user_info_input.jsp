@@ -31,7 +31,7 @@
 														<tbody>
 															<tr>
 																<td class="th-cell-gray" width="300px;">에이전트 삭제 가능 여부</td>
-																<td><input type="checkbox" value="Y" id="chk_isUninstall_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isUninstall"))){ %> checked <%}%> /></td>
+																<td><input type="checkbox" value="Y" id="chk_isUninstall_item" name="chk_policy_item" <% //if (//onlyFlag && Boolean.TRUE.equals(data.get("isUninstall"))){ %> checked <%//}%> /></td>
 															</tr>	
 															
 														</tbody>

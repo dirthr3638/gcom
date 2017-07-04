@@ -233,9 +233,35 @@
 	function fn_policy_apply_save() {
 		var data = getPolicyApplyData();
 		var apply_list = getApplyPolicyUserData();
+		console.log(apply_list);
 		data['apply_list'] = apply_list;
 		
-		console.log(data);
+		if(apply_list.length > 1) {
+			if (confirm("주의! 한명 이상에게 정책 적용 시 선택 된 정책으로 모든 정책이 적용됩니다. 선택 된 정책을 적용하시겠습니까?") == true){    //확인
+			    
+			}else{   //취소
+				$('#modalApplyPolicy').modal('hide');
+			    return false;
+			}
+			/* vex.defaultOptions.className = 'vex-theme-os'
+				
+			vex.dialog.open({
+				message: '주의! 한명 이상에게 정책 적용 시 선택 된 정책으로 모든 정책이 적용됩니다. 선택 된 정책을 적용하시겠습니까?',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  }),
+				  $.extend({}, vex.dialog.buttons.NO, {
+				      text: '취소'
+				  })],
+				  callback: function(data) {
+			 	  	if (!data) {
+			 	  		$('#modalApplyPolicy').modal('hide');
+			 	  		return false;
+			 	    }
+			 	  }
+			})*/
+		}
 		
 		$.ajax({      
 		    type:"POST",  
@@ -247,10 +273,11 @@
 		    },
 		    success:function(data){
 		    	if(data.returnCode == "S") {
-		    		alert("정책이 적용되었습니다.");
+		    		infoAlert("정책이 적용되었습니다.");
+		    		top.location.reload();
 		    		$('#modalApplyPolicy').modal('hide');
 		    	} else {
-		    		alert("정책이 적용에 실패했습니다.");
+		    		infoAlert("정책이 적용에 실패했습니다.");
 		    		$('#modalApplyPolicy').modal('hide');
 		    	}
 		    },   
@@ -263,10 +290,9 @@
 	
 	function getApplyPolicyUserData(){
 		var arr = new Array();
-		var map = new Object();
 		
 		<% for(int i = 0; i < apply_list.size(); i++) { %>
-		
+			var map = new Object();
 			map['agent_no'] = <%= apply_list.get(i).get("agentNo") %>
 			map['user_no'] = <%= apply_list.get(i).get("userNo") %>
 			map['policy_no'] = <%= apply_list.get(i).get("policyNo") %>

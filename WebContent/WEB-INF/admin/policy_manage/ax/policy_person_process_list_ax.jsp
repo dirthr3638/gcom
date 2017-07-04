@@ -7,7 +7,7 @@
 			<td>프로세스 파일명</td>
 			<td>프로세스 해시 데이터</td>
 			<td>설명</td>
-			<td>차단여부</td>
+			<td>사용여부</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -71,7 +71,7 @@
 				}, {
 					data: "notice"			//설명
 				}, {                                   
-					data: "valid"		//차단여부
+					data: "valid"		//사용여부
 				}],  
 				"pageLength": 20,
 				"iDisplayLength": 20,
