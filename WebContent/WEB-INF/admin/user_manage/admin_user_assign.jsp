@@ -327,10 +327,10 @@
 		 	function fn_sel_policy_detailOpen(type, code){
 		 		
 				if(type == 'isWaterMark') {
-					excuteInfoAlert("준비중입니다.");
+					alert("준비중입니다.");
 					return false;
 				}
-		 		/*
+		 		
 		 		$.ajax({      
 				    type:"POST",  
 				    url:'/admin/user/assign/setting/info',
@@ -345,60 +345,33 @@
 				    	
 				    	if (type == 'isUsbBlock') {
 				    		 $('#modalUsbSettingInfo').modal('show');
-				    		 if (code != '') {
 				    		 	usb_info_table();
-				    		 }
 				    	} else if (type == 'isComPortBlock') {
 				    		$('#modalComPortSettingInfo').modal('show');
-				    		if (code != '') {
 				    			 com_port_info_table();
-					    	}
 				    	} else if (type == 'isNetPortBlock') {
 				    		$('#modalNetPortSettingInfo').modal('show');
-				    		if (code != '') {
 				    			net_port_info_table();
-				    		}
 				    	} else if (type == 'isProcessList') {
 				    		$('#modalProcessSettingInfo').modal('show');
-				    		if (code != '') {
 				    			process_info_table();
-				    		}
 				    	} else if (type == 'isFilePattern') {
 				    		$('#modalPatternSettingInfo').modal('show');
-				    		if (code != '') {
 				    			pattern_info_table();
-				    		}
 				    	} else if (type == 'isWebAddr') {
 				    		$('#modalWebAddrSettingInfo').modal('show');
-				    		if (code != '') {
 				    			web_site_info_table();
-				    		}
 				    	} else if (type == 'isMsgBlock') {
 				    		$('#modalMsgBlockSettingInfo').modal('show');
-				    		if (code != '') {
 				    			msg_block_info_table();
-				    		}
 				    	} 
 			           
 				    },   
 				    error:function(e){  
 				        console.log(e.responseText);  
 				    }  
-				});*/
-		 	}
-		 	
-		 	function excuteInfoAlert(str){
-		 		
-		 		vex.defaultOptions.className = 'vex-theme-os'
-		 		
-		 		vex.dialog.open({
-					message: str,
-					  buttons: [
-					    $.extend({}, vex.dialog.buttons.YES, {
-					      text: '확인'
-					  })]
 				});
-			}
+		 	}
 		 	
 			$(document).ready(function(){
 				
@@ -434,7 +407,7 @@
 							
 							apTable = jQuery('#table_apply_policy');
 							table = apTable.dataTable({
-								"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+								"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i><"pull-right" ><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 								//dom: 'Bfrtip',
 								"ajax" : {
 									"url":'/ax/policy/assign/list',

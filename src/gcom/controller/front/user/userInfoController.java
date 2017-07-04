@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import gcom.user.model.UserInfoModel;
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
+import gcom.user.service.UserService;
 
 /**
  * Servlet implementation class dashboardServlet
@@ -42,7 +42,7 @@ public class userInfoController extends HttpServlet {
     	HashMap<String, Object> param = new HashMap<String, Object>();
     	param.put("user_id", user_id);
     	
-    	UserServiceInterface userService = new UserServiceImpl();
+    	UserService userService = new UserServiceImpl();
     	UserInfoModel data = userService.getUserInfo(param);
     	
     	request.setAttribute("userInfo", data);

@@ -20,7 +20,7 @@ import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
 import gcom.user.model.UserInfoModel;
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
+import gcom.user.service.UserService;
 
 
 @WebServlet(urlPatterns={"/admin/enroll/do/*"} )	//save, reject, view

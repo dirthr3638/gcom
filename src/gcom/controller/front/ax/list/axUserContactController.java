@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
+import gcom.user.service.UserService;
 
 @WebServlet("/ax/contact/list")
 public class axUserContactController extends HttpServlet {
@@ -36,7 +36,7 @@ public class axUserContactController extends HttpServlet {
 		param.put("endRow", Integer.parseInt( request.getParameter("length").toString()) );
 		
 		
-		UserServiceInterface userService = new UserServiceImpl();
+		UserService userService = new UserServiceImpl();
 		
 		HashMap<String, Object> data =  userService.getUserContactInfo(param);
 

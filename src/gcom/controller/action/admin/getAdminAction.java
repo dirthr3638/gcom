@@ -33,7 +33,7 @@ import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
 import gcom.user.model.UserNoticeModel;
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
+import gcom.user.service.UserService;
 
 public class getAdminAction {
 
@@ -129,7 +129,7 @@ public class getAdminAction {
 
 	public HashMap<String, Object> getAdminNoticeList(HashMap<String, Object> map) {
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		UserServiceInterface us = new UserServiceImpl();
+		UserService us = new UserServiceImpl();
 		List<UserNoticeModel> data = us.getUserNoticeList(map);
 		result.put("data", data);
 		int total = us.getUserNoticeListCount(map);

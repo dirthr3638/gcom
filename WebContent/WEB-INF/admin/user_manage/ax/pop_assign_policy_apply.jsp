@@ -273,12 +273,40 @@
 		    },
 		    success:function(data){
 		    	if(data.returnCode == "S") {
-		    		infoAlert("정책이 적용되었습니다.");
-		    		top.location.reload();
-		    		$('#modalApplyPolicy').modal('hide');
+		    		vex.defaultOptions.className = 'vex-theme-os'
+		    			
+	    			vex.dialog.open({
+	    				message: '정책이 적용 되었습니다.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })],
+	    				  callback: function(data) {
+    				 	  	if (data) {
+    				 	  		top.location.reload();
+    				 	  		$('#modalApplyPolicy').modal('hide');
+    				 	    }
+    				 	  }
+	    				  
+	    			})
+		    		
 		    	} else {
-		    		infoAlert("정책이 적용에 실패했습니다.");
-		    		$('#modalApplyPolicy').modal('hide');
+		    		vex.defaultOptions.className = 'vex-theme-os'
+		    			
+	    			vex.dialog.open({
+	    				message: '정책이 적용에 실패했습니다.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })],
+	    				  callback: function(data) {
+    				 	  	if (data) {
+    				 	  		top.location.reload();
+    				 	  		$('#modalApplyPolicy').modal('hide');
+    				 	    }
+    				 	  }
+	    				  
+	    			})
 		    	}
 		    },   
 		    error:function(e){  

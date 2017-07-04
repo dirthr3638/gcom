@@ -31,34 +31,23 @@
 		
 									<!-- panel content -->
 									<div class="panel-body">
-										<% if("".equals(code)) {%>
-											<table class="table table-bordered" id="msg_block_info_table" style="width:100%;">
+										<table class="table table-bordered" id="msg_block_info_table" style="width:100%;">
 											<thead>
 												<tr>
-													<td>선택된 정책이 없습니다.</td>
+													<td>선택</td>
+													<td>메신저ID</td>
+													<td>메신저명</td>
+													<td>파일명</td>
+													<td>Message로깅</td>
+													<td>Message차단</td>
+													<td>File전송로깅</td>
+													<td>File전송차단</td>
 												</tr>
 											</thead>
 											<tbody>
 											</tbody>
 										</table>
-										<% } else { %>
-											<table class="table table-bordered" id="msg_block_info_table" style="width:100%;">
-												<thead>
-													<tr>
-														<td>선택</td>
-														<td>메신저ID</td>
-														<td>메신저명</td>
-														<td>파일명</td>
-														<td>Message로깅</td>
-														<td>Message차단</td>
-														<td>File전송로깅</td>
-														<td>File전송차단</td>
-													</tr>
-												</thead>
-												<tbody>
-												</tbody>
-											</table>
-										<% } %>
+
 										<div class="ld_modal hidden" >
 										    <div class="ld_center" >
 										        <img alt="" src="/assets/images/loaders/loading.gif" />
@@ -87,7 +76,7 @@
 <script type="text/javascript">
 
 	function msg_block_info_table() {
-			 
+			var code = '<%= code %>';	
 			if (jQuery().dataTable) {
 		
 				var mbTable = jQuery('#msg_block_info_table');
@@ -95,10 +84,13 @@
 					"dom": '<"row view-filter"<"col-sm-12"<"pull-left"><"pull-right"><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 					"ajax" : {
 						async: false,
-						"url":'/ax/admin/policy/messenger/list',
+						"url":'/ax/user/policy/messenger/list',
 					   	"type":'POST',
 					   	"dataSrc" : "data",
-					   	"data" :  {},
+					   	"data" :  {
+					   		code : code,
+					   		_ : $.now()
+					   	},
 				        "beforeSend" : function(){
 							jQuery('#preloader').show();
 				        },
@@ -123,12 +115,40 @@
 						data: "processName"		// 메신저파일명
 					}, {
 						data: "txtLog"			// 텍스트 로그
-					}, {
-						data: "txtBlock"		// 텍스트 차단
-					}, {
-						data: "fileLog"			// 파일 로그
-					}, {
-						data: "fileBlock"		// 파일 차단
+							,render : function(data,type,row) {
+								if(data) {
+									return '사용';
+								} else {
+									return '미사용';
+								}
+							}
+						}, {
+							data: "txtBlock"		// 텍스트 차단
+							,render : function(data,type,row) {
+								if(data) {
+									return '사용';
+								} else {
+									return '미사용';
+								}
+							}
+						}, {
+							data: "fileLog"			// 파일 로그
+							,render : function(data,type,row) {
+								if(data) {
+									return '사용';
+								} else {
+									return '미사용';
+								}
+							}
+						}, {
+							data: "fileBlock"		// 파일 차단
+							,render : function(data,type,row) {
+								if(data) {
+									return '사용';
+								} else {
+									return '미사용';
+								}
+							}
 					}],  
 					"pageLength": 10,
 					"iDisplayLength": 10,
@@ -141,7 +161,8 @@
 							"next": "Next",
 							"last": "Last",
 							"first": "First"
-						}
+						},
+						"zeroRecords":  "선택된 정책이 없습니다."
 					},
 			 	  	"columnDefs": [
 					{	

@@ -15,7 +15,7 @@ import gcom.service.Personal.IPersonalService;
 import gcom.service.Personal.PersonalServiceImpl;
 import gcom.user.model.UserNoticeModel;
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
+import gcom.user.service.UserService;
 
 //공지사항보기
 @WebServlet("/admin/user/notice/view")
@@ -43,7 +43,7 @@ public class userNoticeViewController extends HttpServlet {
     	HashMap<String, Object> param = new HashMap<String, Object>();
 		param.put("bbs_id", bbsId);
 		
-		UserServiceInterface userService = new UserServiceImpl();
+		UserService userService = new UserServiceImpl();
 		IPersonalService as = new PersonalServiceImpl();
 		try {
 			

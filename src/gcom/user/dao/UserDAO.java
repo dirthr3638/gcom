@@ -13,6 +13,13 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import gcom.Model.PolicyMessengerModel;
+import gcom.Model.PolicyNetworkModel;
+import gcom.Model.PolicyPatternModel;
+import gcom.Model.PolicyProcessModel;
+import gcom.Model.PolicySerialModel;
+import gcom.Model.PolicyWebSiteBlocklModel;
+import gcom.Model.UsbDevInfoModel;
 import gcom.user.model.MemberPolicyModel;
 import gcom.user.model.UserContactModel;
 import gcom.user.model.UserInfoModel;
@@ -563,35 +570,45 @@ public class UserDAO {
 		
 		return result;
 	}
-	
-	/*
-	public List<HashMap<String, Object>> getUserSystemPolicyList(String code) {
-		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		UserSystemPolicyQueryModel getQuery = new UserSystemPolicyQueryModel(code);
-		String sql=  getQuery.getPolicySqlQuery();
+
+	public List<UsbDevInfoModel> getPolicyUsbBlockList(HashMap<String, Object> map) {
+		List<UsbDevInfoModel> data = new ArrayList<UsbDevInfoModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		String usbId = map.get("usbId").toString();
+		
+		String sql =
+				"SELECT "
+					+ "no as usb_id, "
+					+ "name as usb_name, "
+					+ "vid, "
+					+ "pid, "
+					+ "serial_number, "
+					+ "allow, "
+					+ "description "
+				+ "FROM usb_dev_info "
+				+ "WHERE no in (" + usbId + ") "
+			    + "ORDER BY no desc LIMIT ?, ? ";
 		
 		try{
+			
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
 			rs = pstmt.executeQuery();
 			
-			ResultSetMetaData metaData = rs.getMetaData();
-			int sizeOfColumn = metaData.getColumnCount();
-			
-			String column = "";
-			
 			while(rs.next()){
-				HashMap<String, Object> data = new HashMap<String, Object>();
+				UsbDevInfoModel model = new UsbDevInfoModel();
+				model.setUsbId(rs.getInt("usb_id"));
+				model.setName(rs.getString("usb_name"));
+				model.setVid(rs.getString("vid"));
+				model.setPid(rs.getString("pid"));
+				model.setSerialNumber(rs.getString("serial_number"));
+				model.setDescription(rs.getString("description"));
 				
-				// Column의 갯수만큼 회전
-				for (int indexOfcolumn = 0; indexOfcolumn < sizeOfColumn; indexOfcolumn++) {
-					// Column의 갯수만큼 회전
-					column = metaData.getColumnName(indexOfcolumn + 1);
-					// phone number 일 경우 복호화
-					data.put(column, rs.getString(column));
-				}
-								
-				list.add(data);
+				data.add(model);
 			}
 			
 		}catch(SQLException ex){
@@ -606,9 +623,531 @@ public class UserDAO {
 			}
 		}
 		
-		return list;
+		return data;
 	}
-	*/
 
+	public int getPolicyUsbBlockListCount(HashMap<String, Object> map) {
+		int result = 0;
+		String usbId = map.get("usbId").toString();
+		
+		String sql= "SELECT COUNT(*) as cnt FROM usb_dev_info WHERE no in ("+ usbId + ") ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public List<PolicySerialModel> getPolicySerialList(HashMap<String, Object> map) {
+		List<PolicySerialModel> data = new ArrayList<PolicySerialModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		String serialId = map.get("serialId").toString();
+		
+		String sql =
+				"SELECT "
+					+ "no as serial_no, "
+					+ "name as serial_name, "
+					+ "allow, "
+					+ "description "
+				+ "FROM com_port_info "
+				+ "WHERE no in (" + serialId + ") "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PolicySerialModel model = new PolicySerialModel();
+				model.setSerialNo(rs.getInt("serial_no"));
+				model.setSerialName(rs.getString("serial_name"));
+				model.setDescription(rs.getString("description"));
+				model.setAllow(rs.getInt("allow"));
+
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public int getPolicySerialListCount(HashMap<String, Object> map) {
+		int result = 0;
+		String serialId = map.get("serialId").toString();
+		
+		String sql= "SELECT COUNT(*) as cnt FROM com_port_info WHERE no in ("+ serialId + ") ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public List<PolicyNetworkModel> getPolicyNetworkList(HashMap<String, Object> map) {
+		List<PolicyNetworkModel> data = new ArrayList<PolicyNetworkModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		String netId = map.get("netId").toString();
+		
+		String sql =
+				"SELECT "
+					+ "no as net_no, "
+					+ "name as net_name, "
+					+ "port, "
+					+ "descriptor, "
+					+ "allow "
+				+ "FROM net_port_info "
+				+ "WHERE no in (" + netId + ") "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PolicyNetworkModel model = new PolicyNetworkModel();
+				model.setNetNo(rs.getInt("net_no"));
+				model.setNetName(rs.getString("net_name"));
+				model.setPort(rs.getString("port"));
+				model.setDescriptor(rs.getString("descriptor"));
+				model.setAllow(rs.getInt("allow"));
+
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public int getPolicyNetworkListCount(HashMap<String, Object> map) {
+		int result = 0;
+		String netId = map.get("netId").toString();
+		
+		String sql= "SELECT COUNT(*) as cnt FROM net_port_info WHERE no in ("+ netId + ") ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public List<PolicyProcessModel> getPolicyProcessList(HashMap<String, Object> map) {
+		List<PolicyProcessModel> data = new ArrayList<PolicyProcessModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		String prsId = map.get("prsId").toString();
+		
+		String sql =
+				"SELECT "
+					+ "no as pro_no, "
+					+ "process_name, "
+					+ "IFNULL(process_path,'') as process_path, "
+					+ "IFNULL(hash, '') as hash, "
+					+ "notice, "
+					+ "valid "
+				+ "FROM process_info "
+				+ "WHERE no in (" + prsId + ") "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PolicyProcessModel model = new PolicyProcessModel();
+				model.setProNo(rs.getInt("pro_no"));
+				model.setProcessName(rs.getString("process_name"));
+				model.setProcessPath(rs.getString("process_path"));
+				model.setHash(rs.getString("hash"));
+				model.setNotice(rs.getString("notice"));
+				model.setValid(rs.getInt("valid"));
+
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public int getPolicyProcessListCount(HashMap<String, Object> map) {
+		int result = 0;
+		String prsId = map.get("prsId").toString();
+		
+		String sql= "SELECT COUNT(*) as cnt FROM process_info WHERE no in ("+ prsId + ") ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public List<PolicyPatternModel> getPolicyPatternList(HashMap<String, Object> map) {
+		List<PolicyPatternModel> data = new ArrayList<PolicyPatternModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		String patId = map.get("patId").toString();
+		
+		String sql =
+				"SELECT "
+					+ "no as pat_no, "
+					+ "description as pat_name, "
+					+ "IFNULL(data, '') as data, "
+					+ "notice, "
+					+ "valid "
+				+ "FROM pattern_info "
+				+ "WHERE no in (" + patId + ") "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PolicyPatternModel model = new PolicyPatternModel();
+				model.setPatNo(rs.getInt("pat_no"));
+				model.setPatName(rs.getString("pat_name"));
+				model.setData(rs.getString("data"));
+				model.setNotice(rs.getString("notice"));
+				model.setValid(rs.getInt("valid"));
+
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public int getPolicyPatternListCount(HashMap<String, Object> map) {
+		int result = 0;
+		String patId = map.get("patId").toString();
+		
+		String sql= "SELECT COUNT(*) as cnt FROM pattern_info WHERE no in ("+ patId + ") ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public List<PolicyWebSiteBlocklModel> getPolicyWebSiteBlockList(HashMap<String, Object> map) {
+		List<PolicyWebSiteBlocklModel> data = new ArrayList<PolicyWebSiteBlocklModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		String siteId = map.get("siteId").toString();
+		
+		String sql =
+				"SELECT "
+					+ "no as site_id, "
+					+ "address, "
+					+ "allow, "
+					+ "description "
+				+ "FROM web_addr_info "
+				+ "WHERE no in (" + siteId + ") "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PolicyWebSiteBlocklModel model = new PolicyWebSiteBlocklModel();
+				model.setSiteId(rs.getInt("site_id"));
+				model.setAddress(rs.getString("address"));
+				model.setAllow(rs.getInt("allow"));
+				model.setDescription(rs.getString("description"));
+				
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public int getPolicyWebSiteBlockListCount(HashMap<String, Object> map) {
+		int result = 0;
+		String siteId = map.get("siteId").toString();
+		
+		String sql= "SELECT COUNT(*) as cnt FROM web_addr_info WHERE no in ("+ siteId + ") ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public List<PolicyMessengerModel> getPolicyMessengerList(HashMap<String, Object> map) {
+		List<PolicyMessengerModel> data = new ArrayList<PolicyMessengerModel>();
+		int start_date = Integer.parseInt(map.get("startRow").toString());
+		int end_date = Integer.parseInt(map.get("endRow").toString());
+		String msgId = map.get("msgId").toString();
+		
+		String sql =
+				"SELECT " 
+					+ "no as msg_no, "
+					+ "name as msg_name, "
+					+ "process_name, "
+					+ "txt_log, "
+					+ "txt_block, "
+					+ "file_log, "
+					+ "file_block "
+			    + "FROM msg_info "
+			    + "WHERE no in (" + msgId + ") "
+			    + "ORDER BY no desc LIMIT ?, ? ";
+		
+		try{
+			
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  start_date);
+			pstmt.setInt(2,  end_date);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				PolicyMessengerModel model = new PolicyMessengerModel();
+				model.setMsgNo(rs.getInt("msg_no"));
+				model.setMsgName(rs.getString("msg_name"));
+				model.setProcessName(rs.getString("process_name"));
+				model.setTxtLog(rs.getInt("txt_log"));
+				model.setTxtBlock(rs.getInt("txt_block"));
+				model.setFileLog(rs.getInt("file_log"));
+				model.setFileBlock(rs.getInt("file_block"));
+
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public int getPolicyMessengerListCount(HashMap<String, Object> map) {
+		int result = 0;
+		String msgId = map.get("msgId").toString();
+		
+		String sql= "SELECT COUNT(*) as cnt FROM msg_info WHERE no in ("+ msgId + ") ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 	
 }
