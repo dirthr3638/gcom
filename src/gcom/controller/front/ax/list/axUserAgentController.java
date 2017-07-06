@@ -32,8 +32,17 @@ public class axUserAgentController extends HttpServlet {
 		map.put("user_name", request.getParameter("user_name").toString());
 		map.put("user_phone", request.getParameter("user_phone").toString());
 		map.put("user_installed", request.getParameter("user_installed").toString());		
+
 		map.put("dept", request.getParameterValues("dept[]"));
+
 		
+		map.put("user_duty", request.getParameter("user_duty").toString());
+		map.put("user_rank", request.getParameter("user_rank").toString());
+		map.put("user_connected", request.getParameter("user_connected").toString());
+		map.put("user_number", request.getParameter("user_number").toString());
+		map.put("user_pc", request.getParameter("user_pc").toString());
+		map.put("user_ip", request.getParameter("user_ip").toString());
+
 		HashMap<String, Object> data = action.getUserAgentList(map);
 
 		data.putAll(data);

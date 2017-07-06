@@ -8,6 +8,7 @@ import gcom.Model.AuditClientModel;
 import gcom.Model.AuditServerModel;
 import gcom.Model.DiskExportModel;
 import gcom.Model.LoginLogModel;
+import gcom.Model.MailExportContentModel;
 import gcom.Model.MailExportModel;
 import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
@@ -130,6 +131,11 @@ public class getAction {
 		result.put("recordsFiltered", total);
 		
 		return result;						
+	}
+	
+	public MailExportContentModel getMailExportContent(HashMap<String, Object> map){
+		IPersonalService as = new PersonalServiceImpl();
+		return as.getMailExportContent(map);
 	}
 	
 	public HashMap<String, Object> getMsnTalkList(HashMap<String, Object> map){

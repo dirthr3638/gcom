@@ -50,6 +50,11 @@ public class getAdminAction {
 		return result;
 	}
 	
+	public SubAdminModel getAdminUserInfo(HashMap<String, Object> map) {
+		IManagementService as = new ManagementServiceImpl();
+		return as.getAdminUserInfo(map);	
+	}
+	
 	public HashMap<String, Object> getSystemInfoList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		ISystemService as = new SystemServiceImpl();

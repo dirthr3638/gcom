@@ -8,5 +8,7 @@ import gcom.Model.SystemInfoModel;
 public interface ISystemService {
 	public List<SystemInfoModel> getSystemInfoList(HashMap<String, Object> map);
 	public int getSystemInfoListCount(HashMap<String, Object> map);
+	public HashMap<String, Object> updateSystemInfo(HashMap<String, Object> map);
 
+	
 }

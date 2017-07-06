@@ -15,16 +15,11 @@ import javax.sql.DataSource;
 import com.mysql.jdbc.Statement;
 
 import gcom.Model.FileInfoModel;
+import gcom.Model.MailExportContentModel;
 import gcom.Model.MailExportModel;
 import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
-import gcom.Model.PolicyMessengerModel;
-import gcom.Model.PolicyNetworkModel;
-import gcom.Model.PolicyPatternModel;
-import gcom.Model.PolicyProcessModel;
-import gcom.Model.PolicySerialModel;
 import gcom.Model.PrivacyLogModel;
-import gcom.Model.UserInfoModel;
 import gcom.common.services.ConfigInfo;
 
 
@@ -144,31 +139,34 @@ sql += whereSql;
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
-		if(!start_date.equals("")) 	whereSql += "AND mail.exported_client_time >= ? ";
-		if(!end_date.equals("")) 	whereSql += "AND mail.exported_client_time < ? + interval 1 day ";
+		if(!start_date.equals("")) 	whereSql += "AND mail.send_server_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND mail.send_server_time < ? + interval 1 day ";
 		
 		whereSql += "ORDER BY mail.no desc LIMIT ?, ? ";	
 		
 		String sql= 
 "SELECT "
-+ "mail.no AS mail_no,"
-+ "mail.email AS email,"
-+ "mail.file_name,"
-+ "mail.notice,"
-+ "mail.file_key,"
-+ "ifnull(mail.exported_server_time, '') AS exported_server_time, "
-+ "ifnull(mail.exported_client_time, '') AS exported_client_time, "
-+ "ur.no AS user_no, "
-+ "ur.id AS user_id, "
-+ "ur.name AS user_name, "
-+ "ur.dept_no,"
-+ "ur.duty, "
++ "mail.no AS mail_no, "
++ "ifnull(mail.send_server_time, '' ) AS send_server_time, "
++ "ifnull(mail.send_client_time, '' ) AS send_client_time, "
++ "mail.src_addr, "
++ "mail.dst_addr, "
++ "mail.subject, "
++ "mail.body, "
++ "mail.cc, "
++ "mail.bcc, "
++ "mail.file_list, "
++ "mail.file_id, "
++ "dept.name AS dept_name, "
++ "ur.no AS user_no,  "
++ "ur.id AS user_id,  "
++ "ur.name AS user_name,  "
++ "ur.dept_no, ur.duty, "
 + "ur.rank, "
 + "agent.ip_addr, "
 + "agent.mac_addr, "
-+ "agent.pc_name, "
-+ "dept.name AS dept_name "
-+ "FROM mail_export_info AS mail "
++ "agent.pc_name "
++ "FROM mail_log AS mail "
 + "INNER JOIN user_info AS ur ON ur.no = mail.user_no "
 + "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
@@ -207,13 +205,13 @@ sql += whereSql;
 				model.setPcName(rs.getString("pc_name"));
 				model.setIpAddr(rs.getString("ip_addr"));
 				model.setMacAddr(rs.getString("mac_addr"));
-
-				model.setEmail(rs.getString("email"));
-				model.setFileName(rs.getString("file_name"));
-				model.setNotice(rs.getString("notice"));
-				model.setFileKey(rs.getInt("file_key"));
-				model.setExportServerTime(rs.getString("exported_server_time"));
-				model.setExportClientTime(rs.getString("exported_client_time"));
+				model.setSubject(rs.getString("subject"));
+				model.setFileList(rs.getString("file_list"));
+				model.setFileId(rs.getString("file_id"));
+				model.setSrcAddr(rs.getString("src_addr"));
+				model.setDstAddr(rs.getString("dst_addr"));
+				model.setSendServerTime(rs.getString("send_client_time"));
+				model.setSendClientTime(rs.getString("send_client_time"));
 
 				data.add(model);
 			}
@@ -234,28 +232,56 @@ sql += whereSql;
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public MailExportContentModel getMailExportContent(HashMap<String, Object> map){
+		
+		String sql= 
+"SELECT "
++ "mail.send_server_time, "
++ "mail.send_client_time, "
++ "mail.src_addr, "
++ "mail.dst_addr, "
++ "mail.subject, "
++ "mail.body, "
++ "mail.cc, "
++ "mail.bcc, "
++ "mail.file_list "
++ "FROM mail_log AS mail WHERE no = ? ";
+
+		MailExportContentModel model = new MailExportContentModel();
+
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			pstmt.setInt(1, Integer.parseInt(map.get("mail_no").toString()));
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				model.setSubject(rs.getString("subject"));
+				model.setFileList(rs.getString("file_list"));
+				model.setSrcAddr(rs.getString("src_addr"));
+				model.setDstAddr(rs.getString("dst_addr"));
+				model.setBody(rs.getString("body"));
+				model.setCc(rs.getString("cc"));
+				model.setBcc(rs.getString("bcc"));
+				model.setSendServerTime(rs.getString("send_server_time"));
+				model.setSendClientTime(rs.getString("send_client_time"));
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return model;
+	}
 	
 	
 	public int getMsnTalkListCount(HashMap<String, Object> map){
@@ -367,8 +393,9 @@ sql += whereSql;
 "SELECT "
 + "msg.no AS msg_no,"
 + "msg.msg_type,"
-+ "msg.send_server_time,"
-+ "msg.send_client_time,"
++ "msg.msg_txt,"
++ "ifnull(msg.send_server_time, '') AS send_server_time, "
++ "ifnull(msg.send_client_time, '') AS send_client_time, "
 + "ur.no AS user_no, "
 + "ur.id AS user_id, "
 + "ur.name AS user_name, "
@@ -419,6 +446,7 @@ sql += whereSql;
 				model.setIpAddr(rs.getString("ip_addr"));
 				model.setMacAddr(rs.getString("mac_addr"));
 
+				model.setMsgText(rs.getString("msg_txt"));
 				model.setMsgType(rs.getString("msg_type"));
 				model.setSendServerTime(rs.getString("send_client_time"));
 				model.setSendClientTime(rs.getString("send_server_time"));

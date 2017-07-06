@@ -152,7 +152,6 @@
 														<th >제목</th>
 														<th >발송시간(서버)</th>
 														<th >발송시간</th>
-														<th >첨부파일</th>
 														<th >첨부파일다운로드</th>
 
 													</tr>
@@ -177,6 +176,9 @@
 					</div>
 				</div>
 			</section>
+		</div>
+		<div id="mail_content">
+		
 		</div>
 	
 		<!-- JAVASCRIPT FILES -->
@@ -245,6 +247,28 @@
 		console.log('excel')
  		var $buttons = $('.export-csv');
  		$buttons.click();
+ 	}
+ 	
+ 	function viewMailFile(mail_no){
+ 		console.log(mail_no)
+ 		
+ 		$.ajax({      
+	        type:"GET",  
+	        url:'/ax/report/mail/detail',
+	        async: false,
+	        data:{
+	        	mail_no : mail_no,
+	        	_ : $.now()
+	        },
+	        success:function(args){   
+	            $("#mail_content").html(args);
+	            $('#mailDetailModal').modal('show');
+	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	            console.log(e.responseText);  
+	        }  
+	    });
  	}
  	
 	$(document).ready(function(){
@@ -323,7 +347,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 				 		"serverSide" : true,
 				 	    "ordering": true,
 						"columns": [{
-							data: "exportNo",							
+							data: "mailNo",							
 							"orderable": false	//추가정보
 						}, {
 							data: "deptName",
@@ -353,23 +377,20 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							data: "pcName",
 							"orderable": false	//PC이름
 						}, {
-							data: "email",
+							data: "dstAddr",
 							"orderable": false	//이메일주소
 						}, {
-							data: "notice",
+							data: "subject",
 							"orderable": false	//제목
 						}, {
-							data: "exportServerTime",
+							data: "sendServerTime",
 							"orderable": false	//서버시간
 						}, {
-							data: "exportClientTime",
+							data: "sendClientTime",
 							"orderable": false	//클라시간
 						}, {
-							data: "fileName",
+							data: "fileId",
 							"orderable": false	//파일명
-						},{
-							data: "mailNo",
-							"orderable": false	//메일번호
 						}],
 						// set the initial value
 						"pageLength": 20,
@@ -453,6 +474,10 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							,"class" : "center-cell"
 						}, {	
 							"targets": [11]	//제목
+ 						,"render":function(data,type,row){									
+ 							return '<i title="자세히보기" class="fa fa-search" aria-hidden="true" onclick="javascript:viewMailFile('+ row.mailNo +')">&nbsp;&nbsp;' + data;
+
+ 						}					
 						}, {	
 							"targets": [12]	//발송시간(서버)
 							,"class" : "center-cell"
@@ -460,11 +485,8 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						}, {	
 							"targets": [13]	//발송시간(PC)
 							,"class" : "center-cell"
-						}, {	
-							"targets": [14]	//파일이름
-							,"class" : "center-cell"
-						}, {	
-							"targets": [15]	//첨부파일다운로드
+						},{	
+							"targets": [14]	//첨부파일다운로드
 							,"class" : "center-cell"
 	 						,"render":function(data,type,row){									
 	 							return '<i title="다운로드" class="fa fa-download" aria-hidden="true" onclick="javascript:downloadFile('+ data +')">';

@@ -95,32 +95,78 @@
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="15%">아이디</td>
 															<td>
 																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
 															</td>
-														</tr>
-														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">이름</td>
 															<td>
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
+
+														</tr>
+
+														<tr>         
+															<td width="15%">번호</td>
+															<td>
+																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control required">
+															</td>
+															<td width="15%">직책</td>
+															<td>
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control required">
+															</td>
 														</tr>
 														<tr>         
-															<td width="35%">검색시작일</td>
+															<td width="15%">계급</td>
+															<td>
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
+															</td>
+															<td width="15%">등급</td>
+															<td>
+																<select class="select2theme" id="filterGrade">
+																  <option value="-1">전체</option>
+																  <option value="0">대외비</option>
+																  <option value="1">3급비문</option>
+																  <option value="2">2급비문</option>
+																  <option value="3">평문</option>
+																</select>
+															</td>
+														</tr>
+														<tr>         
+															<td width="15%">파일</td>
+															<td>
+																<input type="text" name="filterFileList" id="filterFileList" value="" class="form-control required">
+															</td>
+															<td width="15%">PC명</td>
+															<td>
+																<input type="text" name="filterUserPCName" id="filterUserPCName" value="" class="form-control required">
+															</td>
+														</tr>
+														<tr>         
+															<td width="15%">메모</td>
+															<td>
+																<input type="text" name="filterNotice" id="filterNotice" value="" class="form-control required">
+															</td>
+															<td width="15%">파티션명</td>
+															<td>
+																<input type="text" name="filterPartitionName" id="filterPartitionName" value="" class="form-control required">
+															</td>
+														</tr>
+														
+														<tr>         
+															<td >검색시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																															
-														<tr>         
-															<td width="35%">검색종료일</td>
+															<td >검색종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
+
 														</tr>																															
 														
 													</tbody>
@@ -291,6 +337,16 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						   	"data" :  function(param) {
 								param.user_id = $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
+
+								param.user_number = $('#filterUserNumber').val();
+								param.user_duty = $('#filterUserDuty').val();
+								param.user_rank = $('#filterUserRank').val();
+								param.grade = $('#filterGrade option:selected').val();
+								param.file_list = $('#filterFileList').val();
+								param.pc_name = $('#filterUserPCName').val();
+								param.notice = $('#filterNotice').val();
+								param.partition_name = $('#filterPartitionName').val();
+
 								param.start_date = $('#filterStartDate').val();
 								param.end_date = $('#filterEndDate').val();
 								
@@ -487,9 +543,9 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 								if(data == 0){
 									return '대외비';									
 								}else if(data == 1){
-									return '2급';									
-								}else if(data == 2){
 									return '3급';									
+								}else if(data == 2){
+									return '2급';									
 								}else if(data == 3){
 									return '평문';									
 								}else{

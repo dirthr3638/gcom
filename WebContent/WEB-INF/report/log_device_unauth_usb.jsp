@@ -76,23 +76,32 @@
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">이름</td>
 															<td>
 																<input type="text" name="filterUsbName" id="filterUsbName" value="" class="form-control required">
 															</td>
-														</tr>
-														<tr>         
-															<td width="35%">시리얼번호</td>
+															<td width="15%">시리얼번호</td>
 															<td>
 																<input type="text" name="filterSerial" id="filterSerial" value="" class="form-control required">
 															</td>
+
 														</tr>
 														<tr>         
-															<td width="35%">비고</td>
+															<td width="15%">vid</td>
+															<td>
+																<input type="text" name="filterVid" id="filterVid" value="" class="form-control required">
+															</td>
+															<td width="15%">pid</td>
+															<td>
+																<input type="text" name="filterPid" id="filterPid" value="" class="form-control required">
+															</td>
+														</tr>
+														<tr>         
+															<td width="15%">비고</td>
 															<td>
 																<input type="text" name="filterDesc" id="filterDesc" value="" class="form-control required">
 															</td>
@@ -207,6 +216,9 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						   	"data" :  function(param) {
 								param.usb_name = $('#filterUsbName').val();
 								param.serial = $('#filterSerial').val();
+								param.vid = $('#filterVid').val();
+								param.pid = $('#filterPid').val();
+
 								param.desc = $('#filterDesc').val();
 								param.allow = 0;								
 					        },

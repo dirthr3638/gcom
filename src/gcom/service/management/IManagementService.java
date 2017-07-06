@@ -9,4 +9,9 @@ public interface IManagementService {
 	public List<SubAdminModel> getAdminList(HashMap<String, Object> map);
 	public int getAdminListCount(HashMap<String, Object> map);
 	public SubAdminModel getAdminUserInfo(HashMap<String, Object> map);
+
+	public HashMap<String, Object> deleteAdminUserInfo(HashMap<String, Object> map);
+	public HashMap<String, Object> updateAdminUserInfo(HashMap<String, Object> map);
+	public HashMap<String, Object> insertAdminUserInfo(HashMap<String, Object> map);
+
 }

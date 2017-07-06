@@ -176,7 +176,7 @@
 				</div>
 			</section>
 		</div>
-<div id="detail-talk-modal" class="modal fade">
+<div id="detail-file-modal" class="modal fade">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 
@@ -259,9 +259,14 @@
  	}
  	
  	function onClickExcelButton(){
-		console.log('excel')
  		var $buttons = $('.export-csv');
  		$buttons.click();
+ 	}
+ 	
+ 	function msgFileDetail(data){
+ 		$('#detail-modal-data').html(decodeURI(data))
+ 		$('#detail-file-modal').modal('show')
+
  	}
  	
 	$(document).ready(function(){
@@ -469,7 +474,10 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"targets": [11]	//파일리스트
 							,"class" : "center-cell"
 							,"render": function(data,type,row){
-								return '<i title="상세보기" class="fa fa-search" aria-hidden="true">'
+								return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:msgFileDetail(\''+ encodeURI(data) + ' \')">';
+//								return '<i title="상세보기" class="fa fa-commenting" aria-hidden="true" onclick="javascript:msgFileDetail(this)">'
+
+
 							}
 						}, {	
 						"targets": [12]	//발송시간(서버)
@@ -481,7 +489,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"targets": [14]	
 							,"class" : "center-cell"
 							,"render": function(data,type,row){
-								return '<i title="상세보기" class="fa fa-download" aria-hidden="true">'
+								return '<i title="다운로드" class="fa fa-download" aria-hidden="true">'
 							}
 						}		
 					],						

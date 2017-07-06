@@ -178,14 +178,14 @@
 				</div>
 			</section>
 		</div>
-<div id="detail-talk-modal" class="modal fade">
+<div id="detail-pattern-modal" class="modal fade">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-				<h4 class="modal-title" id="myModalLabel">대화내용</h4>
+				<h4 class="modal-title" id="myModalLabel">파일보기</h4>
 			</div><!-- /Modal Header -->
 
 			<!-- body modal -->
@@ -265,6 +265,14 @@
  		var $buttons = $('.export-csv');
  		$buttons.click();
  	}
+ 	
+ 	function msgFileDetail(data){
+ 		
+ 		$('#detail-modal-data').html(decodeURI(data))
+ 		$('#detail-pattern-modal').modal('show')
+ 		
+ 	}
+
  	
 	$(document).ready(function(){
 		
@@ -481,7 +489,8 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"targets": [11]	//파일명
 							,"class" : "center-cell"
 							,"render": function(data,type,row){
-								return '<i title="상세보기" class="fa fa-search" aria-hidden="true">'
+								return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:msgFileDetail(\''+ encodeURI(data) + ' \')">'
+
 							}
 						}, {	
 							"targets": [12]	//패턴타입

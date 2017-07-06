@@ -28,7 +28,7 @@ public class axAdminListController extends HttpServlet {
 		map.put("startRow", Integer.parseInt( request.getParameter("start").toString()) );
 		map.put("endRow", Integer.parseInt( request.getParameter("length").toString()) );
 
-		map.put("dept", request.getParameterValues("dept[]"));
+		map.put("dept", request.getParameterValues("dept"));
 		
 		HashMap<String, Object> data = action.getSubAdminList(map);
 

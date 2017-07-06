@@ -13,6 +13,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import gcom.Model.SystemInfoModel;
+import gcom.common.services.ConfigInfo;
 
 //이동식디스크 파일전송로그
 public class SystemInfoDAO {
@@ -120,5 +121,49 @@ sql += whereSql;
 		
 		return data;
 	}
+	
+
+	public HashMap<String, Object> updateSystemInfo(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+
+		int system_no = Integer.parseInt(map.get("system_no").toString()); 
+		String value = map.get("value").toString();
+		
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
+
+		String insertSql= "UPDATE system_info SET  "
+				+ "value = ? ";
+
+				insertSql += "WHERE no = ? ";
+
+		try{
+			con = ds.getConnection();
+
+			
+			pstmt=con.prepareStatement(insertSql, java.sql.Statement.RETURN_GENERATED_KEYS);
+			int i = 1;
+			pstmt.setString(i++, value);
+			pstmt.setInt(i++, system_no);
+			pstmt.executeUpdate();
+			
+			result.put("returnCode", returnCode);
+			
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
 	
 }

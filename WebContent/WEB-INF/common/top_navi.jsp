@@ -32,10 +32,10 @@
 									<a href="/report/users"><i class="fa fa-th-large"></i>레포트페이지</a>
 								</li>
 
-								<li><!-- settings -->
+<!-- 								<li>settings
 									<a href="/report/adminprofile"><i class="fa fa-cogs"></i>정보변경</a>
 								</li>
-
+ -->
 								<li class="divider"></li>
 								<li><!-- logout -->
 									<a href="/logout"><i class="fa fa-power-off"></i>로그아웃</a>

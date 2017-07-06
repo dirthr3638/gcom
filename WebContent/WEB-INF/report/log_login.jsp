@@ -95,33 +95,67 @@
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="15%">아이디</td>
 															<td>
 																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
 															</td>
-														</tr>
-														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">이름</td>
 															<td>
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">검색시작일</td>
+															<td width="15%">검색시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																															
-														<tr>         
-															<td width="35%">검색종료일</td>
+															<td width="15%">검색종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
 														</tr>																															
+														<tr>         
+															<td width="15%">번호</td>
+															<td>
+																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control ">
+															</td>
+
+															<td width="15%">연락처</td>
+															<td>
+																<input type="text" name="filterUserPhone" id="filterUserPhone" value="" class="form-control ">
+															</td>
+														</tr>	
+														<tr>         
+															<td width="15%">직책</td>
+															<td>
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control ">
+															</td>
+
+															<td width="15%">계급</td>
+															<td>
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control ">
+															</td>
+
+														</tr>																																
+														<tr>         
+
+															<td width="15%">PC명</td>
+															<td>
+																<input type="text" name="filterUserPCName" id="filterUserPCName" value="" class="form-control ">
+															</td>
+															<td width="15%">IP</td>
+															<td>
+																<input type="text" name="filterUserIPAddr" id="filterUserIPAddr" value="" class="form-control ">
+															</td>
+
+
+														</tr>	
+
+
 														
 													</tbody>
 												</table>	
@@ -129,11 +163,6 @@
 												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">접기</button>
 																					
 											</div>
-<!-- 										
-											<button type="button" class="btn btn-warning">Warning</button>
-		
-											
-											<button type="button" class="btn btn-danger">Danger</button> -->
 										</div>
 									</div>
 									<div class="row">
@@ -151,8 +180,10 @@
 														<th class="agentinfo">IP</th>
 														<th class="agentinfo">MAC</th>
 														<th class="agentinfo">PC이름</th>
-														<th >접속시간(서버)</th>
 														<th >접속시간(PC)</th>
+														<th >접속시간</th>
+														<th >폰</th>
+
 													</tr>
 												</thead>
 				
@@ -289,6 +320,15 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 								param.user_name = $('#filterUserName').val();
 								param.start_date = $('#filterStartDate').val();
 								param.end_date = $('#filterEndDate').val();
+								param.user_number = $('#filterUserNumber').val();
+								param.user_duty = $('#filterUserDuty').val();
+								param.user_rank = $('#filterUserRank').val();
+								param.user_pc = $('#filterUserPCName').val();
+								param.user_ip = $('#filterUserIPAddr').val();
+								param.user_phone = $('#filterUserPhone').val();
+
+								
+								
 								
 								param.dept = getCheckedDept();
 					        },
@@ -364,11 +404,14 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							data: "pcName",
 							"orderable": false	//PC이름
 						}, {
+							data: "login_clienttime",
+							"orderable": false	//PC접속시간
+						}, {
 							data: "login_servertime",
 							"orderable": false	//서버접속시간
 						}, {
-							data: "login_clienttime",
-							"orderable": false	//PC접속시간
+							data: "phone",
+							"orderable": false	//서버접속시간
 						}],
 						// set the initial value
 						"pageLength": 20,
@@ -454,7 +497,11 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						}, {	
 							"targets": [11]	//PC접속시간
 							,"class" : "center-cell"
-						}],						
+						}, {	
+							"targets": [12]	//phone
+						,"class" : "center-cell",
+						"visible" : false
+					}],						
 						"initComplete": function( settings, json ) {
 							$('.export-print').hide();
 						}
@@ -462,13 +509,12 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 					
 					function fnFormatDetails(oTable, nTr) {
 						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table class="table fixed">';
-						sOut += '<tr><td class="center-cell">서버접속시간:</td><td>' + aData.login_servertime + '</td>';
-						sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-						sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
-						sOut += '<td class="center-cell"></td><td></td></tr>';
-						sOut += '</tr>';
-												
+						var sOut = '<table class="table table-bordered">';
+						sOut += '<col width="25%"><col width="25%"><col width="25%"><col width="25%">';
+						sOut += '<tr><td class="center-cell th-cell-gray">PC접속시간:</td><td>' + aData.login_clienttime + '</td>';
+						sOut += '<td class="center-cell th-cell-gray">PC명:</td><td>' + aData.pcName + '</td></tr>';
+						sOut += '<tr><td class="center-cell th-cell-gray">MAC:</td><td>' + aData.macAddr + '</td>';
+						sOut += '<td class="center-cell th-cell-gray">연락처:</td><td>' + aData.phone + '</td></tr>';												
 						sOut += '</table>';
 
 						return sOut;

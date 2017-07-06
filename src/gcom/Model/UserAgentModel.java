@@ -7,6 +7,7 @@ public class UserAgentModel {
 	private int uid;
 	private int deptNo;
 	private String duty  = "";
+	private String number = "";
 	private String rank  = "";
 	private String name  = "";
 	private String phone  = "";

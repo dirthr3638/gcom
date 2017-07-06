@@ -92,29 +92,55 @@
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="15%">아이디</td>
 															<td>
 																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
 															</td>
-														</tr>
-														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">이름</td>
 															<td>
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
+														<tr> 
+															<td width="15%">직책</td>
+															<td>
+																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+															</td>
+															<td width="15%">계급</td>
+															<td>
+																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+															</td>        
+														</tr>
+														<tr> 
+															<td width="15%">IP</td>
+															<td>
+																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+															</td>
+															<td width="15%">PC명</td>
+															<td>
+																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+															</td>        
+														</tr>
+														<tr> 								
+															<td width="15%">내역</td>
+															<td>
+																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+															</td>
+															<td width="15%">메시지타입</td>
+															<td>
+																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+															</td>        
+														</tr>
 														<tr>         
-															<td width="35%">발송시작일</td>
+															<td >발송시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-															</td>
-														</tr>																													
-														<tr >         
-															<td width="35%">발송종료일</td>
+															</td>     
+															<td >발송종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
@@ -174,26 +200,27 @@
 					</div>
 				</div>
 			</section>
-		</div>
-<div id="detail-talk-modal" class="modal fade">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-
-			<!-- Modal Header -->
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-				<h4 class="modal-title" id="myModalLabel">대화내용</h4>
-			</div><!-- /Modal Header -->
-
-			<!-- body modal -->
-			<div class="modal-body clearfix" id="detail-modal-data">
-				<p>
-				</p>
+			
+			<div id="detail-talk-modal" class="modal fade">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+			
+						<!-- Modal Header -->
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+							<h4 class="modal-title" id="myModalLabel">대화내용</h4>
+						</div><!-- /Modal Header -->
+			
+						<!-- body modal -->
+						<div class="modal-body clearfix" id="detail-modal-data">
+						</div>
+			
+					</div>
+				</div>
 			</div>
-
+						
+			
 		</div>
-	</div>
-</div>
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
@@ -261,6 +288,13 @@
 		console.log('excel')
  		var $buttons = $('.export-csv');
  		$buttons.click();
+ 	}
+ 	
+ 	function msgTxtDetail(data){
+ 		
+ 		$('#detail-modal-data').html(data)
+ 		$('#detail-talk-modal').modal('show')
+ 		
  	}
  	
 	$(document).ready(function(){
@@ -378,7 +412,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							data: "sendClientTime",
 							"orderable": false	//클라시간
 						}, {
-							data: "msgNo",
+							data: "msgText",
 							"orderable": false	//내역
 						}],
 						// set the initial value
@@ -468,10 +502,10 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"targets": [12]	//발송시간(PC)
 							,"class" : "center-cell"
 						}	, {	
-							"targets": [13]	//발송시간(PC)
+							"targets": [13]	
 							,"class" : "center-cell"
 							,"render": function(data,type,row){
-								return '<i title="상세보기" class="fa fa-commenting" aria-hidden="true">'
+								return '<i title="상세보기" class="fa fa-commenting" aria-hidden="true" onclick="javascript:msgTxtDetail(\''+ data + ' \')">'
 							}
 						}		
 					],						

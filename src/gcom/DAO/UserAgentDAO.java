@@ -39,8 +39,17 @@ public class UserAgentDAO {
 		String whereSql = "WHERE userinfo.valid=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+		
 		String user_phone = map.get("user_phone").toString();
+		
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		int user_connected = Integer.parseInt(map.get("user_connected").toString());
+		String user_number = map.get("user_number").toString();
+		String user_pc = map.get("user_pc").toString();
+		String user_ip = map.get("user_ip").toString();
 		int user_installed = Integer.parseInt(map.get("user_installed").toString());
+
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
 
@@ -60,7 +69,16 @@ public class UserAgentDAO {
 		if(!user_phone.equals("")) 	whereSql += "AND userinfo.phone LIKE ? ";
 		if(user_installed == 1) 	whereSql += "AND agent.ip_addr is not null ";	//설치 선택
 		else if(user_installed == 2) 	whereSql += "AND agent.ip_addr is null ";	//미설치 선택
-		
+
+		if(!user_duty.equals("")) 	whereSql += "AND userinfo.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND userinfo.rank LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND userinfo.number LIKE ? ";
+		if(!user_pc.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(!user_ip.equals("")) 	whereSql += "AND agent.ip_addr LIKE ? ";
+
+		if(user_connected == 2) 	whereSql += "AND agent.connect_server_time < now() - interval 30 minute ";	//접속 선택
+		else if(user_connected == 1) 	whereSql += "AND agent.connect_server_time >= now() -  interval 30 minute ";	//미접속 선택
+
 		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";
 		
 		String sql= 
@@ -79,11 +97,20 @@ sql += whereSql;
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+
+
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");;
+			if(!user_pc.equals("")) 	pstmt.setString(i++, "%" + user_pc + "%");
+			if(!user_ip.equals("")) 	pstmt.setString(i++, "%" + user_ip + "%");
+
 			if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
 					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
 				}
 			}
+
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -112,8 +139,17 @@ sql += whereSql;
 		String whereSql = "WHERE userinfo.valid=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+		
 		String user_phone = map.get("user_phone").toString();
+		
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		int user_connected = Integer.parseInt(map.get("user_connected").toString());
+		String user_number = map.get("user_number").toString();
+		String user_pc = map.get("user_pc").toString();
+		String user_ip = map.get("user_ip").toString();
 		int user_installed = Integer.parseInt(map.get("user_installed").toString());
+
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
 
@@ -132,6 +168,16 @@ sql += whereSql;
 		if(!user_phone.equals("")) 	whereSql += "AND userinfo.phone LIKE ? ";
 		if(user_installed == 1) 	whereSql += "AND agent.ip_addr is not null ";	//설치 선택
 		else if(user_installed == 2) 	whereSql += "AND agent.ip_addr is null ";	//미설치 선택
+
+		if(!user_duty.equals("")) 	whereSql += "AND userinfo.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND userinfo.rank LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND userinfo.number LIKE ? ";
+		if(!user_pc.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(!user_ip.equals("")) 	whereSql += "AND agent.ip_addr LIKE ? ";
+
+		if(user_connected == 2) 	whereSql += "AND agent.connect_server_time < now() - interval 30 minute ";	//접속 선택
+		else if(user_connected == 1) 	whereSql += "AND agent.connect_server_time >= now() -  interval 30 minute ";	//미접속 선택
+
 		
 		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";
 		
@@ -147,6 +193,7 @@ sql += whereSql;
 + "userinfo.phone, "
 + "userinfo.id,"
 + "userinfo.valid,"
++ "userinfo.number, "
 + "dept.short_name AS dept_name,"
 + "ifnull(agent.pc_name, '') AS pc_name,"
 + "ifnull(agent.ip_addr,'') AS ip_addr, "
@@ -155,7 +202,8 @@ sql += whereSql;
 + "ifnull(agent.install_server_time,'') AS install_server_time, "
 + "ifnull(agent.connect_server_time,'') AS connect_client_time, "
 + "ifnull(agent.install_server_time,'') AS install_client_time, "
-+ "ifnull(agent.version, '') AS version "
++ "ifnull(agent.version, '') AS version, "
++ "if(agent.connect_server_time >= now() - interval 30 minute, 1, 0 ) AS isConnected "
 + "FROM user_info AS userinfo "
 + "LEFT JOIN agent_info AS agent ON agent.own_user_no=userinfo.no "
 + "INNER JOIN dept_info AS dept ON userinfo.dept_no = dept.no ";
@@ -169,6 +217,14 @@ sql += whereSql;
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+
+
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");;
+			if(!user_pc.equals("")) 	pstmt.setString(i++, "%" + user_pc + "%");
+			if(!user_ip.equals("")) 	pstmt.setString(i++, "%" + user_ip + "%");
+
 			if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
 					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
@@ -187,6 +243,7 @@ sql += whereSql;
 				model.setDuty(rs.getString("duty"));
 				model.setRank(rs.getString("rank"));
 				model.setName(rs.getString("name"));
+				model.setNumber(rs.getString("number"));				
 				model.setPhone(rs.getString("phone"));
 				model.setId(rs.getString("id"));
 				model.setDeptName(rs.getString("dept_name"));

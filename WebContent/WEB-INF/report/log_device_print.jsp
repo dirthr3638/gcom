@@ -96,33 +96,65 @@
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="20">아이디</td>
 															<td>
 																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
 															</td>
-														</tr>
-														<tr>         
-															<td width="35%">이름</td>
+															<td width="20">이름</td>
 															<td>
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
+
 														<tr>         
-															<td width="35%">프린트검색시작일</td>
+															<td >번호</td>
+															<td>
+																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control required">
+															</td>
+															<td >PC명</td>
+															<td>
+																<input type="text" name="filterUserPCName" id="filterUserPCName" value="" class="form-control required">
+															</td>
+														</tr>
+														<tr>         
+															<td >직책</td>
+															<td>
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control required">
+															</td>
+															<td >계급</td>
+															<td>
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
+															</td>
+														</tr>
+														<tr>         
+															<td >출력파일</td>
+															<td>
+																<input type="text" name="filterFileName" id="filterFileName" value="" class="form-control required">
+															</td>
+															<td >워터마크</td>
+															<td>
+																<select class="select2theme" id="filterWaterMark">
+																  <option value="-1">전체</option>
+																  <option value="0">미출력</option>
+																  <option value="1">출력</option>
+																</select>															</td>
+														</tr>
+														<tr >         
+															<td width="15%">검색시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																													
-														<tr >         
-															<td width="35%">프린트검색종료일</td>
+		
+															<td width="15%">검색종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
 														</tr>																															
+
 														
 													</tbody>
 												</table>	
@@ -285,6 +317,14 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						   	"data" :  function(param) {
 								param.user_id = $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
+
+								param.user_rank = $('#filterUserRank').val();
+								param.user_duty = $('#filterUserDuty').val();
+								param.user_number = $('#filterUserNumber').val();
+								param.pc_name = $('#filterUserPCName').val();
+								param.file_name = $('#filterFileName').val();
+								param.water_mark = $('#filterWaterMark').val();
+								
 								param.start_date = $('#filterStartDate').val();
 								param.end_date = $('#filterEndDate').val();
 								

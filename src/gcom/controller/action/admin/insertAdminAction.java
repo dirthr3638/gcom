@@ -9,6 +9,8 @@ import gcom.service.Request.IRequestService;
 import gcom.service.Request.RequestServiceImpl;
 import gcom.service.UserManage.IUserManageService;
 import gcom.service.UserManage.UserManageServiceImpl;
+import gcom.service.management.IManagementService;
+import gcom.service.management.ManagementServiceImpl;
 
 public class insertAdminAction {
 
@@ -31,6 +33,14 @@ public class insertAdminAction {
 		IUserManageService as = new UserManageServiceImpl();
 		return as.insertUserInfo(map);
 	}
-
+	
+	public HashMap<String, Object> insertAdminUserInfo(HashMap<String, Object> map){
+		IManagementService as = new ManagementServiceImpl();
+		return as.insertAdminUserInfo(map);
+	}
+	
+	
+	
+	
 
 }

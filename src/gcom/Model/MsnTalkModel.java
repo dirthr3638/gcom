@@ -16,6 +16,7 @@ public class MsnTalkModel {
 	private String pcName = "";
 	private String deptName = "";
 	private String msgType = "";
+	private String msgText = "";
 	private String sendServerTime = "";
 	private String sendClientTime = "";
 }

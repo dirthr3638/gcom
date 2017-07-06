@@ -105,11 +105,11 @@
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">설치여부</td>
+															<td width="15%">설치여부</td>
 															<td>
 																<select class="select2theme" id="filterUserIsInstalled">
 																  <option value="0">전체</option>
@@ -117,25 +117,64 @@
 																  <option value="2">미설치</option>
 																</select>
 															</td>
+															<td width="15%">접속여부</td>
+															<td>
+																<select class="select2theme" id="filterUserIsConnected">
+																  <option value="0">전체</option>
+																  <option value="1">접속</option>
+																  <option value="2">미접속</option>
+																</select>
+															</td>															
 														</tr>	
 														<tr>         
-															<td width="35%">아이디</td>
+
+														</tr>
+														<tr>         
+															<td width="15%">아이디</td>
 															<td>
-																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control ">
+															</td>
+															<td width="15%">이름</td>
+															<td>
+																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control ">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">번호</td>
 															<td>
-																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control ">
 															</td>
-														</tr>
+
+															<td width="15%">연락처</td>
+															<td>
+																<input type="text" name="filterUserPhone" id="filterUserPhone" value="" class="form-control ">
+															</td>
+														</tr>	
 														<tr>         
-															<td width="35%">연락처</td>
+															<td width="15%">직책</td>
 															<td>
-																<input type="text" name="filterUserPhone" id="filterUserPhone" value="" class="form-control required">
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control ">
 															</td>
-														</tr>																															
+
+															<td width="15%">계급</td>
+															<td>
+																<input type="text" name="filterUserName" id="filterUserRank" value="" class="form-control ">
+															</td>
+
+														</tr>																																
+														<tr>         
+
+															<td width="15%">PC명</td>
+															<td>
+																<input type="text" name="filterUserName" id="filterUserPCName" value="" class="form-control ">
+															</td>
+															<td width="15%">IP</td>
+															<td>
+																<input type="text" name="filterUserPhone" id="filterUserIPAddr" value="" class="form-control ">
+															</td>
+
+
+														</tr>																																
 														
 													</tbody>
 												</table>	
@@ -159,7 +198,7 @@
 														<th>부서</th>
 														<th>아이디</th>
 														<th>이름</th>
-														<th>번호</th>
+														<th>사번</th>
 														<th class="userinfo">직책</th>
 														<th class="userinfo">계급</th>
 														<th class="userinfo">연락처</th>
@@ -171,8 +210,8 @@
 														<th class="agentinfo">버전</th>
 														<th class="agentinfo">접속</th>
 														<th >설치시간</th>
-														<th >접속시간(서버)</th>
-														<th >접속시간(PC)</th>
+														<th >접속시간 </th>  
+														<th >접속시간(PC)</th> 
 													</tr>
 												</thead>
 				
@@ -236,18 +275,6 @@
 		}		
 	}
 	
-	var getFilterInfo = function(){
-		var param = new Object();
-		param.user_id = $('#filterUserId').val();
-		param.user_name = $('#filterUserName').val();
-		param.user_phone = $('#filterUserPhone').val();
-		param.user_installed = $('#filterUserIsInstalled option:selected').val();
-		param.dept = getCheckedDept();
-		
-		console.log(getCheckedDept())
-
-		return param;
-	};
 	
  	function setTree(){
 		$.ajax({      
@@ -312,13 +339,20 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"url":'/ax/useragent/list',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
-						   	"data" :  function(param) {
+						   	"data" :  function(param){
 								param.user_id = $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
-								param.user_phone = $('#filterUserPhone').val();
 								param.user_installed = $('#filterUserIsInstalled option:selected').val();
+								param.user_connected = $('#filterUserIsConnected option:selected').val()
+								param.user_number = $('#filterUserNumber').val();
+								param.user_duty = $('#filterUserDuty').val();
+								param.user_rank = $('#filterUserRank').val();
+								param.user_pc = $('#filterUserPCName').val();
+								param.user_ip = $('#filterUserIPAddr').val();
+								param.user_phone = $('#filterUserPhone').val();
 								param.dept = getCheckedDept();
-					        },
+						   		
+						   	},
  					        "beforeSend" : function(){
 								jQuery('#preloader').show();
  					        },
@@ -373,7 +407,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							data: "name",
 							"orderable": false	//이름
 						}, {
-							data: "uid",
+							data: "number",
 							"orderable": false	//번호
 						}, {
 							data: "duty",
@@ -406,11 +440,11 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							data: "install_server_time",
 							"orderable": false,	//설치시간
 						}, {
-							data: "connect_server_time",
-							"orderable": false	//서버접속시간
-						}, {
 							data: "connect_client_time",
 							"orderable": false	//PC접속시간
+						}, {
+							data: "connect_server_time",
+							"orderable": false	//서버접속시간
 						}],
 						// set the initial value
 						"pageLength": 20,
@@ -525,12 +559,12 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							,"visible":false
 
 						}, {	
-							"targets": [15]	//서버접속시간
+							"targets": [15]	//PC접속시간
 							,"class" : "center-cell"
 							,"visible":false
 
 						}, {	
-							"targets": [16]	//PC접속시간
+							"targets": [16]	//접속시간
 							,"class" : "center-cell"
 							,"visible":false
 
@@ -543,9 +577,10 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 					
 					function fnFormatDetails(oTable, nTr) {
 						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table class="table ">';
-						sOut += '<tr><td class="center-cell">설치시간:</td><td>' + aData.install_server_time + '</td>';
-						sOut += '<td class="center-cell">접속시간:</td><td>' + aData.connect_server_time + '</td></tr>';
+						var sOut = '<table class="table table-bordered">';
+						sOut += '<col width="25%"><col width="25%"><col width="25%"><col width="25%">';
+						sOut += '<tr><td class="center-cell th-cell-gray">설치시간:</td><td>' + aData.install_server_time + '</td>';
+						sOut += '<td class="center-cell th-cell-gray">접속시간:</td><td>' + aData.connect_client_time + '</td></tr>';
 						sOut += '</table>';
 
 						return sOut;

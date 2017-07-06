@@ -21,5 +21,19 @@ public class ManagementServiceImpl implements IManagementService {
 	public SubAdminModel getAdminUserInfo(HashMap<String, Object> map) {
 		return poDao.getAdminUserInfo(map);	
 	}
+	
+	public HashMap<String, Object> deleteAdminUserInfo(HashMap<String, Object> map){
+		return poDao.deleteAdminUserInfo(map);
+	}
+
+	public HashMap<String, Object> updateAdminUserInfo(HashMap<String, Object> map){
+		return poDao.updateAdminUserInfo(map);
+		
+	}
+	public HashMap<String, Object> insertAdminUserInfo(HashMap<String, Object> map){
+		return poDao.insertAdminUserInfo(map);
+		
+	}
+
 
 }

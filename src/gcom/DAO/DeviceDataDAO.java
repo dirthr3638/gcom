@@ -37,6 +37,14 @@ public class DeviceDataDAO {
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+
+		String user_rank = map.get("user_rank").toString();
+		String user_duty = map.get("user_duty").toString();
+		String user_number = map.get("user_number").toString();
+		String pc_name = map.get("pc_name").toString();
+		String file_name = map.get("file_name").toString();
+		int water_mark = Integer.parseInt(map.get("water_mark").toString());
+		
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 		
@@ -55,6 +63,14 @@ public class DeviceDataDAO {
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+
+		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
+		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
+		if(!pc_name.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(!file_name.equals("")) 	whereSql += "AND print.file_name LIKE ? ";
+		if(water_mark != -1 ) 	whereSql += "AND print.watermark = ? ";
+		
 		if(!start_date.equals("")) 	whereSql += "AND print.print_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND print.print_client_time < ? + interval 1 day ";
 
@@ -81,6 +97,13 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			if(!file_name.equals("")) 	pstmt.setString(i++, "%" + file_name + "%");
+			if(water_mark != -1 ) 	pstmt.setInt(i++, water_mark);
+
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 		
@@ -111,6 +134,14 @@ sql += whereSql;
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+
+		String user_rank = map.get("user_rank").toString();
+		String user_duty = map.get("user_duty").toString();
+		String user_number = map.get("user_number").toString();
+		String pc_name = map.get("pc_name").toString();
+		String file_name = map.get("file_name").toString();
+		int water_mark = Integer.parseInt(map.get("water_mark").toString());
+		
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 		
@@ -129,6 +160,14 @@ sql += whereSql;
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+
+		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
+		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
+		if(!pc_name.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(!file_name.equals("")) 	whereSql += "AND print.file_name LIKE ? ";
+		if(water_mark != -1 ) 	whereSql += "AND print.watermark = ? ";
+		
 		if(!start_date.equals("")) 	whereSql += "AND print.print_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND print.print_client_time < ? + interval 1 day ";
 
@@ -174,6 +213,15 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+		
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			if(!file_name.equals("")) 	pstmt.setString(i++, "%" + file_name + "%");
+			if(water_mark != -1 ) 	pstmt.setInt(i++, water_mark);
+
+
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 

@@ -30,6 +30,12 @@ public class axAuditServerListController extends HttpServlet {
 
 		map.put("user_id", request.getParameter("user_id").toString());
 		map.put("user_name", request.getParameter("user_name").toString());
+
+		map.put("user_ip", request.getParameter("user_ip").toString());
+		map.put("description", request.getParameter("description").toString());
+		map.put("parameter", request.getParameter("parameter").toString());
+		map.put("status", request.getParameter("status").toString());
+		
 		map.put("start_date", request.getParameter("start_date").toString());
 		map.put("end_date", request.getParameter("end_date").toString());
 

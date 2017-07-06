@@ -5,6 +5,7 @@ import java.util.List;
 
 import gcom.DAO.PersonalDataDAO;
 import gcom.Model.FileInfoModel;
+import gcom.Model.MailExportContentModel;
 import gcom.Model.MailExportModel;
 import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
@@ -28,6 +29,10 @@ public class PersonalServiceImpl implements IPersonalService {
 		return poDao.getMailExportListCount(map);
 	}
 
+	public MailExportContentModel getMailExportContent(HashMap<String, Object> map){
+		return poDao.getMailExportContent(map);
+	}
+	
 	public List<MsnTalkModel> getMsnTalkList(HashMap<String, Object> map){
 		return poDao.getMsnTalkList(map);
 	}

@@ -40,6 +40,15 @@ public class LoginLogDAO {
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 
+		String user_phone = map.get("user_phone").toString();
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		String user_number = map.get("user_number").toString();
+		String user_pc = map.get("user_pc").toString();
+		String user_ip = map.get("user_ip").toString();
+
+
+		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
 
@@ -56,6 +65,15 @@ public class LoginLogDAO {
 		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";		
 		if(!user_id.equals("")) 	whereSql += "AND userinfo.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND userinfo.name LIKE ? ";
+
+		if(!user_duty.equals("")) 	whereSql += "AND userinfo.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND userinfo.rank LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND userinfo.number LIKE ? ";
+		if(!user_pc.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(!user_ip.equals("")) 	whereSql += "AND agent.ip_addr LIKE ? ";
+		if(!user_phone.equals("")) 	whereSql += "AND userinfo.phone LIKE ? ";
+
+		
 		if(!start_date.equals("")) 	whereSql += "AND login.login_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND login.login_client_time < ? + interval 1 day ";
 
@@ -82,10 +100,17 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");;
+			if(!user_pc.equals("")) 	pstmt.setString(i++, "%" + user_pc + "%");
+			if(!user_ip.equals("")) 	pstmt.setString(i++, "%" + user_ip + "%");
+			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 
-			
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -112,11 +137,21 @@ sql += whereSql;
 		List<LoginLogModel> data = new ArrayList<LoginLogModel>();
 		
 		String whereSql = "WHERE userinfo.valid=1 ";
+
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 
+		String user_phone = map.get("user_phone").toString();
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		String user_number = map.get("user_number").toString();
+		String user_pc = map.get("user_pc").toString();
+		String user_ip = map.get("user_ip").toString();
+
+
+		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
 
@@ -129,9 +164,19 @@ sql += whereSql;
 				idList.append("?");
 			}
 		}
-		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";
+			
+		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";		
 		if(!user_id.equals("")) 	whereSql += "AND userinfo.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND userinfo.name LIKE ? ";
+
+		if(!user_duty.equals("")) 	whereSql += "AND userinfo.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND userinfo.rank LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND userinfo.number LIKE ? ";
+		if(!user_pc.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(!user_ip.equals("")) 	whereSql += "AND agent.ip_addr LIKE ? ";
+		if(!user_phone.equals("")) 	whereSql += "AND userinfo.phone LIKE ? ";
+
+		
 		if(!start_date.equals("")) 	whereSql += "AND login.login_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND login.login_client_time < ? + interval 1 day ";
 		
@@ -146,6 +191,7 @@ sql += whereSql;
 + "userinfo.duty,"
 + "userinfo.rank,"
 + "userinfo.name, "
++ "userinfo.number, "
 + "userinfo.phone,"
 + "userinfo.id,"
 + "userinfo.valid,"
@@ -175,9 +221,18 @@ sql += whereSql;
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");;
+			if(!user_pc.equals("")) 	pstmt.setString(i++, "%" + user_pc + "%");
+			if(!user_ip.equals("")) 	pstmt.setString(i++, "%" + user_ip + "%");
+			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
-				pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
+			
+			
+			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
 			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
 			
 			rs = pstmt.executeQuery();
@@ -189,7 +244,10 @@ sql += whereSql;
 				model.setDeptNo(rs.getInt("dept_no"));
 				model.setDuty(rs.getString("duty"));
 				model.setRank(rs.getString("rank"));
+				model.setNumber(rs.getString("number"));
+				
 				model.setName(rs.getString("name"));
+				model.setPhone(rs.getString("phone"));
 				model.setId(rs.getString("id"));
 				model.setDeptName(rs.getString("dept_name"));
 				model.setPcName(rs.getString("pc_name"));
