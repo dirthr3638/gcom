@@ -7,15 +7,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-@WebServlet("/admin/user/inquery")
-public class userInqueryController extends HttpServlet {
+@WebServlet("/admin/user/contact")
+public class userContactController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public userInqueryController() {
+    public userContactController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -25,8 +26,11 @@ public class userInqueryController extends HttpServlet {
 	 */
     @Override  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+    	HttpServletRequest httpReq = (HttpServletRequest)request;
+    	HttpSession session = httpReq.getSession(false);
+    	String user_id = (String)session.getAttribute("user_id");
     	
-		request.getRequestDispatcher("/WEB-INF/admin/user_manage/admin_user_inquery.jsp").forward(request, response);
+    	request.setAttribute("user_id", user_id);
+		request.getRequestDispatcher("/WEB-INF/admin/user_manage/admin_user_contact.jsp").forward(request, response);
 	}
 }

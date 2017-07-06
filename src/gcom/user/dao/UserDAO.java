@@ -303,7 +303,8 @@ public class UserDAO {
 			    + "DATE(bbs.reg_dt) AS reg_dt, "
 			    + "bbs_hit.hit_cnt, "
 			    + "bbs.attfile_yn, "
-			    + "bbs.bbs_body "
+			    + "bbs.bbs_body, "
+			    + "bbs.attfile_id "
 				+ "FROM user_notice_bbs AS bbs "
 				+ "LEFT JOIN admin_info AS admin ON bbs.reg_staf_no = admin.no "
 				+ "INNER JOIN user_notice_bbs_hit AS bbs_hit ON bbs.bbs_id = bbs_hit.bbs_id "
@@ -325,6 +326,7 @@ public class UserDAO {
 				model.setBbsClickCnt(rs.getInt("hit_cnt"));
 				model.setBbsAttfileYN(rs.getString("attfile_yn"));
 				model.setBbsBody(rs.getString("bbs_body"));
+				model.setAttfileId(rs.getInt("attfile_id"));
 			}
 			
 		}catch(SQLException ex){
@@ -456,7 +458,7 @@ public class UserDAO {
 				model.setContactType(rs.getInt("contact_type"));
 				model.setTypeName(rs.getInt("contact_type"));
 				model.setContactTitle(rs.getString("contact_title"));
-				model.setId(rs.getString("id"));
+				model.setRegUserStafId(rs.getString("id"));
 				model.setRegDt(rs.getString("reg_dt"));
 				model.setCommentYN(rs.getString("comment_yn"));
 				model.setCommnetRegStafId(rs.getString("comment_reg_staf_id"));
@@ -498,7 +500,7 @@ public class UserDAO {
 			
 			String column = "";
 			
-			while(rs.next()){
+			while(rs.next()) {
 				HashMap<String, Object> data = new HashMap<String, Object>();
 				
 				// Column의 갯수만큼 회전
@@ -1148,6 +1150,64 @@ public class UserDAO {
 		}
 		
 		return result;
+	}
+
+	public UserContactModel getUserContactDetail(HashMap<String, Object> map) {
+		UserContactModel model = new UserContactModel();
+		int contact_id = Integer.parseInt(map.get("contact_id").toString());
+		
+		String sql= 
+				"SELECT con.contact_id, "
+				+ "con.contact_type, "
+				+ "con.contact_title, "
+				+ "con.contact_body, "
+				+ "ui.id, "
+				+ "ui.name, "
+				+ "DATE(con.reg_dt) as reg_dt, "
+				+ "con.comment_yn, "
+				+ "IFNULL(admin_info.id, '')as comment_reg_staf_id, "
+				+ "IFNULL(con_comm.reply_content, '') as reply_content, "
+				+ "IFNULL(con_comm.reg_dt, '') as comment_reg_dt "
+				+ "FROM user_contact_info AS con "
+				+ "LEFT JOIN user_info AS ui ON con.reg_user_staf_no = ui.no "
+				+ "LEFT JOIN user_contact_comment AS con_comm ON con.contact_id = con_comm.contact_id "
+				+ "LEFT JOIN admin_info AS admin_info ON con_comm.reg_admin_staf_no = admin_info.no "
+				+ "WHERE con.contact_id = ?";
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, contact_id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				model.setContactId(rs.getInt("contact_id"));
+				model.setContactType(rs.getInt("contact_type"));
+				model.setTypeName(rs.getInt("contact_type"));
+				model.setContactTitle(rs.getString("contact_title"));
+				model.setContactBody(rs.getString("contact_body"));
+				model.setRegUserStafId(rs.getString("id"));
+				model.setRegUserName(rs.getString("name"));
+				model.setRegDt(rs.getString("reg_dt"));
+				model.setCommentYN(rs.getString("comment_yn"));
+				model.setCommnetRegStafId(rs.getString("comment_reg_staf_id"));
+				model.setReplyContent(rs.getString("reply_content"));
+				model.setCommentRegDt(rs.getString("comment_reg_dt"));
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return model;
 	}
 	
 }

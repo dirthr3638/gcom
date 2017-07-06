@@ -106,33 +106,6 @@
 
 		<script>
 	
-			//라디오타입에 따라 컬럼 hide/show
-			var setColumnType = function(cType){
-				
-				var datatable = $('#table_notice').dataTable().api();
-				var aColumn = datatable.columns('.agentinfo' );
-				var uColumn = datatable.columns('.userinfo' );
-				if(cType == 1){
-					uColumn.visible(true);
-					aColumn.visible(false);			
-		
-		 			var jTable = $('#table_userinfo').dataTable();;
-		
-		//			var nsTr = $('tbody > td > .datables-td-detail').parents('tr')[0];
-					var nsTr = $('#table_userinfo tr');
-					for(var i = 0; i < nsTr.length; i++){
-						var nTr = nsTr[i];
-						jTable.fnClose(nTr);
-					}
-				}else if(cType == 2){
-					uColumn.visible(false);
-					aColumn.visible(true);	
-		
-					var nsTr = $('#table_userinfo tr td').find('span.datables-td-detail');
-					nsTr.addClass("datatables-close").removeClass("datatables-open");
-				}		
-			}
-		 	
 		 	function searchUserLog(){
 		 		var datatable = $('#table_notice').dataTable().api();
 				datatable.ajax.reload();   	

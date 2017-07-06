@@ -32,5 +32,10 @@ public class insertAdminAction {
 		return as.insertUserInfo(map);
 	}
 
+	public HashMap<String, Object> insertContactCommentSave(HashMap<String, Object> map) {
+		IPersonalService as = new PersonalServiceImpl();
+		return as.insertContactCommentSave(map);
+	}
+
 
 }

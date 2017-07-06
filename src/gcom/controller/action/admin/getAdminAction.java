@@ -31,6 +31,7 @@ import gcom.service.UserAgent.IUserAgentService;
 import gcom.service.UserAgent.UserAgentServiceImpl;
 import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
+import gcom.user.model.UserContactModel;
 import gcom.user.model.UserNoticeModel;
 import gcom.user.service.UserServiceImpl;
 import gcom.user.service.UserService;
@@ -226,6 +227,19 @@ public class getAdminAction {
 		result.put("recordsFiltered", total);
 		
 		return result;		
+	}
+
+	public HashMap<String, Object> getAdminContactList(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IPersonalService as = new PersonalServiceImpl();
+		List<UserContactModel> list = as.getAdminContactList(map);
+		result.put("data", list);
+		int total = as.getAdminContactListCount(map);
+		
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;
 	}
 	
 }

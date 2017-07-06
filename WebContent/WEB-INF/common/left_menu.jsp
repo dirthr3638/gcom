@@ -19,7 +19,7 @@
 					<li ${menu_sub_first == 2100 ? 'class="active"' : ''}><a href="/admin/user/assign">정책할당</a></li>
 					<li ${menu_sub_first == 2200 ? 'class="active"' : ''}><a href="/admin/user/request">정책변경요청</a></li>
 					<li ${menu_sub_first == 2700 ? 'class="active"' : ''}><a href="/admin/user/enroll">회원등록요청</a></li>
-					<li ${menu_sub_first == 2300 ? 'class="active"' : ''}><a href="/admin/user/inquery">문의사항</a></li>
+					<li ${menu_sub_first == 2300 ? 'class="active"' : ''}><a href="/admin/user/contact">문의사항</a></li>
 					<li ${menu_sub_first == 2400 ? 'class="active"' : ''}><a href="/admin/user/dept">부서관리</a></li>
 					<li ${menu_sub_first == 2500 ? 'class="active"' : ''}><a href="/admin/user/manage">사용자관리</a></li>
 					<li ${menu_sub_first == 2600 ? 'class="active"' : ''}><a href="/admin/user/notice">공지사항관리</a></li>

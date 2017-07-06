@@ -127,4 +127,8 @@ public class UserServiceImpl implements UserService {
 		return userDAO.getPolicyMessengerListCount(map);
 	}
 	
+	public UserContactModel getUserContactDetail(HashMap<String, Object> map) {
+		return userDAO.getUserContactDetail(map);
+	}
+	
 }

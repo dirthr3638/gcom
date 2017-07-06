@@ -1,12 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*"%>
-<%@ page import="gcom.user.model.UserNoticeModel"%>
+<%@ page import="gcom.user.model.UserContactModel"%>
 <%@ page import="gcom.Model.FileInfoModel"%>
 <% 
-	UserNoticeModel data = (UserNoticeModel)request.getAttribute("UserNoticeDetail");
-	boolean fileFlag = "Y".equals(request.getAttribute("att_file_flag").toString())? true : false ;
-	FileInfoModel file = (FileInfoModel)request.getAttribute("AttFileInfo");
-	
+	UserContactModel data = (UserContactModel)request.getAttribute("UserContactDetail");
 %>
 <!doctype html>
 <html lang="utf-8">
@@ -41,7 +38,7 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>공지사항 관리</h1>
+					<h1>문의 사항 관리</h1>
 				</header>
 				<!-- /page title -->
 			
@@ -52,7 +49,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>공지사항 보기</strong> <!-- panel title -->
+										<strong>문의사항 상세보기</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -60,48 +57,28 @@
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-md-12" style="padding:10px 40px;">
-											<h1 class="blog-post-title"><%= data.getBbsTitle() %></h1>
+											<h1 class="blog-post-title"><%= data.getContactTitle() %></h1>
 											<ul class="blog-post-info list-inline">
 												<li>
 													<i class="fa fa-clock-o"></i> 
-													<span class="font-lato">작성일 : <%= data.getBbsRegDate() %></span>
+													<span class="font-lato">작성일 : <%= data.getRegDt() %></span>
 												</li>
 												<li>
-													<i class="fa fa-eye" aria-hidden="true"></i> 
-													<span class="font-lato">조회 : <%= data.getBbsClickCnt() %></span>
+													<span class="font-lato">답변여부 : <% if( "Y".equals(data.getCommentYN())) {%> <i class="fa fa-pencil"></i> 답변됨. <% } else { %> 답변없음. <% } %> </span>
 												</li>
 												<li>
 													<i class="fa fa-user"></i> 
-													<span class="font-lato"><%= data.getBbsRegStaf() %></span>
+													<span class="font-lato">문의등록자 : <%= data.getRegUserName() %></span>
 												</li>
 											</ul>
 												
 											<!-- article content -->
 											<div class="row" style="border:1px solid #f1f1f1; min-height:700px; padding:10px 20px;">
-												<%= data.getBbsBody() %>
+												<%= data.getContactBody() %>
 											</div>
 											<div class="row">
-												<% if (fileFlag) { %>
-												<div class="fl_left">
-													<ul class="blog-post-info list-inline" style="margin-top: 20px;">
-														<li>
-															<i class="fa fa-file" aria-hidden="true"></i> 
-															<span class="font-lato">첨부파일 : </span>
-														</li>
-														<li>
-															<a href="#" onClick="javascript:fn_file_download();">
-																 <%= file.getAttViewFileName() %></span>
-															</a>
-														</li>
-													</ul>
-												</div>
-												<form id="formFileDown" action="/common/filedownload" method="post">
-													<input type="hidden" name="save_name" id="save_name" value="<%= file.getAttSaveFileName() %>" />
-													<input type="hidden" name="real_name" id="real_name" value="<%= file.getAttViewFileName() %>" />
-												</form>
-												<% } %>
-												<a href="/admin/user/notice" class="btn btn-primary pull-right"><i class="fa fa-list"></i>목록</a>
-												<a href="#" onClick="javascript:fn_modify();" class="btn btn-yellow pull-right"><i class="fa fa-list"></i>수정</a>
+												<a href="/admin/user/contact" class="btn btn-primary pull-right"><i class="fa fa-list"></i>목록</a>
+												<button id="btnRegComment" class="btn btn-green pull-right" style="color:#fff; font-weight:bold;" onClick="javascript:fn_open_comment('<%= data.getContactId() %>');"><i class="fa fa-check"></i>답변등록</button>
 											</div>
 											<!-- /article content -->
 										</div>
@@ -121,6 +98,8 @@
 					</div>
 				</div>
 			</section>
+			
+			<div id="comment_write_popup"></div>
 		</div>
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
@@ -134,17 +113,26 @@
 			jQuery('#preloader').hide();
 		});
 		
-		function fn_file_download() {
-			$('#formFileDown').submit();
-		}
+		function fn_open_comment(conId) {
+	 	
+	 		$.ajax({      
+			    type:"POST",  
+			    url:'/admin/user/contact/write',
+			    async: false,
+			    data:{
+			    	contact_id : conId,
+			    	_ : $.now() 
+			    },
+			    success:function(data){
+			    	$("#comment_write_popup").html(data);
+		            $('#modalCommentWrite').modal('show');
+			    },   
+			    error:function(e){  
+			        console.log(e.responseText);  
+			    }  
+			});
+	 	}
 		
-		function fn_modify() {
-			var bbsId = '<%= data.getBbsId() %>';
-			var bbsAttfileYN = '<%= data.getBbsAttfileYN() %>';
-			var attfileId = '<%= data.getAttfileId() %>';
-			
-			location.href  = '/admin/user/notice/modify?bbsId=' + bbsId +'&fileYn=' + bbsAttfileYN + '&file=' + attfileId ;
-		}
 		</script>
 	</body>
 </html>

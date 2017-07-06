@@ -113,6 +113,7 @@
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
+														<!-- 
 														<tr>         
 															<td width="35%">작업시작일</td>
 															<td>
@@ -125,7 +126,7 @@
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
 														</tr>																															
-														
+														 -->
 													</tbody>
 												</table>	
 												
@@ -566,7 +567,7 @@
 								"iDisplayLength": 20,
 								"pagingType": "bootstrap_full_number",
 								"language": {
-									"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
+									"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개",
 									"infoEmpty": "검색된 데이터가 없습니다.",
 									"zeroRecords" :"검색된 데이터가 없습니다.",
 									"lengthMenu": "  _MENU_ 개",

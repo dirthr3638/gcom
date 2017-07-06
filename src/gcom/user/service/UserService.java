@@ -11,6 +11,7 @@ import gcom.Model.PolicySerialModel;
 import gcom.Model.PolicyWebSiteBlocklModel;
 import gcom.Model.UsbDevInfoModel;
 import gcom.user.model.MemberPolicyModel;
+import gcom.user.model.UserContactModel;
 import gcom.user.model.UserInfoModel;
 import gcom.user.model.UserNoticeModel;
 
@@ -63,5 +64,7 @@ public interface UserService {
 	public List<PolicyMessengerModel> getPolicyMessengerList(HashMap<String, Object> map);
 
 	public int getPolicyMessengerListCount(HashMap<String, Object> map);
+
+	public UserContactModel getUserContactDetail(HashMap<String, Object> map);
 
 }

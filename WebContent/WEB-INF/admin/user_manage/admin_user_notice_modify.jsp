@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*"%>
-
+<%@ page import="gcom.user.model.UserNoticeModel"%>
+<%@ page import="gcom.Model.FileInfoModel"%>
+<% 
+	UserNoticeModel data = (UserNoticeModel)request.getAttribute("UserNoticeDetail");
+	boolean fileFlag = "Y".equals(request.getAttribute("att_file_flag").toString())? true : false ;
+	FileInfoModel file = (FileInfoModel)request.getAttribute("AttFileInfo");
+	
+%>
 <!doctype html>
 <html lang="utf-8">
 	<head>
@@ -46,7 +53,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>공지사항 작성</strong> <!-- panel title -->
+										<strong>공지사항 수정</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -57,36 +64,56 @@
 											<div>
 												<ul class="inline-list">
 													<li>제목 : </li>
-													<li style="width:50%;"><input required type="text" class="form-control" id="att_notice_title" name ="att_notice_title" placeholder="제목*"/></li>
+													<li style="width:50%;"><input required type="text" class="form-control" id="att_notice_title" name ="att_notice_title" placeholder="제목*" value="<%= data.getBbsTitle() %>" /></li>
 													<li>
-														<label class="checkbox"><input type="checkbox" value="Y" id="chk_special_box" name="chk_special_box" /><i></i>중요!</label>
+														<label class="checkbox"><input type="checkbox" value="Y" id="chk_special_box" name="chk_special_box" <% if("Y".equals(data.getBbsSpecialYN())){ %> checked <% } %> /><i></i>중요!</label>
 													</li>
 												</ul>
 											</div>
 											
-											<textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; min-height: 300px;"></textarea>
+											<textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; min-height: 300px;"><%= data.getBbsBody() %></textarea>
 											
 											<div class="fl_left">
-												<!-- 실제 파일 업로드 input -->
-												<input type="file" class="form-control hidden" id="att_file_upload" name="att_file_upload" />
-												<!-- 파일 업로드 View -->
-												<div class="input-group m-b-xxs" style="max-width: 300px;">
-													<span class="input-group-btn">
-						                            	<button type="button" class="btn btn-primary"  onclick="document.getElementById('att_file_upload').click();">파일선택</button> 
-						                             </span>
-						                             <input type="text" class="form-control" id="att_file_upload_view" name="att_file_upload_view" value="" disabled>
-							                     </div>
-												
-												<div id="uploadPer">
-									    		</div>
-									    		
-									    		<input type="text" id="att_upload_save_filename" class="hidden" value="">
-						 						<input type="text" id="att_upload_view_filename" class="hidden" value="">
-						 						<input type="text" id="att_upload_filepath" class="hidden" value="">
+												<% if (fileFlag) { %>
+													<!-- 실제 파일 업로드 input -->
+													<input type="file" class="form-control hidden" id="att_file_upload" name="att_file_upload" />												
+													<!-- 파일 업로드 View -->
+													<div class="input-group m-b-xxs" style="max-width: 300px;">
+														<span class="input-group-btn">
+							                            	<button type="button" class="btn btn-primary"  onclick="document.getElementById('att_file_upload').click();">파일선택</button> 
+							                             </span>
+							                             <input type="text" class="form-control" id="att_file_upload_view" name="att_file_upload_view" value="<%= file.getAttViewFileName() %>" disabled>
+								                     </div>
+													
+													<div id="uploadPer">
+										    		</div>
+										    		
+										    		<input type="text" id="att_upload_save_filename" class="hidden" value="<%= file.getAttSaveFileName() %>">
+							 						<input type="text" id="att_upload_view_filename" class="hidden" value="<%= file.getAttViewFileName() %>">
+							 						<input type="text" id="att_upload_filepath" class="hidden" value="<%= file.getAttFilePath() %>">
+						 						
+						 						<% } else { %>
+							 						<!-- 실제 파일 업로드 input -->
+													<input type="file" class="form-control hidden" id="att_file_upload" name="att_file_upload" />												
+													<!-- 파일 업로드 View -->
+													<div class="input-group m-b-xxs" style="max-width: 300px;">
+														<span class="input-group-btn">
+							                            	<button type="button" class="btn btn-primary"  onclick="document.getElementById('att_file_upload').click();">파일선택</button> 
+							                             </span>
+							                             <input type="text" class="form-control" id="att_file_upload_view" name="att_file_upload_view" value="" disabled>
+								                     </div>
+													
+													<div id="uploadPer">
+										    		</div>
+										    		
+										    		<input type="text" id="att_upload_save_filename" class="hidden" value="">
+							 						<input type="text" id="att_upload_view_filename" class="hidden" value="">
+							 						<input type="text" id="att_upload_filepath" class="hidden" value="">
+						 						<% }  %>
 											</div>
 											<div class="fl_right">
 												<a href="/admin/user/notice" class="btn btn-amber pull-right" style="margin:0;"><i class="fa fa-list"></i>목록</a>
-												<button id="btnNoticeSave" class="btn btn-green pull-right" style="margin:0 10px 0 0;"><i class="fa fa-check"></i>등록</button>
+												<button id="btnNoticeUpdate" class="btn btn-green pull-right" style="margin:0 10px 0 0;"><i class="fa fa-check"></i>수정</button>
 											</div>
 											
 										</div>
@@ -141,12 +168,14 @@
 			return true;
 		}
 		
-		function fn_content_save () {
+		function fn_content_update () {
 			
 			if (!fn_data_valid()) {
 				return false;
 			}
 			
+			var bbsId = '<%= data.getBbsId() %>';
+			var fileId = '<%= data.getAttfileId() %>';
 			var title = $('#att_notice_title').val();
 			oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
 			var body = $('#ir1').val();
@@ -163,9 +192,11 @@
        	 	
 			$.ajax({      
 			    type:"POST",  
-			    url:'/admin/user/notice/save',
+			    url:'/admin/user/notice/update',
 			    async: false,
 			    data:{
+			    	bbsId : bbsId,
+			    	fileId : fileId,
 			    	title : title,
 			    	body : body,
 			    	special : special,
@@ -194,8 +225,8 @@
 		$(document).ready(function(){
 			jQuery('#preloader').hide();
 			
-			$('#btnNoticeSave').click(function(){
-				fn_content_save();				
+			$('#btnNoticeUpdate').click(function(){
+				fn_content_update();				
 			});
 			
 			$('#att_file_upload').fileupload({

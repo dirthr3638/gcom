@@ -13,11 +13,11 @@ import com.google.gson.Gson;
 
 import gcom.controller.action.admin.getAdminAction;
 
-@WebServlet("/ax/policy/assign/list")
-public class axAdminPolicyAssignListController extends HttpServlet {
+@WebServlet("/ax/admin/contact/list")
+public class axAdminContactListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public axAdminPolicyAssignListController() {
+    public axAdminContactListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,8 +35,8 @@ public class axAdminPolicyAssignListController extends HttpServlet {
 		
 		getAdminAction action = new getAdminAction();
 		
-		HashMap<String, Object> data = action.getPolicyAssignMemberList(map);
-		
+		HashMap<String, Object> data = action.getAdminContactList(map);
+
 		data.putAll(data);
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(new Gson().toJson(data));

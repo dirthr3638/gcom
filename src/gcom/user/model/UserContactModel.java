@@ -12,8 +12,11 @@ public class UserContactModel {
 	private int contactType = 0;
 	private String contactTypeName ="";
 	private String contactTitle = "";
-	private String id = "";
+	private String contactBody ="";
+	private String regUserStafId = "";
+	private String regUserName = "";
 	private String regDt = "";
+	private int commentId = 0;
 	private String commentYN = "";
 	private String commnetRegStafId = "";
 	private String replyContent = "";

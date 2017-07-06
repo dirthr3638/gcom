@@ -3,6 +3,7 @@ package gcom.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +26,9 @@ import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.PrivacyLogModel;
 import gcom.Model.UserInfoModel;
+import gcom.Model.UserPolicyModel;
 import gcom.common.services.ConfigInfo;
+import gcom.user.model.UserContactModel;
 
 
 public class PersonalDataDAO {
@@ -1179,6 +1182,434 @@ sql += whereSql;
 		}
 		
 		return returnCode;
+	}
+
+	public HashMap<String, Object> updateNoticeModifyUpdate(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int bbs_id = Integer.parseInt(map.get("bbs_id").toString());
+		int file_id = Integer.parseInt(map.get("file_id").toString());
+		String bbs_title = map.get("bbs_title").toString();
+		String bbs_body = map.get("bbs_body").toString();
+		String bbs_body_trim = map.get("bbs_body_trim").toString();
+		String special_type = map.get("special_type").toString();
+		String attfile_yn = map.get("attfile_yn").toString();
+		int upd_staf_no = Integer.parseInt(map.get("upd_staf_no").toString());
+		
+		String save_file_nm =  map.get("save_file_nm").toString();
+		String view_file_nm =  map.get("view_file_nm").toString();
+		String att_file_path =  map.get("att_file_path").toString();
+		
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
+		
+		
+		
+		String sql= "UPDATE services_file_upload_info "
+				+ "SET att_file_path = ? , "
+				+ "view_file_nm = ? , "
+				+ "save_file_nm = ? "
+				+ "WHERE attfile_id = ? ";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			
+			if (attfile_yn.equals("Y")) {
+				
+				if (file_id == 0) {
+					
+					sql= "INSERT INTO services_file_upload_info (att_file_path, view_file_nm, save_file_nm) "
+							+ "VALUES (?, ?, ?) ";
+					
+					pstmt=con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+					pstmt.setString(1, att_file_path);
+					pstmt.setString(2, view_file_nm);
+					pstmt.setString(3, save_file_nm);
+					pstmt.executeUpdate();
+					
+					rs = pstmt.getGeneratedKeys();
+					
+					if (rs.next()) {
+						file_id = rs.getInt(1);
+					}
+					
+				} else {
+					pstmt=con.prepareStatement(sql);
+					pstmt.setString(1, att_file_path);
+					pstmt.setString(2, view_file_nm);
+					pstmt.setString(3, save_file_nm);
+					pstmt.setInt(4, file_id);
+					pstmt.executeUpdate();
+				}
+				
+				sql= "UPDATE user_notice_bbs "
+						+ "SET bbs_title = ?, "
+						+ "special_type = ?, "
+						+ "bbs_body = ?, "
+						+ "bbs_body_trim = ?, "
+						+ "upd_staf_no = ?, "
+						+ "upd_dt = NOW(), "
+						+ "attfile_yn = ?, "
+						+ "attfile_id = ? " 
+						+ "WHERE bbs_id = ?";
+				
+				pstmt=con.prepareStatement(sql);
+				pstmt.setString(1, bbs_title);
+				pstmt.setString(2, special_type);
+				pstmt.setString(3, bbs_body);
+				pstmt.setString(4, bbs_body_trim);
+				pstmt.setInt(5, upd_staf_no);
+				pstmt.setString(6, attfile_yn);
+				pstmt.setInt(7, file_id);
+				pstmt.setInt(8, bbs_id);
+				pstmt.executeUpdate();
+				
+			} else {
+				
+				sql= "UPDATE user_notice_bbs "
+						+ "SET bbs_title = ?, "
+						+ "special_type = ?, "
+						+ "bbs_body = ?, "
+						+ "bbs_body_trim = ?, "
+						+ "upd_staf_no = ?, "
+						+ "upd_dt = NOW(), "
+						+ "attfile_yn = ?, "
+						+ "attfile_id = ? " 
+						+ "WHERE bbs_id = ?";
+				
+				pstmt=con.prepareStatement(sql);
+				pstmt.setString(1, bbs_title);
+				pstmt.setString(2, special_type);
+				pstmt.setString(3, bbs_body);
+				pstmt.setString(4, bbs_body_trim);
+				pstmt.setInt(5, upd_staf_no);
+				pstmt.setString(6, attfile_yn);
+				pstmt.setInt(7, file_id);
+				pstmt.setInt(8, bbs_id);
+				pstmt.executeUpdate();
+				
+			}
+									
+			con.commit();
+			result.put("returnCode", returnCode);
+			
+
+		
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public List<UserContactModel> getAdminContactList(HashMap<String, Object> map) {
+		List<UserContactModel> data = new ArrayList<UserContactModel>();
+		
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+		if(!user_id.equals("")) 	whereSql += "AND ui.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ui.name LIKE ? ";
+
+		if(oDept != null)			whereSql += "AND ui.dept_no in ("+idList+") ";
+
+		
+		whereSql += "ORDER BY con.contact_id DESC LIMIT ?, ? ";	
+		
+		String sql= 
+				"SELECT con.contact_id, "
+				+ "con.contact_type, "
+				+ "con.contact_title, "
+				+ "con.contact_body, "
+				+ "ui.id, "
+				+ "ui.name, "
+				+ "DATE(con.reg_dt) as reg_dt, "
+				+ "con.comment_yn, "
+				+ "con_comm.comment_id, "
+				+ "IFNULL(admin_info.id, '')as comment_reg_staf_id, "
+				+ "IFNULL(con_comm.reply_content, '') as reply_content, "
+				+ "IFNULL(con_comm.reg_dt, '') as comment_reg_dt "
+				+ "FROM user_contact_info AS con "
+				+ "LEFT JOIN user_info AS ui ON con.reg_user_staf_no = ui.no "
+				+ "LEFT JOIN user_contact_comment AS con_comm ON con.contact_id = con_comm.contact_id "
+				+ "LEFT JOIN admin_info AS admin_info ON con_comm.reg_admin_staf_no = admin_info.no ";
+
+		sql += whereSql;
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+		
+			int i = 1;
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+		
+			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
+			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				UserContactModel model = new UserContactModel();
+				model.setContactId(rs.getInt("contact_id"));
+				model.setContactType(rs.getInt("contact_type"));
+				model.setTypeName(rs.getInt("contact_type"));
+				model.setContactTitle(rs.getString("contact_title"));
+				model.setContactBody(rs.getString("contact_body"));
+				model.setRegUserStafId(rs.getString("id"));
+				model.setRegUserName(rs.getString("name"));
+				model.setRegDt(rs.getString("reg_dt"));
+				model.setCommentYN(rs.getString("comment_yn"));
+				model.setCommentId(rs.getInt("comment_id"));
+				model.setCommnetRegStafId(rs.getString("comment_reg_staf_id"));
+				model.setReplyContent(rs.getString("reply_content"));
+				model.setCommentRegDt(rs.getString("comment_reg_dt"));
+				
+				data.add(model);
+			}
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public int getAdminContactListCount(HashMap<String, Object> map) {
+		int result = 0;
+		
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}
+		if(!user_id.equals("")) 	whereSql += "AND ui.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ui.name LIKE ? ";
+
+		if(oDept != null)			whereSql += "AND ui.dept_no in ("+idList+") ";
+	
+		String sql= 
+				"SELECT "
+						+ "COUNT(*) AS cnt "
+						+ "FROM user_contact_info AS con "
+						+ "LEFT JOIN user_info AS ui ON con.reg_user_staf_no = ui.no "
+						+ "LEFT JOIN user_contact_comment AS con_comm ON con.contact_id = con_comm.contact_id "
+						+ "LEFT JOIN admin_info AS admin_info ON con_comm.reg_admin_staf_no = admin_info.no ";
+
+		sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);	
+
+			int i = 1;
+
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public HashMap<String, Object> insertContactCommentSave(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int reg_admin_staf_no = Integer.parseInt(map.get("reg_admin_staf_no").toString());
+		int contact_id = Integer.parseInt(map.get("contact_id").toString());
+		String reply_content = map.get("reply_content").toString();
+		
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
+		
+		String sql= "INSERT INTO user_contact_comment (contact_id, reg_admin_staf_no, reply_content, reg_dt) VALUES ( ?, ?, ?, NOW() )";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, contact_id);
+			pstmt.setInt(2, reg_admin_staf_no);
+			pstmt.setString(3, reply_content);
+			pstmt.executeUpdate();
+			
+			sql = "UPDATE user_contact_info set comment_yn = 'Y' WHERE contact_id = ? ";
+			
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, contact_id);
+			pstmt.executeUpdate();
+				
+			con.commit();
+			result.put("returnCode", returnCode);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public HashMap<String, Object> getCommentInfo(HashMap<String, Object> map) {
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		int comment_id = Integer.parseInt(map.get("comment_id").toString());
+		
+		String sql= "SELECT "
+				+ "comment_id, "
+				+ "contact_id, "
+				+ "reg_admin_staf_no, "
+				+ "reply_content, "
+				+ "reg_dt "
+				+ "FROM user_contact_comment WHERE del_yn = 'N' AND comment_id = ?";
+					
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, comment_id);
+			rs = pstmt.executeQuery();
+			
+			ResultSetMetaData metaData = rs.getMetaData();
+			int sizeOfColumn = metaData.getColumnCount();
+			
+			String column = "";
+			
+			if(rs.next()){
+				// Column의 갯수만큼 회전
+				for (int indexOfcolumn = 0; indexOfcolumn < sizeOfColumn; indexOfcolumn++) {
+					// Column의 갯수만큼 회전
+					column = metaData.getColumnName(indexOfcolumn + 1);
+					// phone number 일 경우 복호화
+					data.put(column, rs.getString(column));
+				}
+
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+
+	public HashMap<String, Object> updateContactCommentUpdate(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int comment_id = Integer.parseInt(map.get("comment_id").toString());
+		String reply_content = map.get("reply_content").toString();
+		
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
+		
+		String sql= "UPDATE user_contact_comment SET reply_content = ?, upd_dt = NOW() WHERE comment_id = ?";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+					
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, reply_content);
+			pstmt.setInt(2, comment_id);
+			pstmt.executeUpdate();
+									
+			con.commit();
+			result.put("returnCode", returnCode);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
 	}
 	
 }

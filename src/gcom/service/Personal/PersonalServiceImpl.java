@@ -16,6 +16,7 @@ import gcom.Model.PolicySerialModel;
 import gcom.Model.PrivacyLogModel;
 import gcom.Model.UserInfoModel;
 import gcom.common.services.ConfigInfo;
+import gcom.user.model.UserContactModel;
 
 public class PersonalServiceImpl implements IPersonalService {
 	
@@ -80,6 +81,30 @@ public class PersonalServiceImpl implements IPersonalService {
 		result.put("returnCode", returnCode);
 		
 		return result;
+	}
+	
+	public HashMap<String, Object> updateNoticeModifyUpdate(HashMap<String, Object> map) {
+		return poDao.updateNoticeModifyUpdate(map);	
+	}
+	
+	public List<UserContactModel> getAdminContactList(HashMap<String, Object> map){
+		return poDao.getAdminContactList(map);
+	}
+	
+	public int getAdminContactListCount(HashMap<String, Object> map){
+		return poDao.getAdminContactListCount(map);
+	}
+	
+	public HashMap<String, Object> insertContactCommentSave(HashMap<String, Object> map){
+		return poDao.insertContactCommentSave(map);
+	}
+	
+	public HashMap<String, Object> getCommentInfo(HashMap<String, Object> map) {
+		return poDao.getCommentInfo(map);
+	}
+	
+	public HashMap<String, Object> updateContactCommentUpdate(HashMap<String, Object> map) {
+		return poDao.updateContactCommentUpdate(map);	
 	}
 	
 }
