@@ -1,4 +1,4 @@
-package gcom.controller.front.admin.ax;
+package gcom.controller.front.admin.ax.Do;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import gcom.common.util.JSONUtil;
-import gcom.controller.action.admin.updateAdminAction;
+import gcom.controller.action.admin.insertAdminAction;
 
-@WebServlet("/admin/policy/msg/modify")
-public class axAdminPolicyMessengerUpdate extends HttpServlet {
+@WebServlet("/admin/policy/device/save")
+public class axAdminPolicyDeviceSave extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public axAdminPolicyMessengerUpdate() {
+    public axAdminPolicyDeviceSave() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,12 +31,15 @@ public class axAdminPolicyMessengerUpdate extends HttpServlet {
 	 */
     @Override  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	HashMap<String, Object> param = JSONUtil.convertJsonToHashMap(request.getParameter("data").toString());
     	
-		updateAdminAction action = new updateAdminAction();
+    	String deviceId = request.getParameter("code").toString();
+    	HashMap<String, Object> param = new HashMap<String, Object>();
+    	param.put("deviceId", deviceId);
+    	
+		insertAdminAction action = new insertAdminAction();
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
-			data = action.updatePolicyMsgUpdate(param);
+			data = action.insertPolicyDeviceSave(param);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

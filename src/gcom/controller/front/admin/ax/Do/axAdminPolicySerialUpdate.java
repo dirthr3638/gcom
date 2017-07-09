@@ -1,4 +1,4 @@
-package gcom.controller.front.admin.ax;
+package gcom.controller.front.admin.ax.Do;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import gcom.common.util.JSONUtil;
-import gcom.controller.action.admin.insertAdminAction;
+import gcom.controller.action.admin.updateAdminAction;
 
-@WebServlet("/admin/policy/msg/save")
-public class axAdminPolicyMessengerSave extends HttpServlet {
+@WebServlet("/admin/policy/serial/modify")
+public class axAdminPolicySerialUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public axAdminPolicyMessengerSave() {
+    public axAdminPolicySerialUpdate() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,10 +34,10 @@ public class axAdminPolicyMessengerSave extends HttpServlet {
     	
     	HashMap<String, Object> param = JSONUtil.convertJsonToHashMap(request.getParameter("data").toString());
     	
-		insertAdminAction action = new insertAdminAction();
+		updateAdminAction action = new updateAdminAction();
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
-			data = action.insertPolicyMsgSave(param);
+			data = action.updatePolicySerialUpdate(param);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

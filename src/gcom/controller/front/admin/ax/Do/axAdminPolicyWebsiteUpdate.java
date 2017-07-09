@@ -1,4 +1,4 @@
-package gcom.controller.front.admin.ax;
+package gcom.controller.front.admin.ax.Do;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,14 +14,14 @@ import com.google.gson.Gson;
 import gcom.common.util.JSONUtil;
 import gcom.controller.action.admin.updateAdminAction;
 
-@WebServlet("/admin/policy/serial/modify")
-public class axAdminPolicySerialUpdate extends HttpServlet {
+@WebServlet("/admin/policy/website/modify")
+public class axAdminPolicyWebsiteUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public axAdminPolicySerialUpdate() {
+    public axAdminPolicyWebsiteUpdate() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,7 +37,7 @@ public class axAdminPolicySerialUpdate extends HttpServlet {
 		updateAdminAction action = new updateAdminAction();
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
-			data = action.updatePolicySerialUpdate(param);
+			data = action.updatePolicyWebsiteUpdate(param);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

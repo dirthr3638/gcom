@@ -1,4 +1,4 @@
-package gcom.controller.front.admin.ax;
+package gcom.controller.front.admin.ax.Do;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,8 +23,8 @@ import gcom.user.service.UserService;
 /**
  * Servlet implementation class axCommonUI
  */
-@WebServlet("/admin/user/comment/save")
-public class axAdminContactCommentSave extends HttpServlet {
+@WebServlet("/admin/user/notice/save")
+public class axAdminNoticeWriteSave extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,15 +38,22 @@ public class axAdminContactCommentSave extends HttpServlet {
     	IManagementService managementService = new ManagementServiceImpl();
     	SubAdminModel admin = managementService.getAdminUserInfo(param);
 		
-		param.put("reg_admin_staf_no", admin.getAdminNo());
-		param.put("contact_id", request.getParameter("contact_id").toString());
-		param.put("reply_content", request.getParameter("reply_content").toString());
+		
+		param.put("reg_staf_no", admin.getAdminNo());
+		param.put("bbs_title", request.getParameter("title"));
+		param.put("bbs_body", request.getParameter("body"));
+		param.put("special_type", request.getParameter("special"));
+		param.put("bbs_body_trim", request.getParameter("body_trim"));
+		param.put("save_file_nm", request.getParameter("save_file_nm"));
+		param.put("view_file_nm", request.getParameter("view_file_nm"));
+		param.put("att_file_path", request.getParameter("file_path"));
+		param.put("attfile_yn", request.getParameter("attfile_yn"));
 		
 		insertAdminAction action = new insertAdminAction();
 		
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
-			data = action.insertContactCommentSave(param);
+			data = action.insertNoticeWriteSave(param);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
