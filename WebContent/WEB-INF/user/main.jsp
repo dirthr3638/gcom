@@ -20,7 +20,7 @@
 		<!-- PAGE LEVEL STYLE -->
 		<link href="/assets/css/user_header.css" rel="stylesheet" type="text/css" />
 		<link href="/assets/css/color_scheme/user_green.css" rel="stylesheet" type="text/css" id="color_scheme" />
-
+		
 	</head>
 	<body class="smoothscroll enable-animation">
 		<jsp:include page="/WEB-INF/common/user_header.jsp" flush="false" />

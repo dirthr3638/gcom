@@ -372,5 +372,50 @@ sql += whereSql;
 		
 		return result;
 	}
+
+	public SubAdminModel getAdminUserIdToNo(HashMap<String, Object> map) {
+		SubAdminModel model = new SubAdminModel();
+		String adminId = map.get("user_id").toString();
+		
+		String sql= 
+				"SELECT "
+					+ "admin.no AS admin_no, "
+					+ "admin.id AS admin_id, "
+					+ "ifnull(admin.pw, '') AS admin_pw, "
+					+ "admin.ip_addr0 AS ip_addr, "
+					+ "admin.ip_addr1 AS ip_addr1, "
+					+ "admin.dept_no AS dept_no "					
+				+ "FROM admin_info AS admin "
+				+ "WHERE admin.id = ? ";
+
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, adminId);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				model.setAdminNo(rs.getInt("admin_no"));
+				model.setAdminId(rs.getString("admin_id"));
+				model.setIsPassword(rs.getString("admin_pw").equals("") ? false : true);
+				model.setIpAddr(rs.getString("ip_addr"));
+				model.setIpAddr1(rs.getString("ip_addr1"));
+				model.setDept_no(rs.getInt("dept_no"));
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return model;
+	}
 	
 }

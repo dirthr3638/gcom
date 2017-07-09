@@ -7768,3 +7768,26 @@ ul.search-history {
 .comment-cell{
 	background-color: #f3f3eb;
 }
+
+.policy_icon{
+	margin-left: 6px;
+	margin-right: 6px;
+	cursor:help;
+}
+
+.th-cell-gray {
+	font-weight:bold;
+	background-color: #fcfcfc;
+}
+
+.inline-list {
+	list-style: none;
+	padding: 0;
+	margin:0px;
+}
+
+.inline-list li {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0px 10px;
+}

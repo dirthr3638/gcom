@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import gcom.user.service.UserServiceImpl;
+import gcom.common.util.StringUtil;
 import gcom.user.service.UserService;
 
 /**
@@ -32,17 +33,28 @@ public class axUserMemberPolicyModalController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String group = request.getParameter("group").toString();
-    	HashMap<String, Object> param = new HashMap<String, Object>();
-    	param.put("group_id", group);
-    	param.put("key", request.getParameter("key_code").toString());
-    	
-    	UserService userService = new UserServiceImpl();
-    	List<HashMap<String, Object>> list = userService.getMemberPolicyDetail(param);
-    	
-    	request.setAttribute("group", group);
-    	request.setAttribute("userPolicyDetail", list);
-		request.getRequestDispatcher("/WEB-INF/user/ax/main_user_policy_modal_ax.jsp").forward(request, response);
+		String type = StringUtil.nullToString(request.getParameter("type").toString(), "");
+		String code = StringUtil.nullToString(request.getParameter("code").toString(), "");
+		
+		String loadAxUrl = "/WEB-INF/user/ax/popup/main_policy_popup_usb.jsp";
+		 if ("isUsbBlock".equals(type)) {
+			 loadAxUrl = "/WEB-INF/user/ax/popup/main_policy_popup_usb.jsp";
+         } else if ("isComPortBlock".equals(type)) {
+        	 loadAxUrl = "/WEB-INF/user/ax/popup/main_policy_popup_serial.jsp";	
+         } else if ("isNetPortBlock".equals(type)) {
+        	 loadAxUrl = "/WEB-INF/user/ax/popup/main_policy_popup_network.jsp";	
+         } else if ("isProcessList".equals(type)) {
+        	 loadAxUrl = "/WEB-INF/user/ax/popup/main_policy_popup_process.jsp";	
+         } else if ("isFilePattern".equals(type)) {
+        	 loadAxUrl = "/WEB-INF/user/ax/popup/main_policy_popup_pattern.jsp";	
+         } else if ("isWebAddr".equals(type)) {
+        	 loadAxUrl = "/WEB-INF/user/ax/popup/main_policy_popup_website.jsp";	
+         } else if ("isMsgBlock".equals(type)) {
+        	 loadAxUrl = "/WEB-INF/user/ax/popup/main_policy_popup_msg.jsp";	
+         } 
+		
+		request.setAttribute("code", code);
+		request.getRequestDispatcher(loadAxUrl).forward(request, response);
 	}
 
 }

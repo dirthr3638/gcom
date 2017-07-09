@@ -34,6 +34,10 @@ public class ManagementServiceImpl implements IManagementService {
 		return poDao.insertAdminUserInfo(map);
 		
 	}
+	
+	public SubAdminModel getAdminUserIdToNo(HashMap<String, Object> map) {
+		return poDao.getAdminUserIdToNo(map);	
+	}
 
 
 }

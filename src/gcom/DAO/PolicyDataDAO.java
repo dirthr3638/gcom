@@ -2294,7 +2294,7 @@ sql += whereSql;
 		
 		// 장치 로그 정보 검색
 		String sql= "SELECT " 
-					+ "no as usb_con_no, "
+					+ "no, "
 					+ "user_no, "
 					+ "device_name, "
 					+ "vid, "
@@ -2340,6 +2340,7 @@ sql += whereSql;
 				int usb_no = 0;
 				
 				if (rs != null && rs.next()) {
+					usb_no = rs.getInt("no");
 					data.put("usb_no", usb_no);
 				} else {
 					
@@ -2388,7 +2389,7 @@ sql += whereSql;
 	public HashMap<String, Object> setUserPolicyDeviceData(HashMap<String, Object> map) {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		String usb_no = map.get("usb_no").toString();
-		int user_no = Integer.parseInt(map.get("usb_no").toString());
+		int user_no = Integer.parseInt(map.get("user_no").toString());
 		int sCount = 0;
 		int fCount = 0;
 		

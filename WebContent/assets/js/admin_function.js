@@ -152,9 +152,9 @@ function getApplyPolicyDetailItem(data){
 	}
 	
 	if(data.isWaterMark == true){
-		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>허용 ['+ data.waterMarkEndDate +'까지] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></td>';	
+		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>사용 ['+ data.waterMarkEndDate +'까지] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></td>';	
 	}else{
-		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>불가</td>';			
+		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>미사용</td>';			
 	}
 	
 	if(data.printLogDesc == 0){

@@ -2,6 +2,7 @@ package gcom.controller.front.ax;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,9 +43,9 @@ public class axUserMemberPolicyController extends HttpServlet {
     	param.put("user_id", user_id);
     	
     	UserService userService = new UserServiceImpl();
-    	MemberPolicyModel data = userService.getMemberPolicyInfo(param);
+    	List<MemberPolicyModel> list = userService.getMemberPolicyInfo(param);
     	
-    	request.setAttribute("userPolicyInfo", data);
+    	request.setAttribute("userPolicyInfo", list);
 		request.getRequestDispatcher("/WEB-INF/user/ax/main_user_policy_ax.jsp").forward(request, response);
 	}
 

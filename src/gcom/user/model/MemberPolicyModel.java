@@ -5,46 +5,58 @@ import lombok.Data;
 @Data
 public class MemberPolicyModel {
 	// USER 사용 ===================================
+	// 기본 사용자 정보
+	private int agentNo;
 	private int userNo;
-	private String userId = "";
 	private int policyNo;
+	private String userName = "";
+	private String userId = "";
+	private int deptId ;
+	private String duty = "";
+	private String rank = "";
+	private String ipAddr = "";
+	private String macAddr = "";
+	private String pcName = "";
+	private String deptName = "";
 	
-	// Enabled 데이터
-	private Boolean isUninstall;
-	private Boolean isFileEncryption;
-	private Boolean isCdEncryption;
-	private Boolean isPrint;
-	private Boolean isCdEnabled;
-	private Boolean isCdExport;
-	private Boolean isWlan;
-	private Boolean isNetShare;
-	private Boolean isWebExport;
-	private Boolean isStorageExport;
-	private Boolean isStorageAdmin;
+	// Enabled 정책 데이터
+	private Boolean isUninstall = false;
+	private Boolean isFileEncryption = false;
+	private Boolean isCdEncryption = false;
+	private Boolean isPrint = false;
+	private Boolean isCdEnabled = false;
+	private Boolean isCdExport = false;
+	private Boolean isWlan = false;
+	private Boolean isNetShare = false;
+	private Boolean isWebExport = false;
+	private Boolean isStorageExport = false;
+	private Boolean isStorageAdmin = false;
+
+	// LongText형 List 정책 정보 Enabled 가공
+	private Boolean isUsbBlock = false;
+	private Boolean isComPortBlock = false;
+	private Boolean isNetPortBlock = false;
+	private Boolean isProcessList = false;
+	private Boolean isFilePattern = false;
+	private Boolean isWebAddr = false;
+	private Boolean isMsgBlock = false;
 	
-	// LongText Y,N 가공 데이터
-	private Boolean isUsbBlock;
-	private Boolean isComPortBlock;
-	private Boolean isNetPortBlock;
-	private Boolean isProcessList;
-	private Boolean isFilePattern;
-	private Boolean isWebAddr;
+	// LongText형 List 정책 정보 적용 코드 데이터 (String)
+	private String usbBlockCode = "";
+	private String comPortBlockCode = "";
+	private String netPortBlockCode = "";
+	private String processListCode = "";
+	private String filePatternCode = "";
+	private String webAddrCode = "";
+	private String msgBlockCode = "";
 	
-	private Boolean isWaterMark;
-	
-	// LongText String Code
-	private String usbBlockCode;
-	private String comPortBlockCode;
-	private String netPortBlockCode;
-	private String processListCode;
-	private String filePatternCode;
-	private String webAddrCode;
-	private String waterMarkCode = "";
+	// 워터 마크 관련 데이터
+	private Boolean isWaterMark = false;
 	private String waterMarkEndDate = "";
-	
+	private int waterMarkType = 0;
 	
 	private int printLogDesc;	//0:로그 전송 안함	1:이벤트 로그	2: 파일 원본 로그
-	private String quarantinePathAccessCode;	// 값이 없거나 null 인 경우 격리폴더 접근 불가
+	//private String quarantinePathAccessCode = "";
 	private int patternFileControl;   //검출된 패턴파일 처리 방법 0:격리 1:삭제
 
 	public void setIsUninstall(int value){
@@ -127,48 +139,64 @@ public class MemberPolicyModel {
 	
 	public void setIsUsbBlock(String value){
 		if(value.substring(0,1).equals("Y")){
-			isUsbBlock = true;
-			usbBlockCode = value.substring(2, value.length());
-		}else{
 			isUsbBlock = false;
+			usbBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isUsbBlock = true;
+			usbBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		};		
 	}
+	
 	public void setIsComPortBlock(String value){
 		if(value.substring(0,1).equals("Y")){
-			isComPortBlock = true;
-			comPortBlockCode = value.substring(2, value.length());
-		}else{
 			isComPortBlock = false;
+			comPortBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isComPortBlock = true;
+			comPortBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		};		
 	}
 	public void setIsNetPortBlock(String value){
 		if(value.substring(0,1).equals("Y")){
-			isNetPortBlock = true;
-			netPortBlockCode = value.substring(2, value.length());
-		}else{
 			isNetPortBlock = false;
+			netPortBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isNetPortBlock = true;
+			netPortBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		};		
 	}
 	public void setIsWebAddr(String value){
 		if(value.substring(0,1).equals("Y")){
-			isWebAddr = true;
-			webAddrCode = value.substring(2, value.length());
-		}else{
 			isWebAddr = false;
+			webAddrCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isWebAddr = true;
+			webAddrCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		};		
 	}
+	
+	public void setIsMsgBlock(String value){
+		if(value.substring(0,1).equals("Y")){
+			isMsgBlock = false;
+			msgBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isMsgBlock = true;
+			msgBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		};		
+	}
+	
 	public void setWatermarkInfo(String value){
 		String[] spv = value.split(",");
 		if(spv[0].equals("Y")){
 			isWaterMark = true;
+			waterMarkEndDate = spv[1];
 		}else{
 			isWaterMark = false;
 		}
-		waterMarkEndDate = spv[1];
 	}
 
 	public void setIsProcessList(String value){
-		if(value == null || "".equals(value)){
+		if("".equals(value)){
 			isProcessList = false;
 		}else{
 			isProcessList = true;
@@ -177,7 +205,7 @@ public class MemberPolicyModel {
 	}
 	
 	public void setIsFilePattern(String value){
-		if(value == null || "".equals(value)){
+		if("".equals(value)){
 			isFilePattern = false;
 		}else{
 			isFilePattern = true;

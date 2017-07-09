@@ -1,448 +1,193 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
+<%@ page import="gcom.common.util.CommonUtil "%>
 <%@ page import="gcom.user.model.MemberPolicyModel"%>
 <% 
-	MemberPolicyModel data = (MemberPolicyModel)request.getAttribute("userPolicyInfo");
+	List<MemberPolicyModel> list = (List<MemberPolicyModel>)request.getAttribute("userPolicyInfo");
+	
+	boolean isEmpty = true;
+	
+	for(MemberPolicyModel mp : list) {
+		if(mp.getPolicyNo() != 0) {
+			isEmpty = false;
+		}
+	}
+
 %>
-<table class="table table-bordered table-striped">
-	<% if ("".equals(data.getUserId())) { %>
-	<tbody>
-		<tr>
-			<td>사용자 정책이 존재 하지 않습니다.</td>
-		</tr>
+
+<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+
+
+	<% if (isEmpty) { %>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td>사용자 정책이 존재 하지 않습니다.</td>
+			</tr>
+		</tbody>
+	</table>
+		
 	<% 
 	} else {
+		
+		for(MemberPolicyModel data : list) {
+			String policyIcon = CommonUtil.getPolicyIcon(data);
 	%>
-		<tr>
-			<td>에이전트 삭제 가능 여부</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsUninstall()) { %>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isUninstall" checked="checked" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isUninstall" disabled="disabled"><i></i> 불가
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isUninstall" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isUninstall" checked="checked" disabled="disabled"><i></i> 불가
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>파일 실시간 암복호화 사용 여부</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsFileEncryption()) { %>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isFileEncryption" checked="checked" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isFileEncryption" disabled="disabled"><i></i> 불가
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isFileEncryption" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isFileEncryption" checked="checked" disabled="disabled"><i></i> 불가
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>CD 암복호화 사용 여부</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsCdEncryption()) { %>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isCdEncryption" checked="checked" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isCdEncryption" disabled="disabled"><i></i> 불가
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isCdEncryption" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isCdEncryption" checked="checked" disabled="disabled"><i></i> 불가
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>프린터 사용 여부</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsPrint()) { %>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isPrint" checked="checked" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isPrint" disabled="disabled"><i></i> 불가
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isPrint" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isPrint" checked="checked" disabled="disabled"><i></i> 불가
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>CD 사용 가능 여부</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsCdEnabled()) { %>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isCdEnabled" checked="checked" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isCdEnabled" disabled="disabled"><i></i> 불가
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isCdEnabled" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isCdEnabled" checked="checked" disabled="disabled"><i></i> 불가
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>CD 복사/이동 가능 여부</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsCdExport()) { %>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isCdExport" checked="checked" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isCdExport" disabled="disabled"><i></i> 불가
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isCdExport" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isCdExport" checked="checked" disabled="disabled"><i></i> 불가
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>무선랜 사용 여부</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsWlan()) { %>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isWlan" checked="checked" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isWlan" disabled="disabled"><i></i> 불가
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isWlan" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isWlan" checked="checked" disabled="disabled"><i></i> 불가
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>공유 폴더 사용 여부</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsNetShare()) { %>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isNetShare" checked="checked" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isNetShare" disabled="disabled"><i></i> 불가
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isNetShare" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isNetShare" checked="checked" disabled="disabled"><i></i> 불가
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>WEB 외부 반출 가능 여부</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsWebExport()) { %>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isWebExport" checked="checked" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isWebExport" disabled="disabled"><i></i> 불가
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isWebExport" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isWebExport" checked="checked" disabled="disabled"><i></i> 불가
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>저장 정보 외부 반출 시 삭제 여부</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsStorageExport()) { %>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isStorageExport" checked="checked" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isStorageExport" disabled="disabled"><i></i> 불가
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isStorageExport" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isStorageExport" checked="checked" disabled="disabled"><i></i> 불가
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>관리자 모드에서 저장정보 삭제 가능 여부</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsStorageAdmin()) { %>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isStorageAdmin" checked="checked" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isStorageAdmin" disabled="disabled"><i></i> 불가
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isStorageAdmin" disabled="disabled"><i></i> 허용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isStorageAdmin" checked="checked" disabled="disabled"><i></i> 불가
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				USB포트 제어 정보
-			</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsUsbBlock()) {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isUsbBlock" checked="checked" disabled="disabled"><i></i> 적용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isUsbBlock" disabled="disabled"><i></i> 미적용 
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<a href="#" onClick="javascript:fn_sel_policy_detailOpen('isUsbBlock', '<%= data.getUsbBlockCode() %>');" ><i class="fa fa-search"></i> 상세정책보기</a> 
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isUsbBlock" disabled="disabled"><i></i> 적용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isUsbBlock" checked="checked" disabled="disabled"><i></i> 미적용
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				시리얼 포트 제어 정보
-			</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsComPortBlock()) {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isComPortBlock" checked="checked" disabled="disabled"><i></i> 적용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isComPortBlock" disabled="disabled"><i></i> 미적용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<a href="#" onClick="javascript:fn_sel_policy_detailOpen('isComPortBlock', '<%= data.getComPortBlockCode() %>');" ><i class="fa fa-search"></i> 상세정책보기</a> 
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isComPortBlock" disabled="disabled"><i></i> 적용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isComPortBlock" checked="checked" disabled="disabled"><i></i> 미적용
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				네트워크 포트 제어 정보
-			</td>
-			<td>
-				<div class="inline-group">
-					<% if (data.getIsNetPortBlock()) {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isNetPortBlock" checked="checked" disabled="disabled"><i></i> 적용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isNetPortBlock" disabled="disabled"><i></i> 미적용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<a href="#" onClick="javascript:fn_sel_policy_detailOpen('isNetPortBlock', '<%= data.getNetPortBlockCode() %>');" ><i class="fa fa-search"></i> 상세정책보기</a> 
-						</label>
-					<% } else {%>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isNetPortBlock" disabled="disabled"><i></i> 적용
-						</label>
-						<label class="radio nomargin-top nomargin-bottom">
-							<input type="radio" name="isNetPortBlock" checked="checked" disabled="disabled"><i></i> 미적용
-						</label>
-					<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				프로세스 차단 정보
-			</td>
-			<td>
-				<div class="inline-group">
-				<% if (data.getIsProcessList()) {%>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="isProcessList" checked="checked" disabled="disabled"><i></i> 적용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="isProcessList" disabled="disabled"><i></i> 미적용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-							<a href="#" onClick="javascript:fn_sel_policy_detailOpen('isProcessList', '<%= data.getProcessListCode() %>');" ><i class="fa fa-search"></i> 상세정책보기</a> 
-						</label>
-				<% } else {%>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="isProcessList" disabled="disabled"><i></i> 적용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="isProcessList" checked="checked" disabled="disabled"><i></i> 미적용
-					</label>
-				<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				민감패턴 제어 정보
-			</td>
-			<td>
-				<div class="inline-group">
-				 <% if (data.getIsFilePattern()) {%>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="isFilePattern" checked="checked" disabled="disabled"><i></i> 적용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="isFilePattern" disabled="disabled"><i></i> 미적용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<a href="#" onClick="javascript:fn_sel_policy_detailOpen('isFilePattern', '<%= data.getFilePatternCode() %>');" ><i class="fa fa-search"></i> 상세정책보기</a> 
-					</label>
-				<% } else {%>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="isFilePattern" disabled="disabled"><i></i> 적용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="isFilePattern" checked="checked" disabled="disabled"><i></i> 미적용
-					</label>
-				<% } %>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				사이트 차단 정보
-			</td>
-			<td>
-				<div class="inline-group">
-				<% if (data.getIsWebAddr()) {%>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="isWebAddr" checked="checked" disabled="disabled"><i></i> 적용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="isWebAddr" disabled="disabled"><i></i> 미적용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<a href="#" onClick="javascript:fn_sel_policy_detailOpen('isWebAddr', '<%= data.getWebAddrCode() %>');"><i class="fa fa-search"></i> 상세정책보기</a> 
-					</label>
-				<% } else {%>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="isWebAddr" disabled="disabled"><i></i> 적용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="isWebAddr" checked="checked" disabled="disabled"><i></i> 미적용
-					</label>
-				<% } %>
-				</div>
-			</td>
-		</tr>
-	<% } %>
-	</tbody>
-</table>
-
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">에이전트 정보</td>
+				<td class="center-cell" colspan="3">
+					<ul class="inline-list">
+						<li>PC 이름 : <%= data.getPcName() %></li>
+						<li>MAC : <%= data.getMacAddr() %></li>
+						<li>IP : <%= data.getIpAddr() %></li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">정책요약 정보</td>
+				<td class="center-cell" colspan="3"><%= policyIcon %></td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">에이전트삭제가능</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsUninstall()) { %> 허용 <% } else { %> 불가 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">파일실시간암호화</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsFileEncryption()) { %> 암호화 <% } else { %> 비암호화 <% } %></td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">CD실시간암호화</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsCdEncryption()) { %> 암호화 <% } else { %> 비암호화 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">프린트사용여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsPrint()) { %> 허용 <% } else { %> 불가 <% } %></td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">CD사용가능여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsCdEnabled()) { %> 허용 <% } else { %> 불가 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">CD반출여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsCdExport()) { %> 허용 <% } else { %> 불가 <% } %></td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">무선랜사용가능여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsWlan()) { %> 허용 <% } else { %> 차단 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">공유폴더사용여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsNetShare()) { %> 사용 <% } else { %> 미사용 <% } %></td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">메일반출여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsWebExport()) { %> 허용 <% } else { %> 차단 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">USB포트사용여부</td>
+				<td class="center-cell" width="25%">
+					<% if (data.getIsUsbBlock()) { %> 차단 <% } else { %> 허용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="#" onClick="javascript:fn_popup_detail('isUsbBlock', '<%= data.getUsbBlockCode() %>');" style="color:#1b74a7"><i class="fa fa-search"></i> 상세</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">시리얼포트사용여부</td>
+				<td class="center-cell" width="25%"> 
+					<% if (data.getIsComPortBlock()) { %> 차단 <% } else { %> 허용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="#" onClick="javascript:fn_popup_detail('isComPortBlock', '<%= data.getComPortBlockCode() %>');" style="color:#1b74a7"><i class="fa fa-search"></i> 상세</a>
+				</td>
+				<td class="center-cell th-cell-gray" width="25%">네트워크포트사용여부</td>
+				<td class="center-cell" width="25%">
+					<% if (data.getIsNetPortBlock()) { %> 차단 <% } else { %> 허용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="#" onClick="javascript:fn_popup_detail('isNetPortBlock', '<%= data.getNetPortBlockCode() %>');" style="color:#1b74a7"><i class="fa fa-search"></i> 상세</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">프로세스차단여부</td>
+				<td class="center-cell" width="25%"> 
+					<% if (data.getIsProcessList()) { %> 차단 <% } else { %> 허용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="#" onClick="javascript:fn_popup_detail('isProcessList', '<%= data.getProcessListCode() %>');" style="color:#1b74a7"><i class="fa fa-search"></i> 상세</a>
+				</td>
+				<td class="center-cell th-cell-gray" width="25%">민감패턴차단여부</td>
+				<td class="center-cell" width="25%"> 
+					<% if (data.getIsFilePattern()) { %> 차단 [검충패턴처리 : <%= data.getPatternFileControl() == 0? "격리" : "삭제" %>]  <% } else { %> 허용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="#" onClick="javascript:fn_popup_detail('isFilePattern', '<%= data.getFilePatternCode() %>');" style="color:#1b74a7"><i class="fa fa-search"></i> 상세</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">사이트차단여부</td>
+				<td class="center-cell" width="25%"> 
+					<% if (data.getIsWebAddr()) { %> 차단 <% } else { %> 허용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="#" onClick="javascript:fn_popup_detail('isWebAddr', '<%= data.getWebAddrCode() %>');" style="color:#1b74a7"><i class="fa fa-search"></i> 상세</a>
+				</td>
+				<td class="center-cell th-cell-gray" width="25%">메신저차단여부</td>
+				<td class="center-cell" width="25%"> 
+					<% if (data.getIsMsgBlock()) { %> 차단 <% } else { %> 허용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="#" onClick="javascript:fn_popup_detail('isMsgBlock', '<%= data.getMsgBlockCode() %>');" style="color:#1b74a7"><i class="fa fa-search"></i> 상세</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">워터마크사용여부</td>
+				<td class="center-cell" width="25%">
+					<% if (data.getIsWaterMark()) { %> 사용 [<%= data.getWaterMarkEndDate() %> 까지] <% } else { %> 미사용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="#" onClick="javascript:fn_popup_detail('isWaterMark', '<%= data.getWaterMarkType() %>');" style="color:#1b74a7"><i class="fa fa-search"></i> 상세</a>
+				</td>
+				<td class="center-cell th-cell-gray" width="25%">프린터 인쇄 로그</td>
+				<td class="center-cell" width="25%"> 
+					<% 
+						int printLog = data.getPrintLogDesc();
+						if (printLog == 0) { %> 로그전송안함 <% } else if (printLog == 1) { %> 이벤트로그 <% } else if (printLog == 2) { %> 파일원본로그 <% } %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br />
+	<% }
+	} %>
+	
 <div id="policy_detail_div"></div>
 
 <script type="text/javascript">
-	function fn_sel_policy_detailOpen(group, key_code) {
-		$.ajax({      
-	        type:"POST",  
-	        url:'/ax/main/policy/modal',
-	        async: false,
-	        data:{
-	        	group : group,
-	        	key_code : key_code,
-	        	_ : $.now()
-	        },
-	        success:function(args){
-	            $("#policy_detail_div").html(args);
-	            $('#modalPolicyDetail').modal('show');
-	        },   
-	        //beforeSend:showRequest,  
-	        error:function(e){  
-	            console.log(e.responseText);  
-	        }  
-	    }); 
+	function fn_popup_detail(type, code){
+			
+		if(type == 'isWaterMark') {
+			alert("준비중입니다.");
+			return false;
+		}
+			
+			$.ajax({      
+		    type:"POST",  
+		    url:'/ax/main/policy/modal',
+		    async: false,
+		    data:{
+		    	type : type,
+		    	code : code,
+		    	_ : $.now()
+		    },
+		    success:function(data){
+		    	$("#policy_detail_div").html(data);
+		    	
+		    	if (type == 'isUsbBlock') {
+		    		 $('#modalUsbSettingInfo').modal('show');
+		    		 	usb_info_table();
+		    	} else if (type == 'isComPortBlock') {
+		    		$('#modalComPortSettingInfo').modal('show');
+		    			 com_port_info_table();
+		    	} else if (type == 'isNetPortBlock') {
+		    		$('#modalNetPortSettingInfo').modal('show');
+		    			net_port_info_table();
+		    	} else if (type == 'isProcessList') {
+		    		$('#modalProcessSettingInfo').modal('show');
+		    			process_info_table();
+		    	} else if (type == 'isFilePattern') {
+		    		$('#modalPatternSettingInfo').modal('show');
+		    			pattern_info_table();
+		    	} else if (type == 'isWebAddr') {
+		    		$('#modalWebAddrSettingInfo').modal('show');
+		    			web_site_info_table();
+		    	} else if (type == 'isMsgBlock') {
+		    		$('#modalMsgBlockSettingInfo').modal('show');
+		    			msg_block_info_table();
+		    	} 
+	           
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
 	}
+	
 </script>
-
