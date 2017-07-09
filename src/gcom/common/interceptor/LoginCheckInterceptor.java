@@ -1,6 +1,8 @@
 package gcom.common.interceptor;
 
+
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 /**
  * @author gillee
  * @since 2017-05-29 마지막 수정
@@ -20,12 +24,25 @@ import javax.servlet.http.HttpSession;
 public class LoginCheckInterceptor implements Filter {
 	
 	public void init(FilterConfig config) throws ServletException {
+		
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpReq = (HttpServletRequest)request;
         HttpServletResponse httpRes = (HttpServletResponse)response;
         HttpSession session = httpReq.getSession(false);
+
+
+
+        if(httpReq.getRequestURI().equals("/login/check")){
+        	MyHttpServletResponseWrapper wrapper = 
+        			  new MyHttpServletResponseWrapper(httpRes);
+
+			chain.doFilter(request, wrapper);
+
+			String content = wrapper.toString();
+			System.out.println(content);
+        }
         
         httpReq.setCharacterEncoding("UTF-8");
         boolean loginFlag = false;
