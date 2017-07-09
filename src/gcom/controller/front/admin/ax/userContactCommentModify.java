@@ -1,4 +1,4 @@
-package gcom.controller.front.admin.ax.Do;
+package gcom.controller.front.admin.ax;
 
 import java.io.IOException;
 import java.util.HashMap;

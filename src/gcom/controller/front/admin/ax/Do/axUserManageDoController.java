@@ -12,7 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import gcom.Model.ServerAuditModel;
 import gcom.Model.SubAdminModel;
+import gcom.common.services.ConfigInfo;
 import gcom.controller.action.admin.getAdminAction;
 import gcom.controller.action.admin.insertAdminAction;
 import gcom.controller.action.admin.updateAdminAction;
@@ -28,7 +30,11 @@ public class axUserManageDoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	HashMap<String, Object> param = new HashMap<String, Object>();
+
+		HttpServletRequest httpReq = (HttpServletRequest)request;
+    	HttpSession session = httpReq.getSession(false);
+    	
+		HashMap<String, Object> param = new HashMap<String, Object>();
     	param.put("user_no", request.getParameter("user_no"));
 
     	String requestUri = request.getRequestURI();
@@ -43,10 +49,20 @@ public class axUserManageDoController extends HttpServlet {
 	    	param.put("phone", request.getParameter("user_phone"));
 	    	param.put("id", request.getParameter("user_id"));
 	    	param.put("password", request.getParameter("user_password"));
+	    	
+			ServerAuditModel model = new ServerAuditModel();
+			model.setAdminId((String)session.getAttribute("user_id"));
+			model.setActionId(1200);
+			model.setWorkIp(request.getRemoteAddr());
+			model.setDescription("사용자 생성");
+			model.setParameter(param.toString());
 
 			insertAdminAction action = new insertAdminAction();
         	data = action.insertUserInfo(param);
 
+	   		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+			insertAdminAction aud = new insertAdminAction();
+			aud.insertServeriAudit(model);
 		}else if(requestUri.equals("/admin/user/manage/do/update")){
 	    	param.put("dept_no", request.getParameter("user_dept"));
 	    	param.put("duty", request.getParameter("user_duty"));
@@ -57,13 +73,34 @@ public class axUserManageDoController extends HttpServlet {
 	    	param.put("id", request.getParameter("user_id"));
 	    	param.put("password", request.getParameter("user_password"));
 
+			ServerAuditModel model = new ServerAuditModel();
+			model.setAdminId((String)session.getAttribute("user_id"));
+			model.setActionId(1201);
+			model.setWorkIp(request.getRemoteAddr());
+			model.setDescription("사용자 수정");
+			model.setParameter(param.toString());
     		updateAdminAction action = new updateAdminAction();
    			data = action.updateUserInfo(param);    		
+
+   			model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+			insertAdminAction aud = new insertAdminAction();
+			aud.insertServeriAudit(model);
     	
 		}else if(requestUri.equals("/admin/user/manage/do/remove")){
     		updateAdminAction action = new updateAdminAction();
     		data = action.removeUserInfo(param);    		
-    	}
+
+			ServerAuditModel model = new ServerAuditModel();
+			model.setAdminId((String)session.getAttribute("user_id"));
+			model.setActionId(1202);
+			model.setWorkIp(request.getRemoteAddr());
+			model.setDescription("사용자 삭제");
+			model.setParameter(param.toString());
+   			model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+			insertAdminAction aud = new insertAdminAction();
+			aud.insertServeriAudit(model);
+
+		}
 		
 		data.putAll(data);
 		response.setContentType("application/json; charset=UTF-8");

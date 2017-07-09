@@ -12,7 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import gcom.Model.ServerAuditModel;
 import gcom.Model.SubAdminModel;
+import gcom.common.services.ConfigInfo;
 import gcom.controller.action.admin.insertAdminAction;
 import gcom.controller.action.admin.updateAdminAction;
 import gcom.service.management.IManagementService;
@@ -57,6 +59,17 @@ public class axAdminNoticeModifyUpdate extends HttpServlet {
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
 			data = action.updateNoticeModifyUpdate(param);
+			ServerAuditModel model = new ServerAuditModel();
+			model.setAdminId((String)session.getAttribute("user_id"));
+			model.setActionId(1301);
+			model.setWorkIp(httpReq.getRemoteAddr());
+			model.setDescription("공지사항 수정");
+			model.setParameter(param.toString());
+	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+
+			insertAdminAction aud = new insertAdminAction();
+			aud.insertServeriAudit(model);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

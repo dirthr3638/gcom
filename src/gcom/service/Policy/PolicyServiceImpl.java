@@ -60,6 +60,11 @@ public class PolicyServiceImpl implements IPolicyService {
 		return auDao.insertServeriAudit(audit);		
 	}
 	
+	public HashMap<String, Object> getAuditMap(HashMap<String, Object> map){
+		return auDao.getAuditMap(map);		
+		
+	}
+	
 	public List<PolicyRequestInfo> getRequestedPolicyList(HashMap<String, Object> map){
 		return poDao.getRequestedPolicyList(map);
 		

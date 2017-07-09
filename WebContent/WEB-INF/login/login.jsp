@@ -203,6 +203,8 @@
 						alert("비인가된 PC입니다.");
 					    break;
 					  default:
+						  alert("서버와의 통신에 실패하였습니다.")
+						  break;
 					}
 				}
 				

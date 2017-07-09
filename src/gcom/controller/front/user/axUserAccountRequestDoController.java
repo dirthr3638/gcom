@@ -31,7 +31,7 @@ public class axUserAccountRequestDoController extends HttpServlet {
 		param.put("user_password1", request.getParameter("user_password1"));
 		param.put("user_password2", request.getParameter("user_password2"));
 
-		param.put("user_number", request.getParameter("user_name"));
+		param.put("user_number", request.getParameter("user_number"));
 		param.put("user_name", request.getParameter("user_name"));
 		param.put("user_duty", request.getParameter("user_duty"));
 		param.put("user_rank", request.getParameter("user_rank"));
