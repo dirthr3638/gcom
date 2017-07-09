@@ -1,4 +1,4 @@
-package gcom.controller.front.admin.ax;
+package gcom.controller.front.admin.ax.Do;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,14 +14,14 @@ import com.google.gson.Gson;
 import gcom.common.util.JSONUtil;
 import gcom.controller.action.admin.insertAdminAction;
 
-@WebServlet("/admin/policy/usb/save")
-public class axAdminPolicyUsbSave extends HttpServlet {
+@WebServlet("/admin/policy/pattern/save")
+public class axAdminPolicyPatternSave extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public axAdminPolicyUsbSave() {
+    public axAdminPolicyPatternSave() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,10 +34,10 @@ public class axAdminPolicyUsbSave extends HttpServlet {
     	
     	HashMap<String, Object> param = JSONUtil.convertJsonToHashMap(request.getParameter("data").toString());
     	
-		insertAdminAction action = new insertAdminAction();
+    	insertAdminAction action = new insertAdminAction();
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
-			data = action.insertPolicyUsbSave(param);
+			data = action.insertPolicyPatternSave(param);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

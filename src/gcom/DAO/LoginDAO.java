@@ -10,6 +10,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import gcom.common.services.ConfigInfo;
 import gcom.common.util.EncProc;
 import gcom.common.util.encrypto.hashEncrypto;
 
@@ -94,6 +95,7 @@ public class LoginDAO {
 	public HashMap<String, Object> selectConsoleLoginCheck(HashMap<String, Object> map) {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		String userId = map.get("userId").toString();
+		String userIp = map.get("userIp").toString();
     	String userPw = "";
     	
 		try {
@@ -102,13 +104,15 @@ public class LoginDAO {
 			e1.printStackTrace();
 		}
 		
-    	String returnCode = "S";
+    	String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
     	
     	String sql= 
 				"SELECT no, "
 				+ "dept_no, "
 				+ "id, "
-				+ "pw "
+				+ "pw,"
+				+ "ip_addr0,"
+				+ "ip_addr1  "
 				+ "FROM admin_info "
 				+ "WHERE id = ? ";
 
@@ -124,14 +128,19 @@ public class LoginDAO {
 				result.put("userId", rs.getString("id"));
 				
 				if (!hashEncrypto.HashEncrypt(userPw).equals(rs.getString("pw"))) {
-					returnCode = "DI";
+					returnCode = ConfigInfo.NOT_CORRECT_PASSWORD;
 					result.put("returnCode", returnCode);
-				} else {
+				} else if(!userIp.equals(rs.getString("ip_addr0")) &&  !userIp.equals(rs.getString("ip_addr1"))){
+					//IP가 일치하지 않음
+					returnCode = ConfigInfo.NOT_CORRECT_IP;
+					result.put("returnCode", returnCode);					
+				}
+				else {
 					result.put("returnCode", returnCode);
 				}
 				
 			} else {
-				returnCode = "NI";
+				returnCode = ConfigInfo.NOT_EXIST_USER;
 				result.put("returnCode", returnCode);
 			}
 			
