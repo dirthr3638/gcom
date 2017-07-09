@@ -58,6 +58,7 @@
 												<ul class="nav nav-tabs nav-top-border">
 													<li class="active"><a href="#" onClick="javascript:fn_policy_export_list('network');" data-toggle="tab">네트워크 포트 정보</a></li>
 													<li><a href="#" onClick="javascript:fn_policy_export_list('serial');" data-toggle="tab">시리얼 포트 제어</a></li>
+													<li><a href="#" onClick="javascript:fn_policy_export_list('website');" data-toggle="tab">웹사이트 차단</a></li>
 												</ul>
 												
 												<div id="policy_export_div" class="tab-content"></div>
@@ -109,6 +110,8 @@
 			            	fn_get_network_policy_data();
 			            } else if (tabCode == 'serial') {
 			            	fn_get_serial_policy_data();
+			            } else if (tabCode == 'website') {
+			            	fn_get_website_policy_data();
 			            }
 			        },   
 			        error:function(e){  

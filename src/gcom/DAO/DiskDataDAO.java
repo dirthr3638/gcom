@@ -243,6 +243,11 @@ sql += whereSql;
 		String user_name = map.get("user_name").toString();
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
+		String duty = map.get("duty").toString();
+		String rank = map.get("rank").toString();
+		String device_name = map.get("device_name").toString();
+		String pc_name = map.get("pc_name").toString();
+		String device_property = map.get("device_property").toString();
 
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
@@ -261,6 +266,12 @@ sql += whereSql;
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
 		if(!start_date.equals("")) 	whereSql += "AND usb.connect_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND usb.connect_client_time < ? + interval 1 day ";
+		
+		if(!duty.equals("")) 		whereSql += "AND ur.duty LIKE ? ";
+		if(!rank.equals("")) 		whereSql += "AND ur.rank LIKE ? ";
+		if(!device_name.equals("")) whereSql += "AND usb.device_name LIKE ? ";
+		if(!pc_name.equals("")) 		whereSql += "AND agent.pc_name LIKE ? ";
+		if(!device_property.equals("")) 	whereSql += "AND usb.device_property LIKE ? ";
 
 
 		String sql= 
@@ -288,6 +299,11 @@ sql += whereSql;
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+			if(!duty.equals("")) 		pstmt.setString(i++, "%" + duty + "%");
+			if(!rank.equals("")) 		pstmt.setString(i++, "%" + rank + "%");
+			if(!device_name.equals("")) pstmt.setString(i++, "%" + device_name + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			if(!device_property.equals("")) pstmt.setString(i++, "%" + device_property + "%");
 			
 			rs = pstmt.executeQuery();
 
@@ -320,6 +336,11 @@ sql += whereSql;
 		String user_name = map.get("user_name").toString();
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
+		String duty = map.get("duty").toString();
+		String rank = map.get("rank").toString();
+		String device_name = map.get("device_name").toString();
+		String pc_name = map.get("pc_name").toString();
+		String device_property = map.get("device_property").toString();
 		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
@@ -338,7 +359,12 @@ sql += whereSql;
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
 		if(!start_date.equals("")) 	whereSql += "AND usb.connect_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND usb.connect_client_time < ? + interval 1 day ";
-
+		
+		if(!duty.equals("")) 		whereSql += "AND ur.duty LIKE ? ";
+		if(!rank.equals("")) 		whereSql += "AND ur.rank LIKE ? ";
+		if(!device_name.equals("")) whereSql += "AND usb.device_name LIKE ? ";
+		if(!pc_name.equals("")) 		whereSql += "AND agent.pc_name LIKE ? ";
+		if(!device_property.equals("")) 	whereSql += "AND usb.device_property LIKE ? ";
 
 		
 		whereSql += "ORDER BY usb.no DESC LIMIT ?, ? ";	
@@ -382,6 +408,11 @@ sql += whereSql;
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+			if(!duty.equals("")) 		pstmt.setString(i++, "%" + duty + "%");
+			if(!rank.equals("")) 		pstmt.setString(i++, "%" + rank + "%");
+			if(!device_name.equals("")) pstmt.setString(i++, "%" + device_name + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			if(!device_property.equals("")) pstmt.setString(i++, "%" + device_property + "%");
 
 			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
 			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
@@ -390,7 +421,7 @@ sql += whereSql;
 			
 			while(rs.next()){
 				UsbConnectModel model = new UsbConnectModel();
-				model.setUserNo(rs.getInt("usb_no"));
+				model.setUsbNo(rs.getInt("usb_no"));
 				model.setUserNo(rs.getInt("user_no"));
 				model.setUserName(rs.getString("user_name"));
 				model.setUserId(rs.getString("user_id"));

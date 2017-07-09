@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import gcom.Model.FileInfoModel;
 import gcom.Model.PolicyMessengerModel;
 import gcom.Model.PolicyNetworkModel;
 import gcom.Model.PolicyPatternModel;
@@ -14,10 +13,9 @@ import gcom.Model.PolicySerialModel;
 import gcom.Model.PolicyWebSiteBlocklModel;
 import gcom.Model.SubAdminModel;
 import gcom.Model.SystemInfoModel;
-import gcom.Model.UserEnrollModel;
 import gcom.Model.UsbDevInfoModel;
+import gcom.Model.UserEnrollModel;
 import gcom.Model.UserInfoModel;
-import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
 import gcom.service.Personal.IPersonalService;
 import gcom.service.Personal.PersonalServiceImpl;
@@ -33,8 +31,8 @@ import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
 import gcom.user.model.UserContactModel;
 import gcom.user.model.UserNoticeModel;
-import gcom.user.service.UserServiceImpl;
 import gcom.user.service.UserService;
+import gcom.user.service.UserServiceImpl;
 
 public class getAdminAction {
 
@@ -240,6 +238,50 @@ public class getAdminAction {
 		result.put("recordsFiltered", total);
 		
 		return result;
+	}
+
+	/* ================================================= */
+	
+	public PolicyMessengerModel getMsgInfo(int code) {
+		IPolicyService as = new PolicyServiceImpl();
+		PolicyMessengerModel model = as.getMsgInfo(code);
+		return model;
+	}
+
+	public PolicyProcessModel getProcessInfo(int code) {
+		IPolicyService as = new PolicyServiceImpl();
+		PolicyProcessModel model = as.getProcessInfo(code);
+		return model;
+	}
+
+	public PolicyPatternModel getPatternInfo(int code) {
+		IPolicyService as = new PolicyServiceImpl();
+		PolicyPatternModel model = as.getPatternInfo(code);
+		return model;
+	}
+
+	public PolicyNetworkModel getNetworkInfo(int code) {
+		IPolicyService as = new PolicyServiceImpl();
+		PolicyNetworkModel model = as.getNetworkInfo(code);
+		return model;
+	}
+
+	public PolicySerialModel getSerialInfo(int code) {
+		IPolicyService as = new PolicyServiceImpl();
+		PolicySerialModel model = as.getSerialInfo(code);
+		return model;
+	}
+
+	public PolicyWebSiteBlocklModel getWebsiteInfo(int code) {
+		IPolicyService as = new PolicyServiceImpl();
+		PolicyWebSiteBlocklModel model = as.getWebsiteInfo(code);
+		return model;
+	}
+
+	public UsbDevInfoModel getUsbInfo(int code) {
+		IPolicyService as = new PolicyServiceImpl();
+		UsbDevInfoModel model = as.getUsbInfo(code);
+		return model;
 	}
 	
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<table id="table-pattern-policy" class="table table-bordered table-striped">
+<button type="button" id="btnRegPattern" class="btn btn-sm btn-green pull-right" onclick="javascript:fn_open_reg_pattern_popup(0);"><i class="fa fa-check"></i>정책 등록</button>
+<table id="table-pattern-policy" class="table table-bordered table-hover">
 	<thead>
 		<tr>
 			<td>ID</td>
@@ -14,7 +15,28 @@
 	</tbody>
 </table>
 
+<div id="reg_pattern_popup_div"></div>
+
 <script type="text/javascript">
+	function fn_open_reg_pattern_popup(code){
+		
+		$.ajax({      
+		    type:"POST",  
+		    url:'/admin/policy/pattern/register',
+		    async: false,
+		    data:{ 
+		    	code : code,
+		    	_ : $.now()
+		    },
+		    success:function(data){
+		    	$("#reg_pattern_popup_div").html(data);
+	            $('#modalPolicyRegPattern').modal('show');
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+	}
 
 	function fn_get_pattern_policy_data() {
 		console.log("dataTable");
@@ -76,7 +98,7 @@
 				"pageLength": 20,
 				"iDisplayLength": 20,
 		 		"language": {               
-					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개",
 					"infoEmpty":      "검색된 데이터가 없습니다.",
 					"lengthMenu": "  _MENU_ 개",
 					"paginate": {
@@ -103,9 +125,16 @@
 				}, {	
 					"targets": [4],	//사용여부
 					"class":"center-cell"
+					,"visible" : false
 				}],
 				"initComplete": function( settings, json ) {
 				}
+			});
+				
+			var ctbl = $('#table-pattern-policy').DataTable();
+			ctbl.on( 'click', 'td', function () {
+				var data = ctbl.row( $(this).parent() ).data();
+				fn_open_reg_pattern_popup(data.patNo);
 			});
 		}
    		});

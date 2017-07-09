@@ -1,10 +1,11 @@
 package gcom.controller.action.admin;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import gcom.service.Personal.IPersonalService;
 import gcom.service.Personal.PersonalServiceImpl;
+import gcom.service.Policy.IPolicyService;
+import gcom.service.Policy.PolicyServiceImpl;
 import gcom.service.Request.IRequestService;
 import gcom.service.Request.RequestServiceImpl;
 import gcom.service.UserManage.IUserManageService;
@@ -35,6 +36,46 @@ public class insertAdminAction {
 	public HashMap<String, Object> insertContactCommentSave(HashMap<String, Object> map) {
 		IPersonalService as = new PersonalServiceImpl();
 		return as.insertContactCommentSave(map);
+	}
+
+	public HashMap<String, Object> insertPolicyMsgSave(HashMap<String, Object> map) {
+		IPolicyService as = new PolicyServiceImpl();
+		return as.insertPolicyMsgSave(map);
+	}
+
+	public HashMap<String, Object> insertPolicyProcessSave(HashMap<String, Object> map) {
+		IPolicyService as = new PolicyServiceImpl();
+		return as.insertPolicyProcessSave(map);
+	}
+
+	public HashMap<String, Object> insertPolicyPatternSave(HashMap<String, Object> map) {
+		IPolicyService as = new PolicyServiceImpl();
+		return as.insertPolicyPatternSave(map);
+	}
+
+	public HashMap<String, Object> insertPolicyNetworkSave(HashMap<String, Object> map) {
+		IPolicyService as = new PolicyServiceImpl();
+		return as.insertPolicyNetworkSave(map);
+	}
+
+	public HashMap<String, Object> insertPolicySerialSave(HashMap<String, Object> map) {
+		IPolicyService as = new PolicyServiceImpl();
+		return as.insertPolicySerialSave(map);
+	}
+
+	public HashMap<String, Object> insertPolicyWebsiteSave(HashMap<String, Object> map) {
+		IPolicyService as = new PolicyServiceImpl();
+		return as.insertPolicyWebsiteSave(map);
+	}
+
+	public HashMap<String, Object> insertPolicyUsbSave(HashMap<String, Object> map) {
+		IPolicyService as = new PolicyServiceImpl();
+		return as.insertPolicyUsbSave(map);
+	}
+
+	public HashMap<String, Object> insertPolicyDeviceSave(HashMap<String, Object> map) {
+		IPolicyService as = new PolicyServiceImpl();
+		return as.insertPolicyDeviceSave(map);
 	}
 
 

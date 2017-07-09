@@ -21,6 +21,14 @@
 		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+		
+		<!-- Alert -->
+		<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+		<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		
+		<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+		
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -84,31 +92,53 @@
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="15%">아이디</td>
 															<td>
 																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
 															</td>
-														</tr>
-														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">이름</td>
 															<td>
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">검색시작일</td>
+															<td width="15%">검색시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																															
-														<tr>         
-															<td width="35%">검색종료일</td>
+															<td width="15%">검색종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+															</td>
+														</tr>																															
+														<tr>  
+															<td width="15%">직책</td>
+															<td>
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control required">
+															</td>
+															<td width="15%">계급</td>
+															<td>
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
+															</td>       
+														</tr>	
+														<tr>  
+															<td width="15%">장치이름</td>
+															<td>
+																<input type="text" name="filterUserDevice" id="filterUserDevice" value="" class="form-control required">
+															</td>
+															<td width="15%">PC명</td>
+															<td>
+																<input type="text" name="filterUserPcName" id="filterUserPcName" value="" class="form-control required">
+															</td>       
+														</tr>
+														<tr>  
+															<td width="15%">장치속성</td>
+															<td colspan="3">
+																<input type="text" name="filterUserDeviceDetail" id="filterUserDeviceDetail" value="" class="form-control required">
 															</td>
 														</tr>																															
 														
@@ -127,7 +157,7 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12" style="overflow: hidden;">
-											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
+											<table class="table table-bordered table-hover x-scroll-table" id="table_usb_block" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
 														<th style="width:20px"></th>
@@ -181,17 +211,17 @@
 	//라디오타입에 따라 컬럼 hide/show
 	var setColumnType = function(cType){
 		
-		var datatable = $('#table_userinfo').dataTable().api();
+		var datatable = $('#table_usb_block').dataTable().api();
 		var aColumn = datatable.columns('.agentinfo' );
 		var uColumn = datatable.columns('.userinfo' );
 		if(cType == 1){
 			uColumn.visible(true);
 			aColumn.visible(false);			
 
- 			var jTable = $('#table_userinfo').dataTable();;
+ 			var jTable = $('#table_usb_block').dataTable();;
 
 //			var nsTr = $('tbody > td > .datables-td-detail').parents('tr')[0];
-			var nsTr = $('#table_userinfo tr');
+			var nsTr = $('#table_usb_block tr');
 			for(var i = 0; i < nsTr.length; i++){
 				var nTr = nsTr[i];
 				jTable.fnClose(nTr);
@@ -200,7 +230,7 @@
 			uColumn.visible(false);
 			aColumn.visible(true);	
 
-			var nsTr = $('#table_userinfo tr td').find('span.datables-td-detail');
+			var nsTr = $('#table_usb_block tr td').find('span.datables-td-detail');
 			nsTr.addClass("datatables-close").removeClass("datatables-open");
 		}		
 	}
@@ -222,7 +252,7 @@
 	}
  	
  	function searchUserLog(){
- 		var datatable = $('#table_userinfo').dataTable().api();
+ 		var datatable = $('#table_usb_block').dataTable().api();
 		datatable.ajax.reload();   	
  	
  	}
@@ -237,6 +267,69 @@
  		var $buttons = $('.export-csv');
  		$buttons.click();
  		
+ 	}
+ 	
+ 	function fn_select_device_save(code) {
+ 		
+ 		vex.defaultOptions.className = 'vex-theme-os';
+    	
+   		vex.dialog.open({
+   			message: '선택하신 해당 장치를 저장하고 사용자에게 적용 하시겠습니까?',
+   			  buttons: [
+   			    $.extend({}, vex.dialog.buttons.YES, {
+   			      text: '확인'
+   			  	}),
+   			 	$.extend({}, vex.dialog.buttons.NO, {
+  			      text: '취소'
+  			  })],
+   			  callback: function(data) {
+		 	  	if (data) {
+		 	  		excuteDeviceSave(code);
+		 	    }
+		 	  }
+   				
+   		})
+ 		
+ 	}
+ 	
+ 	var excuteDeviceSave = function(code) {
+ 		
+ 		$.ajax({      
+ 		    type:"POST",  
+ 		    url:'/admin/policy/device/save',
+ 		    async: false,
+ 		    data:{
+ 		    	code : code,
+ 		    	_ : $.now()
+ 		    },
+ 		    success:function(data){
+ 		    	vex.defaultOptions.className = 'vex-theme-os';
+ 		    	
+ 		    	if (data.returnCode == 'S') {
+ 		    		vex.dialog.open({
+ 		    			message: '정책 수정이 완료되었습니다.',
+ 		    			  buttons: [
+ 		    			    $.extend({}, vex.dialog.buttons.YES, {
+ 		    			      text: '확인'
+ 		    			  })] 		    				
+ 		    		})
+ 		    		var axtbl = $('#table_usb_block').dataTable().api();
+ 		    		axtbl.ajax.reload();
+ 		    	} else {
+ 	    			vex.dialog.open({
+ 	    				message: '정책 수정중 예기치 못한 오류가 발생하여 등록에 실패하였습니다.',
+ 	    				  buttons: [
+ 	    				    $.extend({}, vex.dialog.buttons.YES, {
+ 	    				      text: '확인'
+ 	    				  })]
+ 	    			});
+ 		    	}
+ 		    },   
+ 		    error:function(e){
+ 		    	alert("서버와 연결 되지 않습니다.");
+ 		        console.log(e.responseText);  
+ 		    }  
+ 		});
  	}
  	
 	$(document).ready(function(){
@@ -261,7 +354,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 
 					var export_filename = 'Filename';
 					
-					var table = jQuery('#table_userinfo');
+					var table = jQuery('#table_usb_block');
 					table.dataTable({
 						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
@@ -274,6 +367,11 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 								param.user_name = $('#filterUserName').val();
 								param.start_date = $('#filterStartDate').val();
 								param.end_date = $('#filterEndDate').val();
+								param.duty = $('#filterUserDuty').val();
+								param.rank = $('#filterUserRank').val();
+								param.device_name = $('#filterUserDevice').val();
+								param.pc_name = $('#filterUserPcName').val();
+								param.device_property = $('#filterUserDeviceDetail').val();
 								
 								param.dept = getCheckedDept();
 					        },
@@ -317,7 +415,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 				 		"serverSide" : true,
 				 	    "ordering": true,
 						"columns": [{
-							data: "exportNo",							
+							data: "usbNo",							
 							"orderable": false	//추가정보
 						}, {
 							data: "deptName",
@@ -464,20 +562,22 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 					
 					function fnFormatDetails(oTable, nTr) {
 						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
-						sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
-						sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td>';
-						sOut += '<td class="center-cell">서버연결시간:</td><td>' + aData.connectServerTime + '</td></tr>';
-						sOut += '<tr><td class="center-cell">장치속성:</td><td colspan="5">' + aData.deviceProperty + '</td></tr>';
+						var sOut = '<table class="table table-bordered"  style="width:100%;overflow:auto">';
+						sOut += '<tr><td class="center-cell th-cell-gray">MAC:</td><td>' + aData.macAddr + '</td>';
+						sOut += '<td class="center-cell th-cell-gray">PC명:</td><td>' + aData.pcName + '</td>';
+						sOut += '<td class="center-cell th-cell-gray">서버연결시간:</td><td>' + aData.connectServerTime ;
+						sOut += '<button type="button" class="btn btn-xs btn-blue pull-right" onclick="fn_select_device_save(\'' + aData.usbNo +'\')" style="margin:0;"><i class="fa fa-check" aria-hidden="true"></i> 해당장치허용</button></td></tr>';
+						sOut += '<tr><td class="center-cell th-cell-gray">장치속성:</td><td colspan="5">' + aData.deviceProperty + '</td></tr>';
 												
 						sOut += '</table>';
 
 						return sOut;
 					}
 					
-					var jTable = jQuery('#table_userinfo');
+					var jTable = jQuery('#table_usb_block');
 					jTable.on('click', ' tbody td .datables-td-detail', function () {
 						var nTr = jQuery(this).parents('tr')[0];
+						var row = jTable
 						if (table.fnIsOpen(nTr)) {
 							/* This row is already open - close it */
 							jQuery(this).addClass("datatables-close").removeClass("datatables-open");

@@ -51,4 +51,26 @@ public interface IPolicyService {
 	public int getPolicyUsbBlockListCount(HashMap<String, Object> map);
 	public List<PolicyWebSiteBlocklModel> getPolicyWebSiteBlockList(HashMap<String, Object> map);
 	public int getPolicyWebSiteBlockListCount(HashMap<String, Object> map);
+	public PolicyMessengerModel getMsgInfo(int code);
+	public HashMap<String, Object> insertPolicyMsgSave(HashMap<String, Object> map);
+	public HashMap<String, Object> updatePolicyMsgUpdate(HashMap<String, Object> map);
+	public PolicyProcessModel getProcessInfo(int code);
+	public HashMap<String, Object> insertPolicyProcessSave(HashMap<String, Object> map);
+	public HashMap<String, Object> updatePolicyProcessUpdate(HashMap<String, Object> map);
+	public PolicyPatternModel getPatternInfo(int code);
+	public HashMap<String, Object> insertPolicyPatternSave(HashMap<String, Object> map);
+	public HashMap<String, Object> updatePolicyPatternUpdate(HashMap<String, Object> map);
+	public PolicyNetworkModel getNetworkInfo(int code);
+	public HashMap<String, Object> insertPolicyNetworkSave(HashMap<String, Object> map);
+	public HashMap<String, Object> updatePolicyNetworkUpdate(HashMap<String, Object> map);
+	public PolicySerialModel getSerialInfo(int code);
+	public HashMap<String, Object> insertPolicySerialSave(HashMap<String, Object> map);
+	public HashMap<String, Object> updatePolicySerialUpdate(HashMap<String, Object> map);
+	public PolicyWebSiteBlocklModel getWebsiteInfo(int code);
+	public HashMap<String, Object> insertPolicyWebsiteSave(HashMap<String, Object> map);
+	public HashMap<String, Object> updatePolicyWebsiteUpdate(HashMap<String, Object> map);
+	public UsbDevInfoModel getUsbInfo(int code);
+	public HashMap<String, Object> insertPolicyUsbSave(HashMap<String, Object> map);
+	public HashMap<String, Object> updatePolicyUsbUpdate(HashMap<String, Object> map);
+	public HashMap<String, Object> insertPolicyDeviceSave(HashMap<String, Object> map);
 }

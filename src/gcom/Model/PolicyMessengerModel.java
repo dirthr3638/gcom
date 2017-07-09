@@ -7,10 +7,10 @@ public class PolicyMessengerModel {
 	private int msgNo;
 	private String msgName ="";
 	private String processName = "";
-	private boolean txtLog;
-	private boolean txtBlock ;
-	private boolean fileLog;
-	private boolean fileBlock;
+	private Boolean txtLog;
+	private Boolean txtBlock ;
+	private Boolean fileLog;
+	private Boolean fileBlock;
 	
 	public void setTxtLog(int value) {
 		if(value == 0){

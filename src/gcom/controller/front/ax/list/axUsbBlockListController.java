@@ -32,6 +32,11 @@ public class axUsbBlockListController extends HttpServlet {
 		map.put("user_name", request.getParameter("user_name").toString());
 		map.put("start_date", request.getParameter("start_date").toString());
 		map.put("end_date", request.getParameter("end_date").toString());
+		map.put("duty", request.getParameter("duty").toString());
+		map.put("rank", request.getParameter("rank").toString());
+		map.put("device_name", request.getParameter("device_name").toString());
+		map.put("pc_name", request.getParameter("pc_name").toString());
+		map.put("device_property", request.getParameter("device_property").toString());
 		map.put("dept", request.getParameterValues("dept[]"));
 		
 		HashMap<String, Object> data = action.getUsbBlockList(map);
