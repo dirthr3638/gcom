@@ -3,7 +3,6 @@ package gcom.user.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +23,6 @@ import gcom.user.model.MemberPolicyModel;
 import gcom.user.model.UserContactModel;
 import gcom.user.model.UserInfoModel;
 import gcom.user.model.UserNoticeModel;
-import gcom.user.model.UserSystemPolicyQueryModel;
 
 public class UserDAO {
 	DataSource ds;
@@ -42,38 +40,51 @@ public class UserDAO {
 		}
 	}
 	
-	public MemberPolicyModel getMemberPolicyInfo(HashMap<String, Object> map){
-		MemberPolicyModel model = new MemberPolicyModel();
+	public List<MemberPolicyModel> getMemberPolicyInfo(HashMap<String, Object> map){
+		List<MemberPolicyModel> list = new ArrayList<MemberPolicyModel>();
 		String user_id = map.get("user_id").toString();
 		
 		String sql= 
-				"SELECT ui.no AS userNo, "
-				    + "ui.id AS userId, "
-				    + "pi.no AS policyNo, "
-				    + "pi.uninstall_enabled, "
-				    + "pi.file_encryption_enabled, "
-				    + "pi.cd_encryption_enabled, "
-				    + "pi.printer_enabled, "
-				    + "pi.cd_enabled, "
-				    + "pi.cd_export_enabled, "
-				    + "pi.wlan_enabled, "
-				    + "pi.net_share_enabled, "
-				    + "pi.web_export_enabled, "
-				    + "pi.removal_storage_export_enabled, "
-				    + "pi.removal_storage_admin_mode, "
-				    + "pi.usb_dev_list, "
-				    + "pi.com_port_list, "
-				    + "pi.net_port_list, "
-				    + "pi.process_list, "
-				    + "pi.file_pattern_list, "
-				    + "web_addr_list, "
-				    + "watermark_descriptor, "
-				    + "print_log_descriptor, "
-				    + "quarantine_path_access_code, "
-				    + "pattern_file_control "
-				+ "FROM user_info as ui "
-				+ "INNER JOIN agent_info as ai on ui.no = ai.own_user_no "
-				+ "INNER JOIN policy_info as pi on ai.policy_no = pi.no "
+				"SELECT "
+					+ "ai.no as agentNo, "
+				    + "ui.no as userNo, "
+				    + "ai.policy_no as policyNo, "
+				    + "ai.dept_no as deptId, "
+				    + "ui.id as userId, "
+				    + "ui.name as userName, "
+				    + "ui.duty as duty, "
+				    + "ui.rank as rank, "
+					+ "ai.ip_addr as ipAddr, "
+				    + "ai.mac_addr as macAddr, "
+				    + "ai.pc_name as pcName, "
+				    + "di.short_name as deptName, "
+				    
+				    + "IFNULL(pi.uninstall_enabled, 0) as isUninstall, "
+				    + "IFNULL(pi.file_encryption_enabled, 0) as isFileEncryption, "
+				    + "IFNULL(pi.cd_encryption_enabled, 0) as isCdEncryption, "
+				    + "IFNULL(pi.printer_enabled, 0) as isPrint, "
+				    + "IFNULL(pi.cd_enabled, 0) as isCdEnabled, "
+				    + "IFNULL(pi.cd_export_enabled, 0) as isCdExport, "
+				    + "IFNULL(pi.wlan_enabled, 0) as isWlan, "
+				    + "IFNULL(pi.net_share_enabled, 0) as isNetShare, "
+				    + "IFNULL(pi.web_export_enabled, 0) as isWebExport, "
+				    + "IFNULL(pi.removal_storage_export_enabled, 0) as isStorageExport, "
+				    + "IFNULL(pi.removal_storage_admin_mode, 0) as isStorageAdmin, "
+				    
+				    + "IFNULL(pi.usb_dev_list, 'N') as isUsbBlock, "
+				    + "IFNULL(pi.com_port_list, 'N') as isComPortBlock, "
+				    + "IFNULL(pi.net_port_list, 'N') as isNetPortBlock, "
+				    + "IFNULL(pi.process_list, '') as isProcessList, "
+				    + "IFNULL(pi.file_pattern_list, '') as isFilePattern, "
+				    + "IFNULL(pi.web_addr_list, 'N') as isWebAddr, "
+				    + "IFNULL(pi.msg_block_list, 'N') as isMsgBlock, "
+				    + "IFNULL(pi.watermark_descriptor, 'N') as isWaterMark, "
+				    + "IFNULL(pi.print_log_descriptor, 0) as printLogDesc, "
+				    + "IFNULL(pi.pattern_file_control, 0) as patternFileControl "
+				+ "FROM agent_info AS ai "
+				+ "INNER JOIN user_info AS ui ON ai.own_user_no = ui.no "
+				+ "INNER JOIN policy_info AS pi ON ai.policy_no = pi.no "
+				+ "INNER JOIN dept_info as di ON ai.dept_no = di.no "
 				+ "WHERE ui.id = ? ";
 
 		try{
@@ -82,36 +93,43 @@ public class UserDAO {
 			pstmt.setString(1, user_id);
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()){
-				
+			while(rs.next()){
+				MemberPolicyModel model = new MemberPolicyModel();
+				model.setAgentNo(rs.getInt("agentNo"));
 				model.setUserNo(rs.getInt("userNo"));
-				model.setUserId(rs.getString("userId"));
 				model.setPolicyNo(rs.getInt("policyNo"));
+				model.setDeptId(rs.getInt("deptId"));
+				model.setUserId(rs.getString("userId"));
+				model.setUserName(rs.getString("userName"));
+				model.setDuty(rs.getString("duty"));
+				model.setRank(rs.getString("rank"));
+				model.setIpAddr(rs.getString("ipAddr"));
+				model.setMacAddr(rs.getString("macAddr"));
+				model.setPcName(rs.getString("pcName"));
+				model.setDeptName(rs.getString("deptName"));
+				model.setIsUninstall(rs.getInt("isUninstall"));
+				model.setIsFileEncryption(rs.getInt("isFileEncryption"));
+				model.setIsCdEncryption(rs.getInt("isCdEncryption"));
+				model.setIsPrint(rs.getInt("isPrint"));
+				model.setIsCdEnabled(rs.getInt("isCdEnabled"));
+				model.setIsCdExport(rs.getInt("isCdExport"));
+				model.setIsWlan(rs.getInt("isWlan"));
+				model.setIsNetShare(rs.getInt("isNetShare"));
+				model.setIsWebExport(rs.getInt("isWebExport"));
+				model.setIsStorageExport(rs.getInt("isStorageExport"));
+				model.setIsStorageAdmin(rs.getInt("isStorageAdmin"));
+				model.setIsUsbBlock(rs.getString("isUsbBlock"));
+				model.setIsComPortBlock(rs.getString("isComPortBlock"));
+				model.setIsNetPortBlock(rs.getString("isNetPortBlock"));
+				model.setIsProcessList(rs.getString("isProcessList"));
+				model.setIsFilePattern(rs.getString("isFilePattern"));
+				model.setIsWebAddr(rs.getString("isWebAddr"));
+				model.setIsMsgBlock(rs.getString("isMsgBlock"));
+				model.setWatermarkInfo(rs.getString("isWaterMark"));
+				model.setPrintLogDesc(rs.getInt("printLogDesc"));
+				model.setPatternFileControl(rs.getInt("patternFileControl"));
 				
-				model.setIsUninstall(rs.getInt("uninstall_enabled"));
-				model.setIsFileEncryption(rs.getInt("file_encryption_enabled"));
-				model.setIsCdEncryption(rs.getInt("cd_encryption_enabled"));
-				model.setIsPrint(rs.getInt("printer_enabled"));
-				model.setIsCdEnabled(rs.getInt("cd_enabled"));
-				model.setIsCdExport(rs.getInt("cd_export_enabled"));
-				model.setIsWlan(rs.getInt("wlan_enabled"));
-				model.setIsNetShare(rs.getInt("net_share_enabled"));
-				model.setIsWebExport(rs.getInt("web_export_enabled"));
-				model.setIsStorageExport(rs.getInt("removal_storage_export_enabled"));
-				model.setIsStorageAdmin(rs.getInt("removal_storage_admin_mode"));
-				
-				model.setIsUsbBlock(rs.getString("usb_dev_list"));
-				model.setIsComPortBlock(rs.getString("com_port_list"));
-				model.setIsNetPortBlock(rs.getString("net_port_list"));
-				model.setIsProcessList(rs.getString("process_list"));
-				model.setIsFilePattern(rs.getString("file_pattern_list"));
-				model.setIsWebAddr(rs.getString("web_addr_list"));
-				
-				model.setWatermarkInfo(rs.getString("watermark_descriptor"));
-				model.setPrintLogDesc(Integer.parseInt(rs.getString("print_log_descriptor").toString()));
-				model.setQuarantinePathAccessCode(rs.getString("quarantine_path_access_code"));
-				model.setPatternFileControl(rs.getInt("pattern_file_control"));
-				
+				list.add(model);
 			}
 			
 		}catch(SQLException ex){
@@ -126,7 +144,7 @@ public class UserDAO {
 			}
 		}
 		
-		return model;
+		return list;
 	}
 	
 
@@ -466,52 +484,6 @@ public class UserDAO {
 				model.setCommentRegDt(rs.getString("comment_reg_dt"));
 								
 				list.add(model);
-			}
-			
-		}catch(SQLException ex){
-			ex.printStackTrace();
-		}finally {
-			try{
-				if(rs!=null) rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(con!=null)con.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-		return list;
-	}
-
-	public List<HashMap<String, Object>> getMemberPolicyDetail(HashMap<String, Object> map) {
-		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String group_id = map.get("group_id").toString();
-		String keyCode = map.get("key").toString();
-		UserSystemPolicyQueryModel getQuery = new UserSystemPolicyQueryModel(group_id, keyCode);
-		String sql=  getQuery.getPolicySqlQuery();
-		
-		try{
-			con = ds.getConnection();
-			pstmt=con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			ResultSetMetaData metaData = rs.getMetaData();
-			int sizeOfColumn = metaData.getColumnCount();
-			
-			String column = "";
-			
-			while(rs.next()) {
-				HashMap<String, Object> data = new HashMap<String, Object>();
-				
-				// Column의 갯수만큼 회전
-				for (int indexOfcolumn = 0; indexOfcolumn < sizeOfColumn; indexOfcolumn++) {
-					// Column의 갯수만큼 회전
-					column = metaData.getColumnName(indexOfcolumn + 1);
-					// phone number 일 경우 복호화
-					data.put(column, rs.getString(column));
-				}
-								
-				list.add(data);
 			}
 			
 		}catch(SQLException ex){

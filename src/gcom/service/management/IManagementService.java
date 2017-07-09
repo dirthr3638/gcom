@@ -13,5 +13,6 @@ public interface IManagementService {
 	public HashMap<String, Object> deleteAdminUserInfo(HashMap<String, Object> map);
 	public HashMap<String, Object> updateAdminUserInfo(HashMap<String, Object> map);
 	public HashMap<String, Object> insertAdminUserInfo(HashMap<String, Object> map);
+	public SubAdminModel getAdminUserIdToNo(HashMap<String, Object> map);
 
 }

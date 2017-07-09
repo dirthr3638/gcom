@@ -33,7 +33,7 @@ public class axAdminContactCommentSave extends HttpServlet {
     	param.put("user_id", user_id);
     	
     	IManagementService managementService = new ManagementServiceImpl();
-    	SubAdminModel admin = managementService.getAdminUserInfo(param);
+    	SubAdminModel admin = managementService.getAdminUserIdToNo(param);
 		
 		param.put("reg_admin_staf_no", admin.getAdminNo());
 		param.put("contact_id", request.getParameter("contact_id").toString());

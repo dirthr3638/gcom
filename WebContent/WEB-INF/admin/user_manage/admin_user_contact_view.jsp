@@ -78,7 +78,7 @@
 											</div>
 											<div class="row">
 												<a href="/admin/user/contact" class="btn btn-primary pull-right"><i class="fa fa-list"></i>목록</a>
-												<button id="btnRegComment" class="btn btn-green pull-right" style="color:#fff; font-weight:bold;" onClick="javascript:fn_open_comment('<%= data.getContactId() %>');"><i class="fa fa-check"></i>답변등록</button>
+												<button id="btnRegComment" class="btn btn-green pull-right" style="color:#fff; font-weight:bold;" onClick="javascript:fn_open_comment('<%= data.getContactId() %>');" <% if( "Y".equals(data.getCommentYN())) {%> disabled <% } %>  ><i class="fa fa-check"></i>답변등록</button>
 											</div>
 											<!-- /article content -->
 										</div>

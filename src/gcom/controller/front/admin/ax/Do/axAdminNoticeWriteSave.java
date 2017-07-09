@@ -36,7 +36,7 @@ public class axAdminNoticeWriteSave extends HttpServlet {
     	param.put("user_id", user_id);
     	
     	IManagementService managementService = new ManagementServiceImpl();
-    	SubAdminModel admin = managementService.getAdminUserInfo(param);
+    	SubAdminModel admin = managementService.getAdminUserIdToNo(param);
 		
 		
 		param.put("reg_staf_no", admin.getAdminNo());
