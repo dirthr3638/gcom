@@ -1,4 +1,4 @@
-package gcom.common.services;
+package gcom.common.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;

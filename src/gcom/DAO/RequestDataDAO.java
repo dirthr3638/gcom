@@ -21,7 +21,7 @@ import gcom.Model.UserInfoModel;
 import gcom.Model.UserPolicyModel;
 import gcom.Model.statistic.ContactSimpleModel;
 import gcom.Model.statistic.RequestSimpleModel;
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.ConfigInfo;
 
 
 public class RequestDataDAO {

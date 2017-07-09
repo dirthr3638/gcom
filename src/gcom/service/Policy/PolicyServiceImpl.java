@@ -20,7 +20,7 @@ import gcom.Model.UsbDevInfoModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
 import gcom.Model.statistic.AuditClientSimpleModel;
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.ConfigInfo;
 
 public class PolicyServiceImpl implements IPolicyService {
 	

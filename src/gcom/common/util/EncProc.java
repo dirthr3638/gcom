@@ -6,7 +6,7 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package gcom.common.services;
+package gcom.common.util;
 
 /**
  * Created by user on 2016-08-03.

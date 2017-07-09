@@ -10,7 +10,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import gcom.common.services.EncProc;
+import gcom.common.util.EncProc;
 import gcom.common.util.encrypto.hashEncrypto;
 
 

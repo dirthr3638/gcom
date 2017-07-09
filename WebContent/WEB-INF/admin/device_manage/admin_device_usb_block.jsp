@@ -314,7 +314,7 @@
  		    	_ : $.now()
  		    },
  		    success:function(data){
- 		    	vex.defaultOptions.className = 'vex-theme-os';
+ 		    	
  		    	
  		    	if (data.returnCode == 'S') {
  		    		vex.dialog.open({
@@ -327,13 +327,7 @@
  		    		var axtbl = $('#table_usb_block').dataTable().api();
  		    		axtbl.ajax.reload();
  		    	} else {
- 	    			vex.dialog.open({
- 	    				message: '정책 수정중 예기치 못한 오류가 발생하여 등록에 실패하였습니다.',
- 	    				  buttons: [
- 	    				    $.extend({}, vex.dialog.buttons.YES, {
- 	    				      text: '확인'
- 	    				  })]
- 	    			});
+ 		    		failAlert('정책 수정중 예기치 못한 오류가 발생하여 등록에 실패하였습니다.');
  		    	}
  		    },   
  		    error:function(e){
@@ -341,6 +335,18 @@
  		        console.log(e.responseText);  
  		    }  
  		});
+ 	}
+ 	
+ 	var failAlert = function (meg) {
+ 		vex.defaultOptions.className = 'vex-theme-os';
+ 		
+ 		vex.dialog.open({
+ 			message: meg,
+ 			  buttons: [
+ 			    $.extend({}, vex.dialog.buttons.YES, {
+ 			      text: '확인'
+ 			  })] 		    				
+ 		})
  	}
  	
 	$(document).ready(function(){

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import gcom.Model.SubAdminModel;
-import gcom.common.services.JSONUtil;
+import gcom.common.util.JSONUtil;
 import gcom.controller.action.admin.insertAdminAction;
 import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;

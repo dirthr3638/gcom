@@ -1,4 +1,4 @@
-package gcom.common.services;
+package gcom.common.util;
 
 public class ConfigInfo {
 	/* file path */

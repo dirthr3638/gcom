@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import gcom.common.services.JSONUtil;
+import gcom.common.util.JSONUtil;
 import gcom.controller.action.admin.insertAdminAction;
 
 @WebServlet("/admin/policy/msg/save")

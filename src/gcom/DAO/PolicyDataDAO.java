@@ -8,14 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import gcom.Model.AuditClientModel;
-import gcom.Model.AuditServerModel;
 import gcom.Model.PolicyInfoModel;
 import gcom.Model.PolicyMessengerModel;
 import gcom.Model.PolicyNetworkModel;
@@ -28,9 +25,10 @@ import gcom.Model.UsbDevInfoModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
-import gcom.Model.statistic.AuditClientSimpleModel;
-import gcom.common.services.CommonUtil;
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.CommonUtil;
+import gcom.common.util.ConfigInfo;
+import gcom.service.common.CommonServiceImpl;
+import gcom.service.common.ICommonService;
 
 
 
@@ -2392,7 +2390,9 @@ sql += whereSql;
 		String usb_no = map.get("usb_no").toString();
 		int user_no = Integer.parseInt(map.get("usb_no").toString());
 		int sCount = 0;
-		int fCoint = 0;
+		int fCount = 0;
+		
+		ICommonService commonService = new CommonServiceImpl();
 		
 		String sql= "SELECT "
 					+ "ai.no as agent_no, "
@@ -2417,12 +2417,13 @@ sql += whereSql;
 					policy_no = rs.getInt("policy_no");
 					
 					if(policy_no == 0) {
-						fCoint ++;
+						fCount ++;
 					} else {
 						String usbPolicy = rs.getString("usb_dev_list");
 						String savePolicy = CommonUtil.getStrPolicyChangeOperation(usb_no, usbPolicy);
 						
 						if (!"".equals(savePolicy)) {
+							
 							con.setAutoCommit(false);
 							
 							sql = "UPDATE policy_info SET usb_dev_list = ? WHERE no = ? ";
@@ -2433,12 +2434,16 @@ sql += whereSql;
 							pstmt.executeUpdate();
 							
 							con.commit();
+							
+							commonService.setPolicyUpdateToInsertLog(policy_no);
 						}
 						
 						sCount ++;
 					}
 				}
 								
+				result.put("success_cnt", sCount);
+				result.put("fail_cnt", fCount);
 				result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
 			} else {
 				// Agent 정보 없음.

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import gcom.common.services.StringUtil;
+import gcom.common.util.StringUtil;
 
 
 /**
