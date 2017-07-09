@@ -62,37 +62,32 @@
 											
 											
 											<!-- Primary -->
-											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
+											<!-- <button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button> -->
 											<!-- Success -->
-											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
+											<!-- <button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button> -->
+											<!-- Register -->
+											<button type="button" class="btn btn-green pull-right" onclick="fn_open_reg_usb_popup(0)"><i class="fa fa-check" aria-hidden="true"></i> 정책등록</button>
 											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="35%">장치이름</td>
 															<td>
-																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+																<input type="text" name="filterDeviceName" id="filterDeviceName" value="" class="form-control required">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">이름</td>
+															<td width="35%">시리얼번호</td>
 															<td>
-																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+																<input type="text" name="filterSerialNumber" id="filterSerialNumber" value="" class="form-control required">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">작업시작일</td>
+															<td width="35%">비고</td>
 															<td>
-							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+																<input type="text" name="filterDesc" id="filterDesc" value="" class="form-control required">
 															</td>
-														</tr>																													
-														<tr >         
-															<td width="35%">작업종료일</td>
-															<td>
-							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-															</td>
-														</tr>																															
-														
+														</tr>
 													</tbody>
 												</table>	
 												
@@ -108,17 +103,16 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12" style="overflow: hidden;">
-											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
+											<table class="table table-bordered table-hover x-scroll-table" id="table_usb_policy" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
 														<th>번호</th>
-														<th>이름</th>
+														<th>장치이름</th>
 														<th>vid</th>
 														<th>pid</th>
 														<th>시리얼번호</th>
 														<th >허용여부</th>
 														<th >비고</th>
-
 
 													</tr>
 												</thead>				
@@ -142,6 +136,8 @@
 					</div>
 				</div>
 			</section>
+			
+			<div id="reg_usb_popup_div"></div>
 		</div>
 	
 		<!-- JAVASCRIPT FILES -->
@@ -165,6 +161,32 @@
  		
  	}
  	
+ // 검색 버튼 클릭 시
+ 	function searchUserLog(){
+ 		var datatable = $('#table_usb_policy').dataTable().api();
+		datatable.ajax.reload();   	
+ 	
+ 	}
+ 	
+ 	function fn_open_reg_usb_popup(code) {
+ 		$.ajax({      
+		    type:"POST",  
+		    url:'/admin/policy/usb/register',
+		    async: false,
+		    data:{ 
+		    	code : code,
+		    	_ : $.now()
+		    },
+		    success:function(data){
+		    	$("#reg_usb_popup_div").html(data);
+	            $('#modalPolicyRegUsb').modal('show');
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+ 	}
+ 	
 	$(document).ready(function(){
 		
 		$(".select2theme").select2({
@@ -186,17 +208,18 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 
 					var export_filename = 'Filename';
 					
-					var table = jQuery('#table_userinfo');
+					var table = jQuery('#table_usb_policy');
 					table.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" ><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
 						"ajax" : {
 							"url":'/ax/unauthusb/list',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  function(param) {
-								param.allow = 0;
-								
+								param.name = $('#filterDeviceName').val();
+								param.serial = $('#filterSerialNumber').val();
+								param.desc = $('#filterDesc').val();
 					        },
  					        "beforeSend" : function(){
 								jQuery('#preloader').show();
@@ -242,7 +265,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"orderable": false	//추가정보
 						}, {
 							data: "name",
-							"orderable": false	//부서
+							"orderable": false	//장치이름
 						}, {
 							data: "vid",
 							"orderable": false	//아이디
@@ -283,31 +306,38 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"class":"center-cell"
 						},         
 						{  // set default column settings
-							'targets': [1]	//부서
+							'targets': [1]	// 장치이름
 							,"class":"center-cell"
 						}, {	
-							"targets": [2]	//아이디
+							"targets": [2]	//vid
 							,"class":"center-cell"
 						}, {	
-							"targets": [3]	//이름
+							"targets": [3]	//pid
 							,"class":"center-cell"
 						}, {	
-							"targets": [4],	//번호
+							"targets": [4],	//시리얼
 							"class":"center-cell"
 						}, {	
-							"targets": [5]	//직책
+							"targets": [5]	//허용여부
 							,"class" : "center-cell"
+							,"visible" : false
 							,"render":function(data,type,row){
 								return data == 'true' ? '허용' : '미허용';
 							}
 
 						}, {	
-							"targets": [6]	//직책
+							"targets": [6]	//비고
 						,"class" : "center-cell"
 					}],						
 						"initComplete": function( settings, json ) {
 							$('.export-print').hide();
 						}
+					});
+					
+					var ctbl = $('#table_usb_policy').DataTable();
+					ctbl.on( 'click', 'td', function () {
+						var data = ctbl.row( $(this).parent() ).data();
+						fn_open_reg_usb_popup(data.usbId);
 					});
 					
 				}

@@ -19,7 +19,7 @@ import gcom.Model.MailExportModel;
 import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
 import gcom.Model.PrivacyLogModel;
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.ConfigInfo;
 import gcom.user.model.UserContactModel;
 
 

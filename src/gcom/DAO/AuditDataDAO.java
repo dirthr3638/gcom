@@ -20,7 +20,7 @@ import gcom.Model.UserAgentModel;
 import gcom.Model.UserInfoModel;
 import gcom.Model.UserPolicyModel;
 import gcom.Model.statistic.AuditClientSimpleModel;
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.ConfigInfo;
 import gcom.common.util.encrypto.hashEncrypto;
 
 

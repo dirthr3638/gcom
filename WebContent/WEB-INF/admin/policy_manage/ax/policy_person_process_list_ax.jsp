@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<table id="table-process-policy" class="table table-bordered table-striped">
+<button type="button" id="btnRegProcess" class="btn btn-sm btn-green pull-right" onclick="javascript:fn_open_reg_process_popup(0);"><i class="fa fa-check"></i>정책 등록</button>
+<table id="table-process-policy" class="table table-bordered table-hover">
 	<thead>
 		<tr>
 			<td>ID</td>
 			<td>프로세스 파일명</td>
+			<td>프로세스 경로</td>
 			<td>프로세스 해시 데이터</td>
 			<td>설명</td>
 			<td>사용여부</td>
@@ -14,10 +16,32 @@
 	</tbody>
 </table>
 
+<div id="reg_process_popup_div"></div>
+
 <script type="text/javascript">
 
+	function fn_open_reg_process_popup(code){
+		
+		$.ajax({      
+		    type:"POST",  
+		    url:'/admin/policy/process/register',
+		    async: false,
+		    data:{ 
+		    	code : code,
+		    	_ : $.now()
+		    },
+		    success:function(data){
+		    	$("#reg_process_popup_div").html(data);
+	            $('#modalPolicyRegProcess').modal('show');
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+	}
+
 	function fn_get_process_policy_data() {
-		console.log("dataTable");
+
 		loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
 		loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
 		loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
@@ -67,6 +91,8 @@
 				}, {
 					data: "processName"			//프로세스 파일명
 				}, {
+					data: "processPath"			//프로세스 경로
+				},{
 					data: "hash"		//프로세스 해시 데이터
 				}, {
 					data: "notice"			//설명
@@ -76,7 +102,7 @@
 				"pageLength": 20,
 				"iDisplayLength": 20,
 		 		"language": {               
-					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개",
 					"infoEmpty":      "검색된 데이터가 없습니다.",
 					"lengthMenu": "  _MENU_ 개",
 					"paginate": {
@@ -94,18 +120,28 @@
 				}, {  
 					'targets': [1]	//프로세스 파일명
 					,"class":"center-cell"
-				}, {	
-					"targets": [2]	//프로세스 해시 데이터
+				}, {  
+					'targets': [2]	//프로세스 경로
 					,"class":"center-cell"
 				}, {	
-					"targets": [3]	//설명
+					"targets": [3]	//프로세스 해시 데이터
 					,"class":"center-cell"
 				}, {	
-					"targets": [4],	//차단여부
+					"targets": [4]	//설명
+					,"class":"center-cell"
+				}, {	
+					"targets": [5],	//차단여부
 					"class":"center-cell"
+					,"visible":false
 				}],
 				"initComplete": function( settings, json ) {
 				}
+			});
+				
+			var ctbl = $('#table-process-policy').DataTable();
+			ctbl.on( 'click', 'td', function () {
+				var data = ctbl.row( $(this).parent() ).data();
+				fn_open_reg_process_popup(data.proNo);
 			});
 		}
    		});

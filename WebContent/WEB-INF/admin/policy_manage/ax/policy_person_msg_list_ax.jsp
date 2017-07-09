@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<table id="table-messenger-policy" class="table table-bordered table-striped">
+<button type="button" id="btnRegMsg" class="btn btn-sm btn-green pull-right" onclick="javascript:fn_open_reg_msg_popup(0);"><i class="fa fa-check"></i>정책 등록</button>
+<table id="table-messenger-policy" class="table table-bordered table-hover">
 	<thead>
 		<tr>
 			<td>ID</td>
@@ -16,7 +17,28 @@
 	</tbody>
 </table>
 
+<div id="reg_msg_popup_div"></div>
+
 <script type="text/javascript">
+	function fn_open_reg_msg_popup(code){
+		
+		$.ajax({      
+		    type:"POST",  
+		    url:'/admin/policy/msg/register',
+		    async: false,
+		    data:{ 
+		    	code : code,
+		    	_ : $.now()
+		    },
+		    success:function(data){
+		    	$("#reg_msg_popup_div").html(data);
+	            $('#modalPolicyRegMessenger').modal('show');
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+	}
 
 	function fn_get_messenger_policy_data() {
 		
@@ -72,17 +94,45 @@
 					data: "processName"		//프로세스명
 				}, {
 					data: "txtLog"			//Message 로
+					,render : function(data,type,row) {
+						if(data) {
+							return '사용';
+						} else {
+							return '미사용';
+						}
+					}
 				}, {                                   
 					data: "txtBlock"		//Message 차
+					,render : function(data,type,row) {
+						if(data) {
+							return '사용';
+						} else {
+							return '미사용';
+						}
+					}
 				}, {                                   
 					data: "fileLog"			//File 로깅  
+					,render : function(data,type,row) {
+						if(data) {
+							return '사용';
+						} else {
+							return '미사용';
+						}
+					}
 				}, {                                   
 					data: "fileBlock"		//File 차단  
+					,render : function(data,type,row) {
+						if(data) {
+							return '사용';
+						} else {
+							return '미사용';
+						}
+					}
 				}],  
 				"pageLength": 20,
 				"iDisplayLength": 20,
 		 		"language": {               
-					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개",
 					"infoEmpty":      "검색된 데이터가 없습니다.",
 					"lengthMenu": "  _MENU_ 개",
 					"paginate": {
@@ -118,6 +168,12 @@
 				}],
 				"initComplete": function( settings, json ) {
 				}
+			});
+				
+			var con = $('#table-messenger-policy').DataTable();
+			con.on( 'click', 'td', function () {
+				var data = con.row( $(this).parent() ).data();
+				fn_open_reg_msg_popup(data.msgNo);
 			});
 		}
    		});

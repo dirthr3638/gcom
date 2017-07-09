@@ -21,7 +21,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.google.gson.Gson;
 
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.ConfigInfo;
 
 
 /**

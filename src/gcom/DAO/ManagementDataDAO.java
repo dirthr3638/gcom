@@ -13,7 +13,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import gcom.Model.SubAdminModel;
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.ConfigInfo;
 import gcom.common.util.encrypto.hashEncrypto;
 import gcom.user.model.UserInfoModel;
 

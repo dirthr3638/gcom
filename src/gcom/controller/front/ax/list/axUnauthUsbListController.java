@@ -35,7 +35,8 @@ public class axUnauthUsbListController extends HttpServlet {
 		map.put("pid", request.getParameterMap().containsKey("pid") ? request.getParameter("pid").toString() : "");
 
 		map.put("desc", request.getParameterMap().containsKey("desc") ? request.getParameter("desc").toString() : "");
-		map.put("allow", request.getParameterMap().containsKey("allow") ? request.getParameter("allow").toString() : "");
+		//map.put("allow", request.getParameterMap().containsKey("allow") ? request.getParameter("allow").toString() : "");
+		map.put("allow", "");
 		
 		HashMap<String, Object> data = action.getUnAuthUsbList(map);
 

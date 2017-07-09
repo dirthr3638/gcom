@@ -20,6 +20,7 @@ import gcom.Model.UsbDevInfoModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
 import gcom.Model.statistic.AuditClientSimpleModel;
+import gcom.common.util.ConfigInfo;
 
 public class PolicyServiceImpl implements IPolicyService {
 	
@@ -140,4 +141,107 @@ public class PolicyServiceImpl implements IPolicyService {
 		return poDao.getPolicyWebSiteBlockListCount(map);	
 	}
 
+	public PolicyMessengerModel getMsgInfo(int code) {
+		return poDao.getMsgInfo(code);	
+	}
+	
+	public HashMap<String, Object> insertPolicyMsgSave(HashMap<String, Object> map) {
+		return poDao.insertPolicyMsgSave(map);
+	}
+	
+	public HashMap<String, Object> updatePolicyMsgUpdate(HashMap<String, Object> map){
+		return poDao.updatePolicyMsgUpdate(map);
+	}
+	
+	public PolicyProcessModel getProcessInfo(int code) {
+		return poDao.getProcessInfo(code);	
+	}
+	
+	public HashMap<String, Object> insertPolicyProcessSave(HashMap<String, Object> map) {
+		return poDao.insertPolicyProcessSave(map);
+	}
+	
+	public HashMap<String, Object> updatePolicyProcessUpdate(HashMap<String, Object> map) {
+		return poDao.updatePolicyProcessUpdate(map);
+	}
+	
+	public PolicyPatternModel getPatternInfo(int code) {
+		return poDao.getPatternInfo(code);	
+	}
+	
+	public HashMap<String, Object> insertPolicyPatternSave(HashMap<String, Object> map) {
+		return poDao.insertPolicyPatternSave(map);
+	}
+	
+	public HashMap<String, Object> updatePolicyPatternUpdate(HashMap<String, Object> map){
+		return poDao.updatePolicyPatternUpdate(map);
+	}
+	
+	public PolicyNetworkModel getNetworkInfo(int code) {
+		return poDao.getNetworkInfo(code);	
+	}
+	
+	public HashMap<String, Object> insertPolicyNetworkSave(HashMap<String, Object> map) {
+		return poDao.insertPolicyNetworkSave(map);
+	}
+	
+	public HashMap<String, Object> updatePolicyNetworkUpdate(HashMap<String, Object> map) {
+		return poDao.updatePolicyNetworkUpdate(map);
+	}
+	
+	public PolicySerialModel getSerialInfo(int code) {
+		return poDao.getSerialInfo(code);
+	}
+	
+	public HashMap<String, Object> insertPolicySerialSave(HashMap<String, Object> map) {
+		return poDao.insertPolicySerialSave(map);
+	}
+	
+	public HashMap<String, Object> updatePolicySerialUpdate(HashMap<String, Object> map) {
+		return poDao.updatePolicySerialUpdate(map);
+	}
+	
+	public PolicyWebSiteBlocklModel getWebsiteInfo(int code) {
+		return poDao.getWebsiteInfo(code);
+	}
+	
+	public HashMap<String, Object> insertPolicyWebsiteSave(HashMap<String, Object> map) {
+		return poDao.insertPolicyWebsiteSave(map);
+	}
+	
+	public HashMap<String, Object> updatePolicyWebsiteUpdate(HashMap<String, Object> map) {
+		return poDao.updatePolicyWebsiteUpdate(map);
+	}
+	
+	public UsbDevInfoModel getUsbInfo(int code) {
+		return poDao.getUsbInfo(code);
+	}
+	
+	public HashMap<String, Object> insertPolicyUsbSave(HashMap<String, Object> map) {
+		return poDao.insertPolicyUsbSave(map);
+	}
+	
+	public HashMap<String, Object> updatePolicyUsbUpdate(HashMap<String, Object> map) {
+		return poDao.updatePolicyUsbUpdate(map);
+	}
+	
+	public HashMap<String, Object> insertPolicyDeviceSave(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		// Block Device 정보 확인 및 Device 장치 추가
+		HashMap<String, Object> data = poDao.insertBlockDeviceSaveWithGetAgentData(map);
+		String returnCode = data.get("returnCode").toString();
+		
+		if(returnCode.equals(ConfigInfo.RETURN_CODE_SUCCESS)) {
+			int usb_no = Integer.parseInt(data.get("usb_no").toString());
+			
+			if(usb_no != 0) {
+				// 해당 장치 USER 정책 허용
+				result = poDao.setUserPolicyDeviceData(data);
+			} else {
+				result.put("returnCode", ConfigInfo.EXIST_NOT_PARAM);
+			}
+		}
+		
+		return result;
+	}
 }

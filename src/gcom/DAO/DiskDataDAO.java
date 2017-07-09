@@ -39,19 +39,9 @@ public class DiskDataDAO {
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
-
-		String user_number = map.get("user_number").toString();
-		String user_duty = map.get("user_duty").toString();
-		String user_rank = map.get("user_rank").toString();
-		int grade = Integer.parseInt(map.get("grade").toString());
-		String file_list = map.get("file_list").toString();
-		String pc_name = map.get("pc_name").toString();
-		String notice = map.get("notice").toString();
-		String partition_name = map.get("partition_name").toString();
-		
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
-		
+
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
 
@@ -67,19 +57,11 @@ public class DiskDataDAO {
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
-
-		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
-		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
-		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
-		if(grade != -1) 	whereSql += "AND de.grade = ? ";
-		if(!file_list.equals("")) 	whereSql += "AND de.file_list LIKE ? ";
-		if(!pc_name.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
-		if(!notice.equals("")) 	whereSql += "AND de.notice LIKE ? ";
-		if(!partition_name.equals("")) 	whereSql += "AND ptn.label LIKE ? ";
-		
 		if(!start_date.equals("")) 	whereSql += "AND de.export_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND de.export_client_time < ? + interval 1 day ";
 
+
+		
 		String sql= 
 				"SELECT "
 				+ "COUNT(*) AS cnt "
@@ -104,17 +86,9 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
-			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");
-			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
-			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
-			if(grade != -1) 	pstmt.setInt(i++, grade);
-			if(!file_list.equals("")) 	pstmt.setString(i++, "%" + file_list + "%");
-			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
-			if(!notice.equals("")) 	pstmt.setString(i++, "%" + notice + "%");
-			if(!partition_name.equals("")) 	pstmt.setString(i++, "%" + partition_name + "%");		
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
-
+			
 			rs = pstmt.executeQuery();
 
 			
@@ -144,16 +118,6 @@ sql += whereSql;
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
-
-		String user_number = map.get("user_number").toString();
-		String user_duty = map.get("user_duty").toString();
-		String user_rank = map.get("user_rank").toString();
-		int grade = Integer.parseInt(map.get("grade").toString());
-		String file_list = map.get("file_list").toString();
-		String pc_name = map.get("pc_name").toString();
-		String notice = map.get("notice").toString();
-		String partition_name = map.get("partition_name").toString();
-		
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 		
@@ -172,16 +136,6 @@ sql += whereSql;
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
-
-		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
-		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
-		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
-		if(grade != -1) 	whereSql += "AND de.grade = ? ";
-		if(!file_list.equals("")) 	whereSql += "AND de.file_list LIKE ? ";
-		if(!pc_name.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
-		if(!notice.equals("")) 	whereSql += "AND de.notice LIKE ? ";
-		if(!partition_name.equals("")) 	whereSql += "AND ptn.label LIKE ? ";
-		
 		if(!start_date.equals("")) 	whereSql += "AND de.export_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND de.export_client_time < ? + interval 1 day ";
 
@@ -232,17 +186,6 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
-
-			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");
-			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
-			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
-			if(grade != -1) 	pstmt.setInt(i++, grade);
-			if(!file_list.equals("")) 	pstmt.setString(i++, "%" + file_list + "%");
-			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
-			if(!notice.equals("")) 	pstmt.setString(i++, "%" + notice + "%");
-			if(!partition_name.equals("")) 	pstmt.setString(i++, "%" + partition_name + "%");
-
-			
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 
@@ -300,6 +243,11 @@ sql += whereSql;
 		String user_name = map.get("user_name").toString();
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
+		String duty = map.get("duty").toString();
+		String rank = map.get("rank").toString();
+		String device_name = map.get("device_name").toString();
+		String pc_name = map.get("pc_name").toString();
+		String device_property = map.get("device_property").toString();
 
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
@@ -318,6 +266,12 @@ sql += whereSql;
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
 		if(!start_date.equals("")) 	whereSql += "AND usb.connect_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND usb.connect_client_time < ? + interval 1 day ";
+		
+		if(!duty.equals("")) 		whereSql += "AND ur.duty LIKE ? ";
+		if(!rank.equals("")) 		whereSql += "AND ur.rank LIKE ? ";
+		if(!device_name.equals("")) whereSql += "AND usb.device_name LIKE ? ";
+		if(!pc_name.equals("")) 		whereSql += "AND agent.pc_name LIKE ? ";
+		if(!device_property.equals("")) 	whereSql += "AND usb.device_property LIKE ? ";
 
 
 		String sql= 
@@ -345,6 +299,11 @@ sql += whereSql;
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+			if(!duty.equals("")) 		pstmt.setString(i++, "%" + duty + "%");
+			if(!rank.equals("")) 		pstmt.setString(i++, "%" + rank + "%");
+			if(!device_name.equals("")) pstmt.setString(i++, "%" + device_name + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			if(!device_property.equals("")) pstmt.setString(i++, "%" + device_property + "%");
 			
 			rs = pstmt.executeQuery();
 
@@ -375,16 +334,13 @@ sql += whereSql;
 		String whereSql = "WHERE usb.visible = true ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
-
-		String user_duty = map.get("user_duty").toString();
-		String user_rank = map.get("user_rank").toString();
-		String device_name = map.get("device_name").toString();
-		String notice = map.get("notice").toString();
-		String property = map.get("property").toString();
-		String pc_name = map.get("pc_name").toString();
-		
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
+		String duty = map.get("duty").toString();
+		String rank = map.get("rank").toString();
+		String device_name = map.get("device_name").toString();
+		String pc_name = map.get("pc_name").toString();
+		String device_property = map.get("device_property").toString();
 		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
@@ -398,21 +354,18 @@ sql += whereSql;
 				idList.append("?");
 			}
 		}
-		
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
-
-		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
-		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
-		if(!device_name.equals("")) 	whereSql += "AND usb.device_name LIKE ? ";
-		if(!notice.equals("")) 	whereSql += "AND usb.notice LIKE ? ";
-		if(!property.equals("")) 	whereSql += "AND usb.device_property LIKE ? ";
-		if(!pc_name.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
-		
-		
 		if(!start_date.equals("")) 	whereSql += "AND usb.connect_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND usb.connect_client_time < ? + interval 1 day ";
+		
+		if(!duty.equals("")) 		whereSql += "AND ur.duty LIKE ? ";
+		if(!rank.equals("")) 		whereSql += "AND ur.rank LIKE ? ";
+		if(!device_name.equals("")) whereSql += "AND usb.device_name LIKE ? ";
+		if(!pc_name.equals("")) 		whereSql += "AND agent.pc_name LIKE ? ";
+		if(!device_property.equals("")) 	whereSql += "AND usb.device_property LIKE ? ";
+
 		
 		whereSql += "ORDER BY usb.no DESC LIMIT ?, ? ";	
 		
@@ -453,16 +406,13 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
-
-			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
-			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
-			if(!device_name.equals("")) 	pstmt.setString(i++, "%" + device_name + "%");
-			if(!notice.equals("")) 	pstmt.setString(i++, "%" + notice + "%");
-			if(!property.equals("")) 	pstmt.setString(i++, "%" + property + "%");
-			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
-			
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+			if(!duty.equals("")) 		pstmt.setString(i++, "%" + duty + "%");
+			if(!rank.equals("")) 		pstmt.setString(i++, "%" + rank + "%");
+			if(!device_name.equals("")) pstmt.setString(i++, "%" + device_name + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			if(!device_property.equals("")) pstmt.setString(i++, "%" + device_property + "%");
 
 			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
 			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
@@ -471,7 +421,7 @@ sql += whereSql;
 			
 			while(rs.next()){
 				UsbConnectModel model = new UsbConnectModel();
-				model.setUserNo(rs.getInt("usb_no"));
+				model.setUsbNo(rs.getInt("usb_no"));
 				model.setUserNo(rs.getInt("user_no"));
 				model.setUserName(rs.getString("user_name"));
 				model.setUserId(rs.getString("user_id"));
@@ -514,14 +464,9 @@ sql += whereSql;
 		String serial = map.get("serial").toString();
 		String desc = map.get("desc").toString();
 		String allow = map.get("allow").toString();
-		String vid = map.get("vid").toString();
-		String pid = map.get("pid").toString();
 
 		if(!name.equals("")) 	whereSql += "AND usb.name LIKE ? ";
 		if(!serial.equals("")) 	whereSql += "AND usb.serial_number LIKE ? ";
-		if(!vid.equals("")) 	whereSql += "AND usb.vid LIKE ? ";
-		if(!pid.equals("")) 	whereSql += "AND usb.pid LIKE ? ";
-
 		if(!desc.equals("")) 	whereSql += "AND usb.description LIKE ? ";
 		if(!allow.equals("")) 	whereSql += "AND usb.allow = ? ";
 
@@ -539,8 +484,6 @@ sql += whereSql;
 			int i = 1;
 			if(!name.equals("")) pstmt.setString(i++, "%" + name + "%");
 			if(!serial.equals("")) pstmt.setString(i++, "%" + serial + "%");
-			if(!vid.equals("")) pstmt.setString(i++, "%" + vid + "%");
-			if(!pid.equals("")) pstmt.setString(i++, "%" + pid + "%");			
 			if(!desc.equals("")) 	pstmt.setString(i++, "%" + desc + "%");
 			if(!allow.equals("")){
 				int iAllow = Integer.parseInt(allow.toString());
@@ -577,15 +520,9 @@ sql += whereSql;
 		String serial = map.get("serial").toString();
 		String desc = map.get("desc").toString();
 		String allow = map.get("allow").toString();
-		String vid = map.get("vid").toString();
-		String pid = map.get("pid").toString();
 
 		if(!name.equals("")) 	whereSql += "AND usb.name LIKE ? ";
 		if(!serial.equals("")) 	whereSql += "AND usb.serial_number LIKE ? ";
-		if(!vid.equals("")) 	whereSql += "AND usb.vid LIKE ? ";
-		if(!pid.equals("")) 	whereSql += "AND usb.pid LIKE ? ";
-
-		
 		if(!desc.equals("")) 	whereSql += "AND usb.description LIKE ? ";
 		if(!allow.equals("")) 	whereSql += "AND usb.allow = ? ";
 		
@@ -610,8 +547,6 @@ sql += whereSql;
 			int i = 1;
 			if(!name.equals("")) pstmt.setString(i++, "%" + name + "%");
 			if(!serial.equals("")) pstmt.setString(i++, "%" + serial + "%");
-			if(!vid.equals("")) pstmt.setString(i++, "%" + vid + "%");
-			if(!pid.equals("")) pstmt.setString(i++, "%" + pid + "%");			
 			if(!desc.equals("")) 	pstmt.setString(i++, "%" + desc + "%");
 			if(!allow.equals("")){
 				int iAllow = Integer.parseInt(allow.toString());

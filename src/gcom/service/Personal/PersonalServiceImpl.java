@@ -16,7 +16,7 @@ import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.PrivacyLogModel;
 import gcom.Model.UserInfoModel;
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.ConfigInfo;
 import gcom.user.model.UserContactModel;
 
 public class PersonalServiceImpl implements IPersonalService {

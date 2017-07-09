@@ -22,6 +22,8 @@ public class axAdminPolicyExport extends HttpServlet {
 			 loadAxUrl = "/WEB-INF/admin/policy_manage/ax/policy_export_network_list_ax.jsp";
          } else if ("serial".equals(tabCode)) {
         	 loadAxUrl = "/WEB-INF/admin/policy_manage/ax/policy_export_serial_list_ax.jsp";	
+         } else if ("website".equals(tabCode)) {
+        	 loadAxUrl = "/WEB-INF/admin/policy_manage/ax/policy_export_website_list_ax.jsp";	
          } 
 		
 		request.getRequestDispatcher(loadAxUrl).forward(request, response);

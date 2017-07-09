@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 
 import gcom.Model.DeptModel;
 import gcom.Model.DeptTreeModel;
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.ConfigInfo;
 
 public class DeptDAO {
 	
