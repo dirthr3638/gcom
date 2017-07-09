@@ -19,6 +19,7 @@ import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.PolicyWebSiteBlocklModel;
 import gcom.Model.UsbDevInfoModel;
+import gcom.common.util.ConfigInfo;
 import gcom.user.model.MemberPolicyModel;
 import gcom.user.model.UserContactModel;
 import gcom.user.model.UserInfoModel;
@@ -1241,6 +1242,220 @@ public class UserDAO {
 		}
 		
 		return model;
+	}
+
+	public MemberPolicyModel getSettingPolicyInfo(HashMap<String, Object> map) {
+		MemberPolicyModel model = new MemberPolicyModel();
+		int policyNo = Integer.parseInt(map.get("policy_no").toString());
+		
+		String sql= 
+				"SELECT "
+					+ "ai.no as agentNo, "
+				    + "ui.no as userNo, "
+				    + "ai.policy_no as policyNo, "
+				    + "ai.dept_no as deptId, "
+				    + "ui.id as userId, "
+				    + "ui.name as userName, "
+				    + "ui.duty as duty, "
+				    + "ui.rank as rank, "
+					+ "ai.ip_addr as ipAddr, "
+				    + "ai.mac_addr as macAddr, "
+				    + "ai.pc_name as pcName, "
+				    + "di.short_name as deptName, "
+				    
+				    + "IFNULL(pi.uninstall_enabled, 0) as isUninstall, "
+				    + "IFNULL(pi.file_encryption_enabled, 0) as isFileEncryption, "
+				    + "IFNULL(pi.cd_encryption_enabled, 0) as isCdEncryption, "
+				    + "IFNULL(pi.printer_enabled, 0) as isPrint, "
+				    + "IFNULL(pi.cd_enabled, 0) as isCdEnabled, "
+				    + "IFNULL(pi.cd_export_enabled, 0) as isCdExport, "
+				    + "IFNULL(pi.wlan_enabled, 0) as isWlan, "
+				    + "IFNULL(pi.net_share_enabled, 0) as isNetShare, "
+				    + "IFNULL(pi.web_export_enabled, 0) as isWebExport, "
+				    + "IFNULL(pi.removal_storage_export_enabled, 0) as isStorageExport, "
+				    + "IFNULL(pi.removal_storage_admin_mode, 0) as isStorageAdmin, "
+				    
+				    + "IFNULL(pi.usb_dev_list, 'N') as isUsbBlock, "
+				    + "IFNULL(pi.com_port_list, 'N') as isComPortBlock, "
+				    + "IFNULL(pi.net_port_list, 'N') as isNetPortBlock, "
+				    + "IFNULL(pi.process_list, '') as isProcessList, "
+				    + "IFNULL(pi.file_pattern_list, '') as isFilePattern, "
+				    + "IFNULL(pi.web_addr_list, 'N') as isWebAddr, "
+				    + "IFNULL(pi.msg_block_list, 'N') as isMsgBlock, "
+				    + "IFNULL(pi.watermark_descriptor, 'N') as isWaterMark, "
+				    + "IFNULL(pi.print_log_descriptor, 0) as printLogDesc, "
+				    + "IFNULL(pi.pattern_file_control, 0) as patternFileControl "
+				+ "FROM agent_info AS ai "
+				+ "INNER JOIN user_info AS ui ON ai.own_user_no = ui.no "
+				+ "INNER JOIN policy_info AS pi ON ai.policy_no = pi.no "
+				+ "INNER JOIN dept_info as di ON ai.dept_no = di.no "
+				+ "WHERE pi.no = ? ";
+
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, policyNo);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				
+				model.setAgentNo(rs.getInt("agentNo"));
+				model.setUserNo(rs.getInt("userNo"));
+				model.setPolicyNo(rs.getInt("policyNo"));
+				model.setDeptId(rs.getInt("deptId"));
+				model.setUserId(rs.getString("userId"));
+				model.setUserName(rs.getString("userName"));
+				model.setDuty(rs.getString("duty"));
+				model.setRank(rs.getString("rank"));
+				model.setIpAddr(rs.getString("ipAddr"));
+				model.setMacAddr(rs.getString("macAddr"));
+				model.setPcName(rs.getString("pcName"));
+				model.setDeptName(rs.getString("deptName"));
+				model.setIsUninstall(rs.getInt("isUninstall"));
+				model.setIsFileEncryption(rs.getInt("isFileEncryption"));
+				model.setIsCdEncryption(rs.getInt("isCdEncryption"));
+				model.setIsPrint(rs.getInt("isPrint"));
+				model.setIsCdEnabled(rs.getInt("isCdEnabled"));
+				model.setIsCdExport(rs.getInt("isCdExport"));
+				model.setIsWlan(rs.getInt("isWlan"));
+				model.setIsNetShare(rs.getInt("isNetShare"));
+				model.setIsWebExport(rs.getInt("isWebExport"));
+				model.setIsStorageExport(rs.getInt("isStorageExport"));
+				model.setIsStorageAdmin(rs.getInt("isStorageAdmin"));
+				model.setIsUsbBlock(rs.getString("isUsbBlock"));
+				model.setIsComPortBlock(rs.getString("isComPortBlock"));
+				model.setIsNetPortBlock(rs.getString("isNetPortBlock"));
+				model.setIsProcessList(rs.getString("isProcessList"));
+				model.setIsFilePattern(rs.getString("isFilePattern"));
+				model.setIsWebAddr(rs.getString("isWebAddr"));
+				model.setIsMsgBlock(rs.getString("isMsgBlock"));
+				model.setWatermarkInfo(rs.getString("isWaterMark"));
+				model.setPrintLogDesc(rs.getInt("printLogDesc"));
+				model.setPatternFileControl(rs.getInt("patternFileControl"));
+				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return model;
+	}
+
+	public HashMap<String, Object> insertRequestPolicyInfoSave(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int agent_id = Integer.parseInt(map.get("agent_no").toString());
+		int user_id = Integer.parseInt(map.get("user_no").toString());
+		int isUninstall = Integer.parseInt(map.get("isUninstall").toString());
+		int isFileEncryption = Integer.parseInt(map.get("isFileEncryption").toString());
+		int isCdEncryption = Integer.parseInt(map.get("isCdEncryption").toString());
+		int isPrint = Integer.parseInt(map.get("isPrint").toString());
+		int isCdEnabled = Integer.parseInt(map.get("isCdEnabled").toString());
+		int isCdExport = Integer.parseInt(map.get("isCdExport").toString());
+		int isWlan = Integer.parseInt(map.get("isWlan").toString());
+		int isNetShare = Integer.parseInt(map.get("isNetShare").toString());
+		int isWebExport = Integer.parseInt(map.get("isWebExport").toString());
+		int patternFileControl = Integer.parseInt(map.get("patternFileControl").toString());
+		String printLogDesc = map.get("printLogDesc").toString();
+		String isUsbBlock = map.get("isUsbBlock").toString();
+		String isComPortBlock = map.get("isComPortBlock").toString();
+		String isNetPortBlock = map.get("isNetPortBlock").toString();
+		String isProcessList = map.get("isProcessList").toString();
+		String isFilePattern = map.get("isFilePattern").toString();
+		String isWebAddr = map.get("isWebAddr").toString();
+		String isMsgBlock = map.get("isMsgBlock").toString();
+		String waterMark = map.get("waterMark").toString();
+		
+		String sql= "INSERT INTO policy_request_info ( "
+						+ "agent_no, "
+						+ "user_no, "
+						+ "new_policy_uninstall_enabled, "
+						+ "new_policy_file_encryption_enabled, "
+						+ "new_policy_cd_encryption_enabled, "
+						+ "new_policy_printer_enabled, "
+						+ "new_policy_cd_enabled, "
+						+ "new_policy_cd_export_enabled, "
+						+ "new_policy_wlan_enabled, "
+						+ "new_policy_net_share_enabled, "
+						+ "new_policy_web_export_enabled, "
+						+ "new_policy_removal_storage_export_enabled, " 
+						+ "new_policy_removal_storage_admin_mode, "
+						+ "new_policy_usb_dev_list, "
+						+ "new_policy_com_port_list, "
+						+ "new_policy_net_port_list, "
+						+ "new_policy_process_list, "
+						+ "new_policy_file_pattern_list, " 
+						+ "new_policy_web_addr_list, "
+						+ "new_policy_msg_block_list, "
+						+ "new_policy_watermark_descriptor, "
+						+ "new_policy_print_log_descriptor, "
+						+ "new_policy_quarantine_path_access_code, " 
+						+ "new_policy_pattern_file_control, "
+						+ "notice, "
+						+ "request_server_time, "
+						+ "request_client_time "
+					+") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW()) ";
+		
+		try{
+			
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			
+			pstmt.setInt(1, agent_id);
+			pstmt.setInt(2, user_id);
+			pstmt.setInt(3, isUninstall);
+			pstmt.setInt(4, isFileEncryption);
+			pstmt.setInt(5, isCdEncryption);
+			pstmt.setInt(6, isPrint);
+			pstmt.setInt(7, isCdEnabled);
+			pstmt.setInt(8, isCdExport);
+			pstmt.setInt(9, isWlan);
+			pstmt.setInt(10, isNetShare);
+			pstmt.setInt(11, isWebExport);
+			pstmt.setInt(12, 0);
+			pstmt.setInt(13, 0);
+			pstmt.setString(14, isUsbBlock);
+			pstmt.setString(15, isComPortBlock);
+			pstmt.setString(16, isNetPortBlock);
+			pstmt.setString(17, isProcessList);
+			pstmt.setString(18, isFilePattern);
+			pstmt.setString(19, isWebAddr);
+			pstmt.setString(20, isMsgBlock);
+			pstmt.setString(21, waterMark);
+			pstmt.setString(22, printLogDesc);
+			pstmt.setString(23, "Y");
+			pstmt.setInt(24, patternFileControl);
+			pstmt.setString(25, "아잉");
+			pstmt.executeUpdate();
+									
+			con.commit();
+			result.put("returnCode",  ConfigInfo.RETURN_CODE_SUCCESS);
+			
+		}catch(SQLException ex){
+			result.put("returnCode",  ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
 	}
 	
 }

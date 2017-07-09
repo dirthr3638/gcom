@@ -130,4 +130,11 @@ public class UserServiceImpl implements UserService {
 		return userDAO.getUserContactDetail(map);
 	}
 	
+	public MemberPolicyModel getSettingPolicyInfo(HashMap<String, Object> map) {
+		return userDAO.getSettingPolicyInfo(map);
+	}
+	
+	public HashMap<String, Object> insertRequestPolicyInfoSave(HashMap<String, Object> map) {
+		return userDAO.insertRequestPolicyInfoSave(map);
+	}
 }
