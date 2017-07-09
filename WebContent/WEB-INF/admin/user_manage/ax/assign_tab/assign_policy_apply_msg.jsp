@@ -150,12 +150,40 @@
 						data: "processName"		// 메신저파일명
 					}, {
 						data: "txtLog"			// 텍스트 로그
+						,render : function(data,type,row) {
+							if(data) {
+								return '사용';
+							} else {
+								return '미사용';
+							}
+						}
 					}, {
 						data: "txtBlock"		// 텍스트 차단
+						,render : function(data,type,row) {
+							if(data) {
+								return '사용';
+							} else {
+								return '미사용';
+							}
+						}
 					}, {
 						data: "fileLog"			// 파일 로그
+						,render : function(data,type,row) {
+							if(data) {
+								return '사용';
+							} else {
+								return '미사용';
+							}
+						}
 					}, {
 						data: "fileBlock"		// 파일 차단
+						,render : function(data,type,row) {
+							if(data) {
+								return '사용';
+							} else {
+								return '미사용';
+							}
+						}
 					}],  
 					"pageLength": 10,
 					"iDisplayLength": 10,

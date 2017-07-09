@@ -21,7 +21,6 @@ import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
 import gcom.user.model.UserInfoModel;
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
 
 
 @WebServlet(urlPatterns={"/admin/admin/manage/do/*"} )	//save, reject, view

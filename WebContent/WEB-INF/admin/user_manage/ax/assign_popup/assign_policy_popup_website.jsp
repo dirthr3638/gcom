@@ -29,30 +29,19 @@
 		
 									<!-- panel content -->
 									<div class="panel-body">
-										<% if("".equals(code)) {%>
-											<table class="table table-bordered" id="web_site_info_table" style="width:100%;">
+										<table class="table table-bordered" id="web_site_info_table" style="width:100%;">
 											<thead>
 												<tr>
-													<td>선택된 정책이 없습니다.</td>
+													<td>선택</td>
+													<td>사이트ID</td>
+													<td>사이트주소</td>
+													<td>설명</td>
 												</tr>
 											</thead>
 											<tbody>
 											</tbody>
 										</table>
-										<% } else { %>
-											<table class="table table-bordered" id="web_site_info_table" style="width:100%;">
-												<thead>
-													<tr>
-														<td>선택</td>
-														<td>사이트ID</td>
-														<td>사이트주소</td>
-														<td>설명</td>
-													</tr>
-												</thead>
-												<tbody>
-												</tbody>
-											</table>
-										<% } %>
+										
 										<div class="ld_modal hidden" >
 										    <div class="ld_center" >
 										        <img alt="" src="/assets/images/loaders/loading.gif" />
@@ -81,7 +70,7 @@
 <script type="text/javascript">
 
 	function web_site_info_table() {
-			 
+			var code = '<%= code %>';			 
 			if (jQuery().dataTable) {
 		
 				var wsTable = jQuery('#web_site_info_table');
@@ -89,10 +78,13 @@
 					"dom": '<"row view-filter"<"col-sm-12"<"pull-left"><"pull-right"><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 					"ajax" : {
 						async: false,
-						"url":'/ax/admin/policy/website/list',
+						"url":'/ax/user/policy/website/list',
 					   	"type":'POST',
 					   	"dataSrc" : "data",
-					   	"data" :  {},
+					   	"data" :  {
+					   		code : code,
+					   		_ : $.now()
+					   	},
 				        "beforeSend" : function(){
 							jQuery('#preloader').show();
 				        },
@@ -127,7 +119,8 @@
 							"next": "Next",
 							"last": "Last",
 							"first": "First"
-						}
+						},
+						"zeroRecords":  "선택된 정책이 없습니다."
 					},
 			 	  	"columnDefs": [
 					{	

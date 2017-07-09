@@ -13,8 +13,8 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import gcom.user.model.UserInfoModel;
+import gcom.user.service.UserService;
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
 
 @WebServlet("/account/request/do")
 public class axUserAccountRequestDoController extends HttpServlet {
@@ -40,7 +40,7 @@ public class axUserAccountRequestDoController extends HttpServlet {
 		param.put("user_phone", request.getParameter("user_phone"));
 		
 		
-		UserServiceInterface userService = new UserServiceImpl();
+		UserService userService = new UserServiceImpl();
 		
 		HashMap<String, Object> data =  new HashMap<String, Object>();;
 		try {

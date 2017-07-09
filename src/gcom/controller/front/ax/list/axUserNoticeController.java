@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import gcom.user.model.UserNoticeModel;
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
+import gcom.user.service.UserService;
 
 @WebServlet("/ax/user/notice/list")
 public class axUserNoticeController extends HttpServlet {
@@ -30,7 +30,7 @@ public class axUserNoticeController extends HttpServlet {
 		param.put("startRow", request.getParameter("start_idx").toString());
 		param.put("endRow", request.getParameter("end_idx").toString());
 		
-		UserServiceInterface userService = new UserServiceImpl();
+		UserService userService = new UserServiceImpl();
 		int cnt = userService.getUserNoticeListCount(param);
     	List<UserNoticeModel> list = userService.getUserNoticeList(param);
     	

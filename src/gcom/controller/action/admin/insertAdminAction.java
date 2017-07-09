@@ -36,7 +36,7 @@ public class insertAdminAction {
 		IUserManageService as = new UserManageServiceImpl();
 		return as.insertUserInfo(map);
 	}
-	
+
 	public HashMap<String, Object> insertAdminUserInfo(HashMap<String, Object> map){
 		IManagementService as = new ManagementServiceImpl();
 		return as.insertAdminUserInfo(map);
@@ -46,4 +46,10 @@ public class insertAdminAction {
 		IPolicyService as = new PolicyServiceImpl();
 		return as.insertServeriAudit(audit);
 	}
+	public HashMap<String, Object> insertContactCommentSave(HashMap<String, Object> map) {
+		IPersonalService as = new PersonalServiceImpl();
+		return as.insertContactCommentSave(map);
+	}
+
+
 }

@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import gcom.common.util.encrypto.hashEncrypto;
 import gcom.user.model.UserNoticeModel;
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
 
 /**
  * Servlet implementation class dashboardServlet

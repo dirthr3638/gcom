@@ -704,7 +704,7 @@ sql += whereSql;
 	public List<UserPolicyModel> getPolicyAssignMemberList(HashMap<String, Object> map) {
 		List<UserPolicyModel> data = new ArrayList<UserPolicyModel>();
 		
-		String whereSql = "WHERE 1=1 ";
+		String whereSql = "WHERE 1=1 AND ui.valid = 1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
 		

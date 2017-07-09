@@ -10,22 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import gcom.Model.FileInfoModel;
-import gcom.controller.action.admin.getAdminAction;
 import gcom.service.Personal.IPersonalService;
 import gcom.service.Personal.PersonalServiceImpl;
 import gcom.user.model.UserNoticeModel;
-import gcom.user.service.UserServiceImpl;
 import gcom.user.service.UserService;
+import gcom.user.service.UserServiceImpl;
 
 //공지사항보기
-@WebServlet("/admin/user/notice/view")
-public class userNoticeViewController extends HttpServlet {
+@WebServlet("/admin/user/notice/modify")
+public class userNoticeModifyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public userNoticeViewController() {
+    public userNoticeModifyController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -51,9 +50,6 @@ public class userNoticeViewController extends HttpServlet {
 			request.setAttribute("UserNoticeDetail", model);
 			request.setAttribute("att_file_flag", fileFlag);
 			
-			// 조회수 업데이트
-			userService.updateNoticeViewCount(param);
-			
 			if ("Y".equals(fileFlag)) {
 				param.put("file_id", fileId);
 				
@@ -65,7 +61,7 @@ public class userNoticeViewController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	
-		request.getRequestDispatcher("/WEB-INF/admin/user_manage/admin_user_notice_view.jsp").forward(request, response);
+		
+		request.getRequestDispatcher("/WEB-INF/admin/user_manage/admin_user_notice_modify.jsp").forward(request, response);
 	}
 }

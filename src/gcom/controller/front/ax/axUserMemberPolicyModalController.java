@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
+import gcom.user.service.UserService;
 
 /**
  * Servlet implementation class axDeptController
@@ -37,7 +37,7 @@ public class axUserMemberPolicyModalController extends HttpServlet {
     	param.put("group_id", group);
     	param.put("key", request.getParameter("key_code").toString());
     	
-    	UserServiceInterface userService = new UserServiceImpl();
+    	UserService userService = new UserServiceImpl();
     	List<HashMap<String, Object>> list = userService.getMemberPolicyDetail(param);
     	
     	request.setAttribute("group", group);

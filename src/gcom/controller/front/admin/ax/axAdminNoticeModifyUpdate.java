@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import gcom.Model.SubAdminModel;
 import gcom.controller.action.admin.insertAdminAction;
+import gcom.controller.action.admin.updateAdminAction;
 import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
 import gcom.user.model.UserInfoModel;
@@ -23,8 +24,8 @@ import gcom.user.service.UserService;
 /**
  * Servlet implementation class axCommonUI
  */
-@WebServlet("/admin/user/notice/save")
-public class axAdminNoticeWriteSave extends HttpServlet {
+@WebServlet("/admin/user/notice/update")
+public class axAdminNoticeModifyUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,7 +40,9 @@ public class axAdminNoticeWriteSave extends HttpServlet {
     	SubAdminModel admin = managementService.getAdminUserInfo(param);
 		
 		
-		param.put("reg_staf_no", admin.getAdminNo());
+		param.put("upd_staf_no", admin.getAdminNo());
+		param.put("bbs_id", request.getParameter("bbsId"));
+		param.put("file_id", request.getParameter("fileId"));
 		param.put("bbs_title", request.getParameter("title"));
 		param.put("bbs_body", request.getParameter("body"));
 		param.put("special_type", request.getParameter("special"));
@@ -49,11 +52,11 @@ public class axAdminNoticeWriteSave extends HttpServlet {
 		param.put("att_file_path", request.getParameter("file_path"));
 		param.put("attfile_yn", request.getParameter("attfile_yn"));
 		
-		insertAdminAction action = new insertAdminAction();
+		updateAdminAction action = new updateAdminAction();
 		
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
-			data = action.insertNoticeWriteSave(param);
+			data = action.updateNoticeModifyUpdate(param);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

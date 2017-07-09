@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<% 
+	String staf_id = request.getAttribute("user_id").toString();
+%>
 <!doctype html>
 <html lang="utf-8">
 	<head>
@@ -21,6 +23,14 @@
 		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+		
+		<!-- Alert -->
+		<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+		<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		
+		<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+		
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -37,7 +47,7 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>에이전트감사로그</h1>
+					<h1>문의사항 관리</h1>
 				</header>
 				<!-- /page title -->
 			
@@ -67,7 +77,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>에이전트감사로그</strong> <!-- panel title -->
+										<strong>문의사항</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -102,6 +112,7 @@
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
+														<!-- 
 														<tr>         
 															<td width="35%">작업시작일</td>
 															<td>
@@ -114,7 +125,7 @@
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
 														</tr>																															
-														
+														 -->
 													</tbody>
 												</table>	
 												
@@ -130,33 +141,34 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12" style="overflow: hidden;">
-											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
+											<table class="table table-bordered table-hover x-scroll-table" id="table_contact" style="width:100%; min-width: 600px;">
+												<col width="20px;">
+												<col width="80px;">
+												<col width="120px;">
+												<col>
+												<col width="150px;">
+												<col width="100px;">
+												<col width="80px;">			
 												<thead>
 													<tr>
-														<th style="width:20px"></th>
-														<th>부서</th>
-														<th>아이디</th>
-														<th>이름</th>
-														<th>번호</th>
-														<th >직책</th>
-														<th >계급</th>														
-														<th >IP</th>
-														<th >MAC</th>
-														<th >PC이름</th>
-														<th >작업모듈</th>
-														<th >작업내역</th>
-														<th >작업시간(서버)</th>
-														<th >작업시간</th>
-														<th >상태</th>
-
+														<th></th>
+														<th>문의코드</th>
+														<th>문의구분</th>
+														<th>제목</th>
+														<th>등록일</th>
+														<th>등록자</th>
+														<th>답변여부</th>
+														<th>답변ID</th>
+														<th>답변등록자</th>
+														<th>답변등록일</th>
+														<th>답변내용</th>
 													</tr>
-												</thead>				
+												</thead>
 												<tbody>
 												</tbody>
-											</table>									
+											</table>																
 										</div>
 									</div>
-									
 									
 									<div class="ld_modal hidden" >
 									    <div class="ld_center" >
@@ -172,6 +184,8 @@
 				</div>
 			</section>
 		</div>
+		
+		<div id="recomment_write_popup"></div>
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
@@ -182,33 +196,7 @@
 
 <script>
 
-	//라디오타입에 따라 컬럼 hide/show
-	var setColumnType = function(cType){
-		
-		var datatable = $('#table_userinfo').dataTable().api();
-		var aColumn = datatable.columns('.agentinfo' );
-		var uColumn = datatable.columns('.userinfo' );
-		if(cType == 1){
-			uColumn.visible(true);
-			aColumn.visible(false);			
-
- 			var jTable = $('#table_userinfo').dataTable();;
-
-//			var nsTr = $('tbody > td > .datables-td-detail').parents('tr')[0];
-			var nsTr = $('#table_userinfo tr');
-			for(var i = 0; i < nsTr.length; i++){
-				var nTr = nsTr[i];
-				jTable.fnClose(nTr);
-			}
-		}else if(cType == 2){
-			uColumn.visible(false);
-			aColumn.visible(true);	
-
-			var nsTr = $('#table_userinfo tr td').find('span.datables-td-detail');
-			nsTr.addClass("datatables-close").removeClass("datatables-open");
-		}		
-	}
-
+	//조직도
  	function setTree(){
 		$.ajax({      
 	        type:"POST",  
@@ -226,7 +214,7 @@
 	}
  	
  	function searchUserLog(){
- 		var datatable = $('#table_userinfo').dataTable().api();
+ 		var datatable = $('#table_contact').dataTable().api();
 		datatable.ajax.reload();   	
  	
  	}
@@ -241,6 +229,42 @@
  		var $buttons = $('.export-csv');
  		$buttons.click();
  		
+ 	}
+ 	
+ 	function fn_open_recomment(stafId, commentId) {
+ 		
+ 		var reRegStafId = '<%= staf_id%>';
+ 		
+ 		if( reRegStafId != stafId) {
+			vex.defaultOptions.className = 'vex-theme-os';
+	    	
+    		vex.dialog.open({
+    			message: '문의 답변 수정은 답변 등록자만 가능합니다.',
+    			  buttons: [
+    			    $.extend({}, vex.dialog.buttons.YES, {
+    			      text: '확인'
+    			  })],
+   			});
+    		
+			return false;
+ 		}
+ 		
+ 		$.ajax({      
+		    type:"POST",  
+		    url:'/admin/user/contact/modify',
+		    async: false,
+		    data:{
+		    	comment_id : commentId,
+		    	_ : $.now()
+		    },
+		    success:function(data){
+		    	$("#recomment_write_popup").html(data);
+	            $('#modalCommentModify').modal('show');
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
  	}
  	
 	$(document).ready(function(){
@@ -265,12 +289,12 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 
 					var export_filename = 'Filename';
 					
-					var table = jQuery('#table_userinfo');
+					var table = jQuery('#table_contact');
 					table.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i><"pull-right" ><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
 						"ajax" : {
-							"url":'/ax/audit/client/list',
+							"url":'/ax/admin/contact/list',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  function(param) {
@@ -289,89 +313,34 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 				                return json.data;
 				            }   
 						},
-						lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
-						tableTools: {
-					          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
-					        },
-					    "buttons": [
-	 					              {
-						                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
-						                  extend: 'csvHtml5',
-						                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
-						                  bom: true,
-						                  exportOptions: {
-						                      modifier: {
-						                          search: 'applied',
-						                          order: 'applied'
-						                      }
-						                  }
-						              },  					              {
-					                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-					                  extend: 'print',
-					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-					                  exportOptions: {
-					                      modifier: {
-					                          search: 'applied',
-					                          order: 'applied'
-					                      }
-					                  }
-					              }, 
-
-					     ],
 				 		"serverSide" : true,
-				 	    "ordering": true,
-						"columns": [{
-							data: "exportNo",							
-							"orderable": false	//추가정보
-						}, {
-							data: "deptName",
-							"orderable": false	//부서
-						}, {
-							data: "userId",
-							"orderable": false	//아이디
-						}, {
-							data: "userName",
-							"orderable": false	//이름
-						}, {
-							data: "userNo",
-							"orderable": false	//번호
-						}, {
-							data: "duty",
-							"orderable": false	//직책
-						}, {
-							data: "rank",
-							"orderable": false	//계급
-						}, {
-							data: "ipAddr",
-							"orderable": false	//IP
-						}, {
-							data: "macAddr",
-							"orderable": false	//MAC
-						}, {
-							data: "pcName",
-							"orderable": false	//PC이름
-						}, {
-							data: "moduleName",
-							"orderable": false	//작업모듈
-						}, {
-							data: "description",
-							"orderable": false	//작업내역
-						}, {
-							data: "serverTime",
-							"orderable": false	//작업시간(서버)
-						}, {
-							data: "clientTime",
-							"orderable": false	//작업시간(PC)
-						}, {
-							data: "status",
-							"orderable": false	//상태
+				 		"columns": [{
+								data: "contactId"			//추가정보
+							}, {
+								data: "contactId"			//문의코드
+							}, {
+								data: "contactTypeName"		//문의구분
+							}, {
+								data: "contactTitle"		//제목
+							}, {
+								data: "regDt"				//등록일
+							}, {
+								data: "regUserName"			//등록자
+							}, {
+								data: "commentYN"			//답변여부
+							}, {
+								data: "commentId"			//답변ID
+							}, {
+								data: "commnetRegStafId"	//답변등록자
+							}, {
+								data: "commentRegDt"		//답변등록일
+							}, {
+								data: "replyContent"		//답변내용
 						}],
-						// set the initial value
-						"pageLength": 20,
-						"iDisplayLength": 20,
-						"pagingType": "bootstrap_full_number",
+						"pageLength": 10,
+						"iDisplayLength": 10,
 						"language": {
-							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
+							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 문의",
 							"infoEmpty": "검색된 데이터가 없습니다.",
 							"zeroRecords" :"검색된 데이터가 없습니다.",
 							"lengthMenu": "  _MENU_ 개",
@@ -384,101 +353,75 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							
 						},
 						"columnDefs": [
-						{	
-							"targets": [0],	//추가정보
-							"class":"center-cell add_detail_info",
-							"render":function(data,type,row){
-								return '<span class="datables-td-detail datatables-close"></span>';
-							}
-						},         
-						{  // set default column settings
-							'targets': [1]	//부서
-							,"class":"center-cell"
-						}, {	
-							"targets": [2]	//아이디
-							,"class":"center-cell"
-						}, {	
-							"targets": [3]	//이름
-							,"class":"center-cell"
-						}, {	
-							"targets": [4],	//번호
-							"class":"center-cell"
-						}, {	
-							"targets": [5]	//직책
-							,"class" : "center-cell"
-						}, {	
-							"targets": [6]	//계급
-							,"class" : "center-cell"
-						}, 
-						{	
-							"targets": [7]	//IP
-							,"class" : "center-cell"
-							,"visible" : false
-							,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [8]	//MAC
-							,"class" : "center-cell"
-							,"visible" : false
-	 						,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [9]	//PC이름
-							,"class" : "center-cell"
-							,"visible" : false
-	 						,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [10]	//작업모듈
-							,"class" : "center-cell"
-						}, {	
-							"targets": [11]	//작업내역
-						}, {	
-							"targets": [12]	//시간(서버)
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {	
-							"targets": [13]	//시간(PC)
-							,"class" : "center-cell"
-						}, {	
-							"targets": [14]	//상태
-							,"class" : "center-cell"
+							{	
+								"targets": [0],	//추가정보
+								"class":"center-cell add_detail_info",
+								"render":function(data,type,row){
+									return '<span class="datables-td-detail datatables-close"></span>';
+								}
+							},         
+							{  // set default column settings
+								'targets': [1]	//문의코드
+								,"class":"center-cell"
+							}, {	
+								"targets": [2]	//문의구분
+								,"class":"center-cell"
+							}, {	
+								"targets": [3]	//제목
+							
+							}, {	
+								"targets": [4],	//등록일
+								"class":"center-cell"
+							}, {	
+								"targets": [5],	//등록자
+								"class":"center-cell"
+							}, {	
+								"targets": [6]	//답변여부
+								,"class" : "center-cell"
+								,"render":function(data,type,row){
+									return data=="Y"?'<i class="fa fa-pencil">':'' ;
+								}
+							}, {	
+								"targets": [7]	//답변ID
+								,"visible":false
+							}, {	
+								"targets": [8]	//답변등록자
+								,"visible":false
+							}, {	
+								"targets": [9]	//답변등록일
+								,"visible":false
+							}, {	
+								"targets": [10]	//답변내용
+								,"visible":false
 						}],						
 						"initComplete": function( settings, json ) {
-							$('.export-print').hide();
 						}
 					});
 					
 					function fnFormatDetails(oTable, nTr) {
 						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
-						sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
-						sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-						sOut += '<tr><td class="center-cell">PC명:</td><td>' + aData.serverTime + '</td><td></td><td></td></tr>';
-						
-						sOut += '<td class="center-cell"></td><td></td></tr>';
-												
-						sOut += '</table>';
 
+						var reFlag = aData.commentYN;
+						var sOut = '<table class="table fixed" style="width:100%; overflow:auto; margin:0;">';
+
+						if( reFlag == 'Y' ) {
+							sOut += '<tr><td class="comment-cell" style="vertical-align: middle;">답변 : ';
+							sOut += '<i class="fa fa-clock-o"></i> '+ aData.commentRegDt + '&nbsp;&nbsp;&nbsp;&nbsp;';
+							sOut += '<i class="fa fa-user"></i> '+ aData.commnetRegStafId ;
+							sOut += '<button id="btnModifyComment" class="btn btn-xs pull-right" style="background-color:#f3768b; color:#fff !important; font-weight:bold;" onClick="javascript:fn_open_recomment(\'' + aData.commnetRegStafId + '\' , \''+ aData.commentId + '\')">답변수정</button>';
+							
+							sOut += '</td></tr>';
+							sOut += '<tr><td class="comment-cell" style="padding:20px 10px;">'+ aData.replyContent +'</td></tr>';
+						} else {
+							sOut += '<tr><td class="comment-cell" style="padding:20px 10px; vertical-align: middle;">등록된 답변이 없습니다.</td></tr>';
+						}
+						
+						sOut += '</table>';
+						
 						return sOut;
 					}
 					
-					var jTable = jQuery('#table_userinfo');
+					var jTable = jQuery('#table_contact');
 					jTable.on('click', ' tbody td .datables-td-detail', function () {
 						var nTr = jQuery(this).parents('tr')[0];
 						if (table.fnIsOpen(nTr)) {
@@ -489,6 +432,15 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							/* Open this row */
 							jQuery(this).addClass("datatables-open").removeClass("datatables-close");
 							table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+						}
+					});
+					
+					var con = $('#table_contact').DataTable();
+					con.on( 'click', 'td', function () {
+						var data = con.row( $(this).parent() ).data();
+						
+						if($(this).index() == 3) {	// 제목 클릭
+							location.href  = '/admin/user/contact/view?contactId=' + data.contactId;
 						}
 					});
 				}

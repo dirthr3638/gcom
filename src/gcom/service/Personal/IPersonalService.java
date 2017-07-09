@@ -10,6 +10,7 @@ import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
 import gcom.Model.PrivacyLogModel;
 import gcom.Model.UserInfoModel;
+import gcom.user.model.UserContactModel;
 
 public interface IPersonalService {
 	public List<MailExportModel> getMailExportList(HashMap<String, Object> map);
@@ -24,4 +25,10 @@ public interface IPersonalService {
 	public HashMap<String, Object> insertNoticeWriteSave(HashMap<String, Object> map);
 	public HashMap<String, Object> applyPolicyDataSave(HashMap<String, Object> map);
 	public MailExportContentModel getMailExportContent(HashMap<String, Object> map);
+	public HashMap<String, Object> updateNoticeModifyUpdate(HashMap<String, Object> map);
+	public List<UserContactModel> getAdminContactList(HashMap<String, Object> map);
+	public int getAdminContactListCount(HashMap<String, Object> map);
+	public HashMap<String, Object> insertContactCommentSave(HashMap<String, Object> map);
+	public HashMap<String, Object> getCommentInfo(HashMap<String, Object> map);
+	public HashMap<String, Object> updateContactCommentUpdate(HashMap<String, Object> map);
 }

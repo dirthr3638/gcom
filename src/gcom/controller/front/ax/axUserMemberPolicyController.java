@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import gcom.user.model.MemberPolicyModel;
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
+import gcom.user.service.UserService;
 
 /**
  * Servlet implementation class axDeptController
@@ -41,7 +41,7 @@ public class axUserMemberPolicyController extends HttpServlet {
     	HashMap<String, Object> param = new HashMap<String, Object>();
     	param.put("user_id", user_id);
     	
-    	UserServiceInterface userService = new UserServiceImpl();
+    	UserService userService = new UserServiceImpl();
     	MemberPolicyModel data = userService.getMemberPolicyInfo(param);
     	
     	request.setAttribute("userPolicyInfo", data);

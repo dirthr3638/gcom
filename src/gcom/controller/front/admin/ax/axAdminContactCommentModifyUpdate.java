@@ -2,43 +2,34 @@ package gcom.controller.front.admin.ax;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
-import gcom.Model.SubAdminModel;
-import gcom.common.services.JSONUtil;
-import gcom.controller.action.admin.insertAdminAction;
-import gcom.service.management.IManagementService;
-import gcom.service.management.ManagementServiceImpl;
-import gcom.user.model.UserInfoModel;
-import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserService;
+import gcom.controller.action.admin.updateAdminAction;
 
 /**
  * Servlet implementation class axCommonUI
  */
-@WebServlet("/admin/user/apply/save")
-public class axAdminApplyPolicySave extends HttpServlet {
+@WebServlet("/admin/user/comment/modify")
+public class axAdminContactCommentModifyUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("comment_id", request.getParameter("comment_id").toString());
+		param.put("reply_content", request.getParameter("reply_content").toString());
 		
-		HashMap<String, Object> param = JSONUtil.convertJsonToHashMap(request.getParameter("apply_policy").toString());
-		
-		insertAdminAction action = new insertAdminAction();
+		updateAdminAction action = new updateAdminAction();
 		
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
-			data = action.applyPolicyDataSave(param);
+			data = action.updateContactCommentUpdate(param);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 
 import gcom.user.model.UserInfoModel;
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
+import gcom.user.service.UserService;
 
 /**
  * Servlet implementation class axDeptController
@@ -42,7 +42,7 @@ public class axUserContactSaveController extends HttpServlet {
     	HashMap<String, Object> param = new HashMap<String, Object>();
     	param.put("user_id", user_id);
     	
-    	UserServiceInterface userService = new UserServiceImpl();
+    	UserService userService = new UserServiceImpl();
     	
     
 		UserInfoModel user = userService.getUserInfo(param);

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import gcom.user.model.UserNoticeModel;
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
+import gcom.user.service.UserService;
 
 /**
  * Servlet implementation class dashboardServlet
@@ -33,7 +33,7 @@ public class userNoticeViewController extends HttpServlet {
     	HashMap<String, Object> param = new HashMap<String, Object>();
 		param.put("bbs_id", request.getParameter("att_bbs_id"));
 		
-		UserServiceInterface userService = new UserServiceImpl();
+		UserService userService = new UserServiceImpl();
 			
 		try {
 			UserNoticeModel model = userService.getUserNoticeDetail(param);

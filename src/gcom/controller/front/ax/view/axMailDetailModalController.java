@@ -14,7 +14,6 @@ import gcom.Model.MailExportContentModel;
 import gcom.controller.action.getAction;
 import gcom.user.model.MemberPolicyModel;
 import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserServiceInterface;
 
 @WebServlet("/ax/report/mail/detail")
 public class axMailDetailModalController extends HttpServlet {

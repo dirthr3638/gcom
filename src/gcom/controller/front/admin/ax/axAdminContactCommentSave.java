@@ -1,4 +1,4 @@
-package gcom.controller.front.admin.ax.Do;
+package gcom.controller.front.admin.ax;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,42 +13,43 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import gcom.Model.SubAdminModel;
-import gcom.controller.action.admin.getAdminAction;
 import gcom.controller.action.admin.insertAdminAction;
-import gcom.controller.action.admin.updateAdminAction;
 import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
 import gcom.user.model.UserInfoModel;
 import gcom.user.service.UserServiceImpl;
 import gcom.user.service.UserService;
 
-
-@WebServlet(urlPatterns={"/admin/enroll/do/*"} )	//save, reject, view
-public class axAdminEnrollDoController extends HttpServlet {
+/**
+ * Servlet implementation class axCommonUI
+ */
+@WebServlet("/admin/user/comment/save")
+public class axAdminContactCommentSave extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpServletRequest httpReq = (HttpServletRequest)request;
     	HttpSession session = httpReq.getSession(false);
     	
-    	String admin_id = (String)session.getAttribute("user_id");
+    	String user_id = (String)session.getAttribute("user_id");
     	HashMap<String, Object> param = new HashMap<String, Object>();
-    	param.put("admin_id", admin_id);
-    	param.put("req_id", request.getParameter("req_id"));
-
-    	String requestUri = request.getRequestURI();
-		HashMap<String, Object> data =  new HashMap<String, Object>();;
+    	param.put("user_id", user_id);
+    	
+    	IManagementService managementService = new ManagementServiceImpl();
+    	SubAdminModel admin = managementService.getAdminUserInfo(param);
 		
-		if(requestUri.equals("/admin/enroll/do/dupcheck")){
-        	getAdminAction action = new getAdminAction();
-        	data = action.getEnrollRequestCheckDupl(param);
-    	}else if(requestUri.equals("/admin/enroll/do/save")){
-        	insertAdminAction action = new insertAdminAction();
-   			data = action.insertUserInfoFromRequest(param);    		
-    	}else if(requestUri.equals("/admin/enroll/do/reject")){
-    		updateAdminAction action = new updateAdminAction();
-    		data = action.updateEnrollRequestReject(param);    		
-    	}
+		param.put("reg_admin_staf_no", admin.getAdminNo());
+		param.put("contact_id", request.getParameter("contact_id").toString());
+		param.put("reply_content", request.getParameter("reply_content").toString());
+		
+		insertAdminAction action = new insertAdminAction();
+		
+		HashMap<String, Object> data =  new HashMap<String, Object>();
+		try {
+			data = action.insertContactCommentSave(param);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		data.putAll(data);
 		response.setContentType("application/json; charset=UTF-8");
