@@ -83,34 +83,50 @@ table td {
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="15%">아이디</td>
 															<td>
 																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
 															</td>
-														</tr>
-														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">이름</td>
 															<td>
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">작업시작일</td>
+															<td width="15%">IP</td>
+															<td>
+																<input type="text" name="filterUserIp" id="filterUserIp" value="" class="form-control required">
+															</td>
+															<td width="15%">작업정보</td>
+															<td>
+																<input type="text" name="filterDescription" id="filterDescription" value="" class="form-control required">
+															</td>
+														</tr>
+														<tr>         
+															<td width="15%">작업내역</td>
+															<td>
+																<input type="text" name="filterParameter" id="filterParameter" value="" class="form-control required">
+															</td>
+															<td width="15%">상태</td>
+															<td>
+																<input type="text" name="filterStatus" id="filterStatus" value="" class="form-control required">
+															</td>
+														</tr>
+
+														<tr>         
+															<td>작업시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																													
-														<tr >         
-															<td width="35%">작업종료일</td>
+															<td>작업종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																															
-														
+														</tr>
 													</tbody>
 												</table>	
 												
@@ -268,6 +284,12 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						   	"data" :  function(param) {
 								param.user_id = $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
+
+								param.user_ip = $('#filterUserIp').val();
+								param.description = $('#filterDescription').val();
+								param.parameter = $('#filterParameter').val();
+								param.status = $('#filterStatus').val();
+								
 								param.start_date = $('#filterStartDate').val();
 								param.end_date = $('#filterEndDate').val();
 								

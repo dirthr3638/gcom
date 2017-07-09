@@ -65,8 +65,8 @@
 								<form id="frmLogin" name="frmLogin" class="nomargin" role="form" action="/login/check" method="post">
 									<div class="clearfix">
 										<div class="form-group">
-											<div class="radio_login"><label><input type="radio" name="loginType" value="U" checked/>User</label></div>
-											<div class="radio_login"><label><input type="radio" name="loginType" value="C" />Console</label></div>
+											<div class="radio_login"><label><input type="radio" name="loginType" value="U" checked/>사용자</label></div>
+											<div class="radio_login"><label><input type="radio" name="loginType" value="C" />관리자</label></div>
 											<!-- <div class="radio_login"><label><input type="radio" name="loginType" value="R" />Report</label></div> -->
 										</div>
 										<!-- ID -->
@@ -81,20 +81,15 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12 col-sm-12 col-xs-12 text-center">
-											<button id="btnLogin" class="btn btn-primary" style="width:100%;" >로그인</button>
+											<button id="btnLogin" class="btn btn-green" style="width:100%;" >로그인</button>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12 col-sm-12 col-xs-12 text-center">
+											<button type="button" id="btnSignIn" class="btn btn-primary" style="width:100%;" onclick="return false;" >회원등록요청</button>
 										</div>
 									</div>
 		
-									<div class="row">
-										<div class="col-md-6 col-sm-6 col-xs-6">
-											<!-- Inform Tip 
-											<div class="form-tip pt-20 text-left">
-												<a class="no-text-decoration size-13" href="#">비밀번호 찾기</a>
-												<a class="no-text-decoration size-13 margin-left-10" href="#">회원가입</a>
-											</div>
-											-->                                        
-										</div>
-									</div>
 								</form>
 							</div>
 						</div>
@@ -109,6 +104,8 @@
 			<!-- /login section -->
 		
 		</div>
+		<div id="account_request_modal">
+		</div>
 		<!-- /wrapper -->
 		
 		<!-- JAVASCRIPT FILES -->
@@ -116,6 +113,7 @@
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery.form.js" ></script>
 		<script type="text/javascript" src="/assets/js/scripts.js"></script>
+		
 
 		<script type="text/javascript">
 			$(document).ready(function(){
@@ -124,7 +122,32 @@
 					fn_login_proc();
 				});
 				
+				$('#btnSignIn').on("click", function(e){
+					fn_request_user_account();
+				})
 			});
+			
+			function fn_request_user_account(){
+				console.log('123')
+				$.ajax({      
+			        type:"GET",  
+			        url:'/account/request/view',
+			        async: false,
+			        //data:{},
+			        success:function(args){   
+			        	console.log('321');
+			            $("#account_request_modal").html(args);   
+			            $('#modalRequestDetail').modal('show');
+			        },   
+			        //beforeSend:showRequest,  
+			        error:function(e){  
+			            console.log(e.responseText);  
+			        }  
+			    }); 
+
+				
+				
+			}
 			
 			function fn_login_input_valid() {
 				var id = $('#att_staf_id').val();

@@ -20,6 +20,8 @@
 		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+        <link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+        <link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -53,7 +55,7 @@
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-md-12" style="overflow: hidden;">
-											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
+											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_systeminfo" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
 														<th>번호</th>
@@ -90,11 +92,73 @@
 		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+        <script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
+        <script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+		<script type="text/javascript" src="/assets/js/admin_function.js"></script>
 
-<script>
+<script> 
+
+	function onClickModify(description, id, value){
+        vex.dialog.open({
+            input: [
+                     '<label>시스템정보</label>',                   
+                     '<input name="description" type="text" readonly value=" '+ description +' " />',
+                     '<label>적용값</label>',                     
+                     '<input name="value" type="text" value="'+ value +'" />'
+                 ].join(''),
+     			buttons: [
+  					    $.extend({}, vex.dialog.buttons.YES, {
+  					      text: '확인'
+  					    }),
+  					    $.extend({}, vex.dialog.buttons.NO, {
+  					      text: '취소'
+  					    })
+  					    ],
+ 		    callback: function (data) {
+ 		        if (!data) {
+ 		        	return;
+ 		        }else{
+ 		        	updateSystemInfo(id, data.value);
+ 		        }
+ 		    }
+       });
+	}
+	
+	function updateSystemInfo(system_no, value){
+		$.ajax({      
+		    type:"POST",  
+		    url:'/admin/system/update',
+		    async: false,
+		    data:{
+		    	value : value,
+		    	system_no : system_no
+		    },
+		    success:function(data){
+		    	if(data.returnCode == "S") {
+		    		reloadTablePreventPage();
+		    		infoAlert("시스템설정이 변경이 적용되었습니다.");
+		    	} else {
+		    		infoAlert("서버와의 통신에 실패하였습니다.");
+		    	}
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+	}
+	
  	
+ 	function reloadTablePreventPage(){
+ 		var datatable = $('#table_systeminfo').dataTable().api();
+		datatable.ajax.reload(null, false);   	
+ 		
+ 	}
+
+
+
 	$(document).ready(function(){
-		
+	     vex.defaultOptions.className = 'vex-theme-os';
+	
 		$(".select2theme").select2({
    			  minimumResultsForSearch: -1,
    			  dropdownAutoWidth : true,
@@ -114,7 +178,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 
 					var export_filename = 'Filename';
 					
-					var table = jQuery('#table_userinfo');
+					var table = jQuery('#table_systeminfo');
 					table.dataTable({
 						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right"><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
@@ -208,7 +272,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"targets": [3]	//수정
 							,"class":"center-cell"
 							,"render":function(data,type,row){
-									return '<i class="fa fa-wrench" onclick="alert('+ "'구현중'" +')"></i>';
+									return '<i class="fa fa-wrench" onclick="onClickModify(\''+ row.description +'\', ' + row.sysNo + ', ' + row.value + ' )"></i>';
 								}
 						}],						
 						"initComplete": function( settings, json ) {

@@ -8,6 +8,7 @@ import gcom.Model.AuditClientModel;
 import gcom.Model.AuditServerModel;
 import gcom.Model.DiskExportModel;
 import gcom.Model.LoginLogModel;
+import gcom.Model.MailExportContentModel;
 import gcom.Model.MailExportModel;
 import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
@@ -137,6 +138,11 @@ public class getAction {
 		return result;						
 	}
 	
+	public MailExportContentModel getMailExportContent(HashMap<String, Object> map){
+		IPersonalService as = new PersonalServiceImpl();
+		return as.getMailExportContent(map);
+	}
+	
 	public HashMap<String, Object> getMsnTalkList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		IPersonalService as = new PersonalServiceImpl();
@@ -167,16 +173,13 @@ public class getAction {
 		IPersonalService as = new PersonalServiceImpl();
 		List<PrivacyLogModel> data = as.getPrivacyFileList(map);
 		result.put("data", data);
-		int total = as.getMsnFileListCount(map);
-//		int total = 100;
+		int total = as.getPrivacyFileListCount(map);
 
 		result.put("recordsTotal", total);
 		result.put("recordsFiltered", total);
 		
 		return result;						
 	}
-
-	
 	
 	public HashMap<String, Object> getUserPolicyList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();

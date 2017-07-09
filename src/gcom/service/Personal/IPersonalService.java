@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import gcom.Model.FileInfoModel;
+import gcom.Model.MailExportContentModel;
 import gcom.Model.MailExportModel;
 import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
@@ -23,6 +24,7 @@ public interface IPersonalService {
 	public FileInfoModel getAttFileInfo(HashMap<String, Object> map);
 	public HashMap<String, Object> insertNoticeWriteSave(HashMap<String, Object> map);
 	public HashMap<String, Object> applyPolicyDataSave(HashMap<String, Object> map);
+	public MailExportContentModel getMailExportContent(HashMap<String, Object> map);
 	public HashMap<String, Object> updateNoticeModifyUpdate(HashMap<String, Object> map);
 	public List<UserContactModel> getAdminContactList(HashMap<String, Object> map);
 	public int getAdminContactListCount(HashMap<String, Object> map);

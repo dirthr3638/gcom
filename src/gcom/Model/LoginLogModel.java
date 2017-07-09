@@ -9,6 +9,9 @@ public class LoginLogModel {
 	private String duty  = "";
 	private String rank  = "";
 	private String name  = "";
+	private String phone  = "";
+	private String number  = "";
+	
 	private String id  = "";
 	private String deptName  = "";
 	private String pcName  = "";

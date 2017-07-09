@@ -31,6 +31,9 @@ public class axUnauthUsbListController extends HttpServlet {
 
 		map.put("name", request.getParameterMap().containsKey("name") ? request.getParameter("name").toString() : "") ;
 		map.put("serial", request.getParameterMap().containsKey("serial") ? request.getParameter("serial").toString() : "");
+		map.put("vid", request.getParameterMap().containsKey("vid") ? request.getParameter("vid").toString() : "");
+		map.put("pid", request.getParameterMap().containsKey("pid") ? request.getParameter("pid").toString() : "");
+
 		map.put("desc", request.getParameterMap().containsKey("desc") ? request.getParameter("desc").toString() : "");
 		//map.put("allow", request.getParameterMap().containsKey("allow") ? request.getParameter("allow").toString() : "");
 		map.put("allow", "");

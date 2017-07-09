@@ -49,6 +49,11 @@ public class getAdminAction {
 		return result;
 	}
 	
+	public SubAdminModel getAdminUserInfo(HashMap<String, Object> map) {
+		IManagementService as = new ManagementServiceImpl();
+		return as.getAdminUserInfo(map);	
+	}
+	
 	public HashMap<String, Object> getSystemInfoList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		ISystemService as = new SystemServiceImpl();
@@ -97,6 +102,13 @@ public class getAdminAction {
 		result.put("recordsFiltered", total);
 		
 		return result;
+	}
+
+	public List<HashMap<String, Object>> getPolicyPatternSimpleList() {
+		IPolicyService as = new PolicyServiceImpl();
+		List<HashMap<String, Object>> data = as.getPolicyPatternSimpleList();
+		
+		return data;
 	}
 
 	

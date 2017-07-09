@@ -96,32 +96,63 @@
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="15%">아이디</td>
 															<td>
 																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
 															</td>
-														</tr>
-														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">이름</td>
 															<td>
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
+
 														<tr>         
-															<td width="35%">검색시작일</td>
+															<td width="15%">직책</td>
+															<td>
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control required">
+															</td>
+															<td width="15%">계급</td>
+															<td>
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
+															</td>
+														</tr>
+
+														<tr>         
+															<td width="15%">장치이름</td>
+															<td>
+																<input type="text" name="filterDeviceName" id="filterDeviceName" value="" class="form-control required">
+															</td>
+															<td width="15%">차단분류</td>
+															<td>
+																<input type="text" name="filterNotice" id="filterNotice" value="" class="form-control required">
+															</td>
+														</tr>
+
+														<tr>         
+															<td width="15%">장치속성</td>
+															<td>
+																<input type="text" name="filterProperty" id="filterProperty" value="" class="form-control required">
+															</td>
+															<td width="15%">PC명</td>
+															<td>
+																<input type="text" name="filterPCName" id="filterPCName" value="" class="form-control required">
+															</td>
+														</tr>
+														
+														<tr>         
+															<td >검색시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																															
-														<tr>         
-															<td width="35%">검색종료일</td>
+															<td >검색종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
+
 														</tr>																															
 														
 													</tbody>
@@ -284,6 +315,14 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						   	"data" :  function(param) {
 								param.user_id = $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
+
+								param.user_duty = $('#filterUserDuty').val();
+								param.user_rank = $('#filterUserRank').val();
+								param.device_name = $('#filterDeviceName').val();
+								param.notice = $('#filterNotice').val();
+								param.property = $('#filterProperty').val();
+								param.pc_name = $('#filterPCName').val();
+																
 								param.start_date = $('#filterStartDate').val();
 								param.end_date = $('#filterEndDate').val();
 								

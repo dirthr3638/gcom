@@ -66,5 +66,8 @@ public interface UserService {
 	public int getPolicyMessengerListCount(HashMap<String, Object> map);
 
 	public UserContactModel getUserContactDetail(HashMap<String, Object> map);
+	
+	public HashMap<String, Object> insertAccountReqeust(HashMap<String, Object> map);
+
 
 }

@@ -13,8 +13,14 @@ public class SystemServiceImpl implements ISystemService {
 	//사용자에이전트 정보
 	public List<SystemInfoModel> getSystemInfoList(HashMap<String, Object> map){		
 		return siDao.getSystemInfoList(map);
-	}	
+	}
+	
 	public int getSystemInfoListCount(HashMap<String, Object> map){		
 		return siDao.getSystemInfoListCount(map);		
 	}
+	
+	public HashMap<String, Object> updateSystemInfo(HashMap<String, Object> map){
+		return siDao.updateSystemInfo(map);				
+	}
+
 }

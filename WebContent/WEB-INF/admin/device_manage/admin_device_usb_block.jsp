@@ -104,12 +104,22 @@
 															<td>
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
+
 														</tr>
+
+
+
+
+
+
+
 														<tr>         
+
 															<td width="15%">검색시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
+
 															<td width="15%">검색종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
@@ -140,6 +150,7 @@
 															<td colspan="3">
 																<input type="text" name="filterUserDeviceDetail" id="filterUserDeviceDetail" value="" class="form-control required">
 															</td>
+
 														</tr>																															
 														
 													</tbody>

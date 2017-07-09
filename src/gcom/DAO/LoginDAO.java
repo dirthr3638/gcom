@@ -11,6 +11,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import gcom.common.services.EncProc;
+import gcom.common.util.encrypto.hashEncrypto;
 
 
 public class LoginDAO {
@@ -35,7 +36,7 @@ public class LoginDAO {
     	String userPw = "";
     	
 		try {
-			userPw = EncProc.encrypt(map.get("userPw").toString());
+			userPw = hashEncrypto.HashEncrypt(map.get("userPw").toString());
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -122,7 +123,7 @@ public class LoginDAO {
 				result.put("deptNo", rs.getString("dept_no"));
 				result.put("userId", rs.getString("id"));
 				
-				if (!userPw.equals(rs.getString("pw"))) {
+				if (!hashEncrypto.HashEncrypt(userPw).equals(rs.getString("pw"))) {
 					returnCode = "DI";
 					result.put("returnCode", returnCode);
 				} else {

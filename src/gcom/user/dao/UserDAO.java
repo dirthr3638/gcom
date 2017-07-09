@@ -572,6 +572,67 @@ public class UserDAO {
 		
 		return result;
 	}
+	
+	public HashMap<String, Object> insertAccountReqeust(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		String user_password1 = map.get("user_password1").toString();
+		String user_number = map.get("user_number").toString();
+		String user_name = map.get("user_name").toString();
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		String user_dept = map.get("user_dept").toString();		
+		String user_id = map.get("user_id").toString();
+		String user_phone = map.get("user_phone").toString();
+
+		
+		String returnCode = "S";
+		
+		String sql= "INSERT "
+				+ "INTO user_account_request "
+				+ "(dept_no, "
+				+ "mem_number, "
+				+ "account_id, "
+				+ "mem_password , "
+				+ "mem_name, "
+				+ "mem_phone, "
+				+ "mem_duty, "
+				+ "mem_rank, "
+				+ "req_date, "
+				+ "permit) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'W') ";
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, user_dept);
+			pstmt.setString(2, user_number);
+			pstmt.setString(3, user_id);
+			pstmt.setString(4, user_password1);
+			pstmt.setString(5, user_name);
+			pstmt.setString(6, user_phone);
+			pstmt.setString(7, user_duty);
+			pstmt.setString(8, user_rank);
+
+			pstmt.executeUpdate();
+			result.put("returnCode", returnCode);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", "E");
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
 
 	public List<UsbDevInfoModel> getPolicyUsbBlockList(HashMap<String, Object> map) {
 		List<UsbDevInfoModel> data = new ArrayList<UsbDevInfoModel>();

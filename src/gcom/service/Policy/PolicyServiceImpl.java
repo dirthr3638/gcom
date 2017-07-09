@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gcom.DAO.AuditDataDAO;
 import gcom.DAO.PolicyDataDAO;
 import gcom.Model.AuditClientModel;
 import gcom.Model.AuditServerModel;
@@ -14,6 +15,7 @@ import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.PolicyWebSiteBlocklModel;
+import gcom.Model.ServerAuditModel;
 import gcom.Model.UsbDevInfoModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
@@ -23,6 +25,8 @@ import gcom.common.services.ConfigInfo;
 public class PolicyServiceImpl implements IPolicyService {
 	
 	PolicyDataDAO poDao = new PolicyDataDAO();
+	AuditDataDAO auDao = new AuditDataDAO();
+	
 	
 	public List<UserPolicyLogModel> getUserPolicyLogList(HashMap<String, Object> map){
 		return poDao.getUserPolicyLogList(map);
@@ -32,25 +36,28 @@ public class PolicyServiceImpl implements IPolicyService {
 	}
 	
 	public List<AuditClientModel> getAuditClientLogList(HashMap<String, Object> map){
-		return poDao.getAuditClientLogList(map);
+		return auDao.getAuditClientLogList(map);
 		
 	}
 	public int getAuditClientLogListCount(HashMap<String, Object> map){
-		return poDao.getAuditClientLogListCount(map);
+		return auDao.getAuditClientLogListCount(map);
 		
 	}
 	
 	public List<AuditClientSimpleModel> getAuditClientSimpleLogList(Map<String, Object> map){
-		return poDao.getAuditClientSimpleLogList(map); 
+		return auDao.getAuditClientSimpleLogList(map); 
 	}
 	
 	public List<AuditServerModel> getAuditServerLogList(HashMap<String, Object> map){
-		return poDao.getAuditServerLogList(map);
-		
+		return auDao.getAuditServerLogList(map);
 	}
+
 	public int getAuditServerLogListCount(HashMap<String, Object> map){
-		return poDao.getAuditServerLogListCount(map);
-		
+		return auDao.getAuditServerLogListCount(map);
+	}
+	
+	public HashMap<String, Object> insertServeriAudit(ServerAuditModel audit){
+		return auDao.insertServeriAudit(audit);		
 	}
 	
 	public List<PolicyRequestInfo> getRequestedPolicyList(HashMap<String, Object> map){
@@ -63,7 +70,7 @@ public class PolicyServiceImpl implements IPolicyService {
 	}
 	
 	public String getAuditServerWorkData(int key){
-		return poDao.getAuditServerWorkData(key);
+		return auDao.getAuditServerWorkData(key);
 	}
 	
 	public List<PolicyMessengerModel> getPolicyMessengerList(HashMap<String, Object> map) {
@@ -80,6 +87,10 @@ public class PolicyServiceImpl implements IPolicyService {
 	
 	public int getPolicyProcessListCount(HashMap<String, Object> map) {
 		return poDao.getPolicyProcessListCount(map);		
+	}
+	
+	public List<HashMap<String, Object>> getPolicyPatternSimpleList() {
+		return poDao.getPolicyPatternSimpleList();	
 	}
 	
 	public List<PolicyPatternModel> getPolicyPatternList(HashMap<String, Object> map) {

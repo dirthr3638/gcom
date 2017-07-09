@@ -20,6 +20,9 @@
 		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+           <link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+           <link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -71,25 +74,21 @@
 									<div class="row">
 										<div class="col-md-12">	
 											<!-- Standard button -->
-											<button type="button" class="btn btn-default" onclick="alert('구현중')"><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;관리자추가</i></button>
+											<button type="button" class="btn btn-default" onclick="javascript:onClickAddAdmin()"><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;관리자추가</i></button>
 											
-											
-											<!-- Primary -->
-											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
-											<!-- Success -->
-											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
 											</div>
 									</div>
 									<div class="row">
 										<div class="col-md-12" style="overflow: hidden;">
-											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
+											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_admininfo" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
 														<th>번호</th>
 														<th>아이디</th>
 														<th>패스워드설정여부</th>
-														<th>아이피</th>
-														<th>삭제</th>
+														<th>아이피1</th>
+														<th>아이피2</th>
+														<th></th>
 													</tr>
 												</thead>				
 												<tbody>
@@ -113,51 +112,31 @@
 				</div>
 			</section>
 		</div>
+		<div id="admin_input_popup">
+		
+		</div>
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
 		<script type="text/javascript" src="/assets/js/app.js"></script>
+		<script type="text/javascript" src="/assets/js/admin_function.js"></script>
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+           <script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
+           <script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
 
 <script>
-
-	//라디오타입에 따라 컬럼 hide/show
-	var setColumnType = function(cType){
-		
-		var datatable = $('#table_userinfo').dataTable().api();
-		var aColumn = datatable.columns('.agentinfo' );
-		var uColumn = datatable.columns('.userinfo' );
-		if(cType == 1){
-			uColumn.visible(true);
-			aColumn.visible(false);			
-
- 			var jTable = $('#table_userinfo').dataTable();;
-
-//			var nsTr = $('tbody > td > .datables-td-detail').parents('tr')[0];
-			var nsTr = $('#table_userinfo tr');
-			for(var i = 0; i < nsTr.length; i++){
-				var nTr = nsTr[i];
-				jTable.fnClose(nTr);
-			}
-		}else if(cType == 2){
-			uColumn.visible(false);
-			aColumn.visible(true);	
-
-			var nsTr = $('#table_userinfo tr td').find('span.datables-td-detail');
-			nsTr.addClass("datatables-close").removeClass("datatables-open");
-		}		
-	}
 
  	function setTree(){
 		$.ajax({      
 	        type:"POST",  
-	        url:'/common/tree/dept',
+	        url:'/common/tree/selectdept',
 	        async: false,
 	        //data:{},
 	        success:function(args){   
-	            $("#dept_tree").html(args);      
+	            $("#dept_tree").html(args);  
+	            treeSelectBind();
 	        },   
 	        //beforeSend:showRequest,  
 	        error:function(e){  
@@ -167,7 +146,7 @@
 	}
  	
  	function searchUserLog(){
- 		var datatable = $('#table_userinfo').dataTable().api();
+ 		var datatable = $('#table_admininfo').dataTable().api();
 		datatable.ajax.reload();   	
  	
  	}
@@ -184,15 +163,224 @@
  		
  	}
  	
-	$(document).ready(function(){
-		
-		$(".select2theme").select2({
-   			  minimumResultsForSearch: -1,
-   			  dropdownAutoWidth : true,
-   			  width: 'auto'
-   		});
+ 	
+ 	function treeSelectBind(){
+		$("#org_tree").bind(
+		        "select_node.jstree", function(evt, data){
+		        	var dept = data.selected[0];
+		        	selectedDeptNo = dept;
+		        	tableReload();
+		        }
+			);
+ 	}
+ 	
+ 	function tableReload(){
+ 		var datatable = $('#table_admininfo').dataTable().api();
+		datatable.ajax.reload();   	
+ 	
+ 	}
 
+ 	
+ 	function onClickRemoveAdmin(admin_no){
+		console.log(admin_no)
+ 		vex.defaultOptions.className = 'vex-theme-os'
+
+ 		vex.dialog.open({
+			message: '해당 관리자가 삭제됩니다. 계속하시겠습니까?',
+		  buttons: [
+		    $.extend({}, vex.dialog.buttons.YES, {
+		      text: '확인'
+		    }), $.extend({}, vex.dialog.buttons.NO, {
+		      text: '취소'
+		    })
+		  ],
+	 	    callback: function(data) {
+	 	      if (data) {
+	 	    	 DoRemoveAdmin(admin_no);
+	 	      }
+	 	    }
+ 		});
+ 	}
+ 	
+
+	function DoRemoveAdmin(admin_no){
+		$.ajax({      
+	        type:"POST",  
+	        url:'/admin/admin/manage/do/remove',
+	        async: false,
+	        data:{
+	        	admin_no : admin_no,
+	        },
+	        success:function(args){ 
+	        	if(args.returnCode == 'S'){
+	        		reloadTablePreventPage();
+	    			infoAlert('관리자 삭제가 완료되었습니다.')
+	        	}else{
+	    			infoAlert('서버와의 통신에 실패하였습니다.')
+	        	}
+	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	            console.log(e.responseText);  
+	        }  
+	    }); 
+	}
+
+ 	function onClickAddAdmin(){
+ 		$.ajax({      
+	        type:"GET",  
+	        url:'/ax/admin/admininput/create',
+	        async: false,
+	        data:{
+	        	_:$.now()
+	        },
+	        success:function(args){   
+ 	            $("#admin_input_popup").html(args);      
+	            $("#modalAdminInfo").modal('show');
+ 	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	            console.log(e.responseText);  
+	        }  
+	    }); 
+
+ 	}
+
+ 	function onClickModifyAdmin(admin_no){
+ 		$.ajax({      
+	        type:"GET",  
+	        url:'/ax/admin/admininput/modify',
+	        async: false,
+	        data:{
+	        	admin_no : admin_no,
+	        	_:$.now()
+	        },
+	        success:function(args){   
+ 	            $("#admin_input_popup").html(args);      
+	            $("#modalAdminInfo").modal('show');
+ 	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	            console.log(e.responseText);  
+	        }  
+	    }); 
+ 		
+ 	}
+ 	
+ 	function fn_admin_create(){
+		var data = getInputData();
+		if(data != false){
+			console.log('관리자수정')
+			$.ajax({      
+		        type:"POST",  
+		        url:'/admin/admin/manage/do/create',
+		        async: false,
+		        data: data,
+		        dataType: "json",
+		        success:function(args){
+		        	if(args.returnCode == 'S'){
+			            $("#modalAdminInfo").modal('hide');
+
+		        		reloadTablePreventPage();
+		    			infoAlert('관리자 추가가 완료되었습니다.')
+		        	}else if(args.returnCode == 'EUN'){
+		    			infoAlert('사번이 이미 존재합니다.')
+		        	}else{
+		    			infoAlert('서버와의 통신에 실패하였습니다.')
+		        	}
+		        },
+		        //beforeSend:showRequest,
+		        error:function(e){
+		            console.log(e.responseText);
+		        }  
+		    }); 
+		} 	
+ 	}
+ 	
+	function fn_admin_modify(){
+		var data = getInputData();
 		
+		if(data != false){
+			console.log('관리자수정')
+			$.ajax({      
+		        type:"POST",  
+		        url:'/admin/admin/manage/do/update',
+		        async: false,
+		        data: data,
+		        dataType: "json",
+		        success:function(args){
+		        	if(args.returnCode == 'S'){
+			            $("#modalAdminInfo").modal('hide');
+
+		        		reloadTablePreventPage();
+		    			infoAlert('수정이 완료되었습니다.')
+		        	}else if(args.returnCode == 'EUN'){
+		    			infoAlert('사번이 이미 존재합니다.')
+		        	}else{
+		    			infoAlert('서버와의 통신에 실패하였습니다.')
+		        	}
+		        },
+		        //beforeSend:showRequest,
+		        error:function(e){
+		            console.log(e.responseText);
+		        }  
+		    }); 
+		} 		
+ 	}
+	
+	
+ 	function reloadTablePreventPage(){
+ 		var datatable = $('#table_admininfo').dataTable().api();
+		datatable.ajax.reload(null, false);   	
+ 		
+ 	}
+
+	function getInputData(){
+		var data = new Object();
+
+		data.admin_no = $('#admin_no').val();
+		data.admin_dept = $('#admin_dept option:selected').val();
+		data.admin_id = $('#admin_id').val();
+		data.admin_ip0 = $('#admin_ip0').val();
+		data.admin_ip1 = $('#admin_ip1').val();
+
+		data.admin_password = $('#admin_pw1').val();
+		data.admin_password2 = $('#admin_pw2').val();		
+		
+		var result = validCheck(data);
+		if(result == true){
+			return data;			
+		}else{
+			return false;
+		}
+	}
+
+function validCheck(data){
+		
+		var result = true;
+		if(parseInt(data.admin_dept) < 1){
+			infoAlert('부서선택 값이 유효하지 않습니다.')
+			result = false;
+		}else if(data.admin_id == ''){
+			infoAlert('아이디를 입력하여주세요.')
+			result = false;
+		}else if(data.admin_password == '' && '${popup_type}' == 'create'){
+			infoAlert('패스워드를 입력하여주세요.')
+			result = false;
+		}else if(data.admin_password2 == '' && '${popup_type}' == 'create'){
+			infoAlert('확인 패스워드를 입력하여주세요.')
+			result = false;
+		}else if(data.admin_password != data.admin_password2 ){
+			infoAlert('패스워드가 일치하지 않습니다.')
+			result = false;
+		}
+		
+		return result;		
+	}
+	
+ 	var selectedDeptNo = 1;
+ 	
+	$(document).ready(function(){
      	setTree();
 
 loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
@@ -206,7 +394,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 
 					var export_filename = 'Filename';
 					
-					var table = jQuery('#table_userinfo');
+					var table = jQuery('#table_admininfo');
 					table.dataTable({
 						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
@@ -215,12 +403,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  function(param) {
-								param.user_id = $('#filterUserId').val();
-								param.user_name = $('#filterUserName').val();
-								param.start_date = $('#filterStartDate').val();
-								param.end_date = $('#filterEndDate').val();
-								
-								param.dept = getCheckedDept();
+								param.dept = selectedDeptNo;
 					        },
  					        "beforeSend" : function(){
 								jQuery('#preloader').show();
@@ -273,7 +456,10 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						}, {
 							data: "ipAddr",
 							"orderable": false	
-						}, {
+						},{
+							data: "ipAddr1",
+							"orderable": false	
+						},  {
 							data: "adminNo",
 							"orderable": false	
 						}],
@@ -313,43 +499,22 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"targets": [3]	//아이피
 							,"class":"center-cell"
 						}, {	
-							"targets": [4]	//패스워드
+							"targets": [4]	//아이피2
+							,"class":"center-cell"
+						}, {	
+							"targets": [5]	//패스워드
 							,"class":"center-cell"
 							,"render":function(data,type,row){
-							return '<i class="fa fa-remove" title="삭제"></i>';
+ 								var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:onClickModifyAdmin(' +row.adminNo+ ')"><i class="fa fa-gear" aria-hidden="true">&nbsp;수정</i></button>';
+ 								ret += '<button type="button" class="btn btn-danger btn-xs" onclick="javascript:onClickRemoveAdmin(' +row.adminNo+ ')"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>';
+
+ 								return ret;
+							}
 						}
 
-					}],						
+					],						
 						"initComplete": function( settings, json ) {
 							$('.export-print').hide();
-						}
-					});
-					
-					function fnFormatDetails(oTable, nTr) {
-						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
-						sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
-						sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-						sOut += '<tr><td class="center-cell">PC명:</td><td>' + aData.serverTime + '</td><td></td><td></td></tr>';
-						
-						sOut += '<td class="center-cell"></td><td></td></tr>';
-												
-						sOut += '</table>';
-
-						return sOut;
-					}
-					
-					var jTable = jQuery('#table_userinfo');
-					jTable.on('click', ' tbody td .datables-td-detail', function () {
-						var nTr = jQuery(this).parents('tr')[0];
-						if (table.fnIsOpen(nTr)) {
-							/* This row is already open - close it */
-							jQuery(this).addClass("datatables-close").removeClass("datatables-open");
-							table.fnClose(nTr);
-						} else {
-							/* Open this row */
-							jQuery(this).addClass("datatables-open").removeClass("datatables-close");
-							table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
 						}
 					});
 				}

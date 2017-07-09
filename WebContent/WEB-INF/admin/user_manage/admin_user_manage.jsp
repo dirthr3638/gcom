@@ -261,7 +261,7 @@
 		var data = new Object();
 
 		data.user_no = $('#user_no').val();
-		data.user_dept = $('#user_dept').val();
+		data.user_dept = $('#user_dept option:selected').val();
 		data.user_name = $('#user_name').val();
 		data.user_duty = $('#user_duty').val();
 		data.user_rank = $('#user_rank').val();

@@ -30,6 +30,16 @@ public class axDiskTranListController extends HttpServlet {
 
 		map.put("user_id", request.getParameter("user_id").toString());
 		map.put("user_name", request.getParameter("user_name").toString());
+
+		map.put("user_number", request.getParameter("user_number").toString());
+		map.put("user_duty", request.getParameter("user_duty").toString());
+		map.put("user_rank", request.getParameter("user_rank").toString());
+		map.put("grade", request.getParameter("grade").toString());
+		map.put("file_list", request.getParameter("file_list").toString());
+		map.put("pc_name", request.getParameter("pc_name").toString());
+		map.put("notice", request.getParameter("notice").toString());
+		map.put("partition_name", request.getParameter("partition_name").toString());
+		
 		map.put("start_date", request.getParameter("start_date").toString());
 		map.put("end_date", request.getParameter("end_date").toString());
 		

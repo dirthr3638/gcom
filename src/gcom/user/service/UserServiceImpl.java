@@ -69,6 +69,9 @@ public class UserServiceImpl implements UserService {
 		return userDAO.insertContactSave(map);
 	}
 	
+	public HashMap<String, Object> insertAccountReqeust(HashMap<String, Object> map){
+		return userDAO.insertAccountReqeust(map);
+	}
 	/* =========================================================================== */
 	
 	public List<UsbDevInfoModel> getPolicyUsbBlockList(HashMap<String, Object> map) {

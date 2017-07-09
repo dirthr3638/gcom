@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import gcom.controller.action.commonAction;
+import gcom.controller.action.admin.insertAdminAction;
 
 /**
  * Servlet implementation class dashboardServlet
@@ -33,6 +34,7 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	 HttpServletRequest httpReq = (HttpServletRequest)request;
          HttpSession session = httpReq.getSession();
+ 		insertAdminAction audit = new insertAdminAction();
          
     	String loginType = request.getParameter("loginType");
     	String userId = request.getParameter("att_staf_id");
@@ -46,6 +48,9 @@ public class LoginController extends HttpServlet {
 		commonAction comm = new commonAction();
 		
 		HashMap<String, Object> data = comm.getLoginCheckResult(param);
+		
+		
+		//로그인 성공시
 		if ("S".equals(data.get("returnCode"))) {
 			session.setAttribute("user_id", data.get("userId"));
 			if ("U".equals(loginType)){
@@ -53,6 +58,8 @@ public class LoginController extends HttpServlet {
 			}
 			session.setAttribute("dept_no", data.get("deptNo"));
 		    session.setAttribute("login_root", data.get("goUrl"));
+		}else{
+			//로그인 실패시
 		}
 		
 		data.putAll(data);

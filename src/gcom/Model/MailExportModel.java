@@ -15,11 +15,14 @@ public class MailExportModel {
 	private String macAddr = "";
 	private String pcName = "";
 	private String deptName = "";
-	private String email ="";
-	private String fileName ="";
-	private String notice ="";
-	private int fileKey;
-	private String exportServerTime = "";
-	private String exportClientTime = "";
+
+	private String subject ="";
+	private String fileList ="";
+	private String fileId = "";
+	private String srcAddr="";
+	private String dstAddr="";
+	
+	private String sendServerTime = "";
+	private String sendClientTime = "";
 	
 }

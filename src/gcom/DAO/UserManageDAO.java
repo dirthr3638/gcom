@@ -16,6 +16,7 @@ import gcom.Model.UserAgentModel;
 import gcom.Model.UserInfoModel;
 import gcom.Model.UserPolicyModel;
 import gcom.common.services.ConfigInfo;
+import gcom.common.util.encrypto.hashEncrypto;
 
 
 public class UserManageDAO {
@@ -86,7 +87,7 @@ public class UserManageDAO {
 			pstmt.setString(i++, name);
 			pstmt.setString(i++, phone);
 			pstmt.setString(i++, id);
-			pstmt.setString(i++, password);
+			pstmt.setString(i++, hashEncrypto.HashEncrypt(password));
 
 			pstmt.executeUpdate();
 			
@@ -171,7 +172,7 @@ public class UserManageDAO {
 			pstmt.setString(i++, phone);
 			pstmt.setString(i++, id);
 			if(password != null && password != "")
-				pstmt.setString(i++, password);
+				pstmt.setString(i++, hashEncrypto.HashEncrypt(password));
 
 			pstmt.setInt(i++, user_no);
 

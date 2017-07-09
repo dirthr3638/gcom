@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import gcom.controller.action.admin.getAdminAction;
+
 @WebServlet("/report/privacy")
 public class reportPrivacyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -19,6 +21,9 @@ public class reportPrivacyController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		getAdminAction action = new getAdminAction();
+		request.setAttribute("list", action.getPolicyPatternSimpleList()); 
+
 		request.getRequestDispatcher("/WEB-INF/report/log_privacy.jsp").forward(request, response);
 	}
 

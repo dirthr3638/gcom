@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 
 import gcom.controller.action.getAction;
 
-@WebServlet("/ax/privacy/list")
+@WebServlet("/ax/pattern/list")
 public class axPrivacyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,6 +30,17 @@ public class axPrivacyController extends HttpServlet {
 
 		map.put("user_id", request.getParameter("user_id").toString());
 		map.put("user_name", request.getParameter("user_name").toString());
+
+		map.put("user_duty", request.getParameter("user_duty").toString());
+		map.put("user_rank", request.getParameter("user_rank").toString());
+		map.put("user_number", request.getParameter("user_number").toString());
+		map.put("ip_addr", request.getParameter("ip_addr").toString());
+		map.put("pc_name", request.getParameter("pc_name").toString());
+		map.put("pattern", request.getParameter("pattern").toString());
+		map.put("matched_data", request.getParameter("matched_data").toString());
+		map.put("file_name", request.getParameter("file_name").toString());
+
+		
 		map.put("start_date", request.getParameter("start_date").toString());
 		map.put("end_date", request.getParameter("end_date").toString());		
 		map.put("dept", request.getParameterValues("dept[]"));

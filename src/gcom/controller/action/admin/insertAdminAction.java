@@ -2,6 +2,7 @@ package gcom.controller.action.admin;
 
 import java.util.HashMap;
 
+import gcom.Model.ServerAuditModel;
 import gcom.service.Personal.IPersonalService;
 import gcom.service.Personal.PersonalServiceImpl;
 import gcom.service.Policy.IPolicyService;
@@ -10,6 +11,8 @@ import gcom.service.Request.IRequestService;
 import gcom.service.Request.RequestServiceImpl;
 import gcom.service.UserManage.IUserManageService;
 import gcom.service.UserManage.UserManageServiceImpl;
+import gcom.service.management.IManagementService;
+import gcom.service.management.ManagementServiceImpl;
 
 public class insertAdminAction {
 
@@ -33,6 +36,15 @@ public class insertAdminAction {
 		return as.insertUserInfo(map);
 	}
 
+	public HashMap<String, Object> insertAdminUserInfo(HashMap<String, Object> map){
+		IManagementService as = new ManagementServiceImpl();
+		return as.insertAdminUserInfo(map);
+	}
+	
+	public HashMap<String, Object> insertServeriAudit(ServerAuditModel audit){
+		IPolicyService as = new PolicyServiceImpl();
+		return as.insertServeriAudit(audit);
+	}
 	public HashMap<String, Object> insertContactCommentSave(HashMap<String, Object> map) {
 		IPersonalService as = new PersonalServiceImpl();
 		return as.insertContactCommentSave(map);
