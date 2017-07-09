@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import gcom.Model.DeptModel;
+import gcom.Model.ServerAuditModel;
+import gcom.common.services.ConfigInfo;
 import gcom.controller.action.deptAction;
 import gcom.controller.action.admin.getAdminAction;
 import gcom.controller.action.admin.insertAdminAction;
@@ -29,6 +31,9 @@ public class axSystemDoController extends HttpServlet {
 
     @Override  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+   		HttpServletRequest httpReq = (HttpServletRequest)request;
+    	HttpSession session = httpReq.getSession(false);
+
     	HashMap<String, Object> data = new HashMap<String, Object>();
     	HashMap<String, Object> result = null;
 
@@ -38,6 +43,18 @@ public class axSystemDoController extends HttpServlet {
     	updateAdminAction action = new updateAdminAction();
     	
 		result = action.updateSystemInfo(data);
+
+        ServerAuditModel model = new ServerAuditModel();
+		model.setAdminId((String)session.getAttribute("user_id"));
+		model.setActionId(2070);
+		model.setWorkIp(httpReq.getRemoteAddr());
+		model.setDescription("시스템 정책 수정");
+		model.setParameter(data.toString());
+ 		model.setStatus(result.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+
+		insertAdminAction aud = new insertAdminAction();
+		aud.insertServeriAudit(model);
+		
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(new Gson().toJson(result));
     }

@@ -12,7 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import gcom.Model.ServerAuditModel;
 import gcom.Model.SubAdminModel;
+import gcom.common.services.ConfigInfo;
 import gcom.controller.action.admin.insertAdminAction;
 import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
@@ -44,6 +46,15 @@ public class axAdminContactCommentSave extends HttpServlet {
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
 			data = action.insertContactCommentSave(param);
+			ServerAuditModel model = new ServerAuditModel();
+			model.setAdminId((String)session.getAttribute("user_id"));
+			model.setActionId(1300);
+			model.setWorkIp(httpReq.getRemoteAddr());
+			model.setDescription("문의사항 답변");
+	   		model.setStatus("성공");
+			model.setParameter("");
+	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

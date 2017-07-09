@@ -12,7 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import gcom.Model.ServerAuditModel;
 import gcom.Model.SubAdminModel;
+import gcom.common.services.ConfigInfo;
 import gcom.controller.action.admin.getAdminAction;
 import gcom.controller.action.admin.insertAdminAction;
 import gcom.controller.action.admin.updateAdminAction;
@@ -36,20 +38,42 @@ public class axAdminEnrollDoController extends HttpServlet {
     	param.put("admin_id", admin_id);
     	param.put("req_id", request.getParameter("req_id"));
 
+		ServerAuditModel model = new ServerAuditModel();
+		model.setAdminId(admin_id);
+		model.setWorkIp(httpReq.getRemoteAddr());
+    	
     	String requestUri = request.getRequestURI();
 		HashMap<String, Object> data =  new HashMap<String, Object>();;
 		
 		if(requestUri.equals("/admin/enroll/do/dupcheck")){
         	getAdminAction action = new getAdminAction();
         	data = action.getEnrollRequestCheckDupl(param);
-    	}else if(requestUri.equals("/admin/enroll/do/save")){
+
+		}else if(requestUri.equals("/admin/enroll/do/save")){
+   			model.setActionId(1001);
+			model.setDescription("회원가입승인");
+			model.setParameter("가입요청 ("+request.getParameter("req_id")+") 가입 승인 완료");
         	insertAdminAction action = new insertAdminAction();
-   			data = action.insertUserInfoFromRequest(param);    		
+   			data = action.insertUserInfoFromRequest(param);    
+   			
+			model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+
+   			insertAdminAction aud = new insertAdminAction();
+   			aud.insertServeriAudit(model);
+			
     	}else if(requestUri.equals("/admin/enroll/do/reject")){
+    		model.setActionId(1002);
+    		model.setDescription("회원가입반려");
+			model.setParameter("가입요청 ("+request.getParameter("req_id")+") 반려");
     		updateAdminAction action = new updateAdminAction();
     		data = action.updateEnrollRequestReject(param);    		
+
+			model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+
+    		insertAdminAction aud = new insertAdminAction();
+    		aud.insertServeriAudit(model);
     	}
-		
+
 		data.putAll(data);
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(new Gson().toJson(data));

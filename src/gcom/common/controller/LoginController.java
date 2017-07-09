@@ -12,10 +12,13 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import gcom.DAO.AuditDataDAO;
+import gcom.Model.AuditServerModel;
 import gcom.Model.ServerAuditModel;
 import gcom.common.services.ConfigInfo;
 import gcom.controller.action.commonAction;
 import gcom.controller.action.admin.insertAdminAction;
+import gcom.controller.front.admin.ax.adminInfoInputController;
 
 /**
  * Servlet implementation class dashboardServlet
@@ -34,13 +37,8 @@ public class LoginController extends HttpServlet {
 
     @Override  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	 HttpServletRequest httpReq = (HttpServletRequest)request;
-         HttpSession session = httpReq.getSession();
- 		insertAdminAction audit = new insertAdminAction();
-        ServerAuditModel aModel = new ServerAuditModel();
- 		aModel.setActionId(1);
-        aModel.setWorkIp(request.getRemoteAddr());
-		aModel.setDescription("로그인작업");
+   	 HttpServletRequest httpReq = (HttpServletRequest)request;
+        HttpSession session = httpReq.getSession();
 		
     	String loginType = request.getParameter("loginType");
     	String userId = request.getParameter("att_staf_id");
@@ -55,46 +53,69 @@ public class LoginController extends HttpServlet {
 		commonAction comm = new commonAction();
 		
 		HashMap<String, Object> data = comm.getLoginCheckResult(param);
+		data.put("parameter", "로그인");
 		
 		String ReturnCode = data.get("returnCode").toString();
+
+		ServerAuditModel model = new ServerAuditModel();
+		model.setAdminId(userId);
+		model.setActionId(1000);
+		model.setWorkIp(httpReq.getRemoteAddr());
+		
+		
 		
 		//로그인 성공시
 		if (ConfigInfo.RETURN_CODE_SUCCESS.equals(ReturnCode)) {
 			session.setAttribute("user_id", data.get("userId"));
-			if ("U".equals(loginType)){
+			if ("U".equals(loginType)){	//유저로그인 성공시
+				model.setDescription("사용자 로그인");
+				model.setParameter("사용자 ::" +  userId + " 로그인");
+				model.setStatus("성공");
+
 				session.setAttribute("user_nm", data.get("userName"));
+				
 
 			}else{	//관리자 로그인 성공시
-				aModel.setStatus("성공");
-				aModel.setParameter("아이디 : " + data.get("userId").toString());
-				aModel.setAdminId(data.get("userId").toString());
-				audit.insertServeriAudit(aModel);
+				model.setDescription("관리자 로그인");
+				model.setParameter("관리자 ::" +  userId + " 로그인");
+				model.setStatus("성공");
+
 			}
 			session.setAttribute("dept_no", data.get("deptNo"));
 		    session.setAttribute("login_root", data.get("goUrl"));
 		}else{
 			//로그인 실패시
 			if ("C".equals(loginType)){
-				//IP실패/ 패스워드 실패
-				aModel.setStatus("실패");
-				aModel.setAdminId(data.get("userId").toString());
-				
+				model.setDescription("관리자 로그인");
+
 				if(ReturnCode.equals(ConfigInfo.NOT_CORRECT_IP) ){	//IP실패일경우
-					aModel.setParameter("(아이디 : " + data.get("userId").toString() + ") 비인가 단말기에서 접속시도 - " + request.getRemoteAddr());
-					audit.insertServeriAudit(aModel);
+					model.setParameter("관리자 :: (아이디 : " + data.get("userId").toString() + ") 비인가 단말기에서 접속시도 - " + request.getRemoteAddr());
+
 				}else if(ReturnCode.equals(ConfigInfo.NOT_EXIST_USER)){
-					aModel.setParameter("존재하지 않는 아이디 (" + data.get("userId").toString() + ") 로그인 시도");
-					audit.insertServeriAudit(aModel);									
 					ReturnCode = ConfigInfo.NOT_CORRECT_PASSWORD_ID;
+					model.setParameter("관리자 :: 존재하지 않는 아이디 (" + userId + ") 로그인 시도");
 
 				}else if(ReturnCode.equals(ConfigInfo.NOT_CORRECT_PASSWORD)){
-					aModel.setParameter("아이디 : " + data.get("userId").toString() + " 패스워드가 불일치 ");
-					audit.insertServeriAudit(aModel);									
 					ReturnCode = ConfigInfo.NOT_CORRECT_PASSWORD_ID;
+					model.setParameter("관리자 :: 아이디 : " + data.get("userId").toString() + " 패스워드가 불일치 ");
+				}				
+			}else{	//사용자로그인 실패시
+				model.setDescription("사용자 로그인");
 
+				if(ReturnCode.equals(ConfigInfo.NOT_EXIST_USER)){
+					ReturnCode = ConfigInfo.NOT_CORRECT_PASSWORD_ID;
+					model.setParameter("사용자 :: 존재하지 않는 아이디 (" + userId + ") 로그인 시도");
+				}else if(ReturnCode.equals(ConfigInfo.NOT_CORRECT_PASSWORD)){
+					ReturnCode = ConfigInfo.NOT_CORRECT_PASSWORD_ID;
+					model.setParameter("사용자 :: 아이디 : " + data.get("userId").toString() + " 패스워드가 불일치 ");
 				}				
 			}
+			model.setStatus("실패");
+
 		}
+		
+		insertAdminAction action = new insertAdminAction();
+		action.insertServeriAudit(model);
 		
 		data.put("returnCode", ReturnCode);
 		response.setContentType("application/json; charset=UTF-8");

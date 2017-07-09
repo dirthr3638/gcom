@@ -554,13 +554,9 @@ sql += whereSql;
 		return result;
 	}
 
-
-
-
 	public HashMap<String, Object> insertServeriAudit(ServerAuditModel audit) {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
-
 		
 		String insertSql= "INSERT INTO "
 				+ "server_audit "
@@ -602,5 +598,49 @@ sql += whereSql;
 		return result;
 	}
 	
+	public HashMap<String, Object> getAuditMap(HashMap<String, Object> map){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+
+		result.put("audit", "N");
+
+		String sql= 
+				"SELECT "
+				+ "audit.uri_id, "
+				+ "audit.uri, "
+				+ "audit.action_id, "
+				+ "audit.description "
+				+ "FROM audit_map_info AS audit "
+				+ "WHERE uri = ? ";
+
+					
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			pstmt.setString(1, map.get("uri").toString());
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result.put("audit", "Y");
+				result.put("uri_id", rs.getInt("uri_id"));
+				result.put("uri", rs.getString("uri"));
+				result.put("action_id", rs.getInt("action_id"));
+				result.put("description", rs.getString("description"));
+			}
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;		
+	}
 	
 }

@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import gcom.Model.DeptModel;
+import gcom.Model.ServerAuditModel;
+import gcom.common.services.ConfigInfo;
 import gcom.controller.action.deptAction;
 import gcom.controller.action.admin.getAdminAction;
 import gcom.controller.action.admin.insertAdminAction;
@@ -31,6 +33,8 @@ public class userDeptDoController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	DeptModel data = new DeptModel();
     	HashMap<String, Object> result = null;
+   		HttpServletRequest httpReq = (HttpServletRequest)request;
+    	HttpSession session = httpReq.getSession(false);
 
 		if (request.getParameterMap().containsKey("no")){
 			data.setDeptNo(Integer.parseInt(request.getParameter("no")));
@@ -48,14 +52,37 @@ public class userDeptDoController extends HttpServlet {
     	String requestUri = request.getRequestURI();
     	deptAction action = new deptAction();
 		
-    	
+        ServerAuditModel model = new ServerAuditModel();
+		model.setAdminId((String)session.getAttribute("user_id"));
+
 		if(requestUri.equals("/admin/do/dept/create")){
 			result = action.insertDeptInfo(data);
+			model.setActionId(1400);
+			model.setWorkIp(httpReq.getRemoteAddr());
+			model.setDescription("부서생성");
+			model.setParameter(data.toString());
+	 		model.setStatus(result.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+			insertAdminAction aud = new insertAdminAction();
+			aud.insertServeriAudit(model);
     	}else if(requestUri.equals("/admin/do/dept/update")){
     		result = action.updateDeptNameInfo(data);    		
+			model.setActionId(1401);
+			model.setWorkIp(httpReq.getRemoteAddr());
+			model.setDescription("부서수정");
+			model.setParameter(data.toString());
+	 		model.setStatus(result.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+			insertAdminAction aud = new insertAdminAction();
+			aud.insertServeriAudit(model);
     	}else if(requestUri.equals("/admin/do/dept/remove")){
-    		result = action.removeDeptInfo(data.getDeptNo());    		
-    	}
+    		result = action.removeDeptInfo(data.getDeptNo());    	
+			model.setActionId(1402);
+			model.setWorkIp(httpReq.getRemoteAddr());
+			model.setDescription("부서삭제");
+			model.setParameter(data.toString());
+	 		model.setStatus(result.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+			insertAdminAction aud = new insertAdminAction();
+			aud.insertServeriAudit(model);
+		}
 		    	
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(new Gson().toJson(result));

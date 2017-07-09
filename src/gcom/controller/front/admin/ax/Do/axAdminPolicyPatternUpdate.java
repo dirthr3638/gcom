@@ -8,10 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import gcom.Model.ServerAuditModel;
+import gcom.common.services.ConfigInfo;
 import gcom.common.util.JSONUtil;
+import gcom.controller.action.admin.insertAdminAction;
 import gcom.controller.action.admin.updateAdminAction;
 
 @WebServlet("/admin/policy/pattern/modify")
@@ -33,11 +37,24 @@ public class axAdminPolicyPatternUpdate extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
     	HashMap<String, Object> param = JSONUtil.convertJsonToHashMap(request.getParameter("data").toString());
+    	HttpServletRequest httpReq = (HttpServletRequest)request;
+    	HttpSession session = httpReq.getSession(false); 
     	
 		updateAdminAction action = new updateAdminAction();
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
 			data = action.updatePolicyPatternUpdate(param);
+		    ServerAuditModel model = new ServerAuditModel();
+				
+			model.setAdminId((String)session.getAttribute("user_id"));
+			model.setActionId(2021);
+			model.setWorkIp(httpReq.getRemoteAddr());
+			model.setDescription("민감정보 수정");
+			model.setParameter(param.toString());
+	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+		
+			insertAdminAction aud = new insertAdminAction();
+			aud.insertServeriAudit(model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

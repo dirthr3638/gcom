@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import gcom.Model.ServerAuditModel;
+import gcom.controller.action.admin.insertAdminAction;
+
 /**
  * Servlet implementation class dashboardServlet
  */
@@ -29,6 +32,16 @@ public class LoginOutController extends HttpServlet {
     	 HttpServletRequest httpReq = (HttpServletRequest)request;
          HttpSession session = httpReq.getSession();
          
+ 		ServerAuditModel model = new ServerAuditModel();
+ 		model.setAdminId((String)session.getAttribute("user_id"));
+ 		model.setActionId(1000);
+ 		model.setWorkIp(httpReq.getRemoteAddr());
+ 		model.setDescription("로그아웃");
+ 		model.setParameter("로그아웃");
+ 		model.setStatus("성공");
+		insertAdminAction action = new insertAdminAction();
+		action.insertServeriAudit(model);
+
          session.invalidate();
          request.getRequestDispatcher("/").forward(request, response);
 	}

@@ -12,7 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import gcom.Model.ServerAuditModel;
 import gcom.Model.SubAdminModel;
+import gcom.common.services.ConfigInfo;
 import gcom.controller.action.deptAction;
 import gcom.controller.action.admin.getAdminAction;
 import gcom.controller.action.admin.insertAdminAction;
@@ -32,7 +34,8 @@ public class axAdminManageDoController extends HttpServlet {
 
     	String requestUri = request.getRequestURI();
 		HashMap<String, Object> data =  new HashMap<String, Object>();;
-
+		HttpServletRequest httpReq = (HttpServletRequest)request;
+    	HttpSession session = httpReq.getSession(false);
 
 		
 		//관리자생성
@@ -48,6 +51,17 @@ public class axAdminManageDoController extends HttpServlet {
 
 			insertAdminAction action = new insertAdminAction();
         	data = action.insertAdminUserInfo(param);
+        	
+			ServerAuditModel model = new ServerAuditModel();
+			model.setAdminId((String)session.getAttribute("user_id"));
+			model.setActionId(3000);
+			model.setWorkIp(httpReq.getRemoteAddr());
+			model.setDescription("관리자 생성");
+			param.remove("pw");
+			model.setParameter(param.toString());
+	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+			insertAdminAction aud = new insertAdminAction();
+			aud.insertServeriAudit(model);
 
    		//관리자수정
 		}else if(requestUri.equals("/admin/admin/manage/do/update")){
@@ -64,12 +78,32 @@ public class axAdminManageDoController extends HttpServlet {
     		updateAdminAction action = new updateAdminAction();
    			data = action.updateAdminUserInfo(param);    		
 
-   		//관리자삭제
+   			ServerAuditModel model = new ServerAuditModel();
+			model.setAdminId((String)session.getAttribute("user_id"));
+			model.setActionId(3001);
+			model.setWorkIp(httpReq.getRemoteAddr());
+			model.setDescription("관리자 수정");
+			param.remove("pw");
+			model.setParameter(param.toString());
+	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+			insertAdminAction aud = new insertAdminAction();
+			aud.insertServeriAudit(model);   		//관리자삭제
 		}else if(requestUri.equals("/admin/admin/manage/do/remove")){
 	    	param.put("no", request.getParameter("admin_no"));
 
 			updateAdminAction action = new updateAdminAction();
-    		data = action.deleteAdminUserInfo(param);    		
+    		data = action.deleteAdminUserInfo(param);
+    		
+			ServerAuditModel model = new ServerAuditModel();
+			model.setAdminId((String)session.getAttribute("user_id"));
+			model.setActionId(3002);
+			model.setWorkIp(httpReq.getRemoteAddr());
+			model.setDescription("관리자 삭제");
+			model.setParameter(param.toString());
+	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+
+			insertAdminAction aud = new insertAdminAction();
+			aud.insertServeriAudit(model);
     	}
 		
 		data.putAll(data);

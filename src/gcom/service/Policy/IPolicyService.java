@@ -32,6 +32,7 @@ public interface IPolicyService {
 	public int getAuditServerLogListCount(HashMap<String, Object> map);
 	
 	public HashMap<String, Object> insertServeriAudit(ServerAuditModel audit);
+	public HashMap<String, Object> getAuditMap(HashMap<String, Object> map);
 
 	
 	public List<PolicyRequestInfo> getRequestedPolicyList(HashMap<String, Object> map);	

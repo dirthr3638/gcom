@@ -8,9 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import gcom.Model.ServerAuditModel;
+import gcom.common.services.ConfigInfo;
 import gcom.common.util.JSONUtil;
 import gcom.controller.action.admin.insertAdminAction;
 
@@ -22,7 +25,9 @@ public class axAdminApplyPolicySave extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		HttpServletRequest httpReq = (HttpServletRequest)request;
+    	HttpSession session = httpReq.getSession(false);
+
 		HashMap<String, Object> param = JSONUtil.convertJsonToHashMap(request.getParameter("apply_policy").toString());
 		
 		insertAdminAction action = new insertAdminAction();
@@ -30,6 +35,16 @@ public class axAdminApplyPolicySave extends HttpServlet {
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
 			data = action.applyPolicyDataSave(param);
+			
+			ServerAuditModel model = new ServerAuditModel();
+			model.setAdminId((String)session.getAttribute("user_id"));
+			model.setActionId(1203);
+			model.setWorkIp(httpReq.getRemoteAddr());
+			model.setDescription("사용자 정책 할당");
+	   		model.setStatus("성공");
+			model.setParameter("");
+	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

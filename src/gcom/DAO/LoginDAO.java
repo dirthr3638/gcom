@@ -66,14 +66,14 @@ public class LoginDAO {
 				result.put("userId", rs.getString("id"));
 				
 				if (!userPw.equals(rs.getString("password"))) {
-					returnCode = "DI";
+					returnCode = ConfigInfo.NOT_CORRECT_PASSWORD;
 					result.put("returnCode", returnCode);
 				} else {
 					result.put("returnCode", returnCode);
 				}
 				
 			} else {
-				returnCode = "NI";
+				returnCode = ConfigInfo.NOT_EXIST_USER;
 				result.put("returnCode", returnCode);
 			}
 			
