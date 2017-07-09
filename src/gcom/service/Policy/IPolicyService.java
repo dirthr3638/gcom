@@ -13,6 +13,7 @@ import gcom.Model.PolicyPatternModel;
 import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.PolicyWebSiteBlocklModel;
+import gcom.Model.ServerAuditModel;
 import gcom.Model.UsbDevInfoModel;
 import gcom.Model.UserPolicyLogModel;
 
@@ -30,6 +31,9 @@ public interface IPolicyService {
 	public List<AuditServerModel> getAuditServerLogList(HashMap<String, Object> map);	
 	public int getAuditServerLogListCount(HashMap<String, Object> map);
 	
+	public HashMap<String, Object> insertServeriAudit(ServerAuditModel audit);
+
+	
 	public List<PolicyRequestInfo> getRequestedPolicyList(HashMap<String, Object> map);	
 	public int getRequestedPolicyListCount(HashMap<String, Object> map);
 	
@@ -39,6 +43,7 @@ public interface IPolicyService {
 	public int getPolicyMessengerListCount(HashMap<String, Object> map);
 	public List<PolicyProcessModel> getPolicyProcessList(HashMap<String, Object> map);
 	public int getPolicyProcessListCount(HashMap<String, Object> map);
+	public List<HashMap<String, Object>> getPolicyPatternSimpleList();
 	public List<PolicyPatternModel> getPolicyPatternList(HashMap<String, Object> map);
 	public int getPolicyPatternListCount(HashMap<String, Object> map);
 	public List<PolicyNetworkModel> getPolicyNetworkList(HashMap<String, Object> map);

@@ -105,6 +105,13 @@ public class getAdminAction {
 		return result;
 	}
 
+	public List<HashMap<String, Object>> getPolicyPatternSimpleList() {
+		IPolicyService as = new PolicyServiceImpl();
+		List<HashMap<String, Object>> data = as.getPolicyPatternSimpleList();
+		
+		return data;
+	}
+
 	
 	public HashMap<String, Object> getPolicyNetworkList(HashMap<String, Object> map) {
 		HashMap<String, Object> result = new HashMap<String, Object>();

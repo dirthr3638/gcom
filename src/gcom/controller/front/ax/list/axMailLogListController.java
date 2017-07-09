@@ -30,6 +30,17 @@ public class axMailLogListController extends HttpServlet {
 
 		map.put("user_id", request.getParameter("user_id").toString());
 		map.put("user_name", request.getParameter("user_name").toString());
+
+		map.put("user_duty", request.getParameter("user_duty").toString());
+		map.put("user_rank", request.getParameter("user_rank").toString());
+		map.put("src_addr", request.getParameter("src_addr").toString());
+		map.put("dst_addr", request.getParameter("dst_addr").toString());
+		map.put("subject", request.getParameter("subject").toString());
+		map.put("body", request.getParameter("body").toString());
+		map.put("pc_name", request.getParameter("pc_name").toString());
+		map.put("user_number", request.getParameter("user_number").toString());
+
+		
 		map.put("start_date", request.getParameter("start_date").toString());
 		map.put("end_date", request.getParameter("end_date").toString());		
 		map.put("dept", request.getParameterValues("dept[]"));

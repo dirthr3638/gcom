@@ -45,6 +45,16 @@ public class PersonalDataDAO {
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		String src_addr = map.get("src_addr").toString();
+		String dst_addr = map.get("dst_addr").toString();
+		String subject = map.get("subject").toString();
+		String body = map.get("body").toString();
+		String pc_name = map.get("pc_name").toString();
+		String user_number = map.get("user_number").toString();
+		
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 
@@ -64,18 +74,27 @@ public class PersonalDataDAO {
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
-		if(!start_date.equals("")) 	whereSql += "AND mail.exported_client_time >= ? ";
-		if(!end_date.equals("")) 	whereSql += "AND mail.exported_client_time < ? + interval 1 day ";
+
+		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
+		if(!src_addr.equals("")) 	whereSql += "AND mail.src_addr LIKE ? ";
+		if(!dst_addr.equals("")) 	whereSql += "AND mail.dst_addr LIKE ? ";
+		if(!subject.equals("")) 	whereSql += "AND mail.subject LIKE ? ";
+		if(!body.equals("")) 	whereSql += "AND mail.body LIKE ? ";
+		if(!pc_name.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
+		
+		if(!start_date.equals("")) 	whereSql += "AND mail.send_server_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND mail.send_server_time < ? + interval 1 day ";
 		
 		String sql= 
-	"SELECT "
-+ "COUNT(*) AS cnt "
-+ "FROM mail_export_info AS mail "
+"SELECT " 
++ "COUNT(*) AS cnt "  
++ "FROM mail_log AS mail "
 + "INNER JOIN user_info AS ur ON ur.no = mail.user_no "
 + "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
-sql += whereSql;			
-			
+sql += whereSql;	
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
@@ -89,9 +108,20 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!src_addr.equals("")) 	pstmt.setString(i++, "%" + src_addr + "%");
+			if(!dst_addr.equals("")) 	pstmt.setString(i++, "%" + dst_addr + "%");
+			if(!subject.equals("")) 	pstmt.setString(i++, "%" + subject + "%");
+			if(!body.equals("")) 	pstmt.setString(i++, "%" + body + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");
+			
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 
+			
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -120,6 +150,16 @@ sql += whereSql;
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		String src_addr = map.get("src_addr").toString();
+		String dst_addr = map.get("dst_addr").toString();
+		String subject = map.get("subject").toString();
+		String body = map.get("body").toString();
+		String pc_name = map.get("pc_name").toString();
+		String user_number = map.get("user_number").toString();
+		
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 
@@ -139,6 +179,16 @@ sql += whereSql;
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+
+		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
+		if(!src_addr.equals("")) 	whereSql += "AND mail.src_addr LIKE ? ";
+		if(!dst_addr.equals("")) 	whereSql += "AND mail.dst_addr LIKE ? ";
+		if(!subject.equals("")) 	whereSql += "AND mail.subject LIKE ? ";
+		if(!body.equals("")) 	whereSql += "AND mail.body LIKE ? ";
+		if(!pc_name.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
+		
 		if(!start_date.equals("")) 	whereSql += "AND mail.send_server_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND mail.send_server_time < ? + interval 1 day ";
 		
@@ -185,6 +235,16 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!src_addr.equals("")) 	pstmt.setString(i++, "%" + src_addr + "%");
+			if(!dst_addr.equals("")) 	pstmt.setString(i++, "%" + dst_addr + "%");
+			if(!subject.equals("")) 	pstmt.setString(i++, "%" + subject + "%");
+			if(!body.equals("")) 	pstmt.setString(i++, "%" + body + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");
+			
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 
@@ -288,8 +348,17 @@ sql += whereSql;
 		int result = 0;
 		
 		String whereSql = "WHERE 1=1 ";
+
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		String user_ip = map.get("user_ip").toString();
+		String pc_name = map.get("pc_name").toString();
+		String msg_txt = map.get("msg_txt").toString();
+		String msg_type = map.get("msg_type").toString();
+		
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 
@@ -309,6 +378,14 @@ sql += whereSql;
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+
+		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
+		if(!user_ip.equals("")) 	whereSql += "AND agent.ip_addr LIKE ? ";
+		if(!pc_name.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(!msg_txt.equals("")) 	whereSql += "AND msg.msg_txt LIKE ? ";
+		if(!msg_type.equals("")) 	whereSql += "AND msg.msg_type LIKE ? ";
+		
 		if(!start_date.equals("")) 	whereSql += "AND msg.send_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND msg.send_client_time < ? + interval 1 day ";
 		
@@ -334,6 +411,14 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_ip.equals("")) 	pstmt.setString(i++, "%" + user_ip + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			if(!msg_txt.equals("")) 	pstmt.setString(i++, "%" + msg_txt + "%");
+			if(!msg_type.equals("")) 	pstmt.setString(i++, "%" + msg_type + "%");
+			
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 
@@ -365,6 +450,14 @@ sql += whereSql;
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		String user_ip = map.get("user_ip").toString();
+		String pc_name = map.get("pc_name").toString();
+		String msg_txt = map.get("msg_txt").toString();
+		String msg_type = map.get("msg_type").toString();
+		
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 
@@ -384,6 +477,14 @@ sql += whereSql;
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+
+		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
+		if(!user_ip.equals("")) 	whereSql += "AND agent.ip_addr LIKE ? ";
+		if(!pc_name.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(!msg_txt.equals("")) 	whereSql += "AND msg.msg_txt LIKE ? ";
+		if(!msg_type.equals("")) 	whereSql += "AND msg.msg_type LIKE ? ";
+		
 		if(!start_date.equals("")) 	whereSql += "AND msg.send_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND msg.send_client_time < ? + interval 1 day ";
 		
@@ -425,6 +526,14 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_ip.equals("")) 	pstmt.setString(i++, "%" + user_ip + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			if(!msg_txt.equals("")) 	pstmt.setString(i++, "%" + msg_txt + "%");
+			if(!msg_type.equals("")) 	pstmt.setString(i++, "%" + msg_type + "%");
+			
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 
@@ -475,6 +584,14 @@ sql += whereSql;
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		String user_ip = map.get("user_ip").toString();
+		String user_number = map.get("user_number").toString();
+		String msg_file = map.get("msg_file").toString();
+		String msg_type = map.get("msg_type").toString();
+		
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 
@@ -494,6 +611,14 @@ sql += whereSql;
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+
+		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
+		if(!user_ip.equals("")) 	whereSql += "AND agent.ip_addr LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
+		if(!msg_file.equals("")) 	whereSql += "AND msg.file_list LIKE ? ";
+		if(!msg_type.equals("")) 	whereSql += "AND msg.msg_type LIKE ? ";
+		
 		if(!start_date.equals("")) 	whereSql += "AND msg.send_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND msg.send_client_time < ? + interval 1 day ";
 
@@ -519,6 +644,14 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_ip.equals("")) 	pstmt.setString(i++, "%" + user_ip + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");
+			if(!msg_file.equals("")) 	pstmt.setString(i++, "%" + msg_file + "%");
+			if(!msg_type.equals("")) 	pstmt.setString(i++, "%" + msg_type + "%");
+			
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 
@@ -550,6 +683,15 @@ sql += whereSql;
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		String user_ip = map.get("user_ip").toString();
+		String user_number = map.get("user_number").toString();
+		String msg_file = map.get("msg_file").toString();
+		String msg_type = map.get("msg_type").toString();
+		
+	
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 
@@ -569,6 +711,15 @@ sql += whereSql;
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+
+		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
+		if(!user_ip.equals("")) 	whereSql += "AND agent.ip_addr LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
+		if(!msg_file.equals("")) 	whereSql += "AND msg.file_list LIKE ? ";
+		if(!msg_type.equals("")) 	whereSql += "AND msg.msg_type LIKE ? ";
+
+		
 		if(!start_date.equals("")) 	whereSql += "AND msg.send_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND msg.send_client_time < ? + interval 1 day ";
 		
@@ -611,6 +762,14 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_ip.equals("")) 	pstmt.setString(i++, "%" + user_ip + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");
+			if(!msg_file.equals("")) 	pstmt.setString(i++, "%" + msg_file + "%");
+			if(!msg_type.equals("")) 	pstmt.setString(i++, "%" + msg_type + "%");
+
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 
@@ -662,6 +821,17 @@ sql += whereSql;
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		String user_number = map.get("user_number").toString();
+		String ip_addr = map.get("ip_addr").toString();
+		String pc_name = map.get("pc_name").toString();
+		int pattern = Integer.parseInt(map.get("pattern").toString());
+		String matched_data = map.get("matched_data").toString();
+		String file_name = map.get("file_name").toString();
+
+		
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 
@@ -681,16 +851,28 @@ sql += whereSql;
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
-		if(!start_date.equals("")) 	whereSql += "AND mail.exported_client_time >= ? ";
-		if(!end_date.equals("")) 	whereSql += "AND mail.exported_client_time < ? + interval 1 day ";
+
+		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
+		if(!ip_addr.equals("")) 	whereSql += "AND agent.ip_addr LIKE ? ";
+		if(!pc_name.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(pattern != -1) 	whereSql += "AND ptn.pattern_id = ? ";
+		if(!matched_data.equals("")) 	whereSql += "AND ptn.matched_data LIKE ? ";
+		if(!file_name.equals("")) 	whereSql += "AND ptn.file_name LIKE ? ";
+
+		
+		if(!start_date.equals("")) 	whereSql += "AND ptn.found_client_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND ptn.found_client_time < ? + interval 1 day ";
 			
 		String sql= 
-"SELECT "
-	+ "COUNT(*) AS cnt"
-	+ "FROM mail_export_info AS mail "
-	+ "INNER JOIN user_info AS ur ON ur.no = mail.user_no "
-	+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
-	+ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
+		"SELECT "
+		+ "COUNT(*) AS cnt "
+		+ "FROM pattern_log AS ptn "
+		+ "INNER JOIN user_info AS ur ON ur.no = ptn.user_no "
+		+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no  "
+		+ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no "
+		+ "INNER JOIN pattern_info AS ptn_info ON ptn.pattern_id = ptn_info.id  ";
 sql += whereSql;			
 			
 		try{
@@ -706,6 +888,14 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");
+			if(!ip_addr.equals("")) 	pstmt.setString(i++, "%" + ip_addr + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			if(pattern != -1) 	pstmt.setInt(i++, pattern );
+			if(!matched_data.equals("")) 	pstmt.setString(i++, "%" + matched_data + "%");
+			if(!file_name.equals("")) 	pstmt.setString(i++, "%" + file_name + "%");
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 
@@ -737,6 +927,17 @@ sql += whereSql;
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		String user_number = map.get("user_number").toString();
+		String ip_addr = map.get("ip_addr").toString();
+		String pc_name = map.get("pc_name").toString();
+		int pattern = Integer.parseInt(map.get("pattern").toString());
+		String matched_data = map.get("matched_data").toString();
+		String file_name = map.get("file_name").toString();
+
+		
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 
@@ -756,6 +957,17 @@ sql += whereSql;
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+
+		if(!user_duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
+		if(!ip_addr.equals("")) 	whereSql += "AND agent.ip_addr LIKE ? ";
+		if(!pc_name.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(pattern != -1) 	whereSql += "AND ptn.pattern_id = ? ";
+		if(!matched_data.equals("")) 	whereSql += "AND ptn.matched_data LIKE ? ";
+		if(!file_name.equals("")) 	whereSql += "AND ptn.file_name LIKE ? ";
+
+		
 		if(!start_date.equals("")) 	whereSql += "AND ptn.found_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND ptn.found_client_time < ? + interval 1 day ";
 		
@@ -801,6 +1013,16 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");
+			if(!ip_addr.equals("")) 	pstmt.setString(i++, "%" + ip_addr + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			if(pattern != -1) 	pstmt.setInt(i++, pattern );
+			if(!matched_data.equals("")) 	pstmt.setString(i++, "%" + matched_data + "%");
+			if(!file_name.equals("")) 	pstmt.setString(i++, "%" + file_name + "%");
+			
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 

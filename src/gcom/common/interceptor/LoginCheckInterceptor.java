@@ -37,7 +37,9 @@ public class LoginCheckInterceptor implements Filter {
         	}
         }
         
-        String[] uris = {"/report", "/report/users", "/assets", "/login/check" };		//check URL - ex) 건너뛰거나 체크에서 제외될 URL
+        String[] uris = {"/report", "/report/users", 
+        		"/assets", "/login/check", "/test/hash",
+        		"/account/request/view", "/account/request/do" };		//check URL - ex) 건너뛰거나 체크에서 제외될 URL
         String uri = httpReq.getRequestURI();					//요청 URL
         for(String s : uris) {
             if(uri.indexOf(s) != -1) {							//요청 URL 과 체크 URL 을 비교 로그인 페이지 호출 또는 제외

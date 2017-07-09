@@ -92,33 +92,61 @@
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="15%">아이디</td>
 															<td>
 																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
 															</td>
-														</tr>
-														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">이름</td>
 															<td>
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
+
 														<tr>         
-															<td width="35%">발송시작일</td>
+															<td>직책</td>
+															<td>
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control required">
+															</td>
+															<td >계급</td>
+															<td>
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
+															</td>	
+														</tr>
+														<tr>         
+															<td >번호</td>
+															<td>
+																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control required">
+															</td>
+															<td >IP</td>
+															<td>
+																<input type="text" name="filterUserIP" id="filterUserIP" value="" class="form-control required">
+															</td>	
+														</tr>
+														<tr>         
+															<td >메시지타입</td>
+															<td>
+																<input type="text" name="filterMsgType" id="filterMsgType" value="" class="form-control required">
+															</td>
+															<td >파일명</td>
+															<td>
+																<input type="text" name="filterMsgFile" id="filterMsgFile" value="" class="form-control required">
+															</td>	
+														</tr>
+
+														<tr>         
+															<td >발송시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																													
-														<tr >         
-															<td width="35%">발송종료일</td>
+															<td >발송종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																															
+														</tr>																													
 														
 													</tbody>
 												</table>	
@@ -183,7 +211,7 @@
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-				<h4 class="modal-title" id="myModalLabel">대화내용</h4>
+				<h4 class="modal-title" id="myModalLabel">파일경로</h4>
 			</div><!-- /Modal Header -->
 
 			<!-- body modal -->
@@ -300,6 +328,15 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						   	"data" :  function(param) {
 								param.user_id = $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
+
+								param.user_duty = $('#filterUserDuty').val();
+								param.user_rank = $('#filterUserRank').val();
+								param.user_number = $('#filterUserNumber').val();
+								param.user_ip = $('#filterUserIP').val();
+								param.msg_type = $('#filterMsgType').val();
+								param.msg_file= $('#filterMsgFile').val();
+
+								
 								param.start_date = $('#filterStartDate').val();
 								param.end_date = $('#filterEndDate').val();
 								

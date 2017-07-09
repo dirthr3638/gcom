@@ -29,4 +29,6 @@ public interface UserServiceInterface {
 
 	public HashMap<String, Object> insertContactSave(HashMap<String, Object> map) throws Exception;
 
+	public HashMap<String, Object> insertAccountReqeust(HashMap<String, Object> map);
+
 }

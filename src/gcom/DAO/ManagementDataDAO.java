@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 
 import gcom.Model.SubAdminModel;
 import gcom.common.services.ConfigInfo;
+import gcom.common.util.encrypto.hashEncrypto;
 import gcom.user.model.UserInfoModel;
 
 
@@ -239,7 +240,7 @@ sql += whereSql;
 			pstmt=con.prepareStatement(insertSql, java.sql.Statement.RETURN_GENERATED_KEYS);
 			int i = 1;
 			pstmt.setString(i++, id);
-			pstmt.setString(i++, pw);
+			pstmt.setString(i++, hashEncrypto.HashEncrypt(pw));
 			pstmt.setInt(i++, dept_no);
 			pstmt.setString(i++, ip1);
 			pstmt.setString(i++, ip2);
@@ -307,7 +308,7 @@ sql += whereSql;
 
 			pstmt.setInt(i++, dept);
 			if(pw != null && pw != "")
-				pstmt.setString(i++, pw);
+				pstmt.setString(i++, hashEncrypto.HashEncrypt(pw));
 
 			pstmt.setInt(i++, no);
 

@@ -168,16 +168,13 @@ public class getAction {
 		IPersonalService as = new PersonalServiceImpl();
 		List<PrivacyLogModel> data = as.getPrivacyFileList(map);
 		result.put("data", data);
-		int total = as.getMsnFileListCount(map);
-//		int total = 100;
+		int total = as.getPrivacyFileListCount(map);
 
 		result.put("recordsTotal", total);
 		result.put("recordsFiltered", total);
 		
 		return result;						
 	}
-
-	
 	
 	public HashMap<String, Object> getUserPolicyList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();

@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!doctype html>
 <html lang="utf-8">
@@ -92,33 +94,88 @@
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="15%">아이디</td>
 															<td>
 																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
 															</td>
-														</tr>
-														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">이름</td>
 															<td>
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
+
 														<tr>         
-															<td width="35%">발송시작일</td>
+															<td width="15%">직책</td>
+															<td>
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control required">
+															</td>
+															<td width="15%">계급</td>
+															<td>
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
+															</td>
+														</tr>
+														<tr>         
+															<td width="15%">번호</td>
+															<td>
+																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control required">
+															</td>
+															<td width="15%">IP주소</td>
+															<td>
+																<input type="text" name="filterIpAddr" id="filterIpAddr" value="" class="form-control required">
+															</td>
+														</tr>
+
+														<tr>         
+															<td width="15%">PC명</td>
+															<td>
+																<input type="text" name="filterPCName" id="filterPCName" value="" class="form-control required">
+															</td>
+															<td width="15%">패턴</td>
+															<td>
+							                         <select class="form-control" id="filterPattern">
+
+<c:choose>
+	<c:when test="${fn:length(list) > 0}">
+			<option value="-1" selected>전체</option>				
+
+		<c:forEach items="${list}" var="item">
+			<option value="${item.pattern_no }">${item.pattern_name }</option>				
+		</c:forEach>
+	</c:when>
+	<c:otherwise>
+       <option value="-1">선택가능한 패턴이 없습니다</option>
+	</c:otherwise>
+</c:choose>
+													</select>
+				                              
+															</td>
+														</tr>
+
+														<tr>         
+															<td width="15%">검출데이터</td>
+															<td>
+																<input type="text" name="filterMatchedData" id="filterMatchedData" value="" class="form-control required">
+															</td>
+															<td width="15%">파일명</td>
+															<td>
+																<input type="text" name="filterFileName" id="filterFileName" value="" class="form-control required">
+															</td>
+														</tr>
+
+														<tr>         
+															<td width="15%">발송시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																													
-														<tr >         
-															<td width="35%">발송종료일</td>
+															<td width="15%">발송종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																															
+														</tr>																													
 														
 													</tbody>
 												</table>	
@@ -185,7 +242,7 @@
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-				<h4 class="modal-title" id="myModalLabel">파일보기</h4>
+				<h4 class="modal-title" id="myModalLabel">파일경로</h4>
 			</div><!-- /Modal Header -->
 
 			<!-- body modal -->
@@ -299,12 +356,23 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
 						"ajax" : {
-							"url":'/ax/privacy/list',
+							"url":'/ax/pattern/list',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  function(param) {
 								param.user_id = $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
+
+								param.user_duty = $('#filterUserDuty').val();
+								param.user_rank = $('#filterUserRank').val();
+								param.user_number = $('#filterUserNumber').val();
+								param.ip_addr = $('#filterIpAddr').val();
+								param.pc_name = $('#filterPCName').val();
+								param.pattern = $('#filterPattern option:selected').val();
+								param.matched_data  = $('#filterMatchedData').val();
+								param.file_name = $('#filterFileName').val();
+
+								
 								param.start_date = $('#filterStartDate').val();
 								param.end_date = $('#filterEndDate').val();
 								

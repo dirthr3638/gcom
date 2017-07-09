@@ -92,33 +92,71 @@
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="15%">아이디</td>
 															<td>
 																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
 															</td>
-														</tr>
-														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">이름</td>
 															<td>
 																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">발송시작일</td>
+															<td width="15%">직책</td>
+															<td>
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control required">
+															</td>
+															<td width="15%">계급</td>
+															<td>
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
+															</td>
+														</tr>
+
+														<tr>         
+															<td width="15%">보낸주소</td>
+															<td>
+																<input type="text" name="filterSrcAddr" id="filterSrcAddr" value="" class="form-control required">
+															</td>
+															<td width="15%">받는주소</td>
+															<td>
+																<input type="text" name="filterDstAddr" id="filterDstAddr" value="" class="form-control required">
+															</td>
+														</tr>
+														<tr>         
+															<td width="15%">제목</td>
+															<td>
+																<input type="text" name="filterSubject" id="filterSubject" value="" class="form-control required">
+															</td>
+															<td width="15%">내용</td>
+															<td>
+																<input type="text" name="filterBody" id="filterBody" value="" class="form-control required">
+															</td>
+														</tr>
+														<tr>         
+															<td width="15%">PC명</td>
+															<td>
+																<input type="text" name="filterPCName" id="filterPCName" value="" class="form-control required">
+															</td>
+															<td width="15%">번호</td>
+															<td>
+																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control required">
+															</td>
+														</tr>
+														<tr>         
+															<td width="15%">발송시작일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																													
-														<tr >         
-															<td width="35%">발송종료일</td>
+															<td width="15%">발송종료일</td>
 															<td>
 							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
 															</td>
-														</tr>																															
+
+														</tr>																													
 														
 													</tbody>
 												</table>	
@@ -135,7 +173,7 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12" style="overflow: hidden;">
-											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
+											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_mailinfo" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
 														<th style="width:20px"></th>
@@ -148,7 +186,7 @@
 														<th >IP</th>
 														<th >MAC</th>
 														<th >PC이름</th>
-														<th >메일주소</th>
+														<th >수신주소</th>
 														<th >제목</th>
 														<th >발송시간(서버)</th>
 														<th >발송시간</th>
@@ -193,17 +231,17 @@
 	//라디오타입에 따라 컬럼 hide/show
 	var setColumnType = function(cType){
 		
-		var datatable = $('#table_userinfo').dataTable().api();
+		var datatable = $('#table_mailinfo').dataTable().api();
 		var aColumn = datatable.columns('.agentinfo' );
 		var uColumn = datatable.columns('.userinfo' );
 		if(cType == 1){
 			uColumn.visible(true);
 			aColumn.visible(false);			
 
- 			var jTable = $('#table_userinfo').dataTable();;
+ 			var jTable = $('#table_mailinfo').dataTable();;
 
 //			var nsTr = $('tbody > td > .datables-td-detail').parents('tr')[0];
-			var nsTr = $('#table_userinfo tr');
+			var nsTr = $('#table_mailinfo tr');
 			for(var i = 0; i < nsTr.length; i++){
 				var nTr = nsTr[i];
 				jTable.fnClose(nTr);
@@ -212,7 +250,7 @@
 			uColumn.visible(false);
 			aColumn.visible(true);	
 
-			var nsTr = $('#table_userinfo tr td').find('span.datables-td-detail');
+			var nsTr = $('#table_mailinfo tr td').find('span.datables-td-detail');
 			nsTr.addClass("datatables-close").removeClass("datatables-open");
 		}		
 	}
@@ -234,7 +272,7 @@
 	}
  	
  	function searchUserLog(){
- 		var datatable = $('#table_userinfo').dataTable().api();
+ 		var datatable = $('#table_mailinfo').dataTable().api();
 		datatable.ajax.reload();   	
  	}
 
@@ -291,7 +329,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 
 					var export_filename = 'Filename';
 					
-					var table = jQuery('#table_userinfo');
+					var table = jQuery('#table_mailinfo');
 					table.dataTable({
 						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
@@ -302,6 +340,17 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						   	"data" :  function(param) {
 								param.user_id = $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
+
+								param.user_duty = $('#filterUserDuty').val();
+								param.user_rank = $('#filterUserRank').val();
+								param.src_addr = $('#filterSrcAddr').val();
+								param.dst_addr = $('#filterDstAddr').val();
+								param.subject = $('#filterSubject').val();
+								param.body = $('#filterBody').val();
+								param.pc_name = $('#filterPCName').val();
+								param.user_number = $('#filterUserNumber').val();
+
+								
 								param.start_date = $('#filterStartDate').val();
 								param.end_date = $('#filterEndDate').val();
 								
@@ -512,7 +561,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						return sOut;
 					}
 					
-					var jTable = jQuery('#table_userinfo');
+					var jTable = jQuery('#table_mailinfo');
 					jTable.on('click', ' tbody td .datables-td-detail', function () {
 						var nTr = jQuery(this).parents('tr')[0];
 						if (table.fnIsOpen(nTr)) {

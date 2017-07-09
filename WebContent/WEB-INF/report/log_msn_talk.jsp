@@ -108,31 +108,31 @@
 														<tr> 
 															<td width="15%">직책</td>
 															<td>
-																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control required">
 															</td>
 															<td width="15%">계급</td>
 															<td>
-																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
 															</td>        
 														</tr>
 														<tr> 
 															<td width="15%">IP</td>
 															<td>
-																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+																<input type="text" name="filterUserIp" id="filterUserIp" value="" class="form-control required">
 															</td>
 															<td width="15%">PC명</td>
 															<td>
-																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+																<input type="text" name="filterPCName" id="filterPCName" value="" class="form-control required">
 															</td>        
 														</tr>
 														<tr> 								
 															<td width="15%">내역</td>
 															<td>
-																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+																<input type="text" name="filterMsgTxt" id="filterMsgTxt" value="" class="form-control required">
 															</td>
 															<td width="15%">메시지타입</td>
 															<td>
-																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+																<input type="text" name="filterMsgType" id="filterMsgType" value="" class="form-control required">
 															</td>        
 														</tr>
 														<tr>         
@@ -328,6 +328,14 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						   	"data" :  function(param) {
 								param.user_id = $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
+
+								param.user_duty = $('#filterUserDuty').val();
+								param.user_rank = $('#filterUserRank').val();
+								param.user_ip = $('#filterUserIp').val();
+								param.pc_name = $('#filterPCName').val();
+								param.msg_txt = $('#filterMsgTxt').val();
+								param.msg_type = $('#filterMsgType').val();
+
 								param.start_date = $('#filterStartDate').val();
 								param.end_date = $('#filterEndDate').val();
 								

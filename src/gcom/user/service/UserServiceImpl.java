@@ -62,4 +62,9 @@ public class UserServiceImpl implements UserServiceInterface {
 		return userDAO.insertContactSave(map);
 	}
 	
+	public HashMap<String, Object> insertAccountReqeust(HashMap<String, Object> map){
+		return userDAO.insertAccountReqeust(map);
+		
+	}
+	
 }

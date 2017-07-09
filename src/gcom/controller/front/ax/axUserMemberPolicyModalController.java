@@ -32,7 +32,7 @@ public class axUserMemberPolicyModalController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	String group = request.getParameter("group").toString();
+		String group = request.getParameter("group").toString();
     	HashMap<String, Object> param = new HashMap<String, Object>();
     	param.put("group_id", group);
     	param.put("key", request.getParameter("key_code").toString());
