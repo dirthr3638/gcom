@@ -314,18 +314,12 @@
  		    	_ : $.now()
  		    },
  		    success:function(data){
- 		    	
- 		    	
  		    	if (data.returnCode == 'S') {
- 		    		vex.dialog.open({
- 		    			message: '정책 수정이 완료되었습니다.',
- 		    			  buttons: [
- 		    			    $.extend({}, vex.dialog.buttons.YES, {
- 		    			      text: '확인'
- 		    			  })] 		    				
- 		    		})
- 		    		var axtbl = $('#table_usb_block').dataTable().api();
- 		    		axtbl.ajax.reload();
+ 		    		successAlert(data);
+ 		    	} else if(data.returnCode == 'ENA') {
+ 		    		failAlert('장치 허용에 실패했습니다. 정책정보에 장치는 추가되었으나 해당 사용자 Agent 정보가 존재하지 않습니다.');
+ 		    	} else if(data.returnCode == 'ENP') {
+ 		    		failAlert('장치 허용에 실패했습니다. 장치정보 추가 시 문제가 발생하였습니다.');
  		    	} else {
  		    		failAlert('정책 수정중 예기치 못한 오류가 발생하여 등록에 실패하였습니다.');
  		    	}
@@ -335,6 +329,34 @@
  		        console.log(e.responseText);  
  		    }  
  		});
+ 	}
+ 	
+ 	var successAlert = function (data) {
+ 		vex.defaultOptions.className = 'vex-theme-os';
+ 		
+ 		var resultText = '';
+ 		
+ 		if (data.fail_cnt == 0) {
+ 			resultText = '장치 허용이 완료되었습니다.';
+ 		} 
+ 		
+ 		if (data.success_cnt == 0 && data.fail_cnt > 0) {
+ 			resultText = '장치정보가 추가 되었으나 해당 사용자의 정책정보가 존재 하지 않습니다.';
+ 		}
+ 		
+ 		if (data.success_cnt != 0 && data.fail_cnt != 0) {
+ 			resultText = '장치 허용이 완료되었습니다. 성공 : ' + data.success_cnt + ' 건, 실패 : ' + data.fail_cnt + ' 건';
+ 		}
+ 		
+ 		vex.dialog.open({
+ 			message: resultText,
+ 			  buttons: [
+ 			    $.extend({}, vex.dialog.buttons.YES, {
+ 			      text: '확인'
+ 			  })] 		    				
+ 		})
+ 		var axtbl = $('#table_usb_block').dataTable().api();
+ 		axtbl.ajax.reload();
  	}
  	
  	var failAlert = function (meg) {

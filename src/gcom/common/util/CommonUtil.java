@@ -35,7 +35,15 @@ public class CommonUtil {
 	
 	// 차단 코드 N일 경우 해당 코드가 포함되있지 않을 경우 코드 추가
 	private static String getStrPolicyAddData(String value, String blockCode) {
-		return blockCode + "," +  value;
+		String result = "";
+		
+		if("".equals(blockCode)){
+			result = value;
+		} else {
+			result = blockCode + "," +  value;
+		}
+		
+		return result;
 	}
 
 	// 차단 코드 Y일 경우 해당 코드가 포함되었을 경우 해당 코드 제거
@@ -49,7 +57,12 @@ public class CommonUtil {
          	}
          }
 		 
-		return resultArray.toString();
+		 String result = resultArray.toString();
+		 result = result.replace("[", "");
+		 result = result.replace("]", "");
+		 result = result.replace(" ", "");
+		 
+		return result;
 	}
 	
 }
