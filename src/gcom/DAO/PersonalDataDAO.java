@@ -1227,7 +1227,7 @@ sql += whereSql;
 
 	public String insertPolicyDataSave(HashMap<String, Object> map) {
 		
-		int agent_id = Integer.parseInt(map.get("agnet_no").toString());
+		int agent_id = Integer.parseInt(map.get("agent_no").toString());
 		int user_id = Integer.parseInt(map.get("user_no").toString());
 		int isUninstall = Integer.parseInt(map.get("isUninstall").toString());
 		int isFileEncryption = Integer.parseInt(map.get("isFileEncryption").toString());
