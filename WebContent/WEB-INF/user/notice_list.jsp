@@ -52,6 +52,10 @@
 					<!-- /PAGINATION -->
 					
 				</div>
+				
+				<!-- Ajax Notice Detail Popup -->
+				<div id="notice_view_div"></div>
+				<!-- /Ajax Notice Detail Popup -->
 			</div>
 		</section>
 		<!-- /Notice Table -->
@@ -129,18 +133,28 @@
 			    });
 			}
 			
-			function fn_bbs_detail(bbs_id) {
-				var form = document.createElement("form");
-				form.setAttribute("method", "post");
-			 	form.setAttribute("action", "/notice/view");
-			 	document.body.appendChild(form);
-			 	
-				var element = document.createElement("input");
-				element.setAttribute("type"	,"hidden");
-				element.setAttribute("name"	,"att_bbs_id");
-				element.setAttribute("value", bbs_id);
-				form.appendChild(element);
-				form.submit();
+			function fn_bbs_detail(bbs_id, file_yn, file_id) {
+				
+				$.ajax({      
+			        type:"POST",  
+			        url:'/notice/view',
+			        async: false,
+			        data:{
+			        	bbs_id : bbs_id,
+			        	file_yn : file_yn,
+			        	file_id : file_id,
+			        	_ : $.now()
+			        },
+			        success:function(args){
+			            $("#notice_view_div").html(args);
+			            $("#modalNoticeView").modal('show')
+			            
+			        },   
+			        //beforeSend:showRequest,  
+			        error:function(e){
+			            console.log(e.responseText);  
+			        }  
+			    });
 			}
 			
 		</script>

@@ -26,7 +26,11 @@
 			<% for (int i = 0; i < list.size(); i ++ ) {  %>
 				<tr>
 					<td class="text-center"><%= listIndex %></td>
-					<td class="text-center"><a href="javascript:fn_bbs_detail('<%=list.get(i).getBbsId() %>'); " ><%=list.get(i).getBbsTitle() %></a></td>
+					<td class="text-center">
+						<a href="javascript:fn_bbs_detail('<%=list.get(i).getBbsId() %>','<%=list.get(i).getBbsAttfileYN() %>','<%=list.get(i).getAttfileId() %>'); " >
+							<% if("Y".equals(list.get(i).getBbsSpecialYN())){%><i class="fa fa-star" style="color:#e46c6c;"></i><%}%>&nbsp;&nbsp;<%=list.get(i).getBbsTitle() %><% if("Y".equals(list.get(i).getBbsAttfileYN())){%>&nbsp;&nbsp;<i class="fa fa-paperclip" style="color:#1ABC9C"></i><%}%>
+						</a>
+					</td>
 					<td class="text-center"><%=list.get(i).getBbsRegStaf() %></td>
 					<td class="text-center"><%=list.get(i).getBbsRegDate() %></td>
 					<td class="text-center"><%=list.get(i).getBbsClickCnt() %></td>

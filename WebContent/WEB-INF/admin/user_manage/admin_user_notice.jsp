@@ -208,14 +208,14 @@
 									data: "bbsSpecialYN",
 									"orderable": false	//중요
 									,render : function(data, type, row) {
-										return data == 'Y' ? '<span style="color:red;"><i class="fa fa-star"></i></span>' : '';	
+										return data == 'Y' ? '<span style="color:#e46c6c;"><i class="fa fa-star"></i></span>' : '';	
 									}
 								}, {
 									data: "bbsTitle",
 									"orderable": false	//제목
 									,render : function(data, type, row) {
 										var file = row.bbsAttfileYN == 'Y'? '<i class="fa fa-paperclip"></i>' : '';
-										return '<b style=\"cursor:pointer;\" >' + data + '</b>&nbsp;<span style="color:green; font-size:15px;">' + file + '</span>';
+										return '<b style=\"cursor:pointer;\" >' + data + '</b>&nbsp;<span style="color:#1ABC9C; font-size:15px;">' + file + '</span>';
 									}
 								}, {
 									data: "bbsRegStaf",

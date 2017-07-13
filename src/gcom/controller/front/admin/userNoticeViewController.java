@@ -10,12 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import gcom.Model.FileInfoModel;
-import gcom.controller.action.admin.getAdminAction;
 import gcom.service.Personal.IPersonalService;
 import gcom.service.Personal.PersonalServiceImpl;
 import gcom.user.model.UserNoticeModel;
-import gcom.user.service.UserServiceImpl;
 import gcom.user.service.UserService;
+import gcom.user.service.UserServiceImpl;
 
 //공지사항보기
 @WebServlet("/admin/user/notice/view")
