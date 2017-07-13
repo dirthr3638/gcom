@@ -2,6 +2,7 @@
 <%@ page import="gcom.user.model.UserInfoModel"%>
 <% 
 	UserInfoModel data = (UserInfoModel)request.getAttribute("userInfo");
+	int userNo = data.getUserNo();
 	String name = data.getName();
 	String phone = data.getPhone();
 	String deptName = data.getDeptName();
@@ -28,6 +29,13 @@
 		<!-- PAGE LEVEL STYLE -->
 		<link href="/assets/css/user_header.css" rel="stylesheet" type="text/css" />
 		<link href="/assets/css/color_scheme/user_green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		
+		<!-- Alert -->
+		<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+		<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		
+		<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
 
 	</head>
 	<body class="smoothscroll enable-animation">
@@ -39,39 +47,40 @@
 				<div class="col-lg-9 col-md-9 col-sm-8 col-lg-push-3 col-md-push-3 col-sm-push-4 margin-bottom-80">
 					<!-- PERSONAL INFO TAB -->
 					<div class="tab-pane fade in active" id="info">
-						<form role="form" action="#" method="post">
+						<form id="frmUserInfo" role="form" action="/user/info/save" method="post">
+							<input type="hidden" value="<%= userNo %>" name="user_no" id="user_no" />
 							<div class="form-group">
 								<label class="control-label">이름</label>
-								<input type="text" class="form-control" value="<%= name %>" disabled />
+								<input type="text" class="form-control" name="mem_name" id="mem_name" value="<%= name %>" disabled />
 							</div>
 							<div class="form-group">
 								<label class="control-label">핸드폰</label>
-								<input type="text" class="form-control" placeholder="010-1111-1111" value="<%= phone %>" disabled/>
+								<input type="text" class="form-control" name="mem_phone" id="mem_phone" placeholder="010-1111-1111" value="<%= phone %>" disabled/>
 							</div>
 							<div class="form-group">
 								<label class="control-label">변경 할 비밀번호</label>
-								<input type="password" class="form-control" />
+								<input type="password" name="change_password_input" id="change_password_input" class="form-control" maxlength="20" />
 							</div>
 							<div class="form-group">
 								<label class="control-label">변경 할 비밀번호 확인</label>
-								<input type="password" class="form-control" />
+								<input type="password" name="change_password_check" id="change_password_check" class="form-control" maxlength="20" />
 							</div>
 							
 							<div class="form-group">
 								<label class="control-label">소속</label>
-								<input type="text" class="form-control" value="<%= deptName %>" disabled />
+								<input type="text" class="form-control" name="dept_name" id="dept_name" value="<%= deptName %>" disabled />
 							</div>
 							<div class="form-group">
 								<label class="control-label">직책</label>
-								<input type="text" class="form-control" value="<%= duty %>" disabled />
+								<input type="text" class="form-control" name="mem_duty" id="mem_duty" value="<%= duty %>" disabled />
 							</div>
 							<div class="form-group">
 								<label class="control-label">비고</label>
-								<textarea class="form-control" rows="3" disabled ></textarea>
+								<textarea class="form-control" rows="3" name="mem_notice" id="mem_notice" disabled ></textarea>
 							</div>
 							<div class="margiv-top10">
-								<a href="#" class="btn btn-primary"><i class="fa fa-check"></i> 정보 수정 </a>
-								<a href="#" class="btn btn-default">취소</a>
+								<button id="btnUserInfoSave" class="btn btn-primary"><i class="fa fa-check"></i> 정보 수정 </button>
+								<a href="/main" class="btn btn-default">취소</a>
 							</div>
 						</form>
 					</div>
@@ -82,7 +91,7 @@
 				<div class="col-lg-3 col-md-3 col-sm-4 col-lg-pull-9 col-md-pull-9 col-sm-pull-8">
 				
 					<div class="thumbnail text-center">
-						<img src="/assets/images/460x427.png" alt="" />
+						<img src="/assets/images/460x427.png" alt="" width="460px" height="427px"/>
 						<h2 class="size-18 margin-top-10 margin-bottom-0"><%= name %></h2>
 						<h3 class="size-11 margin-top-0 margin-bottom-10 text-muted">DEVELOPER</h3>
 					</div>
@@ -111,5 +120,104 @@
 		</section>
 		
 		<jsp:include page="/WEB-INF/common/user_footer.jsp" flush="false" />
+		
+		<script type="text/javascript" src="/assets/plugins/jquery/jquery.form.js" ></script>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#btnUserInfoSave").on("click" , function(e){
+					e.preventDefault();
+					fn_info_save_proc();
+				});
+			});
+			
+			function fn_info_save_proc() {
+				var pw = $('#change_password_input').val();
+				var pwChk = $('#change_password_check').val();
+				
+				if(pw != pwChk){
+					vex.defaultOptions.className = 'vex-theme-os'
+		    			
+	    			vex.dialog.open({
+	    				message: '비밀번호가 일치 하지 않습니다. 확인해주세요.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })]
+	    			})
+					return false;
+				}
+				
+				var option = {
+				        url:       		"/user/info/save",
+				    	type:      		"post",       
+				    	success:     	fn_save_callback,
+				    	fail:			callbackFail,
+				    	cache: 			false,
+				        resetForm: 		false 
+				};
+				
+				$("#frmUserInfo").ajaxSubmit(option);
+			}
+			
+			function callbackFail(){
+				vex.defaultOptions.className = 'vex-theme-os'
+	    			
+    			vex.dialog.open({
+    				message: '서버와의 통신에 실패하였습니다.',
+    				  buttons: [
+    				    $.extend({}, vex.dialog.buttons.YES, {
+    				      text: '확인'
+    				  })]
+    			})
+			}
+
+			function fn_save_callback(data){
+				vex.defaultOptions.className = 'vex-theme-os'
+				
+				if(data.returnCode == "S"){
+					vex.dialog.open({
+	    				message: '비밀번호가 변경 되었습니다.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })],
+	    				  callback: function(data) {
+    				 	  	if (data) {
+    				 	  		location.href="/main";
+    				 	    }
+    				 	  }
+	    			})
+	    			
+				}else{
+					switch (data.returnCode){
+					  case "E":
+						vex.dialog.open({
+		    				message: data.message,
+		    				  buttons: [
+		    				    $.extend({}, vex.dialog.buttons.YES, {
+		    				      text: '확인'
+		    				  })]
+		    			})
+					    break;
+					  case "EFV":
+						  vex.dialog.open({
+			    				message: '비밀번호가 일치 하지 않습니다. 확인해주세요.',
+			    				  buttons: [
+			    				    $.extend({}, vex.dialog.buttons.YES, {
+			    				      text: '확인'
+			    				  })]
+			    			})
+					    break;
+					  default:
+						  alert("서버와의 통신에 실패하였습니다.")
+						  break;
+					}
+				}
+				
+			}
+		
+		</script>
+		
 	</body>
 </html>

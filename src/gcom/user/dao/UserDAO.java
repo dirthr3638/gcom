@@ -20,6 +20,7 @@ import gcom.Model.PolicySerialModel;
 import gcom.Model.PolicyWebSiteBlocklModel;
 import gcom.Model.UsbDevInfoModel;
 import gcom.common.util.ConfigInfo;
+import gcom.common.util.encrypto.hashEncrypto;
 import gcom.user.model.MemberPolicyModel;
 import gcom.user.model.UserContactModel;
 import gcom.user.model.UserInfoModel;
@@ -169,7 +170,7 @@ public class UserDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
-				model.setKeyNo(rs.getInt("no"));
+				model.setUserNo(rs.getInt("no"));
 				model.setName(rs.getString("name"));
 				model.setPhone(rs.getString("phone"));
 				model.setDeptName(rs.getString("dept_name"));
@@ -1457,5 +1458,39 @@ public class UserDAO {
 		
 		return result;
 	}
-	
+
+	public HashMap<String, Object> updateUserInfoData(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int userNo = Integer.parseInt(map.get("user_no").toString());
+		String password = hashEncrypto.HashEncrypt(map.get("password").toString());
+		
+		String sql= "UPDATE user_info SET password = ? WHERE no = ?";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, password);
+			pstmt.setInt(2, userNo);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 }

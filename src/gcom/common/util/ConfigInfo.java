@@ -16,6 +16,7 @@ public class ConfigInfo {
 	
 	public final static String EXIST_NOT_AGENT = "ENA";		// Agent 정보 없음. 
 	public final static String EXIST_NOT_PARAM = "ENP"; 	// 필요정보가 존재하지 않음. 
+	public final static String EXIST_FAIL_VERIFY = "EFV";	// 데이터 검증 실패 
 	
 	
 }

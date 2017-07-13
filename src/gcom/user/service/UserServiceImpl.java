@@ -137,4 +137,8 @@ public class UserServiceImpl implements UserService {
 	public HashMap<String, Object> insertRequestPolicyInfoSave(HashMap<String, Object> map) {
 		return userDAO.insertRequestPolicyInfoSave(map);
 	}
+	
+	public HashMap<String, Object> updateUserInfoData(HashMap<String, Object> map) {
+		return userDAO.updateUserInfoData(map);
+	}
 }

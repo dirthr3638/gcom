@@ -46,7 +46,7 @@ public class axUserContactSaveController extends HttpServlet {
     	
     
 		UserInfoModel user = userService.getUserInfo(param);
-		param.put("user_no", user.getKeyNo());
+		param.put("user_no", user.getUserNo());
 		param.put("titel", request.getParameter("contact_subject"));
 		param.put("body", request.getParameter("contact_subject"));
 		param.put("eMail", request.getParameter("user_mail"));
