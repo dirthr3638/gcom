@@ -31,8 +31,12 @@
 					<i class="main-icon fa fa-th-large"></i> <span>정책관리</span>
 			</a>
 				<ul>
-					<li ${menu_sub_first == 3200 ? 'class="active"' : ''}><a href="/admin/policy/person">개인정보정책</a></li>
-					<li ${menu_sub_first == 3300 ? 'class="active"' : ''}><a href="/admin/policy/export">포트/웹정책</a></li>
+					<li ${menu_sub_first == 3100 ? 'class="active"' : ''}><a href="/admin/policy/messenger">메신저감사</a></li>
+					<li ${menu_sub_first == 3200 ? 'class="active"' : ''}><a href="/admin/policy/process">프로세스차단</a></li>
+					<li ${menu_sub_first == 3300 ? 'class="active"' : ''}><a href="/admin/policy/pattern">민감정보</a></li>
+					<li ${menu_sub_first == 3400 ? 'class="active"' : ''}><a href="/admin/policy/network">네트워크포트</a></li>
+					<li ${menu_sub_first == 3500 ? 'class="active"' : ''}><a href="/admin/policy/serial">시리얼포트</a></li>
+					<li ${menu_sub_first == 3600 ? 'class="active"' : ''}><a href="/admin/policy/website">웹사이트차단</a></li>
 				</ul>
 
 			</li>

@@ -185,6 +185,10 @@
 			</section>
 		</div>
 		
+		<div id="contact_detail_view_div"></div>
+		
+		<div id="comment_write_popup"></div>
+		
 		<div id="recomment_write_popup"></div>
 	
 		<!-- JAVASCRIPT FILES -->
@@ -231,6 +235,27 @@
  		
  	}
  	
+ 	function fn_open_comment(conId) {
+	 	
+ 		$.ajax({      
+		    type:"POST",  
+		    url:'/admin/user/contact/write',
+		    async: false,
+		    data:{
+		    	contact_id : conId,
+		    	_ : $.now() 
+		    },
+		    success:function(data){
+		    	$("#modalContactDetailView").modal('hide');
+		    	$("#comment_write_popup").html(data);
+	            $('#modalCommentWrite').modal('show');
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+ 	}
+ 	
  	function fn_open_recomment(stafId, commentId) {
  		
  		var reRegStafId = '<%= staf_id%>';
@@ -266,6 +291,27 @@
 		    }  
 		});
  	}
+ 	
+ 	function fn_contact_detail_view(contact_id) {
+ 		
+		$.ajax({      
+	        type:"POST",  
+	        url:'/admin/user/contact/view',
+	        async: false,
+	        data:{
+	        	contactId : contact_id,
+	        	_ : $.now()
+	        },
+	        success:function(args){
+	        	
+	            $("#contact_detail_view_div").html(args);
+	            $("#modalContactDetailView").modal('show');
+	        },   
+	        error:function(e){
+	            console.log(e.responseText);  
+	        }  
+	    });
+	}
  	
 	$(document).ready(function(){
 		
@@ -367,7 +413,10 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 								"targets": [2]	//문의구분
 								,"class":"center-cell"
 							}, {	
-								"targets": [3]	//제목
+								"targets": [3],	//제목
+								"render":function(data,type,row){
+									return '<b style=\"cursor:pointer;\" >'+ data + '</b>';
+								}	
 							
 							}, {	
 								"targets": [4],	//등록일
@@ -440,7 +489,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						var data = con.row( $(this).parent() ).data();
 						
 						if($(this).index() == 3) {	// 제목 클릭
-							location.href  = '/admin/user/contact/view?contactId=' + data.contactId;
+							fn_contact_detail_view(data.contactId);
 						}
 					});
 				}

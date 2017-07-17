@@ -45,17 +45,14 @@
 		<section style="padding:40px 0;">
 			<div class="container">
 				<h4><i class="fa fa-get-pocket"></i>사용자 정책</h4>
-				<form action="#" method="post">
-					<div class="sky-form">
-						<div id="member_policy_div"></div>
-					</div>
-					<!--
-					<div class="margin-top-10">
-						<a href="#" class="btn btn-primary"><i class="fa fa-check"></i> 정책요청 </a>
-						<a href="#" class="btn btn-default">취소</a>
-					</div>
-					-->
-				</form>
+				
+				<div class="sky-form">
+					<div id="member_policy_div"></div>
+				</div>
+				
+				<!-- 정책 변경 팝업 -->
+				<div id="req_policy_div"></div>
+				
 			</div>
 		</section>
 		<!-- /User Policy -->
@@ -84,6 +81,26 @@
 			            console.log(e.responseText);  
 			        }  
 			    });
+			}
+			
+			function fn_req_change_policy(code) {
+				
+				$.ajax({       
+				    type:"POST",  
+				    url:'/ax/main/req/policy',
+				    async: false,
+				    data:{
+				    	policy_no : code,
+				    	_ : $.now()
+				    },
+				    success:function(data){
+				    	$("#req_policy_div").html(data);
+			            $('#modalApplyPolicy').modal('show');
+				    },   
+				    error:function(e){  
+				        console.log(e.responseText);  
+				    }  
+				});
 			}
 			
 		</script>

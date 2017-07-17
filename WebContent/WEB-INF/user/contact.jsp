@@ -170,6 +170,10 @@
 		</section>
 		<!-- /Contact Table-->
 		
+		<!-- Ajax Notice Detail Popup -->
+		<div id="contact_view_div"></div>
+		<!-- /Ajax Notice Detail Popup -->
+		
 		<jsp:include page="/WEB-INF/common/user_footer.jsp" flush="false" />
 	
 		<!-- PAGE LEVEL SCRIPTS -->
@@ -209,6 +213,27 @@
 				}
 			}
 			
+		}
+		
+		function fn_open_contact_view(contactId) {
+			$.ajax({      
+		        type:"POST",  
+		        url:'/contact/view',
+		        async: false,
+		        data:{
+		        	contactId : contactId,
+		        	_ : $.now()
+		        },
+		        success:function(args){
+		            $("#contact_view_div").html(args);
+		            $("#modalContactView").modal('show');
+		            
+		        },   
+		        //beforeSend:showRequest,  
+		        error:function(e){
+		            console.log(e.responseText);  
+		        }  
+		    });
 		}
 							
 		$(document).ready(function(){
@@ -353,6 +378,15 @@
      									/* Open this row */
      									jQuery(this).addClass("datatables-open").removeClass("datatables-close");
      									table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+     								}
+     							});
+     							
+     							var con = $('#contact_table').DataTable();
+     							con.on( 'click', 'td', function () {
+     								var data = con.row( $(this).parent() ).data();
+     								
+     								if($(this).index() == 3) {	// 제목 클릭
+     									fn_open_contact_view(data.contactId);
      								}
      							});
      						}

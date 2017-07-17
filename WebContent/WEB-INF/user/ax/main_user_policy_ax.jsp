@@ -34,6 +34,7 @@
 		for(MemberPolicyModel data : list) {
 			String policyIcon = CommonUtil.getPolicyIcon(data);
 	%>
+	<button id="btnReqPolicy" class="btn btn-sm btn-green pull-right" style="color:#fff; font-weight:bold; margin-bottom: 5px;" onClick="javascript:fn_req_change_policy('<%= data.getPolicyNo() %>');"  ><i class="fa fa-cog" aria-hidden="true"></i>정책변경요청</button>
 	<table class="table table-bordered">
 		<tbody>
 			<tr>
@@ -137,8 +138,11 @@
 	<br />
 	<% }
 	} %>
-	
+
+<!-- 상세 팝업 -->
 <div id="policy_detail_div"></div>
+
+
 
 <script type="text/javascript">
 	function fn_popup_detail(type, code){
@@ -189,5 +193,4 @@
 		    }  
 		});
 	}
-	
 </script>

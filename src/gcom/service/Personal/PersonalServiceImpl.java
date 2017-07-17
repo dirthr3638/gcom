@@ -70,12 +70,12 @@ public class PersonalServiceImpl implements IPersonalService {
 		
 		for(HashMap<String, Object> data : apply_list) {
 			if(Integer.parseInt(data.get("policy_no").toString()) == 0) {
-				map.put("agnet_no", data.get("agent_no"));
+				map.put("agent_no", data.get("agent_no"));
 				map.put("user_no", data.get("user_no"));
 				
 				returnCode =  poDao.insertPolicyDataSave(map);
 			} else {
-				map.put("agnet_no", data.get("agent_no"));
+				map.put("agent_no", data.get("agent_no"));
 				map.put("user_no", data.get("user_no"));
 				map.put("policy_no", data.get("policy_no"));
 				

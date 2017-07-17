@@ -67,5 +67,11 @@ public interface UserService {
 	
 	public HashMap<String, Object> insertAccountReqeust(HashMap<String, Object> map);
 
+	public MemberPolicyModel getSettingPolicyInfo(HashMap<String, Object> map);
+
+	public HashMap<String, Object> insertRequestPolicyInfoSave(HashMap<String, Object> map);
+
+	public HashMap<String, Object> updateUserInfoData(HashMap<String, Object> map);
+
 
 }

@@ -1,4 +1,4 @@
-package gcom.controller.front.admin;
+package gcom.controller.front.user;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,8 +13,10 @@ import gcom.user.model.UserContactModel;
 import gcom.user.service.UserService;
 import gcom.user.service.UserServiceImpl;
 
-//문의사항보기
-@WebServlet("/admin/user/contact/view")
+/**
+ * Servlet implementation class dashboardServlet
+ */
+@WebServlet("/contact/view")
 public class userContactViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -26,11 +28,8 @@ public class userContactViewController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
     @Override  
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
     	int contact_id = Integer.parseInt(request.getParameter("contactId").toString());
     	
@@ -46,7 +45,8 @@ public class userContactViewController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	
-		request.getRequestDispatcher("/WEB-INF/admin/user_manage/admin_user_contact_view.jsp").forward(request, response);
+		
+		
+    	request.getRequestDispatcher("/WEB-INF/user/ax/contact_view_ax.jsp").forward(request, response);
 	}
 }

@@ -160,10 +160,10 @@ public class PolicyRequestInfo {
 		String[] spv = value.split(",");
 		if(spv[0].equals("Y")){
 			isWaterMark = true;
+			waterMarkEndDate = spv[1];
 		}else{
 			isWaterMark = false;
 		}
-		waterMarkEndDate = spv[1];
 	}
 
 	public void setIsProcessList(int value){
