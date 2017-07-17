@@ -8,15 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//포트웹정책
-@WebServlet("/admin/policy/export")
-public class policyExportController extends HttpServlet {
+//개인정보정책
+@WebServlet("/admin/policy/website")
+public class policyWebsiteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public policyExportController() {
+    public policyWebsiteController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,6 +28,6 @@ public class policyExportController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
     	
-		request.getRequestDispatcher("/WEB-INF/admin/policy_manage/admin_policy_export.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/admin/policy_manage/admin_policy_website.jsp").forward(request, response);
 	}
 }

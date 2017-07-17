@@ -8,6 +8,14 @@
 	FileInfoModel file = (FileInfoModel)request.getAttribute("AttFileInfo");
 	
 %>
+
+<!-- Alert -->
+<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+
+<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+
 <script type="text/javascript" src="/se2/js/service/HuskyEZCreator.js"></script>
 
 <div id="modalNoticeModify" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
@@ -16,7 +24,7 @@
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-				<h4 class="modal-title" id="myModalLabel">공지사항 상세보기</h4>
+				<h4 class="modal-title" id="myModalLabel">공지사항 관리</h4>
 			</div>
 			<!-- /Modal Header -->
 			
@@ -116,13 +124,6 @@
 	</div>
 </div>
 		
-		<!-- JAVASCRIPT FILES -->
-<!-- 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
-		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="/assets/js/app.js"></script>
-		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script> -->
-		
 		<!-- file_upload-->
 		<script src="/assets/plugins/fileupload/jquery.ui.widget.js" charset="utf-8"></script>
 		<script src="/assets/plugins/fileupload/jquery.fileupload.js" charset="utf-8"></script>
@@ -190,12 +191,34 @@
 			    	_ : $.now()
 			    },
 			    success:function(data){
-			    	
+			    	vex.defaultOptions.className = 'vex-theme-os';
+		    		
 			    	if (data.returnCode == 'S') {
-			    		alert("공지사항이 등록 되었습니다.");
-			    		location.href = '/admin/user/notice';
+			    		vex.dialog.open({
+			    			message: '공지사항이 수정 되었습니다.',
+			    			  buttons: [
+			    			    $.extend({}, vex.dialog.buttons.YES, {
+			    			      text: '확인'
+			    			  })],
+			    			  callback: function(data) {
+		    				 	  if (data) {
+		    				 		  location.href = '/admin/user/notice';
+		    				 	  }
+	    				 	  }
+			   			});
 			    	} else {
-			    		alert("공지사항 등록중 예기치 못한 오류가 발생하여 등록에 실패하였습니다.");
+			    		vex.dialog.open({
+			    			message: '공지사항 등록중 예기치 못한 오류가 발생하여 등록에 실패하였습니다.',
+			    			  buttons: [
+			    			    $.extend({}, vex.dialog.buttons.YES, {
+			    			      text: '확인'
+			    			  })],
+			    			  callback: function(data) {
+			    				  if (data) {
+			    					  $('#modalNoticeModify').modal('hide');
+	    				 		  }
+	    				 	  }
+			   			});
 			    	}
 			    },   
 			    error:function(e){  

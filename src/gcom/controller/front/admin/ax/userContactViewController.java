@@ -1,4 +1,4 @@
-package gcom.controller.front.admin;
+package gcom.controller.front.admin.ax;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class userContactViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     @Override  
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
     	int contact_id = Integer.parseInt(request.getParameter("contactId").toString());
     	
@@ -47,6 +47,6 @@ public class userContactViewController extends HttpServlet {
 			e.printStackTrace();
 		}
     	
-		request.getRequestDispatcher("/WEB-INF/admin/user_manage/admin_user_contact_view.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/admin/user_manage/ax/popup_user_contact_view.jsp").forward(request, response);
 	}
 }

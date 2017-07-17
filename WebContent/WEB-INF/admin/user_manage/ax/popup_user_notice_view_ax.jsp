@@ -37,25 +37,19 @@
 								<div class="panel-body">
 									<div class="row">
 										<div style="padding: 10px 20px;">
-											<h1 class="blog-post-title"><% if("Y".equals(data.getBbsSpecialYN())){%><i class="fa fa-star" style="color:#e46c6c;"></i>&nbsp;&nbsp;<%}%><%= data.getBbsTitle() %></h1>
+											<h1 class="blog-post-title" style="margin: 5px 0;"><% if("Y".equals(data.getBbsSpecialYN())){%><i class="fa fa-star" style="color:#e46c6c;"></i>&nbsp;&nbsp;<%}%><%= data.getBbsTitle() %></h1>
 											<ul class="blog-post-info list-inline" style="margin: 0">
 												<li>
-													<a href="#">
-														<i class="fa fa-clock-o"></i> 
-														<span class="font-lato">작성일 : <%= data.getBbsRegDate() %></span>
-													</a>
+													<i class="fa fa-clock-o"></i> 
+													<span class="font-lato">작성일 : <%= data.getBbsRegDate() %></span>
 												</li>
 												<li>
-													<a href="#">
-														<i class="fa fa-eye" aria-hidden="true"></i> 
-														<span class="font-lato">조회 : <%= data.getBbsClickCnt() %></span>
-													</a>
+													<i class="fa fa-eye" aria-hidden="true"></i> 
+													<span class="font-lato">조회 : <%= data.getBbsClickCnt() %></span>
 												</li>
 												<li>
-													<a href="#">
-														<i class="fa fa-user"></i> 
-														<span class="font-lato"><%= data.getBbsRegStaf() %></span>
-													</a>
+													<i class="fa fa-user"></i> 
+													<span class="font-lato"><%= data.getBbsRegStaf() %></span>
 												</li>
 											</ul>
 											<!-- article content -->
@@ -71,7 +65,6 @@
 									        <img alt="" src="/assets/images/loaders/loading.gif" />
 									    </div>
 									</div>
-									
 								</div>
 								<!-- /panel content -->
 							</div>
