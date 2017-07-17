@@ -316,11 +316,11 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 								param.user_id = $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
 
-								param.user_duty = $('#filterUserDuty').val();
-								param.user_rank = $('#filterUserRank').val();
+								param.duty = $('#filterUserDuty').val();
+								param.rank = $('#filterUserRank').val();
 								param.device_name = $('#filterDeviceName').val();
 								param.notice = $('#filterNotice').val();
-								param.property = $('#filterProperty').val();
+								param.device_property = $('#filterProperty').val();
 								param.pc_name = $('#filterPCName').val();
 																
 								param.start_date = $('#filterStartDate').val();

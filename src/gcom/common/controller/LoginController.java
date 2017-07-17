@@ -73,16 +73,25 @@ public class LoginController extends HttpServlet {
 				model.setStatus("성공");
 
 				session.setAttribute("user_nm", data.get("userName"));
-				
+				session.setAttribute("admin_mode", -1); 
+				session.setAttribute("login_root", "/main");
 
 			}else{	//관리자 로그인 성공시
 				model.setDescription("관리자 로그인");
 				model.setParameter("관리자 ::" +  userId + " 로그인");
 				model.setStatus("성공");
+				session.setAttribute("admin_mode", data.get("adminMode")); 
 
+				if(data.get("adminMode").toString().equals("2")){
+					session.setAttribute("login_root", "/report/dashboard");					
+				}else{
+					session.setAttribute("login_root", "/dashboard");					
+				}
+
+				
 			}
 			session.setAttribute("dept_no", data.get("deptNo"));
-		    session.setAttribute("login_root", data.get("goUrl"));
+
 		}else{
 			//로그인 실패시
 			if ("C".equals(loginType)){

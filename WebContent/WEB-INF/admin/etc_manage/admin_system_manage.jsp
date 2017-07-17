@@ -62,6 +62,7 @@
 														<th>시스템정보</th>
 														<th>적용값</th>
 														<th>수정</th>
+														<th>name</th>
 													</tr>
 												</thead>				
 												<tbody>
@@ -98,8 +99,110 @@
 
 <script> 
 
-	function onClickModify(description, id, value){
-        vex.dialog.open({
+	function onClickModify(description, id, value, name){
+
+		console.log(name)
+		if (name == 'local_file_access_descriptor' || name == 'removable_file_access_descriptor' || name == 'network_file_access_descriptor') {
+			logSystemPopup(description, id, value, name);
+		}
+		else{
+			commonSystemPopup(description, id, value, name);
+		}
+
+	}
+	
+	function logSystemPopup(description, id, value, name){
+
+		var read_value = value & 1;
+		var write_value = value & 2;
+		var read_log_flag = value & 4026531840;
+		var read_block_log_flag = value & 251658240;
+		var write_log_flag = value & 15728640;
+		var write_block_log_flag = value & 983040;
+
+		var table =
+		
+		'<table id="user" class="table table-bordered"><tbody> ' +
+		'<tr><td width="35%">시스템정보</td>' +
+		'<td><input type="text" name="filterDeviceName" id="filterDeviceName" value="'+ description +'" class="form-control" readonly></td></tr>' +
+		'<tr><td width="35%">적용값</td>' +
+		'<td><input type="text" name="filterValue" id="filterValue" value="'+ value +'" class="form-control" readonly></td></tr>' +
+		'<tr><td width="35%">쓰기</td>';
+		
+		if(read_value == 1)	
+ 			table += '<td><input type="checkbox" name="isWrite" id="isWrite" value="1" checked></td></tr>';
+		else
+			table += '<td><input type="checkbox" name="isWrite" id="isWrite" value="1" ></td></tr>';
+		
+		table += '<tr><td width="35%">읽기</td>';
+
+		if(write_value == 2)	
+			table += '<td><input type="checkbox" name="isRead" value="2" id="isRead" checked></td></tr>';
+		else
+			table += '<td><input type="checkbox" name="isRead" value="2" id="isRead" ></td></tr>';
+		
+		table += '<tr><td width="35%">쓰기로그설정</td>';
+		
+		console.log(write_log_flag)
+		if(write_log_flag == 0){
+			table += '<td><input type="radio" name="writeConfig" id="writeConfigDisable" value="0" checked>사용안함';
+		}else{
+			table += '<td><input type="radio" name="writeConfig" id="writeConfigDisable" value="0" >사용안함';			
+		}
+		
+		if(write_log_flag == 1048576){
+			table += '<input type="radio" name="writeConfig" id="writeConfigEventLog" value="1048576" checked>이벤트로그';		
+		}else{
+			table += '<input type="radio" name="writeConfig" id="writeConfigEventLog" value="1048576" >이벤트로그';			
+		}
+
+		if(write_log_flag == 9437184){
+			table += '<input type="radio" name="writeConfig" id="writeConfigFileLog" value="9437184" checked>파일로그</td></tr>';
+		}else{
+			table += '<input type="radio" name="writeConfig" id="writeConfigFileLog" value="9437184" >파일로그</td></tr>';			
+		}
+
+		table += '<tr><td width="35%">쓰기차단로그설정</td>';
+
+		if(write_block_log_flag == 0){
+			table += '<td><input type="radio" name="writeDeniedConfig" id="writeDeniedConfigDisable" value="0" checked>사용안함';
+		}else{
+			table += '<td><input type="radio" name="writeDeniedConfig" id="writeDeniedConfigDisable" value="0" >사용안함';
+		}
+		if(write_block_log_flag == 65536){
+			table += '<input type="radio" name="writeDeniedConfig" id="writeDeniedConfigEventLog" value="65536" checked>이벤트로그</td></tr>';
+		}else{
+			table += '<input type="radio" name="writeDeniedConfig" id="writeDeniedConfigEventLog" value="65536" >이벤트로그</td></tr>';
+		}
+		
+		table +='</tbody>' +
+		'</table>';
+
+		vex.dialog.open({
+            input: [
+					table
+                ].join(''),
+     			buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				    }),
+				    $.extend({}, vex.dialog.buttons.NO, {
+				      text: '취소'
+				    })
+				    ],
+ 		    callback: function (data) {
+ 		        if (!data) {
+ 		        	return;
+ 		        }else{
+ 		        	console.log(data);
+// 		        	updateSystemLogInfo(id, data.value);
+ 		        }
+ 		    }
+       });
+	}
+	
+	function commonSystemPopup(description, id, value, name){
+		vex.dialog.open({
             input: [
                      '<label>시스템정보</label>',                   
                      '<input name="description" type="text" readonly value=" '+ description +' " />',
@@ -113,7 +216,7 @@
   					    $.extend({}, vex.dialog.buttons.NO, {
   					      text: '취소'
   					    })
-  					    ],
+  					],
  		    callback: function (data) {
  		        if (!data) {
  		        	return;
@@ -122,6 +225,7 @@
  		        }
  		    }
        });
+		
 	}
 	
 	function updateSystemInfo(system_no, value){
@@ -146,7 +250,30 @@
 		    }  
 		});
 	}
-	
+
+	function updateSystemLogInfo(system_no, value){
+		$.ajax({      
+		    type:"POST",  
+		    url:'/admin/system/update',
+		    async: false,
+		    data:{
+		    	value : value,
+		    	system_no : system_no
+		    },
+		    success:function(data){
+		    	if(data.returnCode == "S") {
+		    		reloadTablePreventPage();
+		    		infoAlert("시스템설정이 변경이 적용되었습니다.");
+		    	} else {
+		    		infoAlert("서버와의 통신에 실패하였습니다.");
+		    	}
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+	}
+
  	
  	function reloadTablePreventPage(){
  		var datatable = $('#table_systeminfo').dataTable().api();
@@ -239,6 +366,9 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						}, {
 							data: "sysNo",
 							"orderable": false	//
+						},{
+							data:"name"
+							
 						}],
 						// set the initial value
 						"pageLength": 20,
@@ -272,9 +402,13 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							"targets": [3]	//수정
 							,"class":"center-cell"
 							,"render":function(data,type,row){
-									return '<i class="fa fa-wrench" onclick="onClickModify(\''+ row.description +'\', ' + row.sysNo + ', ' + row.value + ' )"></i>';
+									return '<i class="fa fa-wrench" onclick="onClickModify(\''+ row.description +'\', ' + row.sysNo + ', ' + row.value + ', \''+ row.name +'\'  )"></i>';
 								}
-						}],						
+						}, {	
+							"targets": [4]	//name
+						,"class":"center-cell"
+						,"visible":false
+					}],						
 						"initComplete": function( settings, json ) {
 						}
 					});

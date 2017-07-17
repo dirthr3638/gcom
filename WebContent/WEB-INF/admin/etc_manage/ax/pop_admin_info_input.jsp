@@ -93,6 +93,18 @@
 												<input type="password" name="filterUserId" id="admin_pw2" value="" class="form-control">			
 											</div>	
 										</div>
+										<div class="row">
+											<div class="col-md-12" style="overflow: hidden;">
+												<label>권한</label>
+							                         <select class="form-control" id="admin_auth">
+					<option value="0" ${adminInfo.adminMode == 0 ? 'selected' : ''} >콘솔/레포트 권한</option>				
+					<option value="1" ${adminInfo.adminMode == 1 ? 'selected' : ''} >콘솔 권한</option>				
+					<option value="2" ${adminInfo.adminMode == 2 ? 'selected' : ''} >레포트권한</option>				
+				                              
+				                                </select>
+				                                <br />
+											</div>	
+										</div>
 
 								</div>
 							</div>

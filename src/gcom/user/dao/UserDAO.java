@@ -246,7 +246,7 @@ public class UserDAO {
 				"SELECT bbs.bbs_id, "
 			    + "bbs.bbs_title, "
 			    + "bbs.special_type, "
-			    + "admin.id, "
+			    + "IFNULL(admin.id, '') AS id, "
 			    + "DATE(bbs.reg_dt) AS reg_dt, "
 			    + "bbs_hit.hit_cnt, "
 			    + "bbs.attfile_yn, "

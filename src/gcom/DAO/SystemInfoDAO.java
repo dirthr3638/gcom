@@ -102,6 +102,7 @@ sql += whereSql;
 			while(rs.next()){
 				SystemInfoModel model = new SystemInfoModel();
 				model.setSysNo(rs.getInt("sys_no"));
+				model.setName(rs.getString("sys_name"));
 				model.setDescription(rs.getString("description"));
 				model.setValue(rs.getString("value"));
 				data.add(model);

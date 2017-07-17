@@ -3,7 +3,22 @@
 
 <% 
 	String user_id = (String)session.getAttribute("user_id");
-%> 
+	String admin_mode =  session.getAttribute("admin_mode").toString();
+%>
+
+<script>
+
+function moveReport(){
+	// 0 관리자, 1 콘솔, 2 레포트 -1 사용자
+	if(<%= admin_mode %> == '0' ||  <%= admin_mode %> == '1'){
+		location.href = '/dashboard';
+	}else{
+		alert('권한이 없습니다.')
+	}
+}
+
+</script>
+ 
 <header id="header">
 
 				<!-- Mobile Button -->
@@ -31,7 +46,7 @@
 							</a>
 							<ul class="dropdown-menu hold-on-click">
 								<li><!-- settings -->
-									<a href="/dashboard"><i class="fa fa-th-large"></i>관리콘솔</a>
+									<a onclick="moveReport()"><i class="fa fa-th-large"></i>관리콘솔</a>
 								</li>
 
 								<li class="divider"></li>

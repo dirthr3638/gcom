@@ -111,6 +111,7 @@ public class LoginDAO {
 				+ "dept_no, "
 				+ "id, "
 				+ "pw,"
+				+ "admin_mode,"
 				+ "ip_addr0,"
 				+ "ip_addr1  "
 				+ "FROM admin_info "
@@ -126,6 +127,7 @@ public class LoginDAO {
 				result.put("userNo", rs.getString("no"));
 				result.put("deptNo", rs.getString("dept_no"));
 				result.put("userId", rs.getString("id"));
+				result.put("adminMode", rs.getInt("admin_mode"));
 				
 				if (!hashEncrypto.HashEncrypt(userPw).equals(rs.getString("pw"))) {
 					returnCode = ConfigInfo.NOT_CORRECT_PASSWORD;

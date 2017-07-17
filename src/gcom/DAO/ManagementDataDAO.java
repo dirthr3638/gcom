@@ -181,7 +181,8 @@ sql += whereSql;
 					+ "ifnull(admin.pw, '') AS admin_pw, "
 					+ "admin.ip_addr0 AS ip_addr, "
 					+ "admin.ip_addr1 AS ip_addr1, "
-					+ "admin.dept_no AS dept_no "					
+					+ "admin.dept_no AS dept_no, "
+					+ "admin.admin_mode "			
 				+ "FROM admin_info AS admin "
 				+ "WHERE admin.no = ? ";
 
@@ -198,6 +199,7 @@ sql += whereSql;
 				model.setIpAddr(rs.getString("ip_addr"));
 				model.setIpAddr1(rs.getString("ip_addr1"));
 				model.setDept_no(rs.getInt("dept_no"));
+				model.setAdminMode(rs.getInt("admin_mode"));
 			}
 			
 		}catch(SQLException ex){
@@ -224,13 +226,14 @@ sql += whereSql;
 		int dept_no = Integer.parseInt(map.get("dept").toString());
 		String ip1 = map.get("ip1").toString();
 		String ip2 = map.get("ip2").toString();
+		int admin_mode = Integer.parseInt(map.get("auth").toString());
 
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 
 		String insertSql= 
 				"INSERT INTO guardcom.admin_info(id, pw, dept_no, user_no, admin_mode, ip_addr0, ip_addr1) "
-				+ "VALUES (?, ?, ?, 0, 3, ?, ?)";
+				+ "VALUES (?, ?, ?, 0, ?, ?, ?)";
 
 
 		try{
@@ -242,6 +245,7 @@ sql += whereSql;
 			pstmt.setString(i++, id);
 			pstmt.setString(i++, hashEncrypto.HashEncrypt(pw));
 			pstmt.setInt(i++, dept_no);
+			pstmt.setInt(i++, admin_mode);
 			pstmt.setString(i++, ip1);
 			pstmt.setString(i++, ip2);
 
@@ -273,6 +277,7 @@ sql += whereSql;
 		String id = map.get("id").toString();
 		String pw = map.get("pw").toString();
 		String ip1 = map.get("ip1").toString();
+		int admin_mode = Integer.parseInt(map.get("auth").toString());
 		String ip2 = map.get("ip2").toString();
 
 		int no = Integer.parseInt(map.get("no").toString());
@@ -285,6 +290,7 @@ sql += whereSql;
 				"UPDATE admin_info "
 				+ "SET "
 				+ "id=?, "
+				+ "admin_mode=?, "
 				+ "ip_addr0=?, "
 				+ "ip_addr1=?, "
 				+ "dept_no=? ";
@@ -302,6 +308,7 @@ sql += whereSql;
 			pstmt=con.prepareStatement(insertSql, java.sql.Statement.RETURN_GENERATED_KEYS);
 			int i = 1;
 			pstmt.setString(i++, id);
+			pstmt.setInt(i++, admin_mode);
 
 			pstmt.setString(i++, ip1);
 			pstmt.setString(i++, ip2);

@@ -107,7 +107,7 @@ table td {
 															</td>
 														</tr>
 														<tr>         
-															<td width="15%">작업내역</td>
+															<td width="15%">작업파라메터</td>
 															<td>
 																<input type="text" name="filterParameter" id="filterParameter" value="" class="form-control required">
 															</td>
@@ -149,7 +149,7 @@ table td {
 														<th>IP</th>
 														<th>접속ID</th>
 														<th>작업정보</th>
-														<th>작업내역</th>
+														<th>작업파라메터</th>
 														<th >작업시간</th>
 														<th >상태</th>														
 													</tr>
@@ -185,7 +185,7 @@ table td {
 			<!-- Modal Header -->
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-				<h4 class="modal-title" id="myModalLabel">작업내역상세</h4>
+				<h4 class="modal-title" id="myModalLabel">파라메터정보</h4>
 			</div><!-- /Modal Header -->
 
 			<!-- body modal -->

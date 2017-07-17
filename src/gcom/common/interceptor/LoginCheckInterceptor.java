@@ -3,7 +3,9 @@ package gcom.common.interceptor;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -26,9 +28,66 @@ import gcom.DAO.AuditDataDAO;
  */
 public class LoginCheckInterceptor implements Filter {
 	
+	List<String> adminUrls = new ArrayList<>();
+	List<String> reportUrls = new ArrayList<>();
+	List<String> userUrls  = new ArrayList<>();
+	
 	public void init(FilterConfig config) throws ServletException {
+
+		adminUrls.add("/dashboard");
+		adminUrls.add("/admin/device/usb");
+		adminUrls.add("/admin/device/usbblock");
+		adminUrls.add("/admin/policy/export");
+		adminUrls.add("/admin/policy/person");
+		adminUrls.add("/admin/subadmin");
+		adminUrls.add("/admin/system/manage");
+		adminUrls.add("/admin/user/contac");
+		adminUrls.add("/admin/user/contact/view");
+		adminUrls.add("/admin/user/dept");
+		adminUrls.add("/admin/user/enroll");
+		adminUrls.add("/admin/user/manage");
+		adminUrls.add("/admin/user/notice");
+		adminUrls.add("/admin/user/notice/modify");
+		adminUrls.add("/admin/user/notice/view");
+		adminUrls.add("/admin/user/notice/write");
+		adminUrls.add("/admin/user/assign");
+		adminUrls.add("/admin/user/request");
+		
+		reportUrls.add("/report/adminprofile");
+		reportUrls.add("/report/audit/agent");
+		reportUrls.add("/report/audit/server");
+		reportUrls.add("/report/dashboard");
+		reportUrls.add("/report/disktran");
+		reportUrls.add("/report/print");
+		reportUrls.add("/report/usbblock");
+		reportUrls.add("/report/usbunauth");
+		reportUrls.add("/report/login");
+		reportUrls.add("/report/mail");
+		reportUrls.add("/report/msnfile");
+		reportUrls.add("/report/msntalk");
+		reportUrls.add("/report/policydefault");
+		reportUrls.add("/report/policy");
+		reportUrls.add("/report/privacy");
+		reportUrls.add("/report/users");
+		
+		userUrls.add("/account/request/view");
+		userUrls.add("/contact");
+		userUrls.add("/userinfo");
+		userUrls.add("/main");
+		userUrls.add("/notice");
+		userUrls.add("/notice/view");
 		
     }
+	
+	public boolean checkUri(String requestUrl, List<String> urls){
+		 for(int i=0; i < urls.size(); i++){
+			 if (requestUrl.matches(urls.get(i))){
+				 	return true;
+			 }
+		 }
+		
+		return false;
+	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpReq = (HttpServletRequest)request;
@@ -41,8 +100,33 @@ public class LoginCheckInterceptor implements Filter {
         
         if (session != null) {
         	String userId = (String)session.getAttribute("user_id");
+        	
         	if(userId != null) {
         		loginFlag = true;
+            	int admin_mode = (int)session.getAttribute("admin_mode");
+            	
+
+            	if(admin_mode == 1){	//콘솔권한
+                	if(checkUri(httpReq.getRequestURI(), reportUrls) || checkUri(httpReq.getRequestURI(), userUrls) ){
+                    	request.getRequestDispatcher("/WEB-INF/common/unauth.jsp").forward(request, response);            		
+                	}
+            		
+            	}else if(admin_mode == 2){	//레포트권한
+                	if(checkUri(httpReq.getRequestURI(), adminUrls) || checkUri(httpReq.getRequestURI(), userUrls) ){
+                    	request.getRequestDispatcher("/WEB-INF/common/unauth.jsp").forward(request, response);            		
+                	}
+            		
+            	}else if(admin_mode == 0){	//관리자 권한
+                	if(checkUri(httpReq.getRequestURI(), userUrls) ){
+                    	request.getRequestDispatcher("/WEB-INF/common/unauth.jsp").forward(request, response);            		
+                	}
+            	}else if(admin_mode == -1){	// 사용자권한
+                    	request.getRequestDispatcher("/WEB-INF/common/unauth.jsp").forward(request, response);            		
+                    	if(checkUri(httpReq.getRequestURI(), adminUrls) || checkUri(httpReq.getRequestURI(), reportUrls) ){
+                	}
+            	}else{
+                	request.getRequestDispatcher("/WEB-INF/common/unauth.jsp").forward(request, response);            		            		
+            	}
         	}
         }
         
@@ -58,7 +142,7 @@ public class LoginCheckInterceptor implements Filter {
         }
         
         if (loginFlag) {
-        	if(uri.equals("/")) {
+        	if(uri.equals("/") || uri.equals("/undefined") ) {
         		String url = (String)session.getAttribute("login_root");
         		httpRes.sendRedirect(url);
         	} else {

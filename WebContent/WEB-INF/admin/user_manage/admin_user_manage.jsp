@@ -81,8 +81,8 @@
 		
 											<!-- Info -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
-											<button type="button" class="btn btn-danger" onclick="onClickRemoveUser()"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>
-											<button type="button" class="btn btn-success" onclick="onClickCreateUser()"><i class="fa fa-plus" aria-hidden="true">&nbsp;추가</i></button>
+<!-- 											<button type="button" class="btn btn-danger" onclick="onClickRemoveUser()"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>
+ -->											<button type="button" class="btn btn-success" onclick="onClickCreateUser()"><i class="fa fa-plus" aria-hidden="true">&nbsp;추가</i></button>
 											
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>

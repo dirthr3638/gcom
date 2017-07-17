@@ -130,7 +130,7 @@
 															<td>
 																<input type="text" name="filterModuleName" id="filterModuleName" value="" class="form-control required">
 															</td>
-															<td >작업내역</td>
+															<td >작업파라메터</td>
 															<td>
 																<input type="text" name="filterDescription" id="filterDescription" value="" class="form-control required">
 															</td>
@@ -171,7 +171,7 @@
 														<th >MAC</th>
 														<th >PC이름</th>
 														<th >작업모듈</th>
-														<th >작업내역</th>
+														<th >작업파라메터</th>
 														<th >작업시간(서버)</th>
 														<th >작업시간</th>
 														<th >상태</th>

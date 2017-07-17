@@ -85,7 +85,7 @@
 													<tr>
 														<th>번호</th>
 														<th>아이디</th>
-														<th>패스워드설정여부</th>
+														<th>권한</th>
 														<th>아이피1</th>
 														<th>아이피2</th>
 														<th></th>
@@ -346,6 +346,7 @@
 
 		data.admin_password = $('#admin_pw1').val();
 		data.admin_password2 = $('#admin_pw2').val();		
+		data.admin_auth = $('#admin_auth option:selected').val();		
 		
 		var result = validCheck(data);
 		if(result == true){
@@ -372,6 +373,9 @@ function validCheck(data){
 			result = false;
 		}else if(data.admin_password != data.admin_password2 ){
 			infoAlert('패스워드가 일치하지 않습니다.')
+			result = false;
+		}else if(data.admin_auth != 0 && data.admin_auth != 1 && data.admin_auth != 2  ){
+			infoAlert('권한설정이 올바르지 않습니다.')
 			result = false;
 		}
 		
@@ -451,7 +455,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							data: "adminId",
 							"orderable": false	
 						}, {
-							data: "isPassword",
+							data: "adminMode",
 							"orderable": false	
 						}, {
 							data: "ipAddr",
@@ -489,10 +493,20 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 							'targets': [1]	//아이디
 							,"class":"center-cell"
 						}, {	
-							"targets": [2]	//패스워드
+							"targets": [2]	//권한
 							,"class":"center-cell"
-							,"render":function(data,type,row){
-								return data == 'ture' ? '설정' : '미설정';
+							,"render" : function(data, type, row){
+								var result = "";
+								if(data == 0 ){
+									result = '콘솔/레포트'
+								}else if(data == 1 ){
+									result = '콘솔'
+								}else if(data == 2 ){
+									result = '레포트'
+								}else{
+									result = '권한 지정안됨'
+								}
+								return result;
 							}
 
 						}, {	

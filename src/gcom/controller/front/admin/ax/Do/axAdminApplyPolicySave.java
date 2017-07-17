@@ -42,9 +42,11 @@ public class axAdminApplyPolicySave extends HttpServlet {
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("사용자 정책 할당");
 	   		model.setStatus("성공");
-			model.setParameter("");
+			model.setParameter(param.toString());
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
-
+	 		insertAdminAction aud = new insertAdminAction();
+   			aud.insertServeriAudit(model);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

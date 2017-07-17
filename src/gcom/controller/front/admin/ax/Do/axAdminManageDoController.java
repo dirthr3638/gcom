@@ -48,6 +48,7 @@ public class axAdminManageDoController extends HttpServlet {
 	    	param.put("dept", request.getParameter("admin_dept"));
 	    	param.put("ip1", request.getParameter("admin_ip0"));
 	    	param.put("ip2", request.getParameter("admin_ip1"));
+	    	param.put("auth", request.getParameter("admin_auth"));
 
 			insertAdminAction action = new insertAdminAction();
         	data = action.insertAdminUserInfo(param);
@@ -74,6 +75,7 @@ public class axAdminManageDoController extends HttpServlet {
 	    	param.put("dept", request.getParameter("admin_dept"));
 	    	param.put("ip1", request.getParameter("admin_ip0"));
 	    	param.put("ip2", request.getParameter("admin_ip1"));
+	    	param.put("auth", request.getParameter("admin_auth"));
 
     		updateAdminAction action = new updateAdminAction();
    			data = action.updateAdminUserInfo(param);    		

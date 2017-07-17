@@ -8,14 +8,15 @@
 	<nav id="sideNav">
 		<!-- MAIN MENU -->
 		<ul class="nav nav-list">
-			<li ${menu_parent == 1000 ? 'class="active"' : ''}><a href="#"> <i
-					class="main-icon fa fa-users"></i> <span>사용자정보 </span>
+			<li ${menu_parent == 100 ? 'class="active"' : ''}><a href="/report/dashboard"> <i class="main-icon fa fa-bar-chart"></i> <span>대시보드 </span>
+			</a>
+			<li ${menu_parent == 1000 ? 'class="active"' : ''}><a href="#"> <i class="main-icon fa fa-users"></i> <span>사용자정보 </span>
 			</a>
 				<ul>
 					<li ${menu_sub_first == 1100 ? 'class="active"' : ''}><a href="/report/users">사용자/에이전트정보</a></li>
 					<li ${menu_sub_first == 1200 ? 'class="active"' : ''}><a href="/report/login">로그인로그</a></li>
 				</ul>
-
+			</li>
 
 			<li ${menu_parent == 2000 ? 'class="active"' : ''}><a href="#">
 					<i class="main-icon fa fa-usb"></i> <span>장치로그</span>

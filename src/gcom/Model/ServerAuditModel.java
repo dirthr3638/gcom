@@ -10,5 +10,5 @@ public class ServerAuditModel {
 	private String parameter = "";
 	private String description = "";
 	private String status = "";
-	
+	private int admin_mode;
 }
