@@ -95,8 +95,11 @@
 					</div>
 				</div>
 			</section>
+			
+			<div id="notice_detail_view_div"></div>
+			<div id="notice_modify_div"></div>
 		</div>
-	
+		
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
@@ -123,6 +126,52 @@
 		 		$buttons.click();
 		 		
 		 	}
+		 	
+			function fn_bbs_detail_view(bbs_id, file_yn, file_id) {
+				
+				$.ajax({      
+			        type:"POST",  
+			        url:'/admin/user/notice/view',
+			        async: false,
+			        data:{
+			        	bbs_id : bbs_id,
+			        	file_yn : file_yn,
+			        	file_id : file_id,
+			        	_ : $.now()
+			        },
+			        success:function(args){
+			        	
+			            $("#notice_detail_view_div").html(args);
+			            $("#modalNoticeDetailView").modal('show');
+			        },   
+			        error:function(e){
+			            console.log(e.responseText);  
+			        }  
+			    });
+			}
+			
+			function fn_modify(bbs_id, file_yn, file_id) {
+				
+				$.ajax({      
+			        type:"POST",  
+			        url:'/admin/user/notice/modify',
+			        async: false,
+			        data:{
+			        	bbs_id : bbs_id,
+			        	file_yn : file_yn,
+			        	file_id : file_id,
+			        	_ : $.now()
+			        },
+			        success:function(args){
+			        	$("#modalNoticeDetailView").modal('hide');
+			            $("#notice_modify_div").html(args);
+			            $("#modalNoticeModify").modal('show');
+			        },   
+			        error:function(e){
+			            console.log(e.responseText);  
+			        }  
+			    });
+			}
 		 	
 			$(document).ready(function(){
 				
@@ -291,7 +340,7 @@
 								var data = notice.row( $(this).parent() ).data();
 								
 								if($(this).index() == 2){	// 제목 클릭
-									location.href  = '/admin/user/notice/view?bbsId=' + data.bbsId +'&fileYn=' + data.bbsAttfileYN + '&file=' + data.attfileId ;
+									fn_bbs_detail_view(data.bbsId, data.bbsAttfileYN, data.attfileId);
 								}
 							});
 						}

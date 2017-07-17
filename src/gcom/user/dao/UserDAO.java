@@ -158,9 +158,16 @@ public class UserDAO {
 				+ "user_info.name, "
 				+ "user_info.phone, "
 				+ "dept_info.short_name as dept_name, "
-				+ "user_info.duty "
+				+ "user_info.duty, "
+				+ "user_info.rank, "
+				+ "user_info.attfile_id, "
+				+ "IFNULL(user_info.notice, '') AS notice, "
+				+ "IFNULL(fu.att_file_path, '') AS att_file_path, " 
+				+ "IFNULL(fu.view_file_nm, '') AS view_file_nm, "
+				+ "IFNULL(fu.save_file_nm, '') AS save_file_nm "
 				+ "FROM user_info "
 				+ "INNER JOIN dept_info ON user_info.dept_no = dept_info.no "
+				+ "LEFT JOIN services_file_upload_info AS fu ON fu.attfile_id = user_info.attfile_id "
 				+ "WHERE user_info.id = ?";
 
 		try{
@@ -175,6 +182,12 @@ public class UserDAO {
 				model.setPhone(rs.getString("phone"));
 				model.setDeptName(rs.getString("dept_name"));
 				model.setDuty(rs.getString("duty"));
+				model.setRank(rs.getString("rank"));
+				model.setAttfile_id(rs.getInt("attfile_id"));
+				model.setNotice(rs.getString("notice"));
+				model.setUserPhotoPath(rs.getString("att_file_path"));
+				model.setUserPhotofileSaveName(rs.getString("save_file_nm"));
+				model.setUserPhotoFileViewName(rs.getString("view_file_nm"));
 			}
 			
 		}catch(SQLException ex){
@@ -1463,20 +1476,79 @@ public class UserDAO {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		int userNo = Integer.parseInt(map.get("user_no").toString());
 		String password = hashEncrypto.HashEncrypt(map.get("password").toString());
+		String changePasswordYn = map.get("changePasswordYn").toString();
+		String saveFileName = map.get("saveFileName").toString();
+		String viewFileName = map.get("viewFileName").toString();
+		String filepath = map.get("filepath").toString();
+		String fileYn = map.get("fileYn").toString();
+		int attFileId = Integer.parseInt(map.get("attFileId").toString());
 		
-		String sql= "UPDATE user_info SET password = ? WHERE no = ?";
+		// 첨부파일이 없고 비밀번호 변경도 아닐 경우
+		if ("N".equals(changePasswordYn) && "N".equals(fileYn)) {
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
+			return result;
+		}
+		
+		String sql= "";
 		
 		try{
 			con = ds.getConnection();
 			con.setAutoCommit(false);
-			pstmt=con.prepareStatement(sql);
-			pstmt.setString(1, password);
-			pstmt.setInt(2, userNo);
-			pstmt.executeUpdate();
+			
+			if (fileYn.equals("Y")) {
+				
+				if (attFileId == 0) {
+					sql = "INSERT INTO services_file_upload_info (att_file_path, view_file_nm, save_file_nm) "
+						+ "VALUES (?, ?, ?) ";
+					
+					pstmt=con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+					pstmt.setString(1, filepath);
+					pstmt.setString(2, viewFileName);
+					pstmt.setString(3, saveFileName);
+					pstmt.executeUpdate();
+					
+					rs = pstmt.getGeneratedKeys();
+					
+					if (rs.next()) {
+						int file_id = rs.getInt(1);
+						
+						sql = "UPDATE user_info SET attfile_id = ? WHERE no = ?";
+						
+						pstmt=con.prepareStatement(sql);
+						pstmt.setInt(1, file_id);
+						pstmt.setInt(2, userNo);
+						pstmt.executeUpdate();
+					}
+					
+				} else {
+					sql = "UPDATE services_file_upload_info "
+						+ "SET att_file_path = ? , "
+						+ "view_file_nm = ? , "
+						+ "save_file_nm = ? "
+						+ "WHERE attfile_id = ? ";
+					
+					pstmt=con.prepareStatement(sql);
+					pstmt.setString(1, filepath);
+					pstmt.setString(2, viewFileName);
+					pstmt.setString(3, saveFileName);
+					pstmt.setInt(4, attFileId);
+					pstmt.executeUpdate();
+				}
+			} 
+				
+			if ("Y".equals(changePasswordYn)) {
+				sql = "UPDATE user_info SET password = ? WHERE no = ?";
+				
+				pstmt=con.prepareStatement(sql);
+				pstmt.setString(1, password);
+				pstmt.setInt(2, userNo);
+				pstmt.executeUpdate();
+			}
+			
 			
 			con.commit();
-			
 			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
+			
 		}catch(SQLException ex){
 			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}

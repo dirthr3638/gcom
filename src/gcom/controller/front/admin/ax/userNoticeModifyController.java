@@ -1,4 +1,4 @@
-package gcom.controller.front.admin;
+package gcom.controller.front.admin.ax;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -33,11 +33,11 @@ public class userNoticeModifyController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     @Override  
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-    	int bbsId = Integer.parseInt(request.getParameter("bbsId").toString());
-    	String fileFlag = request.getParameter("fileYn").toString();
-    	int fileId = Integer.parseInt(request.getParameter("file").toString());
+    	int bbsId = Integer.parseInt(request.getParameter("bbs_id").toString());
+    	String fileFlag = request.getParameter("file_yn").toString();
+    	int fileId = Integer.parseInt(request.getParameter("file_id").toString());
     	
     	HashMap<String, Object> param = new HashMap<String, Object>();
 		param.put("bbs_id", bbsId);
@@ -62,6 +62,6 @@ public class userNoticeModifyController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		request.getRequestDispatcher("/WEB-INF/admin/user_manage/admin_user_notice_modify.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/admin/user_manage/ax/popup_user_notice_modify.jsp").forward(request, response);
 	}
 }

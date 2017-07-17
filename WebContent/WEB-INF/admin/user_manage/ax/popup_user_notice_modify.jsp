@@ -8,44 +8,20 @@
 	FileInfoModel file = (FileInfoModel)request.getAttribute("AttFileInfo");
 	
 %>
-<!doctype html>
-<html lang="utf-8">
-	<head>
-	
-		<meta charset="utf-8" />
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		<title>GuardCom Console</title>
+<script type="text/javascript" src="/se2/js/service/HuskyEZCreator.js"></script>
 
-		<!-- mobile settings -->
-		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
-
-		<!-- CORE CSS -->
-		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-		
-		<!-- THEME CSS -->
-		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
-		
-		<script type="text/javascript" src="/se2/js/service/HuskyEZCreator.js"></script>
-	</head>
-	<body>
-		<!-- WRAPPER -->
-		<div id="wrapper" class="clearfix">
-
-			<% request.setAttribute("menu_parent", 2000); %> 
-			<% request.setAttribute("menu_sub_first", 2600); %> 
-			<jsp:include page="/WEB-INF/common/left_menu.jsp" flush="false" />
-			<jsp:include page="/WEB-INF/common/top_navi.jsp" flush="false" />			
-
-			<section id="middle">
+<div id="modalNoticeModify" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
+	<div class="modal-dialog" style="width:940px;">
+		<div class="modal-content">
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title" id="myModalLabel">공지사항 상세보기</h4>
+			</div>
+			<!-- /Modal Header -->
 			
-				<!-- page title -->
-				<header id="page-header">
-					<h1>공지사항 관리</h1>
-				</header>
-				<!-- /page title -->
-			
+			<!-- Modal body -->
+			<div class="modal-body">
 				<div id="content" class="dashboard padding-20">
 					<div class="row">
 						<div class="col-md-12">
@@ -112,8 +88,7 @@
 						 						<% }  %>
 											</div>
 											<div class="fl_right">
-												<a href="/admin/user/notice" class="btn btn-amber pull-right" style="margin:0;"><i class="fa fa-list"></i>목록</a>
-												<button id="btnNoticeUpdate" class="btn btn-green pull-right" style="margin:0 10px 0 0;"><i class="fa fa-check"></i>수정</button>
+												<button id="btnNoticeUpdate" class="btn btn-green pull-right" style="margin:0;"><i class="fa fa-check"></i>수정등록</button>
 											</div>
 											
 										</div>
@@ -131,15 +106,22 @@
 						</div>
 					</div>
 				</div>
-			</section>
+			</div>
+			
+			<!-- Modal Footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> 닫기</button>
+			</div>
 		</div>
+	</div>
+</div>
 		
 		<!-- JAVASCRIPT FILES -->
-		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
+<!-- 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
 		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script> -->
 		
 		<!-- file_upload-->
 		<script src="/assets/plugins/fileupload/jquery.ui.widget.js" charset="utf-8"></script>
@@ -287,5 +269,3 @@
 		});
 		</script>
 		
-	</body>
-</html>
