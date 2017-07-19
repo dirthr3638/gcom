@@ -33,34 +33,35 @@ public class PolicyStatistcDAO {
 	
 
 	//기준일, 기준일로부터의 데이터, 권한
+	@SuppressWarnings("unchecked")
 	public FlotChartDataModel getExportChartDayData(Map<String, Object> map){
 		FlotChartDataModel data = new FlotChartDataModel();
 		
 		String whereSql = " ";
 		
-		String[] oDept = null;
+		List<Integer> oDept = null;
 		StringBuilder idList = new StringBuilder();
 
-/*		if(map.containsKey("dept") && map.get("dept") != null){
-			oDept = (String[])map.get("dept");			
-			for (String id : oDept){
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (List<Integer>) map.get("dept");			
+			for (int id : oDept){
 				if(idList.length() > 0 )	
 					idList.append(",");
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
-		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
-*/
-		
-		whereSql += "ORDER BY exp.export_client_time ";	
+		if(oDept != null)			whereSql += "WHERE ur.dept_no in ("+idList+") GROUP BY DATE(exp.export_server_time) ";
+
+		whereSql += "ORDER BY exp.export_server_time ";	
 		
 		String sql= 
-"SELECT UNIX_TIMESTAMP(date_format(exp.export_client_time, '%Y/%m/%d'))*1000 AS reg_time, COUNT(*) AS cnt " 
+"SELECT UNIX_TIMESTAMP(date_format(exp.export_server_time, '%Y/%m/%d'))*1000 AS reg_time, COUNT(*) AS cnt " 
 + "FROM disk_export_log AS exp "
-+ "INNER JOIN user_info AS ur ON exp .user_no = ur.no "
-+ "WHERE 1=1 GROUP BY DATE(exp.export_client_time) ";
++ "INNER JOIN user_info AS ur ON exp.user_no = ur.no ";
 
 sql += whereSql;			
 			
@@ -68,13 +69,13 @@ sql += whereSql;
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 
-/*			int i = 1;
+			int i = 1;
 			if(oDept != null){
-				for(int t = 0; t<oDept.length ; t++){
-					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
 				}
-			}
-*/			
+			}	
+			
 			rs = pstmt.executeQuery();
 
 			List<List<Long>> c_data = new ArrayList<List<Long>>();
@@ -110,21 +111,23 @@ sql += whereSql;
 		
 		String whereSql = " ";
 		
-/*		String[] oDept = null;
+		List<Integer> oDept = null;
 		StringBuilder idList = new StringBuilder();
 
 		if(map.containsKey("dept") && map.get("dept") != null){
-			oDept = (String[])map.get("dept");			
-			for (String id : oDept){
+			oDept = (List<Integer>) map.get("dept");			
+			for (int id : oDept){
 				if(idList.length() > 0 )	
 					idList.append(",");
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
-		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
-*/
+		if(oDept != null)			whereSql += "WHERE ur.dept_no in ("+idList+") GROUP BY YEAR(exp.export_client_time), MONTH(exp.export_client_time) ";
+
 		
 		whereSql += "ORDER BY exp.export_client_time ";	
 		
@@ -134,21 +137,19 @@ sql += whereSql;
 + "COUNT(*) AS cnt " 
 + "FROM disk_export_log AS exp "
 + "INNER JOIN user_info AS ur ON exp .user_no = ur.no "
-+ "GROUP BY YEAR(exp.export_client_time), MONTH(exp.export_client_time) ";
++ whereSql;
 
-sql += whereSql;			
-			
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 
-/*			int i = 1;
+			int i = 1;
 			if(oDept != null){
-				for(int t = 0; t<oDept.length ; t++){
-					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
 				}
 			}
-*/			
+			
 			rs = pstmt.executeQuery();
 
 			List<List<Long>> c_data = new ArrayList<List<Long>>();
@@ -183,22 +184,24 @@ sql += whereSql;
 		FlotChartDataModel data = new FlotChartDataModel();
 		
 		String whereSql = " ";
-		
-		String[] oDept = null;
+
+		List<Integer> oDept = null;
 		StringBuilder idList = new StringBuilder();
 
-/*		if(map.containsKey("dept") && map.get("dept") != null){
-			oDept = (String[])map.get("dept");			
-			for (String id : oDept){
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (List<Integer>) map.get("dept");			
+			for (int id : oDept){
 				if(idList.length() > 0 )	
 					idList.append(",");
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
-		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
-*/
+		if(oDept != null)			whereSql += "WHERE ur.dept_no in ("+idList+") GROUP BY DATE(print.print_client_time)";
+
 		
 		whereSql += "ORDER BY print.print_client_time ";	
 		
@@ -207,9 +210,7 @@ sql += whereSql;
 + "UNIX_TIMESTAMP(date_format(print.print_client_time, '%Y/%m/%d'))*1000 AS reg_time, "
 + "COUNT(*) AS cnt " 
 + "FROM print_log AS print "
-+ "INNER JOIN user_info AS ur ON print.user_no = ur.no "
-+ "WHERE print.print_client_time >= '2015-04-23' "
-+ "GROUP BY DATE(print.print_client_time) ";
++ "INNER JOIN user_info AS ur ON print.user_no = ur.no ";
 
 sql += whereSql;			
 			
@@ -217,13 +218,13 @@ sql += whereSql;
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 
-/*			int i = 1;
+			int i = 1;
 			if(oDept != null){
-				for(int t = 0; t<oDept.length ; t++){
-					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
 				}
-			}
-*/			
+			}	
+			
 			rs = pstmt.executeQuery();
 
 			List<List<Long>> c_data = new ArrayList<List<Long>>();
@@ -259,21 +260,23 @@ sql += whereSql;
 		
 		String whereSql = " ";
 		
-/*		String[] oDept = null;
+		List<Integer> oDept = null;
 		StringBuilder idList = new StringBuilder();
 
 		if(map.containsKey("dept") && map.get("dept") != null){
-			oDept = (String[])map.get("dept");			
-			for (String id : oDept){
+			oDept = (List<Integer>) map.get("dept");			
+			for (int id : oDept){
 				if(idList.length() > 0 )	
 					idList.append(",");
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
-		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
-*/
+		if(oDept != null)			whereSql += "WHERE ur.dept_no in ("+idList+") GROUP BY YEAR(print.print_client_time), MONTH(print.print_client_time)";
+
 		
 		whereSql += "ORDER BY print.print_client_time ";	
 		
@@ -282,9 +285,7 @@ sql += whereSql;
 + "UNIX_TIMESTAMP(date_format(print.print_client_time, '%Y/%m/1'))*1000 AS reg_time, "
 + "COUNT(*) AS cnt " 
 + "FROM print_log AS print "
-+ "INNER JOIN user_info AS ur ON print.user_no = ur.no "
-+ "WHERE print.print_client_time >= '2015-04-23' "
-+ "GROUP BY YEAR(print.print_client_time), MONTH(print.print_client_time) ";
++ "INNER JOIN user_info AS ur ON print.user_no = ur.no ";
 
 sql += whereSql;			
 			
@@ -292,13 +293,12 @@ sql += whereSql;
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 
-/*			int i = 1;
+			int i = 1;
 			if(oDept != null){
-				for(int t = 0; t<oDept.length ; t++){
-					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
 				}
-			}
-*/			
+			}		
 			rs = pstmt.executeQuery();
 
 			List<List<Long>> c_data = new ArrayList<List<Long>>();
@@ -326,8 +326,6 @@ sql += whereSql;
 		
 		return data;
 	}
-	
-	
 
 	//기준일, 기준일로부터의 데이터, 권한
 	public FlotChartDataModel getPatternChartDayData(Map<String, Object> map){
@@ -335,21 +333,23 @@ sql += whereSql;
 		
 		String whereSql = " ";
 		
-		String[] oDept = null;
+		List<Integer> oDept = null;
 		StringBuilder idList = new StringBuilder();
 
-/*		if(map.containsKey("dept") && map.get("dept") != null){
-			oDept = (String[])map.get("dept");			
-			for (String id : oDept){
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (List<Integer>) map.get("dept");			
+			for (int id : oDept){
 				if(idList.length() > 0 )	
 					idList.append(",");
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
-		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
-*/
+		if(oDept != null)			whereSql += "WHERE ur.dept_no in ("+idList+") GROUP BY DATE(pattern.found_client_time) ";
+
 		
 		whereSql += "ORDER BY pattern.found_client_time ";	
 		
@@ -358,8 +358,7 @@ sql += whereSql;
 + "UNIX_TIMESTAMP(date_format(pattern.found_client_time, '%Y/%m/%d'))*1000 AS reg_time, "
 + "COUNT(*) AS cnt " 
 + "FROM pattern_log AS pattern "
-+ "INNER JOIN user_info AS ur ON pattern.user_no = ur.no "
-+ "GROUP BY DATE(pattern.found_client_time) ";
++ "INNER JOIN user_info AS ur ON pattern.user_no = ur.no ";
 
 sql += whereSql;			
 			
@@ -367,13 +366,12 @@ sql += whereSql;
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 
-/*			int i = 1;
+			int i = 1;
 			if(oDept != null){
-				for(int t = 0; t<oDept.length ; t++){
-					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
 				}
-			}
-*/			
+			}		
 			rs = pstmt.executeQuery();
 
 			List<List<Long>> c_data = new ArrayList<List<Long>>();
@@ -409,21 +407,23 @@ sql += whereSql;
 		
 		String whereSql = " ";
 		
-/*		String[] oDept = null;
+		List<Integer> oDept = null;
 		StringBuilder idList = new StringBuilder();
 
 		if(map.containsKey("dept") && map.get("dept") != null){
-			oDept = (String[])map.get("dept");			
-			for (String id : oDept){
+			oDept = (List<Integer>) map.get("dept");			
+			for (int id : oDept){
 				if(idList.length() > 0 )	
 					idList.append(",");
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
-		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
-*/
+		if(oDept != null)			whereSql += "WHERE ur.dept_no in ("+idList+")GROUP BY YEAR(pattern.found_client_time ), MONTH(pattern.found_client_time ) ";
+
 		
 		whereSql += "ORDER BY pattern.found_client_time ";	
 		
@@ -432,8 +432,7 @@ sql += whereSql;
 + "UNIX_TIMESTAMP(date_format(pattern.found_client_time, '%Y/%m/1'))*1000 AS reg_time, "
 + "COUNT(*) AS cnt " 
 + "FROM pattern_log AS pattern "
-+ "INNER JOIN user_info AS ur ON pattern.user_no = ur.no "
-+ "GROUP BY YEAR(pattern.found_client_time ), MONTH(pattern.found_client_time ) ";
++ "INNER JOIN user_info AS ur ON pattern.user_no = ur.no ";
 
 sql += whereSql;			
 			
@@ -441,13 +440,13 @@ sql += whereSql;
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 
-/*			int i = 1;
+			int i = 1;
 			if(oDept != null){
-				for(int t = 0; t<oDept.length ; t++){
-					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
 				}
 			}
-*/			
+			
 			rs = pstmt.executeQuery();
 
 			List<List<Long>> c_data = new ArrayList<List<Long>>();
@@ -483,20 +482,22 @@ sql += whereSql;
 		
 		String whereSql = " ";
 		
-		String[] oDept = null;
+		List<Integer> oDept = null;
 		StringBuilder idList = new StringBuilder();
 
 		if(map.containsKey("dept") && map.get("dept") != null){
-			oDept = (String[])map.get("dept");			
-			for (String id : oDept){
+			oDept = (List<Integer>) map.get("dept");			
+			for (int id : oDept){
 				if(idList.length() > 0 )	
 					idList.append(",");
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
-		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
+		if(oDept != null)			whereSql += "WHERE ur.dept_no in ("+idList+") GROUP BY DATE(usb.connect_client_time) ";
 
 		
 		whereSql += "ORDER BY usb.connect_client_time ";	
@@ -506,8 +507,7 @@ sql += whereSql;
 + "UNIX_TIMESTAMP(date_format(usb.connect_client_time, '%Y/%m/%d'))*1000 AS reg_time, "
 + "COUNT(*) AS cnt "
 + "FROM usb_connect_log AS usb "
-+ "INNER JOIN user_info AS ur ON usb.user_no = ur.no "
-+ "GROUP BY DATE(usb.connect_client_time) ";
++ "INNER JOIN user_info AS ur ON usb.user_no = ur.no ";
 
 sql += whereSql;			
 			
@@ -515,13 +515,13 @@ sql += whereSql;
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 
-/*			int i = 1;
+			int i = 1;
 			if(oDept != null){
-				for(int t = 0; t<oDept.length ; t++){
-					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
 				}
 			}
-*/			
+			
 			rs = pstmt.executeQuery();
 
 			List<List<Long>> c_data = new ArrayList<List<Long>>();
@@ -556,22 +556,23 @@ sql += whereSql;
 		FlotChartDataModel data = new FlotChartDataModel();
 		
 		String whereSql = " ";
-		
-/*		String[] oDept = null;
+		List<Integer> oDept = null;
 		StringBuilder idList = new StringBuilder();
 
 		if(map.containsKey("dept") && map.get("dept") != null){
-			oDept = (String[])map.get("dept");			
-			for (String id : oDept){
+			oDept = (List<Integer>) map.get("dept");			
+			for (int id : oDept){
 				if(idList.length() > 0 )	
 					idList.append(",");
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
-		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
-*/
+		if(oDept != null)			whereSql += "WHERE ur.dept_no in ("+idList+") GROUP BY YEAR(usb.connect_client_time), MONTH(usb.connect_client_time) ";
+
 		
 		whereSql += "ORDER BY usb.connect_client_time ";	
 		
@@ -580,22 +581,21 @@ sql += whereSql;
 + "UNIX_TIMESTAMP(date_format(usb.connect_client_time, '%Y/%m/1'))*1000 AS reg_time, "
 + "COUNT(*) AS cnt "
 + "FROM usb_connect_log AS usb "
-+ "INNER JOIN user_info AS ur ON usb.user_no = ur.no "
-+ "GROUP BY YEAR(usb.connect_client_time), MONTH(usb.connect_client_time) ";
-
++ "INNER JOIN user_info AS ur ON usb.user_no = ur.no ";
+		
 sql += whereSql;			
 			
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 
-/*			int i = 1;
+			int i = 1;
 			if(oDept != null){
-				for(int t = 0; t<oDept.length ; t++){
-					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
 				}
 			}
-*/			
+			
 			rs = pstmt.executeQuery();
 
 			List<List<Long>> c_data = new ArrayList<List<Long>>();

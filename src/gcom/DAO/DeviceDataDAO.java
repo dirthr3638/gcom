@@ -59,6 +59,8 @@ public class DeviceDataDAO {
 
 				idList.append("?");
 			}
+		}else{
+			return result;
 		}
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
@@ -156,6 +158,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";

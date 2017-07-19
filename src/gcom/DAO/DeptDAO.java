@@ -12,6 +12,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.sun.xml.internal.fastinfoset.util.StringArray;
+
 import gcom.Model.DeptModel;
 import gcom.Model.DeptTreeModel;
 import gcom.common.util.ConfigInfo;
@@ -72,6 +74,41 @@ public class DeptDAO {
 		return data;
 	}
 	
+	public List<Integer> getDeptIntList(int deptNo){
+		
+		List<Integer> data = new ArrayList<Integer>();
+		
+		String sql= 
+"SELECT no from "
++ "(select * from dept_info where valid = 1 order by parent, no) dept_info_sorted,"
++ "(select @pv := ?) initialisation where (find_in_set(parent, @pv) > 0 or no = @pv) and"
++ "@pv := concat(@pv, ',', no);";
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,  deptNo);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				data.add(rs.getInt("no")) ;
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		} finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+	
 	public List<DeptTreeModel> getDeptListForJSTree(int adminNumber){
 		List<DeptTreeModel> data = new ArrayList<DeptTreeModel>();
 		
@@ -101,7 +138,7 @@ public class DeptDAO {
 					DeptTreeModel _model = new DeptTreeModel();
 					_model.setId( "_" + Integer.toString(rs.getInt("no")));
 					_model.setParent( Integer.toString(rs.getInt("no")));
-					_model.setText(rs.getString("short_name") + " 소속인원");					
+					_model.setText(".." + rs.getString("short_name"));					
 					data.add(_model);
 				}
 			}

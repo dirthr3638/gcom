@@ -8,6 +8,7 @@ import gcom.Model.DeptTreeModel;
 
 public interface IDeptService {
 	List<DeptModel> getDeptList(int adminNumber);
+	public List<Integer> getDeptIntList(int deptNo);
 	List<DeptTreeModel> getDeptListForJSTree(int adminNumber);
 	List<DeptTreeModel> getSelectDeptListForJSTree(int adminNumber);
 	DeptModel getDeptInfo(int deptNo);

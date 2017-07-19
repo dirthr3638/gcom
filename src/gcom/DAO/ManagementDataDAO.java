@@ -108,6 +108,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 		if(oDept != null)			whereSql += "AND admin.dept_no in ("+idList+") ";
 		
@@ -121,8 +123,10 @@ sql += whereSql;
 + "admin.ip_addr0 AS ip_addr, "
 + "admin.ip_addr1 AS ip_addr1, "
 + "admin.admin_mode AS admin_mode, "
-+ "admin.login_failed_timestamp "
-+ "FROM admin_info AS admin ";
++ "admin.login_failed_timestamp, "
++ "dept.short_name AS dept_nm "
++ "FROM admin_info AS admin "
++ "INNER JOIN dept_info AS dept ON dept.no = admin.dept_no ";
 
 sql += whereSql;			
 			
@@ -151,6 +155,7 @@ sql += whereSql;
 				model.setIpAddr1(rs.getString("ip_addr1"));
 				model.setAdminMode(rs.getInt("admin_mode"));
 				model.setLoginFailTimeStamp(rs.getDouble("login_failed_timestamp"));
+				model.setDeptNm(rs.getString("dept_nm"));
 
 				data.add(model);
 			}

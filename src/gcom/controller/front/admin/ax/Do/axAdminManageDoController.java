@@ -37,12 +37,12 @@ public class axAdminManageDoController extends HttpServlet {
 		HttpServletRequest httpReq = (HttpServletRequest)request;
     	HttpSession session = httpReq.getSession(false);
 
-		
+
 		//관리자생성
 		if(requestUri.equals("/admin/admin/manage/do/create")){
 			deptAction act = new deptAction();
-			request.setAttribute("deptList", act.getDeptList(1));
-
+			request.setAttribute("deptList", act.getDeptList(Integer.parseInt(session.getAttribute("dept_no").toString())));
+			
 			param.put("id", request.getParameter("admin_id"));
 	    	param.put("pw", request.getParameter("admin_password"));
 	    	param.put("dept", request.getParameter("admin_dept"));
@@ -67,8 +67,8 @@ public class axAdminManageDoController extends HttpServlet {
    		//관리자수정
 		}else if(requestUri.equals("/admin/admin/manage/do/update")){
 			deptAction act = new deptAction();
-			request.setAttribute("deptList", act.getDeptList(1));
-
+			request.setAttribute("deptList", act.getDeptList(Integer.parseInt(session.getAttribute("dept_no").toString())));
+			
 			param.put("no", request.getParameter("admin_no"));
 			param.put("id", request.getParameter("admin_id"));
 	    	param.put("pw", request.getParameter("admin_password"));

@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -42,9 +43,13 @@ public class axDeptTreeController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		deptAction da = new deptAction();
+
+        HttpServletRequest httpReq = (HttpServletRequest)request;
+        HttpSession session = httpReq.getSession(false);
+
+    	deptAction da = new deptAction();
 		
-		String json = new Gson().toJson(da.getDeptListForJSTree(1));
+		String json = new Gson().toJson(da.getDeptListForJSTree(Integer.parseInt(session.getAttribute("dept_no").toString())));
 		request.setAttribute("deptJson", json);
 		
 		request.getRequestDispatcher("/WEB-INF/common/tree_dept.jsp").forward(request, response);

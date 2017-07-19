@@ -67,6 +67,8 @@ public class PolicyDataDAO {
 
 				idList.append("?");
 			}
+		}else{
+			return result;
 		}
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
@@ -135,6 +137,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
@@ -150,27 +154,27 @@ sql += whereSql;
 + "ifnull(policy.apply_time, '') AS apply_time, "
 + "ifnull(policy.request_server_time, '' ) AS request_server_time, "
 + "ifnull(policy.request_client_time, '' ) AS request_client_time, "
-+ "policy.policy_uninstall_enabled AS uninstall_enabled, "
-+ "policy.policy_file_encryption_enabled AS file_encryption_enabled, "
-+ "policy.policy_cd_encryption_enabled AS cd_encryption_enabled, "
-+ "policy.policy_printer_enabled AS printer_enabled, "
-+ "policy.policy_cd_enabled AS cd_enabled, "
-+ "policy.policy_cd_export_enabled AS cd_export_enabled, "
-+ "policy.policy_wlan_enabled AS wlan_enabled, "
-+ "policy.policy_net_share_enabled AS net_share_enabled, "
-+ "policy.policy_web_export_enabled AS web_export_enabled, "
-+ "policy.policy_removal_storage_export_enabled AS removal_storage_export_enabled, "
-+ "policy.policy_removal_storage_admin_mode AS removal_storage_admin_mode, "
-+ "policy.policy_usb_dev_list AS usb_dev_list, "
-+ "policy.policy_com_port_list AS com_port_list, "
-+ "policy.policy_net_port_list AS net_port_list, "
-+ "policy.policy_process_list AS process_list, "
-+ "policy.policy_file_pattern_list AS file_pattern_list, "
-+ "policy.policy_web_addr_list AS web_addr_list, "
-+ "policy.policy_watermark_descriptor AS watermark_descriptor, "
-+ "policy.policy_print_log_descriptor AS print_log_descriptor, "
-+ "policy.policy_quarantine_path_access_code AS quarantine_path_access_code, "
-+ "policy.policy_pattern_file_control AS pattern_file_control, "
++ "policy.uninstall_enabled AS uninstall_enabled, "
++ "policy.file_encryption_enabled AS file_encryption_enabled, "
++ "policy.cd_encryption_enabled AS cd_encryption_enabled, "
++ "policy.printer_enabled AS printer_enabled, "
++ "policy.cd_enabled AS cd_enabled, "
++ "policy.cd_export_enabled AS cd_export_enabled, "
++ "policy.wlan_enabled AS wlan_enabled, "
++ "policy.net_share_enabled AS net_share_enabled, "
++ "policy.web_export_enabled AS web_export_enabled, "
++ "policy.removal_storage_export_enabled AS removal_storage_export_enabled, "
++ "policy.removal_storage_admin_mode AS removal_storage_admin_mode, "
++ "policy.usb_dev_list AS usb_dev_list, "
++ "policy.com_port_list AS com_port_list, "
++ "policy.net_port_list AS net_port_list, "
++ "policy.process_list AS process_list, "
++ "policy.file_pattern_list AS file_pattern_list, "
++ "policy.web_addr_list AS web_addr_list, "
++ "policy.watermark_descriptor AS watermark_descriptor, "
++ "policy.print_log_descriptor AS print_log_descriptor, "
++ "policy.quarantine_path_access_code AS quarantine_path_access_code, "
++ "policy.pattern_file_control AS pattern_file_control, "
 + "ur.no AS user_no, "
 + "ur.id AS user_id, "
 + "ur.name AS user_name, "
@@ -718,6 +722,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 		if(!user_id.equals("")) 	whereSql += "AND ui.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ui.name LIKE ? ";
@@ -862,6 +868,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return result;
 		}
 		if(oDept != null)			whereSql += "AND ai.dept_no in ("+idList+") ";
 
@@ -933,6 +941,24 @@ sql += whereSql;
 		if(!end_date.equals("")) 	whereSql += "AND (request.client_time < ? + interval 1 day) ";
 */
 
+
+
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}else{
+			return result;
+		}
+		if(oDept != null)			whereSql += " AND ur.dept_no in ("+idList+") ";
+		
 		
 		whereSql += "ORDER BY request.no DESC LIMIT ?, ? ";	
 		
@@ -957,6 +983,12 @@ sql += whereSql;
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(!user_phone.equals("")) pstmt.setString(i++, "%" + user_phone + "%");
 
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+			
 			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
 			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
 	
@@ -999,6 +1031,23 @@ sql += whereSql;
 		/*		if(!start_date.equals("")) 	whereSql += "AND request.client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND (request.client_time < ? + interval 1 day) ";
 */
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}else{
+			return data;
+		}
+		if(oDept != null)			whereSql += " AND ur.dept_no in ("+idList+") ";
+		
+		
 
 		
 		whereSql += "ORDER BY request.no DESC LIMIT ?, ? ";	
@@ -1077,7 +1126,11 @@ sql += whereSql;
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(!user_phone.equals("")) pstmt.setString(i++, "%" + user_phone + "%");
-
+		 	if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
 
 			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
 			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));

@@ -42,7 +42,7 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>USB연결 차단로그</h1>
+					<h1>USB연결 차단현황</h1>
 				</header>
 				<!-- /page title -->
 			
@@ -72,7 +72,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>USB연결 차단로그</strong> <!-- panel title -->
+										<strong>USB연결 차단현황</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -106,13 +106,6 @@
 															</td>
 
 														</tr>
-
-
-
-
-
-
-
 														<tr>         
 
 															<td width="15%">검색시작일</td>
@@ -216,7 +209,14 @@
 		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
 
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 <script>
 
 	//라디오타입에 따라 컬럼 hide/show
@@ -371,6 +371,248 @@
  		})
  	}
  	
+ 	function setDataTable(){
+ 		if (jQuery().dataTable) {
+
+			var export_filename = 'Filename';
+			
+			var table = jQuery('#table_usb_block');
+			table.dataTable({
+				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+				//dom: 'Bfrtip',
+				"ajax" : {
+					"url":'/ax/usbblocklist',
+				   	"type":'POST',
+				   	"dataSrc" : "data",
+				   	"data" :  function(param) {
+						param.user_id = $('#filterUserId').val();
+						param.user_name = $('#filterUserName').val();
+						param.start_date = $('#filterStartDate').val();
+						param.end_date = $('#filterEndDate').val();
+						param.duty = $('#filterUserDuty').val();
+						param.rank = $('#filterUserRank').val();
+						param.device_name = $('#filterUserDevice').val();
+						param.pc_name = $('#filterUserPcName').val();
+						param.device_property = $('#filterUserDeviceDetail').val();
+						
+						param.dept = getCheckedDept();
+			        },
+				        "beforeSend" : function(){
+						jQuery('#preloader').show();
+				        },
+			        "dataSrc": function ( json ) {
+						jQuery('#preloader').hide();
+		                return json.data;
+		            }   
+				},
+				lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
+				tableTools: {
+			          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
+			        },
+			    "buttons": [
+					              {
+				                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+				                  extend: 'csvHtml5',
+				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+				                  bom: true,
+				                  exportOptions: {
+				                      modifier: {
+				                          search: 'applied',
+				                          order: 'applied'
+				                      }
+				                  }
+				              },  					              {
+			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+			                  extend: 'print',
+			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+			                  exportOptions: {
+			                      modifier: {
+			                          search: 'applied',
+			                          order: 'applied'
+			                      }
+			                  }
+			              }, 
+
+			     ],
+		 		"serverSide" : true,
+		 	    "ordering": true,
+				"columns": [{
+					data: "usbNo",							
+					"orderable": false	//추가정보
+				}, {
+					data: "deptName",
+					"orderable": false	//부서
+				}, {
+					data: "userId",
+					"orderable": false	//아이디
+				}, {
+					data: "userName",
+					"orderable": false	//이름
+				}, {
+					data: "userNo",
+					"orderable": false	//번호
+				}, {
+					data: "duty",
+					"orderable": false	//직책
+				}, {
+					data: "rank",
+					"orderable": false	//계급
+				}, {
+					data: "ipAddr",
+					"orderable": false	//IP
+				}, {
+					data: "macAddr",
+					"orderable": false	//MAC
+				}, {
+					data: "pcName",
+					"orderable": false	//PC이름
+				}, {
+					data: "connectServerTime",
+					"orderable": false	//연결시간(서버)
+				}, {
+					data: "connectClientTime",
+					"orderable": false	//연결시간(PC)
+				}, {
+					data: "deviceName",
+					"orderable": false	//장치이름
+				}, {
+					data: "deviceProperty",
+					"orderable": false	//장치속성
+				}, {
+					data: "notice",
+					"orderable": false	//차단분류
+				}],
+				// set the initial value
+				"pageLength": 20,
+				"iDisplayLength": 20,
+				"pagingType": "bootstrap_full_number",
+				"language": {
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
+					"infoEmpty": "검색된 데이터가 없습니다.",
+					"zeroRecords" :"검색된 데이터가 없습니다.",
+					"lengthMenu": "  _MENU_ 개",
+					"paginate": {
+						"previous":"Prev",
+						"next": "Next",
+						"last": "Last",
+						"first": "First"
+					},
+					
+				},
+				"columnDefs": [
+				{	
+					"targets": [0],	//추가정보
+					"class":"center-cell add_detail_info",
+					"render":function(data,type,row){
+						return '<span class="datables-td-detail datatables-close"></span>';
+					}
+				},         
+				{  // set default column settings
+					'targets': [1]	//부서
+					,"class":"center-cell"
+				}, {	
+					"targets": [2]	//아이디
+					,"class":"center-cell"
+				}, {	
+					"targets": [3]	//이름
+					,"class":"center-cell"
+				}, {	
+					"targets": [4],	//번호
+					"class":"center-cell"
+				}, {	
+					"targets": [5]	//직책
+					,"class" : "center-cell"
+				}, {	
+					"targets": [6]	//계급
+					,"class" : "center-cell"
+				}, 
+				{	
+					"targets": [7]	//IP
+					,"class" : "center-cell"
+					,"visible" : false
+					,"render":function(data,type,row){
+							if(data == ''){
+								return '-'
+							}else{
+								return data;
+							}
+						}								
+				}, {	
+					"targets": [8]	//MAC
+					,"class" : "center-cell"
+					,"visible" : false
+						,"render":function(data,type,row){
+							if(data == ''){
+								return '-'
+							}else{
+								return data;
+							}
+						}								
+				}, {	
+					"targets": [9]	//PC이름
+					,"class" : "center-cell"
+					,"visible" : false
+						,"render":function(data,type,row){
+							if(data == ''){
+								return '-'
+							}else{
+								return data;
+							}
+						}								
+				}, {	
+					"targets": [10]	//서버연결시간
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [11]	//PC연결시간
+					,"class" : "center-cell"
+				}, {	
+					"targets": [12]	//장치이름
+					,"class" : "center-cell"
+				}, {	
+					"targets": [13]	//장치속성
+					,"class" : "center-cell"
+					,"visible" : false	
+				}, {	
+					"targets": [14]	//차단분류
+				,"class" : "center-cell"
+			}],						
+				"initComplete": function( settings, json ) {
+					$('.export-print').hide();
+				}
+			});
+			
+			function fnFormatDetails(oTable, nTr) {
+				var aData = oTable.fnGetData(nTr);
+				var sOut = '<table class="table table-bordered"  style="width:100%;overflow:auto">';
+				sOut += '<tr><td class="center-cell th-cell-gray">MAC:</td><td>' + aData.macAddr + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">PC명:</td><td>' + aData.pcName + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">서버연결시간:</td><td>' + aData.connectServerTime ;
+				sOut += '<button type="button" class="btn btn-xs btn-blue pull-right" onclick="fn_select_device_save(\'' + aData.usbNo +'\')" style="margin:0;"><i class="fa fa-check" aria-hidden="true"></i> 해당장치허용</button></td></tr>';
+				sOut += '<tr><td class="center-cell th-cell-gray">장치속성:</td><td colspan="5">' + aData.deviceProperty + '</td></tr>';
+										
+				sOut += '</table>';
+
+				return sOut;
+			}
+			
+			var jTable = jQuery('#table_usb_block');
+			jTable.on('click', ' tbody td .datables-td-detail', function () {
+				var nTr = jQuery(this).parents('tr')[0];
+				var row = jTable
+				if (table.fnIsOpen(nTr)) {
+					/* This row is already open - close it */
+					jQuery(this).addClass("datatables-close").removeClass("datatables-open");
+					table.fnClose(nTr);
+				} else {
+					/* Open this row */
+					jQuery(this).addClass("datatables-open").removeClass("datatables-close");
+					table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+				}
+			});
+		}
+ 	}
+ 	
 	$(document).ready(function(){
 		
 		$(".select2theme").select2({
@@ -381,259 +623,11 @@
 
 		
      	setTree();
-
-loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
-loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.print.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.html5.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.js", function(){
- 
-				if (jQuery().dataTable) {
-
-					var export_filename = 'Filename';
-					
-					var table = jQuery('#table_usb_block');
-					table.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
-						//dom: 'Bfrtip',
-						"ajax" : {
-							"url":'/ax/usbblocklist',
-						   	"type":'POST',
-						   	"dataSrc" : "data",
-						   	"data" :  function(param) {
-								param.user_id = $('#filterUserId').val();
-								param.user_name = $('#filterUserName').val();
-								param.start_date = $('#filterStartDate').val();
-								param.end_date = $('#filterEndDate').val();
-								param.duty = $('#filterUserDuty').val();
-								param.rank = $('#filterUserRank').val();
-								param.device_name = $('#filterUserDevice').val();
-								param.pc_name = $('#filterUserPcName').val();
-								param.device_property = $('#filterUserDeviceDetail').val();
-								
-								param.dept = getCheckedDept();
-					        },
- 					        "beforeSend" : function(){
-								jQuery('#preloader').show();
- 					        },
-					        "dataSrc": function ( json ) {
-								jQuery('#preloader').hide();
-				                return json.data;
-				            }   
-						},
-						lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
-						tableTools: {
-					          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
-					        },
-					    "buttons": [
-	 					              {
-						                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
-						                  extend: 'csvHtml5',
-						                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
-						                  bom: true,
-						                  exportOptions: {
-						                      modifier: {
-						                          search: 'applied',
-						                          order: 'applied'
-						                      }
-						                  }
-						              },  					              {
-					                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-					                  extend: 'print',
-					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-					                  exportOptions: {
-					                      modifier: {
-					                          search: 'applied',
-					                          order: 'applied'
-					                      }
-					                  }
-					              }, 
-
-					     ],
-				 		"serverSide" : true,
-				 	    "ordering": true,
-						"columns": [{
-							data: "usbNo",							
-							"orderable": false	//추가정보
-						}, {
-							data: "deptName",
-							"orderable": false	//부서
-						}, {
-							data: "userId",
-							"orderable": false	//아이디
-						}, {
-							data: "userName",
-							"orderable": false	//이름
-						}, {
-							data: "userNo",
-							"orderable": false	//번호
-						}, {
-							data: "duty",
-							"orderable": false	//직책
-						}, {
-							data: "rank",
-							"orderable": false	//계급
-						}, {
-							data: "ipAddr",
-							"orderable": false	//IP
-						}, {
-							data: "macAddr",
-							"orderable": false	//MAC
-						}, {
-							data: "pcName",
-							"orderable": false	//PC이름
-						}, {
-							data: "connectServerTime",
-							"orderable": false	//연결시간(서버)
-						}, {
-							data: "connectClientTime",
-							"orderable": false	//연결시간(PC)
-						}, {
-							data: "deviceName",
-							"orderable": false	//장치이름
-						}, {
-							data: "deviceProperty",
-							"orderable": false	//장치속성
-						}, {
-							data: "notice",
-							"orderable": false	//차단분류
-						}],
-						// set the initial value
-						"pageLength": 20,
-						"iDisplayLength": 20,
-						"pagingType": "bootstrap_full_number",
-						"language": {
-							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
-							"infoEmpty": "검색된 데이터가 없습니다.",
-							"zeroRecords" :"검색된 데이터가 없습니다.",
-							"lengthMenu": "  _MENU_ 개",
-							"paginate": {
-								"previous":"Prev",
-								"next": "Next",
-								"last": "Last",
-								"first": "First"
-							},
-							
-						},
-						"columnDefs": [
-						{	
-							"targets": [0],	//추가정보
-							"class":"center-cell add_detail_info",
-							"render":function(data,type,row){
-								return '<span class="datables-td-detail datatables-close"></span>';
-							}
-						},         
-						{  // set default column settings
-							'targets': [1]	//부서
-							,"class":"center-cell"
-						}, {	
-							"targets": [2]	//아이디
-							,"class":"center-cell"
-						}, {	
-							"targets": [3]	//이름
-							,"class":"center-cell"
-						}, {	
-							"targets": [4],	//번호
-							"class":"center-cell"
-						}, {	
-							"targets": [5]	//직책
-							,"class" : "center-cell"
-						}, {	
-							"targets": [6]	//계급
-							,"class" : "center-cell"
-						}, 
-						{	
-							"targets": [7]	//IP
-							,"class" : "center-cell"
-							,"visible" : false
-							,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [8]	//MAC
-							,"class" : "center-cell"
-							,"visible" : false
-	 						,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [9]	//PC이름
-							,"class" : "center-cell"
-							,"visible" : false
-	 						,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [10]	//서버연결시간
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {	
-							"targets": [11]	//PC연결시간
-							,"class" : "center-cell"
-						}, {	
-							"targets": [12]	//장치이름
-							,"class" : "center-cell"
-						}, {	
-							"targets": [13]	//장치속성
-							,"class" : "center-cell"
-							,"visible" : false	
-						}, {	
-							"targets": [14]	//차단분류
-						,"class" : "center-cell"
-					}],						
-						"initComplete": function( settings, json ) {
-							$('.export-print').hide();
-						}
-					});
-					
-					function fnFormatDetails(oTable, nTr) {
-						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table class="table table-bordered"  style="width:100%;overflow:auto">';
-						sOut += '<tr><td class="center-cell th-cell-gray">MAC:</td><td>' + aData.macAddr + '</td>';
-						sOut += '<td class="center-cell th-cell-gray">PC명:</td><td>' + aData.pcName + '</td>';
-						sOut += '<td class="center-cell th-cell-gray">서버연결시간:</td><td>' + aData.connectServerTime ;
-						sOut += '<button type="button" class="btn btn-xs btn-blue pull-right" onclick="fn_select_device_save(\'' + aData.usbNo +'\')" style="margin:0;"><i class="fa fa-check" aria-hidden="true"></i> 해당장치허용</button></td></tr>';
-						sOut += '<tr><td class="center-cell th-cell-gray">장치속성:</td><td colspan="5">' + aData.deviceProperty + '</td></tr>';
-												
-						sOut += '</table>';
-
-						return sOut;
-					}
-					
-					var jTable = jQuery('#table_usb_block');
-					jTable.on('click', ' tbody td .datables-td-detail', function () {
-						var nTr = jQuery(this).parents('tr')[0];
-						var row = jTable
-						if (table.fnIsOpen(nTr)) {
-							/* This row is already open - close it */
-							jQuery(this).addClass("datatables-close").removeClass("datatables-open");
-							table.fnClose(nTr);
-						} else {
-							/* Open this row */
-							jQuery(this).addClass("datatables-open").removeClass("datatables-close");
-							table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
-						}
-					});
-				}
-			});
-			});
-			});
-			});
-			}); 
-		});
+		$('#org_tree')
+		.bind('ready.jstree', function(e, data) {
+			setDataTable();
+		})
+				
 		jQuery('#preloader').hide();
     });
 </script>

@@ -166,6 +166,16 @@
            <script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
            <script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
 
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+
+
 <script>
 
 	
@@ -423,6 +433,153 @@
  		
  	}
 
+ 	function setDataTable(){
+ 		if (jQuery().dataTable) {
+
+			var export_filename = 'Filename';
+			
+			var table = jQuery('#table_userinfo');
+			table.dataTable({
+				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+				//dom: 'Bfrtip',
+				"ajax" : {
+					"url":'/ax/userinfo/list',
+				   	"type":'POST',
+				   	"dataSrc" : "data",
+				   	"data" :  function(param) {
+						param.user_id = $('#filterUserId').val();
+						param.user_name = $('#filterUserName').val();
+						param.user_phone = $('#filterUserPhone').val();
+						param.dept = getCheckedDept();
+			        },
+				        "beforeSend" : function(){
+						jQuery('#preloader').show();
+				        },
+			        "dataSrc": function ( json ) {
+						jQuery('#preloader').hide();
+		                return json.data;
+		            }
+				},
+				lengthMenu: [[20, 100, 99999], [20, 100, "전체"]],
+				tableTools: {
+			          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
+			        },
+			    "buttons": [
+					              {
+				                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+				                  extend: 'csvHtml5',
+				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+				                  bom: true,
+				                  exportOptions: {
+				                      modifier: {
+				                          search: 'applied',
+				                          order: 'applied'
+				                      }
+				                  }
+				              },  					              {
+			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+			                  extend: 'print',
+			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+			                  exportOptions: {
+			                      modifier: {
+			                          search: 'applied',
+			                          order: 'applied'
+			                      }
+			                  }
+			              }, 
+
+			     ],
+				
+		 		"serverSide" : true,
+		 		"processing": true,
+		 	    "ordering": true,
+				"columns": [{
+					data: "userNo",							
+					"orderable": false		
+				}, {
+					data: "deptName",
+					"orderable": false	//부서
+				}, {
+					data: "userId",
+					"orderable": false	//아이디
+				}, {
+					data: "userName",
+					"orderable": false	//이름
+				},
+				{
+					data: "duty",
+					"orderable": false	//직책
+				}, {
+					data: "rank",
+					"orderable": false	//계급
+				}, {
+					data: "phone",
+					"orderable": false	//연락
+				}, {
+					data: "userNo",
+					"orderable": false	//연락
+				}],
+				// set the initial value
+				"pageLength": 20,
+				"iDisplayLength": 20,
+				"pagingType": "bootstrap_full_number",
+				"language": {
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
+					"infoEmpty": "검색된 데이터가 없습니다.",
+					"zeroRecords" :"검색된 데이터가 없습니다.",
+					"lengthMenu": "  _MENU_ 개",
+					"paginate": {
+						"previous":"Prev",
+						"next": "Next",
+						"last": "Last",
+						"first": "First"
+					},
+					
+				},
+				"columnDefs": [
+				{	
+					"targets": [0],	//추가정보
+					"class":"center-cell",
+					"render":function(data,type,row){
+						return '<input type="checkbox" name="user_app_check" class="user_app_check" value="' + data + '" onClick="javascript:check_info()"/>';
+					},
+					"visible":false
+				},         
+				{  // set default column settings
+					'targets': [1]	//부서
+					,"class":"center-cell"
+				}, {	
+					"targets": [2]	//아이디
+					,"class":"center-cell"
+				}, {	
+					"targets": [3]	//이름
+					,"class":"center-cell"
+				}, {	
+					"targets": [4]	//직책
+					,"class" : "center-cell"
+				}, {	
+					"targets": [5]	//계급
+					,"class" : "center-cell"
+				}, {	
+					"targets": [6]	//연락처
+					,"class" : "center-cell"
+				}, {	
+					"targets": [7]	//
+					,"class" : "center-cell",
+					"render":function(data,type,row){
+							var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:onClickModifyUser(' +row.userNo+ ')"><i class="fa fa-gear" aria-hidden="true">&nbsp;수정</i></button>';
+							ret += '<button type="button" class="btn btn-danger btn-xs" onclick="javascript:onClickRemoveUser(' +row.userNo+ ')"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>';
+
+							return ret;
+					}
+				}],						
+				"initComplete": function( settings, json ) {
+					$('.export-print').hide();
+				}
+			});
+			
+		}
+ 	}
 
  	
 	$(document).ready(function(){
@@ -439,168 +596,13 @@
 		      }
 		});
 
+		$('#org_tree')
+		.bind('ready.jstree', function(e, data) {
+			setDataTable();
+		})
      	
-     	
 
-loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
-loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.print.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.html5.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.js", function(){
- 
-				if (jQuery().dataTable) {
-
-					var export_filename = 'Filename';
-					
-					var table = jQuery('#table_userinfo');
-					table.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
-						//dom: 'Bfrtip',
-						"ajax" : {
-							"url":'/ax/userinfo/list',
-						   	"type":'POST',
-						   	"dataSrc" : "data",
-						   	"data" :  function(param) {
-								param.user_id = $('#filterUserId').val();
-								param.user_name = $('#filterUserName').val();
-								param.user_phone = $('#filterUserPhone').val();
-								param.dept = getCheckedDept();
-					        },
- 					        "beforeSend" : function(){
-								jQuery('#preloader').show();
- 					        },
-					        "dataSrc": function ( json ) {
-								jQuery('#preloader').hide();
-				                return json.data;
-				            }
-						},
-						lengthMenu: [[20, 100, 99999], [20, 100, "전체"]],
-						tableTools: {
-					          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
-					        },
-					    "buttons": [
-	 					              {
-						                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
-						                  extend: 'csvHtml5',
-						                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
-						                  bom: true,
-						                  exportOptions: {
-						                      modifier: {
-						                          search: 'applied',
-						                          order: 'applied'
-						                      }
-						                  }
-						              },  					              {
-					                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-					                  extend: 'print',
-					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-					                  exportOptions: {
-					                      modifier: {
-					                          search: 'applied',
-					                          order: 'applied'
-					                      }
-					                  }
-					              }, 
-
-					     ],
-						
-				 		"serverSide" : true,
-				 		"processing": true,
-				 	    "ordering": true,
-						"columns": [{
-							data: "userNo",							
-							"orderable": false		
-						}, {
-							data: "deptName",
-							"orderable": false	//부서
-						}, {
-							data: "userId",
-							"orderable": false	//아이디
-						}, {
-							data: "userName",
-							"orderable": false	//이름
-						},
-						{
-							data: "duty",
-							"orderable": false	//직책
-						}, {
-							data: "rank",
-							"orderable": false	//계급
-						}, {
-							data: "phone",
-							"orderable": false	//연락
-						}, {
-							data: "userNo",
-							"orderable": false	//연락
-						}],
-						// set the initial value
-						"pageLength": 20,
-						"iDisplayLength": 20,
-						"pagingType": "bootstrap_full_number",
-						"language": {
-							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
-							"infoEmpty": "검색된 데이터가 없습니다.",
-							"zeroRecords" :"검색된 데이터가 없습니다.",
-							"lengthMenu": "  _MENU_ 개",
-							"paginate": {
-								"previous":"Prev",
-								"next": "Next",
-								"last": "Last",
-								"first": "First"
-							},
-							
-						},
-						"columnDefs": [
-						{	
-							"targets": [0],	//추가정보
-							"class":"center-cell",
-							"render":function(data,type,row){
-								return '<input type="checkbox" name="user_app_check" class="user_app_check" value="' + data + '" onClick="javascript:check_info()"/>';
-							},
-							"visible":false
-						},         
-						{  // set default column settings
-							'targets': [1]	//부서
-							,"class":"center-cell"
-						}, {	
-							"targets": [2]	//아이디
-							,"class":"center-cell"
-						}, {	
-							"targets": [3]	//이름
-							,"class":"center-cell"
-						}, {	
-							"targets": [4]	//직책
-							,"class" : "center-cell"
-						}, {	
-							"targets": [5]	//계급
-							,"class" : "center-cell"
-						}, {	
-							"targets": [6]	//연락처
-							,"class" : "center-cell"
-						}, {	
-							"targets": [7]	//
-							,"class" : "center-cell",
-							"render":function(data,type,row){
- 								var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:onClickModifyUser(' +row.userNo+ ')"><i class="fa fa-gear" aria-hidden="true">&nbsp;수정</i></button>';
- 								ret += '<button type="button" class="btn btn-danger btn-xs" onclick="javascript:onClickRemoveUser(' +row.userNo+ ')"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>';
-
- 								return ret;
-							}
-						}],						
-						"initComplete": function( settings, json ) {
-							$('.export-print').hide();
-						}
-					});
-					
-				}
-			});
-			});
-			});
-			});
-			}); 
-		});
-jQuery('#preloader').hide();
+		jQuery('#preloader').hide();
        
     });
 </script>

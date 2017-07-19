@@ -18,6 +18,15 @@ public class DeptServiceImpl implements IDeptService {
 		return result;
 		
 	}
+	
+	public List<Integer> getDeptIntList(int deptNo){
+		
+		DeptDAO dao = new DeptDAO();
+		
+		return dao.getDeptIntList(deptNo);
+		
+	}
+
 
 	public List<DeptTreeModel> getDeptListForJSTree(int adminNumber){
 		

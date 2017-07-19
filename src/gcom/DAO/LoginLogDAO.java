@@ -60,6 +60,8 @@ public class LoginLogDAO {
 
 				idList.append("?");
 			}
+		}else{
+			return result;
 		}
 			
 		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";		
@@ -163,6 +165,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 			
 		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";		

@@ -261,7 +261,14 @@
 		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
 
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 <script>
 
 	//라디오타입에 따라 컬럼 hide/show
@@ -330,6 +337,276 @@
  		
  	}
 
+ 	function setDataTable(){
+ 		if (jQuery().dataTable) {
+
+			var export_filename = 'Filename';
+			
+			var table = jQuery('#table_userinfo');
+			table.dataTable({
+				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+				//dom: 'Bfrtip',
+				"ajax" : {
+					"url":'/ax/pattern/list',
+				   	"type":'POST',
+				   	"dataSrc" : "data",
+				   	"data" :  function(param) {
+						param.user_id = $('#filterUserId').val();
+						param.user_name = $('#filterUserName').val();
+
+						param.user_duty = $('#filterUserDuty').val();
+						param.user_rank = $('#filterUserRank').val();
+						param.user_number = $('#filterUserNumber').val();
+						param.ip_addr = $('#filterIpAddr').val();
+						param.pc_name = $('#filterPCName').val();
+						param.pattern = $('#filterPattern option:selected').val();
+						param.matched_data  = $('#filterMatchedData').val();
+						param.file_name = $('#filterFileName').val();
+
+						
+						param.start_date = $('#filterStartDate').val();
+						param.end_date = $('#filterEndDate').val();
+						
+						param.dept = getCheckedDept();
+			        },
+				        "beforeSend" : function(){
+						jQuery('#preloader').show();
+				        },
+			        "dataSrc": function ( json ) {
+						jQuery('#preloader').hide();
+		                return json.data;
+		            }   
+				},
+				lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
+				tableTools: {
+			          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
+			        },
+			    "buttons": [
+					              {
+				                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+				                  extend: 'csvHtml5',
+				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+				                  bom: true,
+				                  exportOptions: {
+				                      modifier: {
+				                          search: 'applied',
+				                          order: 'applied'
+				                      }
+				                  }
+				              },  					              {
+			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+			                  extend: 'print',
+			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+			                  exportOptions: {
+			                      modifier: {
+			                          search: 'applied',
+			                          order: 'applied'
+			                      }
+			                  }
+			              }, 
+
+			     ],
+		 		"serverSide" : true,
+		 	    "ordering": true,
+				"columns": [{
+					data: "msgNo",							
+					"orderable": false	//추가정보
+				}, {
+					data: "deptName",
+					"orderable": false	//부서
+				}, {
+					data: "userId",
+					"orderable": false	//아이디
+				}, {
+					data: "userName",
+					"orderable": false	//이름
+				}, {
+					data: "userNo",
+					"orderable": false	//번호
+				}, {
+					data: "duty",
+					"orderable": false	//직책
+				}, {
+					data: "rank",
+					"orderable": false	//계급
+				}, {
+					data: "ipAddr",
+					"orderable": false	//IP
+				}, {
+					data: "macAddr",
+					"orderable": false	//MAC
+				}, {
+					data: "pcName",
+					"orderable": false	//PC이름
+				}, {
+					data: "processName",
+					"orderable": false	//프로세스
+				}, {
+					data: "fileName",
+					"orderable": false	//파일명
+				}, {
+					data: "patternName",
+					"orderable": false	//패턴타입
+				}, {
+					data: "fileSize",
+					"orderable": false	//파일크기
+				}, {
+					data: "matchedData",
+					"orderable": false	//패턴
+				}, {
+					data: "foundServerTime",
+					"orderable": false	//검출시간(서버)
+				}, {
+					data: "foundClientTime",
+					"orderable": false	//검출시간
+				}],
+				// set the initial value
+				"pageLength": 20,
+				"iDisplayLength": 20,
+				"pagingType": "bootstrap_full_number",
+				"language": {
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
+					"infoEmpty": "검색된 데이터가 없습니다.",
+					"zeroRecords" :"검색된 데이터가 없습니다.",
+					"lengthMenu": "  _MENU_ 개",
+					"paginate": {
+						"previous":"Prev",
+						"next": "Next",
+						"last": "Last",
+						"first": "First"
+					},
+					
+				},
+				"columnDefs": [
+				{	
+					"targets": [0],	//추가정보
+					"class":"center-cell add_detail_info",
+					"render":function(data,type,row){
+						return '<span class="datables-td-detail datatables-close"></span>';
+					}
+				},         
+				{  // set default column settings
+					'targets': [1]	//부서
+					,"class":"center-cell"
+				}, {	
+					"targets": [2]	//아이디
+					,"class":"center-cell"
+				}, {	
+					"targets": [3]	//이름
+					,"class":"center-cell"
+				}, {	
+					"targets": [4],	//번호
+					"class":"center-cell"
+				}, {	
+					"targets": [5]	//직책
+					,"class" : "center-cell"
+				}, {	
+					"targets": [6]	//계급
+					,"class" : "center-cell"
+				}, 
+				{	
+					"targets": [7]	//IP
+					,"class" : "center-cell"
+					,"visible" : false
+					,"render":function(data,type,row){
+							if(data == ''){
+								return '-'
+							}else{
+								return data;
+							}
+						}								
+				}, {	
+					"targets": [8]	//MAC
+					,"class" : "center-cell"
+					,"visible" : false
+						,"render":function(data,type,row){
+							if(data == ''){
+								return '-'
+							}else{
+								return data;
+							}
+						}								
+				}, {	
+					"targets": [9]	//PC이름
+					,"class" : "center-cell"
+					,"visible" : false
+						,"render":function(data,type,row){
+							if(data == ''){
+								return '-'
+							}else{
+								return data;
+							}
+						}								
+				}, {	
+					"targets": [10]	//프로세스
+					,"class" : "center-cell"
+					,"visible" : false
+					,"render": function(data,type,row){
+						return '<i title="상세보기" class="fa fa-search" aria-hidden="true">'
+					}
+				}, {	
+					"targets": [11]	//파일명
+					,"class" : "center-cell"
+					,"render": function(data,type,row){
+						return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:msgFileDetail(\''+ encodeURI(data) + ' \')">'
+
+					}
+				}, {	
+					"targets": [12]	//패턴타입
+					,"class" : "center-cell"
+				}	, {	
+					"targets": [13]	//사이즈
+					,"class" : "center-cell"
+					,"render": function(data,type,row){
+						return data;
+					}
+				}, {	
+					"targets": [14]	//패턴
+					,"class" : "center-cell"
+				}, {	
+					"targets": [15]	//발송시간(서버)
+					,"class" : "center-cell"
+					,"visible" : false
+
+				}, {	
+					"targets": [16]	//발송시간(PC)
+					,"class" : "center-cell"
+				}		
+			],						
+				"initComplete": function( settings, json ) {
+					$('.export-print').hide();
+				}
+			});
+			
+			function fnFormatDetails(oTable, nTr) {
+				var aData = oTable.fnGetData(nTr);
+				var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
+				sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
+				sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
+				sOut += '<tr><td class="center-cell">PC명:</td><td>' + aData.serverTime + '</td><td></td><td></td></tr>';
+				
+				sOut += '<td class="center-cell"></td><td></td></tr>';
+										
+				sOut += '</table>';
+
+				return sOut;
+			}
+			
+			var jTable = jQuery('#table_userinfo');
+			jTable.on('click', ' tbody td .datables-td-detail', function () {
+				var nTr = jQuery(this).parents('tr')[0];
+				if (table.fnIsOpen(nTr)) {
+					/* This row is already open - close it */
+					jQuery(this).addClass("datatables-close").removeClass("datatables-open");
+					table.fnClose(nTr);
+				} else {
+					/* Open this row */
+					jQuery(this).addClass("datatables-open").removeClass("datatables-close");
+					table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+				}
+			});
+		}
+ 	}
  	
 	$(document).ready(function(){
 		
@@ -339,289 +616,13 @@
    			  width: 'auto'
    		});		
      	setTree();
-
-loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
-loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.print.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.html5.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.js", function(){
- 
-				if (jQuery().dataTable) {
-
-					var export_filename = 'Filename';
-					
-					var table = jQuery('#table_userinfo');
-					table.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
-						//dom: 'Bfrtip',
-						"ajax" : {
-							"url":'/ax/pattern/list',
-						   	"type":'POST',
-						   	"dataSrc" : "data",
-						   	"data" :  function(param) {
-								param.user_id = $('#filterUserId').val();
-								param.user_name = $('#filterUserName').val();
-
-								param.user_duty = $('#filterUserDuty').val();
-								param.user_rank = $('#filterUserRank').val();
-								param.user_number = $('#filterUserNumber').val();
-								param.ip_addr = $('#filterIpAddr').val();
-								param.pc_name = $('#filterPCName').val();
-								param.pattern = $('#filterPattern option:selected').val();
-								param.matched_data  = $('#filterMatchedData').val();
-								param.file_name = $('#filterFileName').val();
-
-								
-								param.start_date = $('#filterStartDate').val();
-								param.end_date = $('#filterEndDate').val();
-								
-								param.dept = getCheckedDept();
-					        },
- 					        "beforeSend" : function(){
-								jQuery('#preloader').show();
- 					        },
-					        "dataSrc": function ( json ) {
-								jQuery('#preloader').hide();
-				                return json.data;
-				            }   
-						},
-						lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
-						tableTools: {
-					          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
-					        },
-					    "buttons": [
-	 					              {
-						                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
-						                  extend: 'csvHtml5',
-						                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
-						                  bom: true,
-						                  exportOptions: {
-						                      modifier: {
-						                          search: 'applied',
-						                          order: 'applied'
-						                      }
-						                  }
-						              },  					              {
-					                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-					                  extend: 'print',
-					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-					                  exportOptions: {
-					                      modifier: {
-					                          search: 'applied',
-					                          order: 'applied'
-					                      }
-					                  }
-					              }, 
-
-					     ],
-				 		"serverSide" : true,
-				 	    "ordering": true,
-						"columns": [{
-							data: "msgNo",							
-							"orderable": false	//추가정보
-						}, {
-							data: "deptName",
-							"orderable": false	//부서
-						}, {
-							data: "userId",
-							"orderable": false	//아이디
-						}, {
-							data: "userName",
-							"orderable": false	//이름
-						}, {
-							data: "userNo",
-							"orderable": false	//번호
-						}, {
-							data: "duty",
-							"orderable": false	//직책
-						}, {
-							data: "rank",
-							"orderable": false	//계급
-						}, {
-							data: "ipAddr",
-							"orderable": false	//IP
-						}, {
-							data: "macAddr",
-							"orderable": false	//MAC
-						}, {
-							data: "pcName",
-							"orderable": false	//PC이름
-						}, {
-							data: "processName",
-							"orderable": false	//프로세스
-						}, {
-							data: "fileName",
-							"orderable": false	//파일명
-						}, {
-							data: "patternName",
-							"orderable": false	//패턴타입
-						}, {
-							data: "fileSize",
-							"orderable": false	//파일크기
-						}, {
-							data: "matchedData",
-							"orderable": false	//패턴
-						}, {
-							data: "foundServerTime",
-							"orderable": false	//검출시간(서버)
-						}, {
-							data: "foundClientTime",
-							"orderable": false	//검출시간
-						}],
-						// set the initial value
-						"pageLength": 20,
-						"iDisplayLength": 20,
-						"pagingType": "bootstrap_full_number",
-						"language": {
-							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
-							"infoEmpty": "검색된 데이터가 없습니다.",
-							"zeroRecords" :"검색된 데이터가 없습니다.",
-							"lengthMenu": "  _MENU_ 개",
-							"paginate": {
-								"previous":"Prev",
-								"next": "Next",
-								"last": "Last",
-								"first": "First"
-							},
-							
-						},
-						"columnDefs": [
-						{	
-							"targets": [0],	//추가정보
-							"class":"center-cell add_detail_info",
-							"render":function(data,type,row){
-								return '<span class="datables-td-detail datatables-close"></span>';
-							}
-						},         
-						{  // set default column settings
-							'targets': [1]	//부서
-							,"class":"center-cell"
-						}, {	
-							"targets": [2]	//아이디
-							,"class":"center-cell"
-						}, {	
-							"targets": [3]	//이름
-							,"class":"center-cell"
-						}, {	
-							"targets": [4],	//번호
-							"class":"center-cell"
-						}, {	
-							"targets": [5]	//직책
-							,"class" : "center-cell"
-						}, {	
-							"targets": [6]	//계급
-							,"class" : "center-cell"
-						}, 
-						{	
-							"targets": [7]	//IP
-							,"class" : "center-cell"
-							,"visible" : false
-							,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [8]	//MAC
-							,"class" : "center-cell"
-							,"visible" : false
-	 						,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [9]	//PC이름
-							,"class" : "center-cell"
-							,"visible" : false
-	 						,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}								
-						}, {	
-							"targets": [10]	//프로세스
-							,"class" : "center-cell"
-							,"visible" : false
-							,"render": function(data,type,row){
-								return '<i title="상세보기" class="fa fa-search" aria-hidden="true">'
-							}
-						}, {	
-							"targets": [11]	//파일명
-							,"class" : "center-cell"
-							,"render": function(data,type,row){
-								return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:msgFileDetail(\''+ encodeURI(data) + ' \')">'
-
-							}
-						}, {	
-							"targets": [12]	//패턴타입
-							,"class" : "center-cell"
-						}	, {	
-							"targets": [13]	//사이즈
-							,"class" : "center-cell"
-							,"render": function(data,type,row){
-								return data;
-							}
-						}, {	
-							"targets": [14]	//패턴
-							,"class" : "center-cell"
-						}, {	
-							"targets": [15]	//발송시간(서버)
-							,"class" : "center-cell"
-							,"visible" : false
-
-						}, {	
-							"targets": [16]	//발송시간(PC)
-							,"class" : "center-cell"
-						}		
-					],						
-						"initComplete": function( settings, json ) {
-							$('.export-print').hide();
-						}
-					});
-					
-					function fnFormatDetails(oTable, nTr) {
-						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
-						sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
-						sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-						sOut += '<tr><td class="center-cell">PC명:</td><td>' + aData.serverTime + '</td><td></td><td></td></tr>';
-						
-						sOut += '<td class="center-cell"></td><td></td></tr>';
-												
-						sOut += '</table>';
-
-						return sOut;
-					}
-					
-					var jTable = jQuery('#table_userinfo');
-					jTable.on('click', ' tbody td .datables-td-detail', function () {
-						var nTr = jQuery(this).parents('tr')[0];
-						if (table.fnIsOpen(nTr)) {
-							/* This row is already open - close it */
-							jQuery(this).addClass("datatables-close").removeClass("datatables-open");
-							table.fnClose(nTr);
-						} else {
-							/* Open this row */
-							jQuery(this).addClass("datatables-open").removeClass("datatables-close");
-							table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
-						}
-					});
-				}
-			});
-			});
-			});
-			});
-			}); 
-		});
-jQuery('#preloader').hide();
+     	
+		$('#org_tree')
+		.bind('ready.jstree', function(e, data) {
+			setDataTable();
+		})
+			
+		jQuery('#preloader').hide();
        
     });
 </script>

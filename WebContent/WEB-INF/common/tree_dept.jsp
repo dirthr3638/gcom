@@ -24,6 +24,10 @@
 	 $.each(result, function(i, el){
  		 if($.inArray(el, reValue) === -1) reValue.push(el);
 	 })
+	 console.log(reValue);
+	 if(reValue == []){
+		 return result;
+	 }
 	 
 	 return reValue;
  }

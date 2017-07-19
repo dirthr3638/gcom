@@ -69,6 +69,8 @@ public class PersonalDataDAO {
 
 				idList.append("?");
 			}
+		}else{
+			return result;
 		}
 
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
@@ -174,6 +176,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
@@ -373,6 +377,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return result;
 		}
 
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
@@ -472,6 +478,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
@@ -606,6 +614,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return result;
 		}
 
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
@@ -706,6 +716,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
@@ -846,6 +858,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return result;
 		}
 
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
@@ -952,6 +966,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
@@ -1576,6 +1592,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 		if(!user_id.equals("")) 	whereSql += "AND ui.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ui.name LIKE ? ";
@@ -1674,6 +1692,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return result;
 		}
 		if(!user_id.equals("")) 	whereSql += "AND ui.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ui.name LIKE ? ";

@@ -143,7 +143,6 @@
 		
 		table += '<tr><td width="35%">쓰기로그설정</td>';
 		
-		console.log(write_log_flag)
 		if(write_log_flag == 0){
 			table += '<td><input type="radio" name="writeConfig" id="writeConfigDisable" value="0" checked>사용안함';
 		}else{
@@ -194,8 +193,7 @@
  		        if (!data) {
  		        	return;
  		        }else{
- 		        	console.log(data);
-// 		        	updateSystemLogInfo(id, data.value);
+ 		        	updateSystemLogInfo(id, data);
  		        }
  		    }
        });
@@ -252,12 +250,19 @@
 	}
 
 	function updateSystemLogInfo(system_no, value){
-		$.ajax({      
+
+		var data = 0;
+		data += parseInt(value.hasOwnProperty('isWrite') ? value.isWrite : 0); 
+		data += parseInt(value.hasOwnProperty('isRead') ? value.isRead : 0);
+		data += parseInt(value.hasOwnProperty('writeDeniedConfig') ? value.writeDeniedConfig : 0);
+		data += parseInt(value.hasOwnProperty('writeConfig') ? value.writeConfig : 0);
+		
+ 		$.ajax({      
 		    type:"POST",  
 		    url:'/admin/system/update',
 		    async: false,
 		    data:{
-		    	value : value,
+		    	value : data,
 		    	system_no : system_no
 		    },
 		    success:function(data){
@@ -271,7 +276,7 @@
 		    error:function(e){  
 		        console.log(e.responseText);  
 		    }  
-		});
+		}); 
 	}
 
  	
@@ -280,8 +285,6 @@
 		datatable.ajax.reload(null, false);   	
  		
  	}
-
-
 
 	$(document).ready(function(){
 	     vex.defaultOptions.className = 'vex-theme-os';

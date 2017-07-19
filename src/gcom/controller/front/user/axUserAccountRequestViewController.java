@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import gcom.controller.action.deptAction;
 
@@ -21,9 +22,10 @@ public class axUserAccountRequestViewController extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    	deptAction action = new deptAction();
-    	
-    	request.setAttribute("dept", action.getDeptList(1));
+    	deptAction act = new deptAction();
+        HttpServletRequest httpReq = (HttpServletRequest)request;
+        HttpSession session = httpReq.getSession(false);
+    	request.setAttribute("dept", act.getDeptList(Integer.parseInt(session.getAttribute("dept_no").toString())));
     	
     	request.getRequestDispatcher("/WEB-INF/user/ax/main_account_request_modal_ax.jsp").forward(request, response);
 	}

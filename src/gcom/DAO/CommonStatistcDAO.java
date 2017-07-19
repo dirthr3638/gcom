@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.Context;
@@ -30,56 +31,68 @@ public class CommonStatistcDAO {
 	
 
 	//기준일, 기준일로부터의 데이터, 권한
+	@SuppressWarnings("unchecked")
 	public UserAgentStatisticModel getUserAgentStatisticData(Map<String, Object> map){
 		UserAgentStatisticModel data = new UserAgentStatisticModel();
 		String whereSql = " ";
 		
-		String[] oDept = null;
+		List<Integer> oDept = null;
 		StringBuilder idList = new StringBuilder();
 
-/*		if(map.containsKey("dept") && map.get("dept") != null){
-			oDept = (String[])map.get("dept");			
-			for (String id : oDept){
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (List<Integer>) map.get("dept");			
+			for (int id : oDept){
 				if(idList.length() > 0 )	
 					idList.append(",");
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
-		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
-*/
+		if(oDept != null)			whereSql += "WHERE ur.dept_no in ("+idList+") ";
+
 		
 		
 		String sql= 
 "SELECT "
 + "t.*, b.* "
-+ "FROM (SELECT COUNT(*) AS total_cnt, "
++ "FROM ("
+
++ "SELECT COUNT(*) AS total_cnt, "
 + "COUNT(if( timestampdiff(MINUTE, NOW(), agent.connect_server_time) > 30 , ur.no, null )) AS connect_count,"
 + "COUNT(if(agent.no is not null, ur.no, null)) AS agent_count,"
 + "COUNT(if(agent.install_server_time > curdate(), ur.no, null)) AS today_install_count "
 + "FROM user_info AS ur "
 + "LEFT JOIN agent_info AS agent ON agent.own_user_no = ur.no "
-+ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no) AS t, "
++ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no "
++  whereSql
++ ") AS t, "
+
 + "(SELECT COUNT(*) AS contact_count, "
 + "COUNT(if(comment_id is null, ci.contact_id, null)) AS no_comment_contact, "
 + "COUNT(if(ci.reg_dt > curdate(), ci.contact_id, null)) AS today_contact "
 + "FROM user_contact_info as ci "
-+ "LEFT JOIN user_contact_comment AS cc ON ci.contact_id = cc.contact_id) AS b ";
-
-sql += whereSql;			
++ "LEFT JOIN user_contact_comment AS cc ON ci.contact_id = cc.contact_id "
++ "INNER JOIN user_info AS ur ON ur.no = cc.reg_admin_staf_no "
++ whereSql
++ ") AS b ";
 			
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 
-/*			int i = 1;
+			int i = 1;
 			if(oDept != null){
-				for(int t = 0; t<oDept.length ; t++){
-					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
+				}
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
 				}
 			}
-*/			
+			
 			rs = pstmt.executeQuery();
 
 			if(rs.next()){

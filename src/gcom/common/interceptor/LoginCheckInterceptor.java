@@ -93,15 +93,17 @@ public class LoginCheckInterceptor implements Filter {
         HttpServletRequest httpReq = (HttpServletRequest)request;
         HttpServletResponse httpRes = (HttpServletResponse)response;
         HttpSession session = httpReq.getSession(false);
-
-
+        
         httpReq.setCharacterEncoding("UTF-8");
         boolean loginFlag = false;
         
         if (session != null) {
         	String userId = (String)session.getAttribute("user_id");
         	
+
+        	
         	if(userId != null) {
+
         		loginFlag = true;
             	int admin_mode = (int)session.getAttribute("admin_mode");
             	
@@ -121,9 +123,9 @@ public class LoginCheckInterceptor implements Filter {
                     	request.getRequestDispatcher("/WEB-INF/common/unauth.jsp").forward(request, response);            		
                 	}
             	}else if(admin_mode == -1){	// 사용자권한
-                    	request.getRequestDispatcher("/WEB-INF/common/unauth.jsp").forward(request, response);            		
                     	if(checkUri(httpReq.getRequestURI(), adminUrls) || checkUri(httpReq.getRequestURI(), reportUrls) ){
-                	}
+                    		request.getRequestDispatcher("/WEB-INF/common/unauth.jsp").forward(request, response);            		
+                    	}
             	}else{
                 	request.getRequestDispatcher("/WEB-INF/common/unauth.jsp").forward(request, response);            		            		
             	}
@@ -142,13 +144,17 @@ public class LoginCheckInterceptor implements Filter {
         }
         
         if (loginFlag) {
-        	if(uri.equals("/") || uri.equals("/undefined") ) {
+        	if(uri.equals("/") || uri.equals("") ) {
+        		//로그인 상태에서 루트 실행시 메인 페이지로 넘김
         		String url = (String)session.getAttribute("login_root");
         		httpRes.sendRedirect(url);
         	} else {
+        		//로그인 되어있고 리퀘스트 받은 결과 넘김
+        		request.setAttribute("dept_no", session.getAttribute("dept_no"));
         		chain.doFilter(request, response);
         	}
         } else {
+        	//세션없어서 로그인 풀릴때
         	request.getRequestDispatcher("/WEB-INF/login/login.jsp").forward(request, response);
         }
        

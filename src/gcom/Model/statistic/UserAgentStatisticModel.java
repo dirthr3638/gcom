@@ -27,24 +27,24 @@ public class UserAgentStatisticModel {
 		// connectAgentCount / totalUserCount		
 		if(totalUserCount <= 0){
 			connectRate = 100;
-		}
-		connectRate = (float)((connectAgentCount*100) / totalUserCount);
+		}else
+			connectRate = (float)((connectAgentCount*100) / totalUserCount);
 	}
 	
 	public void setInstallRate(){
 		// installedAgentCount / totalUserCont
 		if(totalUserCount <= 0){
 			installRate = 100;
-		}
-		installRate = (float)((installedAgentCount*100) / totalUserCount);		
+		}else
+			installRate = (float)((installedAgentCount*100) / totalUserCount);		
 	}
 	
 	public void setCommentRate(){
 		// contactCount - nonCommentContactCount / contactCount
 		if(contactCount <= 0){
 			commentRate = 100;
-		}
-		commentRate = (float)(((contactCount - nonCommentContactCount)*100) / contactCount);				
+		}else
+			commentRate = (float)(((contactCount - nonCommentContactCount)*100) / contactCount);				
 	}
 	
 	

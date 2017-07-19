@@ -197,6 +197,14 @@
 		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 
 <script>
 
@@ -313,6 +321,171 @@
 	    });
 	}
  	
+ 	function setDataTable(){
+ 		if (jQuery().dataTable) {
+
+			var export_filename = 'Filename';
+			
+			var table = jQuery('#table_contact');
+			table.dataTable({
+				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i><"pull-right" ><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+				//dom: 'Bfrtip',
+				"ajax" : {
+					"url":'/ax/admin/contact/list',
+				   	"type":'POST',
+				   	"dataSrc" : "data",
+				   	"data" :  function(param) {
+						param.user_id = $('#filterUserId').val();
+						param.user_name = $('#filterUserName').val();
+						param.start_date = $('#filterStartDate').val();
+						param.end_date = $('#filterEndDate').val();
+						
+						param.dept = getCheckedDept();
+			        },
+				        "beforeSend" : function(){
+						jQuery('#preloader').show();
+				        },
+			        "dataSrc": function ( json ) {
+						jQuery('#preloader').hide();
+		                return json.data;
+		            }   
+				},
+		 		"serverSide" : true,
+		 		"columns": [{
+						data: "contactId"			//추가정보
+					}, {
+						data: "contactId"			//문의코드
+					}, {
+						data: "contactTypeName"		//문의구분
+					}, {
+						data: "contactTitle"		//제목
+					}, {
+						data: "regDt"				//등록일
+					}, {
+						data: "regUserName"			//등록자
+					}, {
+						data: "commentYN"			//답변여부
+					}, {
+						data: "commentId"			//답변ID
+					}, {
+						data: "commnetRegStafId"	//답변등록자
+					}, {
+						data: "commentRegDt"		//답변등록일
+					}, {
+						data: "replyContent"		//답변내용
+				}],
+				"pageLength": 10,
+				"iDisplayLength": 10,
+				"language": {
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 문의",
+					"infoEmpty": "검색된 데이터가 없습니다.",
+					"zeroRecords" :"검색된 데이터가 없습니다.",
+					"lengthMenu": "  _MENU_ 개",
+					"paginate": {
+						"previous":"Prev",
+						"next": "Next",
+						"last": "Last",
+						"first": "First"
+					},
+					
+				},
+				"columnDefs": [
+					{	
+						"targets": [0],	//추가정보
+						"class":"center-cell add_detail_info",
+						"render":function(data,type,row){
+							return '<span class="datables-td-detail datatables-close"></span>';
+						}
+					},         
+					{  // set default column settings
+						'targets': [1]	//문의코드
+						,"class":"center-cell"
+					}, {	
+						"targets": [2]	//문의구분
+						,"class":"center-cell"
+					}, {	
+						"targets": [3],	//제목
+						"render":function(data,type,row){
+							return '<b style=\"cursor:pointer;\" >'+ data + '</b>';
+						}	
+					
+					}, {	
+						"targets": [4],	//등록일
+						"class":"center-cell"
+					}, {	
+						"targets": [5],	//등록자
+						"class":"center-cell"
+					}, {	
+						"targets": [6]	//답변여부
+						,"class" : "center-cell"
+						,"render":function(data,type,row){
+							return data=="Y"?'<i class="fa fa-pencil">':'' ;
+						}
+					}, {	
+						"targets": [7]	//답변ID
+						,"visible":false
+					}, {	
+						"targets": [8]	//답변등록자
+						,"visible":false
+					}, {	
+						"targets": [9]	//답변등록일
+						,"visible":false
+					}, {	
+						"targets": [10]	//답변내용
+						,"visible":false
+				}],						
+				"initComplete": function( settings, json ) {
+				}
+			});
+			
+			function fnFormatDetails(oTable, nTr) {
+				var aData = oTable.fnGetData(nTr);
+
+				var reFlag = aData.commentYN;
+				var sOut = '<table class="table fixed" style="width:100%; overflow:auto; margin:0;">';
+
+				if( reFlag == 'Y' ) {
+					sOut += '<tr><td class="comment-cell" style="vertical-align: middle;">답변 : ';
+					sOut += '<i class="fa fa-clock-o"></i> '+ aData.commentRegDt + '&nbsp;&nbsp;&nbsp;&nbsp;';
+					sOut += '<i class="fa fa-user"></i> '+ aData.commnetRegStafId ;
+					sOut += '<button id="btnModifyComment" class="btn btn-xs pull-right" style="background-color:#f3768b; color:#fff !important; font-weight:bold;" onClick="javascript:fn_open_recomment(\'' + aData.commnetRegStafId + '\' , \''+ aData.commentId + '\')">답변수정</button>';
+					
+					sOut += '</td></tr>';
+					sOut += '<tr><td class="comment-cell" style="padding:20px 10px;">'+ aData.replyContent +'</td></tr>';
+				} else {
+					sOut += '<tr><td class="comment-cell" style="padding:20px 10px; vertical-align: middle;">등록된 답변이 없습니다.</td></tr>';
+				}
+				
+				sOut += '</table>';
+				
+				return sOut;
+			}
+			
+			var jTable = jQuery('#table_contact');
+			jTable.on('click', ' tbody td .datables-td-detail', function () {
+				var nTr = jQuery(this).parents('tr')[0];
+				if (table.fnIsOpen(nTr)) {
+					/* This row is already open - close it */
+					jQuery(this).addClass("datatables-close").removeClass("datatables-open");
+					table.fnClose(nTr);
+				} else {
+					/* Open this row */
+					jQuery(this).addClass("datatables-open").removeClass("datatables-close");
+					table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+				}
+			});
+			
+			var con = $('#table_contact').DataTable();
+			con.on( 'click', 'td', function () {
+				var data = con.row( $(this).parent() ).data();
+				
+				if($(this).index() == 3) {	// 제목 클릭
+					fn_contact_detail_view(data.contactId);
+				}
+			});
+		}
+ 	}
+ 	
 	$(document).ready(function(){
 		
 		$(".select2theme").select2({
@@ -324,182 +497,13 @@
 		
      	setTree();
 
-loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
-loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.print.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.html5.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.js", function(){
- 
-				if (jQuery().dataTable) {
-
-					var export_filename = 'Filename';
-					
-					var table = jQuery('#table_contact');
-					table.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i><"pull-right" ><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
-						//dom: 'Bfrtip',
-						"ajax" : {
-							"url":'/ax/admin/contact/list',
-						   	"type":'POST',
-						   	"dataSrc" : "data",
-						   	"data" :  function(param) {
-								param.user_id = $('#filterUserId').val();
-								param.user_name = $('#filterUserName').val();
-								param.start_date = $('#filterStartDate').val();
-								param.end_date = $('#filterEndDate').val();
-								
-								param.dept = getCheckedDept();
-					        },
- 					        "beforeSend" : function(){
-								jQuery('#preloader').show();
- 					        },
-					        "dataSrc": function ( json ) {
-								jQuery('#preloader').hide();
-				                return json.data;
-				            }   
-						},
-				 		"serverSide" : true,
-				 		"columns": [{
-								data: "contactId"			//추가정보
-							}, {
-								data: "contactId"			//문의코드
-							}, {
-								data: "contactTypeName"		//문의구분
-							}, {
-								data: "contactTitle"		//제목
-							}, {
-								data: "regDt"				//등록일
-							}, {
-								data: "regUserName"			//등록자
-							}, {
-								data: "commentYN"			//답변여부
-							}, {
-								data: "commentId"			//답변ID
-							}, {
-								data: "commnetRegStafId"	//답변등록자
-							}, {
-								data: "commentRegDt"		//답변등록일
-							}, {
-								data: "replyContent"		//답변내용
-						}],
-						"pageLength": 10,
-						"iDisplayLength": 10,
-						"language": {
-							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 문의",
-							"infoEmpty": "검색된 데이터가 없습니다.",
-							"zeroRecords" :"검색된 데이터가 없습니다.",
-							"lengthMenu": "  _MENU_ 개",
-							"paginate": {
-								"previous":"Prev",
-								"next": "Next",
-								"last": "Last",
-								"first": "First"
-							},
-							
-						},
-						"columnDefs": [
-							{	
-								"targets": [0],	//추가정보
-								"class":"center-cell add_detail_info",
-								"render":function(data,type,row){
-									return '<span class="datables-td-detail datatables-close"></span>';
-								}
-							},         
-							{  // set default column settings
-								'targets': [1]	//문의코드
-								,"class":"center-cell"
-							}, {	
-								"targets": [2]	//문의구분
-								,"class":"center-cell"
-							}, {	
-								"targets": [3],	//제목
-								"render":function(data,type,row){
-									return '<b style=\"cursor:pointer;\" >'+ data + '</b>';
-								}	
-							
-							}, {	
-								"targets": [4],	//등록일
-								"class":"center-cell"
-							}, {	
-								"targets": [5],	//등록자
-								"class":"center-cell"
-							}, {	
-								"targets": [6]	//답변여부
-								,"class" : "center-cell"
-								,"render":function(data,type,row){
-									return data=="Y"?'<i class="fa fa-pencil">':'' ;
-								}
-							}, {	
-								"targets": [7]	//답변ID
-								,"visible":false
-							}, {	
-								"targets": [8]	//답변등록자
-								,"visible":false
-							}, {	
-								"targets": [9]	//답변등록일
-								,"visible":false
-							}, {	
-								"targets": [10]	//답변내용
-								,"visible":false
-						}],						
-						"initComplete": function( settings, json ) {
-						}
-					});
-					
-					function fnFormatDetails(oTable, nTr) {
-						var aData = oTable.fnGetData(nTr);
-
-						var reFlag = aData.commentYN;
-						var sOut = '<table class="table fixed" style="width:100%; overflow:auto; margin:0;">';
-
-						if( reFlag == 'Y' ) {
-							sOut += '<tr><td class="comment-cell" style="vertical-align: middle;">답변 : ';
-							sOut += '<i class="fa fa-clock-o"></i> '+ aData.commentRegDt + '&nbsp;&nbsp;&nbsp;&nbsp;';
-							sOut += '<i class="fa fa-user"></i> '+ aData.commnetRegStafId ;
-							sOut += '<button id="btnModifyComment" class="btn btn-xs pull-right" style="background-color:#f3768b; color:#fff !important; font-weight:bold;" onClick="javascript:fn_open_recomment(\'' + aData.commnetRegStafId + '\' , \''+ aData.commentId + '\')">답변수정</button>';
-							
-							sOut += '</td></tr>';
-							sOut += '<tr><td class="comment-cell" style="padding:20px 10px;">'+ aData.replyContent +'</td></tr>';
-						} else {
-							sOut += '<tr><td class="comment-cell" style="padding:20px 10px; vertical-align: middle;">등록된 답변이 없습니다.</td></tr>';
-						}
-						
-						sOut += '</table>';
-						
-						return sOut;
-					}
-					
-					var jTable = jQuery('#table_contact');
-					jTable.on('click', ' tbody td .datables-td-detail', function () {
-						var nTr = jQuery(this).parents('tr')[0];
-						if (table.fnIsOpen(nTr)) {
-							/* This row is already open - close it */
-							jQuery(this).addClass("datatables-close").removeClass("datatables-open");
-							table.fnClose(nTr);
-						} else {
-							/* Open this row */
-							jQuery(this).addClass("datatables-open").removeClass("datatables-close");
-							table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
-						}
-					});
-					
-					var con = $('#table_contact').DataTable();
-					con.on( 'click', 'td', function () {
-						var data = con.row( $(this).parent() ).data();
-						
-						if($(this).index() == 3) {	// 제목 클릭
-							fn_contact_detail_view(data.contactId);
-						}
-					});
-				}
-			});
-			});
-			});
-			});
-			}); 
-		});
-jQuery('#preloader').hide();
+		$('#org_tree')
+		.bind('ready.jstree', function(e, data) {
+			setDataTable();
+		})
+				
+			
+		jQuery('#preloader').hide();
 
     });
 </script>

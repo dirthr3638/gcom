@@ -24,8 +24,8 @@ public class testController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		deptAction ta = new deptAction();
-		List<DeptModel> m = ta.getDeptList(1);
+		deptAction act = new deptAction();
+		List<DeptModel> m = act.getDeptList(1);
 		deptAction ta2 = new deptAction();
 		
 		

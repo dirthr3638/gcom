@@ -44,21 +44,24 @@ public class RequestDataDAO {
 		List<RequestSimpleModel> data = new ArrayList<RequestSimpleModel>();
 		
 		String whereSql = " ";
-		String[] oDept = null;
+
+		List<Integer> oDept = null;
 		StringBuilder idList = new StringBuilder();
 
-/*		if(map.containsKey("dept") && map.get("dept") != null){
-			oDept = (String[])map.get("dept");			
-			for (String id : oDept){
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (List<Integer>) map.get("dept");			
+			for (int id : oDept){
 				if(idList.length() > 0 )	
 					idList.append(",");
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 		
-		if(oDept != null)			whereSql += "AND dept.dept_no in ("+idList+") ";
-*/		
+		if(oDept != null)			whereSql += "WHERE dept.no in ("+idList+") ";
+
 		
 		String sql= 
 "SELECT * "
@@ -71,6 +74,7 @@ public class RequestDataDAO {
 	+ "FROM user_account_request AS req   "
 	+ "INNER JOIN dept_info AS dept "
 	+ "ON dept.no = req.dept_no  "
+	+ whereSql
 	+ "ORDER BY req.req_date DESC LIMIT 7)  "
 	+ " "
 	+ "UNION"
@@ -83,23 +87,24 @@ public class RequestDataDAO {
 	+ "FROM policy_request_info AS req  "
 	+ "INNER JOIN user_info AS ur ON ur.no = req.user_no  "
 	+ "INNER JOIN dept_info AS dept ON ur.dept_no = dept.no  "
+	+ whereSql
 	+ "ORDER BY req.request_server_time DESC LIMIT 7)"
 + ") AS T "
 + "ORDER BY reg_date DESC LIMIT 7 ";
-
-		sql += whereSql;			
 			
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 
 			int i = 1;
-/*			if(oDept != null){
-				for(int t = 0; t<oDept.length ; t++){
-					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+			if(oDept != null){
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
 				}
-			}
-*/
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
+				}
+			}	
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
@@ -151,6 +156,8 @@ public class RequestDataDAO {
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 		
 		if(oDept != null)			
@@ -273,6 +280,8 @@ public class RequestDataDAO {
 
 				idList.append("?");
 			}
+		}else{
+			return count;
 		}
 		
 		if(oDept != null)			

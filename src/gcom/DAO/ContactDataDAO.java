@@ -40,20 +40,22 @@ public class ContactDataDAO {
 		List<ContactSimpleModel> data = new ArrayList<ContactSimpleModel>();
 		
 		String whereSql = "WHERE ur.valid=1 ";
-		String[] oDept = null;
+		List<Integer> oDept = null;
 		StringBuilder idList = new StringBuilder();
 
 		if(map.containsKey("dept") && map.get("dept") != null){
-			oDept = (String[])map.get("dept");			
-			for (String id : oDept){
+			oDept = (List<Integer>) map.get("dept");			
+			for (int id : oDept){
 				if(idList.length() > 0 )	
 					idList.append(",");
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 		
-		if(oDept != null)			whereSql += "AND dept.dept_no in ("+idList+") ";
+		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		
 		whereSql += "ORDER BY contact.contact_id desc LIMIT 7 ";	
 		
@@ -71,12 +73,13 @@ sql += whereSql;
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
 
+
 			int i = 1;
 			if(oDept != null){
-				for(int t = 0; t<oDept.length ; t++){
-					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				for(int t = 0; t<oDept.size() ; t++){
+					pstmt.setInt(i++, oDept.get(t));
 				}
-			}
+			}	
 
 			rs = pstmt.executeQuery();
 			

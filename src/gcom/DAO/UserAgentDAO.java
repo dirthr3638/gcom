@@ -61,6 +61,8 @@ public class UserAgentDAO {
 
 				idList.append("?");
 			}
+		}else{
+			return result;
 		}
 			
 		
@@ -161,6 +163,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
 		if(!user_id.equals("")) 	whereSql += "AND userinfo.id LIKE ? ";
@@ -296,6 +300,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return result;
 		}
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
@@ -366,6 +372,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
@@ -506,6 +514,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return result;
 		}
 			
 		
@@ -575,6 +585,8 @@ sql += whereSql;
 
 				idList.append("?");
 			}
+		}else{
+			return data;
 		}
 
 		if(!user_id.equals("")) 	whereSql += "AND userinfo.id LIKE ? ";

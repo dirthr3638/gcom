@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import gcom.controller.action.deptAction;
 import gcom.controller.action.admin.getAdminAction;
@@ -21,14 +22,14 @@ public class adminInfoInputController extends HttpServlet {
     	String requestUri = request.getRequestURI();
 		HashMap<String, Object> param =  new HashMap<String, Object>();
 
-		
+        HttpServletRequest httpReq = (HttpServletRequest)request;
+        HttpSession session = httpReq.getSession(false);
+
 		deptAction act = new deptAction();
-		request.setAttribute("deptList", act.getDeptList(1));
+		request.setAttribute("deptList", act.getDeptList(Integer.parseInt(session.getAttribute("dept_no").toString())));
 				
 		if(request.getParameterMap().containsKey("admin_no"))
 			param.put("no",  request.getParameter("admin_no"));
-
-//		param.put("dept",  request.getParameter("dept_no"));
 
 		
 		if(requestUri.equals("/ax/admin/admininput/modify")){

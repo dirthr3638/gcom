@@ -27,6 +27,7 @@ table td {
 		<!-- THEME CSS -->
 		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
 		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
+		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/css/color_scheme/black.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
@@ -56,8 +57,7 @@ table td {
 				<!-- /page title -->
 			
 				<div id="content" class="dashboard padding-20">
-					<div class="row">					
-
+					<div class="row">		
 						<div class="col-md-12">
 							<div id="panel-2" class="panel panel-default">
 						
@@ -77,7 +77,6 @@ table td {
 		
 											<!-- Info -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
-											
 											
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
@@ -202,9 +201,17 @@ table td {
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
 		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
 
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 <script>
  	function searchUserLog(){
  		var datatable = $('#table_userinfo').dataTable().api();
@@ -246,10 +253,179 @@ table td {
 	        error: function() {
 	        }
 	    });		
-		
-		
-		
+ 	}
+ 	
+ 	
+ 	function setDataTable(){
+ 		if (jQuery().dataTable) {
 
+			var export_filename = 'Filename';
+			
+			var table = jQuery('#table_userinfo');
+			table.dataTable({
+				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+				//dom: 'Bfrtip',
+				"ajax" : {
+					"url":'/ax/audit/server/list',
+				   	"type":'POST',
+				   	"dataSrc" : "data",
+				   	"data" :  function(param) {
+						param.user_id = $('#filterUserId').val();
+						param.user_name = $('#filterUserName').val();
+
+						param.user_ip = $('#filterUserIp').val();
+						param.description = $('#filterDescription').val();
+						param.parameter = $('#filterParameter').val();
+						param.status = $('#filterStatus').val();
+						
+						param.start_date = $('#filterStartDate').val();
+						param.end_date = $('#filterEndDate').val();
+						
+			        },
+				        "beforeSend" : function(){
+						jQuery('#preloader').show();
+				        },
+			        "dataSrc": function ( json ) {
+						jQuery('#preloader').hide();
+		                return json.data;
+		            }   
+				},
+				lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
+				tableTools: {
+			          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
+			        },
+			    "buttons": [
+					              {
+				                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+				                  extend: 'csvHtml5',
+				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+				                  bom: true,
+				                  exportOptions: {
+				                      modifier: {
+				                          search: 'applied',
+				                          order: 'applied'
+				                      }
+				                  }
+				              },  					              {
+			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+			                  extend: 'print',
+			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+			                  exportOptions: {
+			                      modifier: {
+			                          search: 'applied',
+			                          order: 'applied'
+			                      }
+			                  }
+			              }, 
+
+			     ],
+		 		"serverSide" : true,
+		 	    "ordering": true,
+				"columns": [
+				{
+					data: "auditNo",
+					"orderable": false	//
+				},{
+					data: "ipAddr",							
+					"orderable": false	//
+				}, {
+					data: "adminId",
+					"orderable": false	//
+				}, {
+					data: "description",
+					"orderable": false	//
+				}, {
+					data: "parameter",
+					"orderable": false	//
+				}, {
+					data: "auditTime",
+					"orderable": false	//
+				},
+				{
+					data: "status",
+					"orderable": false	//
+				}],
+				// set the initial value
+				"pageLength": 20,
+				"iDisplayLength": 20,
+				"pagingType": "bootstrap_full_number",
+				"language": {
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
+					"infoEmpty": "검색된 데이터가 없습니다.",
+					"zeroRecords" :"검색된 데이터가 없습니다.",
+					"lengthMenu": "  _MENU_ 개",
+					"paginate": {
+						"previous":"Prev",
+						"next": "Next",
+						"last": "Last",
+						"first": "First"
+					},							
+				},
+				"columnDefs": [
+				{
+					"targets": [0]	// audit_id
+					,"class" : "center-cell"							
+				},{	
+					"targets": [1],	//
+					"class":"center-cell",
+				},         
+				{  // set default column settings
+					'targets': [2]	
+					,"class":"center-cell"
+				}, {	
+					"targets": [3]	
+					,"class":"center-cell"
+				}, {	
+					"targets": [4]	
+					,"class":"center-cell"
+					,"render":function(data,type,row){
+						if(data.length > 30){
+							return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:onModalDetail('+ row.auditNo +')">';
+							
+						}else{
+							return data;
+						}
+					}
+				}, {	
+					"targets": [5],	
+					"class":"center-cell"
+				}, {	
+					"targets": [6]	
+					,"class" : "center-cell"
+				}],						
+				"initComplete": function( settings, json ) {
+					$('.export-print').hide();
+				}
+			});
+			
+			function fnFormatDetails(oTable, nTr) {
+				var aData = oTable.fnGetData(nTr);
+				var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
+				sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
+				sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
+				sOut += '<tr><td class="center-cell">PC명:</td><td>' + aData.serverTime + '</td><td></td><td></td></tr>';
+				
+				sOut += '<td class="center-cell"></td><td></td></tr>';
+										
+				sOut += '</table>';
+
+				return sOut;
+			}
+			
+			var jTable = jQuery('#table_userinfo');
+			jTable.on('click', ' tbody td .datables-td-detail', function () {
+				var nTr = jQuery(this).parents('tr')[0];
+				if (table.fnIsOpen(nTr)) {
+					/* This row is already open - close it */
+					jQuery(this).addClass("datatables-close").removeClass("datatables-open");
+					table.fnClose(nTr);
+				} else {
+					/* Open this row */
+					jQuery(this).addClass("datatables-open").removeClass("datatables-close");
+					table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+				}
+			});
+		}
  	}
  	
 	$(document).ready(function(){
@@ -259,191 +435,8 @@ table td {
    			  dropdownAutoWidth : true,
    			  width: 'auto'
    		});
+		setDataTable();
 
-		
-
-loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
-loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.print.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.html5.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.js", function(){
- 
-				if (jQuery().dataTable) {
-
-					var export_filename = 'Filename';
-					
-					var table = jQuery('#table_userinfo');
-					table.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
-						//dom: 'Bfrtip',
-						"ajax" : {
-							"url":'/ax/audit/server/list',
-						   	"type":'POST',
-						   	"dataSrc" : "data",
-						   	"data" :  function(param) {
-								param.user_id = $('#filterUserId').val();
-								param.user_name = $('#filterUserName').val();
-
-								param.user_ip = $('#filterUserIp').val();
-								param.description = $('#filterDescription').val();
-								param.parameter = $('#filterParameter').val();
-								param.status = $('#filterStatus').val();
-								
-								param.start_date = $('#filterStartDate').val();
-								param.end_date = $('#filterEndDate').val();
-								
-					        },
- 					        "beforeSend" : function(){
-								jQuery('#preloader').show();
- 					        },
-					        "dataSrc": function ( json ) {
-								jQuery('#preloader').hide();
-				                return json.data;
-				            }   
-						},
-						lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
-						tableTools: {
-					          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
-					        },
-					    "buttons": [
-	 					              {
-						                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
-						                  extend: 'csvHtml5',
-						                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
-						                  bom: true,
-						                  exportOptions: {
-						                      modifier: {
-						                          search: 'applied',
-						                          order: 'applied'
-						                      }
-						                  }
-						              },  					              {
-					                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-					                  extend: 'print',
-					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-					                  exportOptions: {
-					                      modifier: {
-					                          search: 'applied',
-					                          order: 'applied'
-					                      }
-					                  }
-					              }, 
-
-					     ],
-				 		"serverSide" : true,
-				 	    "ordering": true,
-						"columns": [
-						{
-							data: "auditNo",
-							"orderable": false	//
-						},{
-							data: "ipAddr",							
-							"orderable": false	//
-						}, {
-							data: "adminId",
-							"orderable": false	//
-						}, {
-							data: "description",
-							"orderable": false	//
-						}, {
-							data: "parameter",
-							"orderable": false	//
-						}, {
-							data: "auditTime",
-							"orderable": false	//
-						},
-						{
-							data: "status",
-							"orderable": false	//
-						}],
-						// set the initial value
-						"pageLength": 20,
-						"iDisplayLength": 20,
-						"pagingType": "bootstrap_full_number",
-						"language": {
-							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
-							"infoEmpty": "검색된 데이터가 없습니다.",
-							"zeroRecords" :"검색된 데이터가 없습니다.",
-							"lengthMenu": "  _MENU_ 개",
-							"paginate": {
-								"previous":"Prev",
-								"next": "Next",
-								"last": "Last",
-								"first": "First"
-							},							
-						},
-						"columnDefs": [
-						{
-							"targets": [0]	// audit_id
-							,"class" : "center-cell"							
-						},{	
-							"targets": [1],	//
-							"class":"center-cell",
-						},         
-						{  // set default column settings
-							'targets': [2]	
-							,"class":"center-cell"
-						}, {	
-							"targets": [3]	
-							,"class":"center-cell"
-						}, {	
-							"targets": [4]	
-							,"class":"center-cell"
-							,"render":function(data,type,row){
-								if(data.length > 30){
-									return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:onModalDetail('+ row.auditNo +')">';
-									
-								}else{
-									return data;
-								}
-							}
-						}, {	
-							"targets": [5],	
-							"class":"center-cell"
-						}, {	
-							"targets": [6]	
-							,"class" : "center-cell"
-						}],						
-						"initComplete": function( settings, json ) {
-							$('.export-print').hide();
-						}
-					});
-					
-					function fnFormatDetails(oTable, nTr) {
-						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
-						sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
-						sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-						sOut += '<tr><td class="center-cell">PC명:</td><td>' + aData.serverTime + '</td><td></td><td></td></tr>';
-						
-						sOut += '<td class="center-cell"></td><td></td></tr>';
-												
-						sOut += '</table>';
-
-						return sOut;
-					}
-					
-					var jTable = jQuery('#table_userinfo');
-					jTable.on('click', ' tbody td .datables-td-detail', function () {
-						var nTr = jQuery(this).parents('tr')[0];
-						if (table.fnIsOpen(nTr)) {
-							/* This row is already open - close it */
-							jQuery(this).addClass("datatables-close").removeClass("datatables-open");
-							table.fnClose(nTr);
-						} else {
-							/* Open this row */
-							jQuery(this).addClass("datatables-open").removeClass("datatables-close");
-							table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
-						}
-					});
-				}
-			});
-			});
-			});
-			});
-			}); 
-		});
 jQuery('#preloader').hide();
        
     });

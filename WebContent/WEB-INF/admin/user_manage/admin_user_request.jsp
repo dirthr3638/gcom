@@ -199,6 +199,15 @@
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
 
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+
 <script>
 
 	
@@ -246,6 +255,431 @@
  		
  	}
  	
+ 	function setDataTable(){
+ 		if (jQuery().dataTable) {
+
+			var export_filename = 'Filename';
+			
+			var table = jQuery('#table_userinfo');
+			table.dataTable({
+				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+				//dom: 'Bfrtip',
+				"ajax" : {
+					"url":'/ax/admin/policy/requested/list',
+				   	"type":'POST',
+				   	"dataSrc" : "data",
+				   	"data" :  function(param) {
+						param.user_id = $('#filterUserId').val();
+						param.user_name = $('#filterUserName').val();
+						param.user_phone = $('#filterUserPhone').val();								
+						param.dept = getCheckedDept();
+			        },
+				        "beforeSend" : function(){
+						jQuery('#preloader').show();
+				        },
+			        "dataSrc": function ( json ) {
+						jQuery('#preloader').hide();
+		                return json.data;
+		            }
+				},
+				lengthMenu: [[20, 100, 99999], [20, 100, "전체"]],
+				tableTools: {
+			          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
+			        },
+			    "buttons": [
+					              {
+				                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+				                  extend: 'csvHtml5',
+				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+				                  bom: true,
+				                  exportOptions: {
+				                      modifier: {
+				                          search: 'applied',
+				                          order: 'applied'
+				                      }
+				                  }
+				              },  					              {
+			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+			                  extend: 'print',
+			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+			                  exportOptions: {
+			                      modifier: {
+			                          search: 'applied',
+			                          order: 'applied'
+			                      }
+			                  }
+			              }, 
+
+			     ],
+				
+		 		"serverSide" : true,
+		 		"processing": true,
+		 	    "ordering": true,
+				"columns": [{
+					data: "userNo",							
+					"orderable": false		//추가정보
+				}, {
+					data: "deptName",
+					"orderable": false	//부서
+				}, {
+					data: "userId",
+					"orderable": false	//아이디
+				}, {
+					data: "userName",
+					"orderable": false	//이름
+				},
+				{
+					data: "duty",
+					"orderable": false	//직책
+				}, {
+					data: "rank",
+					"orderable": false	//계급
+				}, {
+					data: "phone",
+					"orderable": false	//연락
+				}, {
+					data: "isUninstall",
+					"orderable": false	//연락
+				}, {
+					data: "isFileEncryption",
+					"orderable": false	//연락
+				}, {
+					data: "isCdEncryption",
+					"orderable": false	//연락
+				}, {
+					data: "isPrint",
+					"orderable": false	//연락
+				}, {
+					data: "isCdEnabled",
+					"orderable": false	//연락
+				}, {
+					data: "isCdExport",
+					"orderable": false	//연락
+				}, {
+					data: "isWlan",
+					"orderable": false	//연락
+				}, {
+					data: "isNetShare",
+					"orderable": false	//연락
+				}, {
+					data: "isWebExport",
+					"orderable": false	//연락
+				}, {
+					data: "isStorageExport",
+					"orderable": false	//연락
+				}, {
+					data: "isStorageAdmin",
+					"orderable": false	//연락
+				}, {
+					data: "isUsbBlock",
+					"orderable": false	//연락
+				}, {
+					data: "isComPortBlock",
+					"orderable": false	//연락
+				}, {
+					data: "isNetPortBlock",
+					"orderable": false	//연락
+				}, {
+					data: "isProcessList",
+					"orderable": false	//연락
+				}, {
+					data: "isFilePattern",
+					"orderable": false	//연락
+				}, {
+					data: "isWebAddr",
+					"orderable": false	//연락
+				},  {
+					data: "oldPolicy.isWaterMark",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.patternFileControl",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isUninstall",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isFileEncryption",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isCdEncryption",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isPrint",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isCdEnabled",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isCdExport",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isWlan",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isNetShare",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isWebExport",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isStorageExport",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isStorageAdmin",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isUsbBlock",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isComPortBlock",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isNetPortBlock",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isProcessList",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isFilePattern",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.isWebAddr",
+					"orderable": false	//연락
+				},  {
+					data: "oldPolicy.isWaterMark",
+					"orderable": false	//연락
+				}, {
+					data: "oldPolicy.patternFileControl",
+					"orderable": false	//연락
+				}],
+				// set the initial value
+				"pageLength": 20,
+				"iDisplayLength": 20,
+				"pagingType": "bootstrap_full_number",
+				"language": {
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
+					"infoEmpty": "검색된 데이터가 없습니다.",
+					"zeroRecords" :"검색된 데이터가 없습니다.",
+					"lengthMenu": "  _MENU_ 개",
+					"paginate": {
+						"previous":"Prev",
+						"next": "Next",
+						"last": "Last",
+						"first": "First"
+					},
+					
+				},
+				"columnDefs": [
+				{	
+					"targets": [0],	//추가정보
+					"class":"center-cell add_detail_info",
+					"render":function(data,type,row){
+						return '<span class="datables-td-detail datatables-close"></span>';
+					}
+				},         
+				{  // set default column settings
+					'targets': [1]	//부서
+					,"class":"center-cell"
+				}, {	
+					"targets": [2]	//아이디
+					,"class":"center-cell"
+				}, {	
+					"targets": [3]	//이름
+					,"class":"center-cell"
+				}, {	
+					"targets": [4]	//직책
+					,"class" : "center-cell"
+				}, {	
+					"targets": [5]	//계급
+					,"class" : "center-cell"
+				}, {	
+					"targets": [6]	//연락처
+					,"class" : "center-cell"
+				}, {
+					"targets": [7]	//연락처
+				,"class" : "center-cell"
+					,"visible" : false
+				
+				}, {
+					"targets": [8]	//연락처
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [9]	//연락처
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [10]	//연락처
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [11]	//연락처
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [12]	//연락처
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [13]	//연락처
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [14]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [15]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [16]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [17]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [18]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [19]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [20]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [21]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [22]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [23]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [24]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [25]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [26]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [27]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [28]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [29]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [30]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [31]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [32]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [33]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [34]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [35]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [36]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [37]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [38]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [39]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [40]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [41]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [42]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [43]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {
+					"targets": [44]	//연락처
+					,"class" : "center-cell"
+					,"visible" : false
+				}						],						
+				"initComplete": function( settings, json ) {
+					$('.export-print').hide();
+				}
+			});
+			
+			function fnFormatDetails(oTable, nTr) {
+				var aData = oTable.fnGetData(nTr);
+				var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
+				sOut += getRequestPolicyDetailTable(aData);
+				sOut += '</table>';
+
+				return sOut;
+			}
+			
+			var jTable = jQuery('#table_userinfo');
+			jTable.on('click', ' tbody td .datables-td-detail', function () {
+				var nTr = jQuery(this).parents('tr')[0];
+				if (table.fnIsOpen(nTr)) {
+					/* This row is already open - close it */
+					jQuery(this).addClass("datatables-close").removeClass("datatables-open");
+					table.fnClose(nTr);
+				} else {
+					/* Open this row */
+					jQuery(this).addClass("datatables-open").removeClass("datatables-close");
+					table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+				}
+			});
+			
+		}
+ 	}
+ 	
 	$(document).ready(function(){
 		$(".select2theme").select2({
    			  minimumResultsForSearch: -1,
@@ -254,441 +688,13 @@
    		});
      	setTree();
 
-loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
-loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.print.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.html5.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.js", function(){
- 
-				if (jQuery().dataTable) {
+		$('#org_tree')
+		.bind('ready.jstree', function(e, data) {
+			setDataTable();
+		})
+				
 
-					var export_filename = 'Filename';
-					
-					var table = jQuery('#table_userinfo');
-					table.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
-						//dom: 'Bfrtip',
-						"ajax" : {
-							"url":'/ax/admin/policy/requested/list',
-						   	"type":'POST',
-						   	"dataSrc" : "data",
-						   	"data" :  function(param) {
-								param.user_id = $('#filterUserId').val();
-								param.user_name = $('#filterUserName').val();
-								param.user_phone = $('#filterUserPhone').val();								param.dept = getCheckedDept();
-					        },
- 					        "beforeSend" : function(){
-								jQuery('#preloader').show();
- 					        },
-					        "dataSrc": function ( json ) {
-								jQuery('#preloader').hide();
-				                return json.data;
-				            }
-						},
-						lengthMenu: [[20, 100, 99999], [20, 100, "전체"]],
-						tableTools: {
-					          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
-					        },
-					    "buttons": [
-	 					              {
-						                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
-						                  extend: 'csvHtml5',
-						                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
-						                  bom: true,
-						                  exportOptions: {
-						                      modifier: {
-						                          search: 'applied',
-						                          order: 'applied'
-						                      }
-						                  }
-						              },  					              {
-					                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-					                  extend: 'print',
-					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-					                  exportOptions: {
-					                      modifier: {
-					                          search: 'applied',
-					                          order: 'applied'
-					                      }
-					                  }
-					              }, 
-
-					     ],
-						
-				 		"serverSide" : true,
-				 		"processing": true,
-				 	    "ordering": true,
-						"columns": [{
-							data: "userNo",							
-							"orderable": false		//추가정보
-						}, {
-							data: "deptName",
-							"orderable": false	//부서
-						}, {
-							data: "userId",
-							"orderable": false	//아이디
-						}, {
-							data: "userName",
-							"orderable": false	//이름
-						},
-						{
-							data: "duty",
-							"orderable": false	//직책
-						}, {
-							data: "rank",
-							"orderable": false	//계급
-						}, {
-							data: "phone",
-							"orderable": false	//연락
-						}, {
-							data: "isUninstall",
-							"orderable": false	//연락
-						}, {
-							data: "isFileEncryption",
-							"orderable": false	//연락
-						}, {
-							data: "isCdEncryption",
-							"orderable": false	//연락
-						}, {
-							data: "isPrint",
-							"orderable": false	//연락
-						}, {
-							data: "isCdEnabled",
-							"orderable": false	//연락
-						}, {
-							data: "isCdExport",
-							"orderable": false	//연락
-						}, {
-							data: "isWlan",
-							"orderable": false	//연락
-						}, {
-							data: "isNetShare",
-							"orderable": false	//연락
-						}, {
-							data: "isWebExport",
-							"orderable": false	//연락
-						}, {
-							data: "isStorageExport",
-							"orderable": false	//연락
-						}, {
-							data: "isStorageAdmin",
-							"orderable": false	//연락
-						}, {
-							data: "isUsbBlock",
-							"orderable": false	//연락
-						}, {
-							data: "isComPortBlock",
-							"orderable": false	//연락
-						}, {
-							data: "isNetPortBlock",
-							"orderable": false	//연락
-						}, {
-							data: "isProcessList",
-							"orderable": false	//연락
-						}, {
-							data: "isFilePattern",
-							"orderable": false	//연락
-						}, {
-							data: "isWebAddr",
-							"orderable": false	//연락
-						},  {
-							data: "oldPolicy.isWaterMark",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.patternFileControl",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isUninstall",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isFileEncryption",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isCdEncryption",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isPrint",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isCdEnabled",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isCdExport",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isWlan",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isNetShare",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isWebExport",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isStorageExport",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isStorageAdmin",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isUsbBlock",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isComPortBlock",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isNetPortBlock",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isProcessList",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isFilePattern",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.isWebAddr",
-							"orderable": false	//연락
-						},  {
-							data: "oldPolicy.isWaterMark",
-							"orderable": false	//연락
-						}, {
-							data: "oldPolicy.patternFileControl",
-							"orderable": false	//연락
-						}],
-						// set the initial value
-						"pageLength": 20,
-						"iDisplayLength": 20,
-						"pagingType": "bootstrap_full_number",
-						"language": {
-							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
-							"infoEmpty": "검색된 데이터가 없습니다.",
-							"zeroRecords" :"검색된 데이터가 없습니다.",
-							"lengthMenu": "  _MENU_ 개",
-							"paginate": {
-								"previous":"Prev",
-								"next": "Next",
-								"last": "Last",
-								"first": "First"
-							},
-							
-						},
-						"columnDefs": [
-						{	
-							"targets": [0],	//추가정보
-							"class":"center-cell add_detail_info",
-							"render":function(data,type,row){
-								return '<span class="datables-td-detail datatables-close"></span>';
-							}
-						},         
-						{  // set default column settings
-							'targets': [1]	//부서
-							,"class":"center-cell"
-						}, {	
-							"targets": [2]	//아이디
-							,"class":"center-cell"
-						}, {	
-							"targets": [3]	//이름
-							,"class":"center-cell"
-						}, {	
-							"targets": [4]	//직책
-							,"class" : "center-cell"
-						}, {	
-							"targets": [5]	//계급
-							,"class" : "center-cell"
-						}, {	
-							"targets": [6]	//연락처
-							,"class" : "center-cell"
-						}, {
-							"targets": [7]	//연락처
-						,"class" : "center-cell"
-							,"visible" : false
-						
-						}, {
-							"targets": [8]	//연락처
-						,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [9]	//연락처
-						,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [10]	//연락처
-						,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [11]	//연락처
-						,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [12]	//연락처
-						,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [13]	//연락처
-						,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [14]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [15]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [16]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [17]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [18]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [19]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [20]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [21]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [22]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [23]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [24]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [25]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [26]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [27]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [28]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [29]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [30]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [31]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [32]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [33]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [34]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [35]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [36]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [37]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [38]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [39]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [40]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [41]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [42]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [43]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}, {
-							"targets": [44]	//연락처
-							,"class" : "center-cell"
-							,"visible" : false
-						}						],						
-						"initComplete": function( settings, json ) {
-							$('.export-print').hide();
-						}
-					});
-					
-					function fnFormatDetails(oTable, nTr) {
-						var aData = oTable.fnGetData(nTr);
-						var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
-						sOut += getRequestPolicyDetailTable(aData);
-						sOut += '</table>';
-
-						return sOut;
-					}
-					
-					var jTable = jQuery('#table_userinfo');
-					jTable.on('click', ' tbody td .datables-td-detail', function () {
-						var nTr = jQuery(this).parents('tr')[0];
-						if (table.fnIsOpen(nTr)) {
-							/* This row is already open - close it */
-							jQuery(this).addClass("datatables-close").removeClass("datatables-open");
-							table.fnClose(nTr);
-						} else {
-							/* Open this row */
-							jQuery(this).addClass("datatables-open").removeClass("datatables-close");
-							table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
-						}
-					});
-					
-				}
-			});
-			});
-			});
-			});
-			}); 
-		});
-jQuery('#preloader').hide();
+		jQuery('#preloader').hide();
        
     });
 </script>

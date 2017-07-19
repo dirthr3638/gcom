@@ -204,6 +204,14 @@
 		<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
 
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 
 <script type="text/javascript">
 	
@@ -450,6 +458,194 @@
 		    })]
  		});
  	}
+ 	
+ 	
+ 	function setDataTable(){
+ 		if (jQuery().dataTable) {
+
+			var export_filename = 'Filename';
+			
+			var table = jQuery('#table_apply_policy');
+			table.dataTable({
+				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+				//dom: 'Bfrtip',
+				"ajax" : {
+					"url":'/ax/userenroll/list',
+				   	"type":'POST',
+				   	"dataSrc" : "data",
+				   	"data" :  function(param) {
+						param.user_id 	= $('#filterUserId').val();
+						param.user_name = $('#filterUserName').val();
+						param.user_phone = $('#filterPhoneNumber').val();								
+						param.user_duty 	= $('#filterDuty').val();
+						param.user_rank 	= $('#filterRank').val();
+						param.user_permit 	= $('#filterPermit option:selected').val();								
+						param.start_date = $('#filterStartDate').val();
+						param.end_date 	= $('#filterEndDate').val();
+						
+						param.dept = getCheckedDept();
+			        },
+				        "beforeSend" : function(){
+						jQuery('#preloader').show();
+				        },
+			        "dataSrc": function ( json ) {
+						jQuery('#preloader').hide();
+		                return json.data;
+		            }   
+				},
+				lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
+				tableTools: {
+			          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
+			        },
+			    "buttons": [
+					              {
+				                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+				                  extend: 'csvHtml5',
+				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+				                  bom: true,
+				                  exportOptions: {
+				                      modifier: {
+				                          search: 'applied',
+				                          order: 'applied'
+				                      }
+				                  }
+				              },  					              {
+			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+			                  extend: 'print',
+			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+			                  exportOptions: {
+			                      modifier: {
+			                          search: 'applied',
+			                          order: 'applied'
+			                      }
+			                  }
+			              }, 
+
+			     ],
+		 		"serverSide" : true,
+		 	    "ordering": true,
+				"columns": [{
+					data: "deptName",
+					"orderable": false	//부서명
+				},{
+					data: "memberDuty",
+					"orderable": false	//
+				}, {
+					data: "memberRank",
+					"orderable": false	//
+				},{
+					data: "userId",							
+					"orderable": false	//아이디
+				}, {
+					data: "memberName",
+					"orderable": false	//요청자명
+				}, {
+					data: "memberPhone",
+					"orderable": false	//폰번호
+				},  {
+					data: "requestDate",
+					"orderable": false	//요청일
+				}, {
+					data: "permit",
+					"orderable": false	//승인여부
+				}, {
+					data: "permitDate",
+					"orderable": false	//승인일자
+				}, {
+					data: "requestId",
+					"orderable": false	//승인버튼
+				}, {
+					data: "permitAdmin",
+					"orderable": false	//승인자
+				}],
+				// set the initial value
+				"pageLength": 20,
+				"iDisplayLength": 20,
+				"pagingType": "bootstrap_full_number",
+				"language": {
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
+					"infoEmpty": "검색된 데이터가 없습니다.",
+					"zeroRecords" :"검색된 데이터가 없습니다.",
+					"lengthMenu": "  _MENU_ 개",
+					"paginate": {
+						"previous":"Prev",
+						"next": "Next",
+						"last": "Last",
+						"first": "First"
+					},
+					
+				},
+				"columnDefs": [
+				{	
+					"targets": [0],	// 부서명
+					"class":"center-cell",
+				}, {
+					'targets': [1]	// 직책
+					,"class":"center-cell"
+				}, {	
+					"targets": [2]	//계급
+					,"class":"center-cell"
+				}, {	
+					"targets": [3]	//아이디
+					,"class":"center-cell"
+				}, {	
+					"targets": [4],	//이름
+					"class":"center-cell"
+				}, {	
+					"targets": [5]	//번호
+					,"class" : "center-cell"
+				}, {	
+					"targets": [6]	//요청일
+					,"class" : "center-cell"
+				}, 
+				{	
+					"targets": [7]	//승인여부
+					,"class" : "center-cell"
+					,visible:false
+					
+				}, {	
+					"targets": [8]	//승인일자
+					,"class" : "center-cell"
+/* 							,"render":function(data,type,row){
+							if(data == ''){
+								return '-'
+							}else{
+								return data;
+							}
+						}
+						 */
+					,visible : false
+				}, {	
+					"targets": [9]	//승인버튼
+					,"class" : "center-cell"
+					,"render":function(data,type,row){
+							if(row.permit == 'W'){
+								var ret = '<button type="button" class="btn btn-success btn-xs" onclick="javascript:enrollConfirm(\''+ row.userId  +'\', '+data+')"><i class="fa fa-check" aria-hidden="true">&nbsp;승인</i></button>';
+								ret +='<button type="button" class="btn btn-danger btn-xs" onclick="javascript:enrollReject(\''+ row.userId  +'\', '+data+')" ><i class="fa fa-remove" aria-hidden="true">&nbsp;거절</i></button>'
+								return ret
+							}else if(row.permit == 'P'){
+								var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:enrollPassInfo(\''+ row.permitAdmin  +'\', \'' + row.permitDate + '\')"><i class="fa fa-check" aria-hidden="true">&nbsp;승인완료</i></button>';
+								return ret;
+							}else if(row.permit == 'R'){
+								var ret = '<button type="button" class="btn btn-purple btn-xs" onclick="javascript:enrollRejectInfo(\''+ row.permitAdmin  +'\', \'' + row.permitDate + '\')"><i class="fa fa-remove" aria-hidden="true">&nbsp;반려처리</i></button>';
+								return ret;
+							}
+						}
+													
+				},{	
+					"targets": [10]	//승인자
+					,"class" : "center-cell"
+					,visible:false
+					
+				}],						
+				"initComplete": function( settings, json ) {
+					$('.export-print').hide();
+				}
+			});
+			
+		}
+ 	}
+ 	
 	$(document).ready(function(){
 		vex.defaultOptions.className = 'vex-theme-os'
 
@@ -461,203 +657,12 @@
 		
      	setTree();
 
-loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
-loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.print.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.html5.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.js", function(){
- 
-				if (jQuery().dataTable) {
-
-					var export_filename = 'Filename';
-					
-					var table = jQuery('#table_apply_policy');
-					table.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
-						//dom: 'Bfrtip',
-						"ajax" : {
-							"url":'/ax/userenroll/list',
-						   	"type":'POST',
-						   	"dataSrc" : "data",
-						   	"data" :  function(param) {
-								param.user_id 	= $('#filterUserId').val();
-								param.user_name = $('#filterUserName').val();
-								param.user_phone = $('#filterPhoneNumber').val();								
-								param.user_duty 	= $('#filterDuty').val();
-								param.user_rank 	= $('#filterRank').val();
-								param.user_permit 	= $('#filterPermit option:selected').val();								
-								param.start_date = $('#filterStartDate').val();
-								param.end_date 	= $('#filterEndDate').val();
-								
-								param.dept = getCheckedDept();
-					        },
- 					        "beforeSend" : function(){
-								jQuery('#preloader').show();
- 					        },
-					        "dataSrc": function ( json ) {
-								jQuery('#preloader').hide();
-				                return json.data;
-				            }   
-						},
-						lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
-						tableTools: {
-					          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
-					        },
-					    "buttons": [
-	 					              {
-						                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
-						                  extend: 'csvHtml5',
-						                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
-						                  bom: true,
-						                  exportOptions: {
-						                      modifier: {
-						                          search: 'applied',
-						                          order: 'applied'
-						                      }
-						                  }
-						              },  					              {
-					                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-					                  extend: 'print',
-					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-					                  exportOptions: {
-					                      modifier: {
-					                          search: 'applied',
-					                          order: 'applied'
-					                      }
-					                  }
-					              }, 
-
-					     ],
-				 		"serverSide" : true,
-				 	    "ordering": true,
-						"columns": [{
-							data: "deptName",
-							"orderable": false	//부서명
-						},{
-							data: "memberDuty",
-							"orderable": false	//
-						}, {
-							data: "memberRank",
-							"orderable": false	//
-						},{
-							data: "userId",							
-							"orderable": false	//아이디
-						}, {
-							data: "memberName",
-							"orderable": false	//요청자명
-						}, {
-							data: "memberPhone",
-							"orderable": false	//폰번호
-						},  {
-							data: "requestDate",
-							"orderable": false	//요청일
-						}, {
-							data: "permit",
-							"orderable": false	//승인여부
-						}, {
-							data: "permitDate",
-							"orderable": false	//승인일자
-						}, {
-							data: "requestId",
-							"orderable": false	//승인버튼
-						}, {
-							data: "permitAdmin",
-							"orderable": false	//승인자
-						}],
-						// set the initial value
-						"pageLength": 20,
-						"iDisplayLength": 20,
-						"pagingType": "bootstrap_full_number",
-						"language": {
-							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
-							"infoEmpty": "검색된 데이터가 없습니다.",
-							"zeroRecords" :"검색된 데이터가 없습니다.",
-							"lengthMenu": "  _MENU_ 개",
-							"paginate": {
-								"previous":"Prev",
-								"next": "Next",
-								"last": "Last",
-								"first": "First"
-							},
-							
-						},
-						"columnDefs": [
-						{	
-							"targets": [0],	// 부서명
-							"class":"center-cell",
-						}, {
-							'targets': [1]	// 직책
-							,"class":"center-cell"
-						}, {	
-							"targets": [2]	//계급
-							,"class":"center-cell"
-						}, {	
-							"targets": [3]	//아이디
-							,"class":"center-cell"
-						}, {	
-							"targets": [4],	//이름
-							"class":"center-cell"
-						}, {	
-							"targets": [5]	//번호
-							,"class" : "center-cell"
-						}, {	
-							"targets": [6]	//요청일
-							,"class" : "center-cell"
-						}, 
-						{	
-							"targets": [7]	//승인여부
-							,"class" : "center-cell"
-							,visible:false
-							
-						}, {	
-							"targets": [8]	//승인일자
-							,"class" : "center-cell"
-/* 							,"render":function(data,type,row){
-	 							if(data == ''){
-	 								return '-'
-	 							}else{
-	 								return data;
-	 							}
-	 						}
-								 */
-							,visible : false
-						}, {	
-							"targets": [9]	//승인버튼
-							,"class" : "center-cell"
-							,"render":function(data,type,row){
-	 							if(row.permit == 'W'){
-	 								var ret = '<button type="button" class="btn btn-success btn-xs" onclick="javascript:enrollConfirm(\''+ row.userId  +'\', '+data+')"><i class="fa fa-check" aria-hidden="true">&nbsp;승인</i></button>';
-	 								ret +='<button type="button" class="btn btn-danger btn-xs" onclick="javascript:enrollReject(\''+ row.userId  +'\', '+data+')" ><i class="fa fa-remove" aria-hidden="true">&nbsp;거절</i></button>'
-	 								return ret
-	 							}else if(row.permit == 'P'){
-	 								var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:enrollPassInfo(\''+ row.permitAdmin  +'\', \'' + row.permitDate + '\')"><i class="fa fa-check" aria-hidden="true">&nbsp;승인완료</i></button>';
-	 								return ret;
-	 							}else if(row.permit == 'R'){
-	 								var ret = '<button type="button" class="btn btn-purple btn-xs" onclick="javascript:enrollRejectInfo(\''+ row.permitAdmin  +'\', \'' + row.permitDate + '\')"><i class="fa fa-remove" aria-hidden="true">&nbsp;반려처리</i></button>';
-	 								return ret;
-	 							}
-	 						}
-	 													
-						},{	
-							"targets": [10]	//승인자
-							,"class" : "center-cell"
-							,visible:false
-							
-						}],						
-						"initComplete": function( settings, json ) {
-							$('.export-print').hide();
-						}
-					});
-					
-				}
-			});
-			});
-			});
-			});
-			}); 
-		});
-jQuery('#preloader').hide();
+		$('#org_tree')
+		.bind('ready.jstree', function(e, data) {
+			setDataTable();
+		})
+			
+		jQuery('#preloader').hide();
 
     });
 </script>

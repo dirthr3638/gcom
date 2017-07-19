@@ -20,8 +20,8 @@
 		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
-           <link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
-           <link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+        <link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+        <link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 
 	</head>
 	<body>
@@ -75,6 +75,8 @@
 										<div class="col-md-12">	
 											<!-- Standard button -->
 											<button type="button" class="btn btn-default" onclick="javascript:onClickAddAdmin()"><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;관리자추가</i></button>
+											<!-- Info -->
+											<button type="button" class="btn btn-info" onclick="searchAdminInfo()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
 											
 											</div>
 									</div>
@@ -85,6 +87,7 @@
 													<tr>
 														<th>번호</th>
 														<th>아이디</th>
+														<th>담당부서</th>
 														<th>권한</th>
 														<th>아이피1</th>
 														<th>아이피2</th>
@@ -123,20 +126,28 @@
 		<script type="text/javascript" src="/assets/js/admin_function.js"></script>
 		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
-           <script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
-           <script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+        <script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
+        <script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 
 <script>
 
  	function setTree(){
 		$.ajax({      
 	        type:"POST",  
-	        url:'/common/tree/selectdept',
+	        url:'/common/tree/dept',
 	        async: false,
 	        //data:{},
 	        success:function(args){   
 	            $("#dept_tree").html(args);  
-	            treeSelectBind();
+	            //treeSelectBind();
 	        },   
 	        //beforeSend:showRequest,  
 	        error:function(e){  
@@ -150,7 +161,11 @@
 		datatable.ajax.reload();   	
  	
  	}
-
+ 	function searchAdminInfo(){
+ 		var datatable = $('#table_admininfo').dataTable().api();
+		datatable.ajax.reload();   	
+ 	
+ 	}
  	function onClickPrintButton(){
  		var $buttons = $('.export-print');
  		$buttons.click();
@@ -164,16 +179,16 @@
  	}
  	
  	
- 	function treeSelectBind(){
+/*  	function treeSelectBind(){
 		$("#org_tree").bind(
 		        "select_node.jstree", function(evt, data){
 		        	var dept = data.selected[0];
 		        	selectedDeptNo = dept;
 		        	tableReload();
 		        }
-			);
+		 	);
  	}
- 	
+ 	*/
  	function tableReload(){
  		var datatable = $('#table_admininfo').dataTable().api();
 		datatable.ajax.reload();   	
@@ -356,7 +371,7 @@
 		}
 	}
 
-function validCheck(data){
+	function validCheck(data){
 		
 		var result = true;
 		if(parseInt(data.admin_dept) < 1){
@@ -382,163 +397,160 @@ function validCheck(data){
 		return result;		
 	}
 	
- 	var selectedDeptNo = 1;
- 	
-	$(document).ready(function(){
-     	setTree();
+	function setDataTable(){
+		if (jQuery().dataTable) {
 
-loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
-loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.print.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.html5.min.js", function(){
-loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.js", function(){
- 
-				if (jQuery().dataTable) {
+			var export_filename = 'Filename';
+			
+			var table = jQuery('#table_admininfo');
+			table.dataTable({
+				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+				//dom: 'Bfrtip',
+				"ajax" : {
+					"url":'/ax/admin/subadmin/list',
+				   	"type":'POST',
+				   	"dataSrc" : "data",
+				   	"data" :  function(param) {
+						param.dept = getCheckedDept();
+			        },
+				        "beforeSend" : function(){
+						jQuery('#preloader').show();
+				        },
+			        "dataSrc": function ( json ) {
+						jQuery('#preloader').hide();
+		                return json.data;
+		            }   
+				},
+				lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
+				tableTools: {
+			          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
+			        },
+			    "buttons": [
+					              {
+				                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+				                  extend: 'csvHtml5',
+				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+				                  bom: true,
+				                  exportOptions: {
+				                      modifier: {
+				                          search: 'applied',
+				                          order: 'applied'
+				                      }
+				                  }
+				              },  					              {
+			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+			                  extend: 'print',
+			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+			                  exportOptions: {
+			                      modifier: {
+			                          search: 'applied',
+			                          order: 'applied'
+			                      }
+			                  }
+			              }, 
 
-					var export_filename = 'Filename';
+			     ],
+		 		"serverSide" : true,
+		 	    "ordering": true,
+				"columns": [{
+					data: "adminNo",
+					"orderable": false	
+				}, {
+					data: "adminId",
+					"orderable": false	
+				},{
+					data: "deptNm",
+					"orderable": false	
+				}, {
+					data: "adminMode",
+					"orderable": false	
+				}, {
+					data: "ipAddr",
+					"orderable": false	
+				},{
+					data: "ipAddr1",
+					"orderable": false	
+				},  {
+					data: "adminNo",
+					"orderable": false	
+				}],
+				// set the initial value
+				"pageLength": 20,
+				"iDisplayLength": 20,
+				"pagingType": "bootstrap_full_number",
+				"language": {
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 관리자",
+					"infoEmpty": "검색된 데이터가 없습니다.",
+					"zeroRecords" :"검색된 데이터가 없습니다.",
+					"lengthMenu": "  _MENU_ 개",
+					"paginate": {
+						"previous":"Prev",
+						"next": "Next",
+						"last": "Last",
+						"first": "First"
+					},
 					
-					var table = jQuery('#table_admininfo');
-					table.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
-						//dom: 'Bfrtip',
-						"ajax" : {
-							"url":'/ax/admin/subadmin/list',
-						   	"type":'POST',
-						   	"dataSrc" : "data",
-						   	"data" :  function(param) {
-								param.dept = selectedDeptNo;
-					        },
- 					        "beforeSend" : function(){
-								jQuery('#preloader').show();
- 					        },
-					        "dataSrc": function ( json ) {
-								jQuery('#preloader').hide();
-				                return json.data;
-				            }   
-						},
-						lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
-						tableTools: {
-					          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
-					        },
-					    "buttons": [
-	 					              {
-						                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
-						                  extend: 'csvHtml5',
-						                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
-						                  bom: true,
-						                  exportOptions: {
-						                      modifier: {
-						                          search: 'applied',
-						                          order: 'applied'
-						                      }
-						                  }
-						              },  					              {
-					                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-					                  extend: 'print',
-					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-					                  exportOptions: {
-					                      modifier: {
-					                          search: 'applied',
-					                          order: 'applied'
-					                      }
-					                  }
-					              }, 
-
-					     ],
-				 		"serverSide" : true,
-				 	    "ordering": true,
-						"columns": [{
-							data: "adminNo",
-							"orderable": false	
-						}, {
-							data: "adminId",
-							"orderable": false	
-						}, {
-							data: "adminMode",
-							"orderable": false	
-						}, {
-							data: "ipAddr",
-							"orderable": false	
-						},{
-							data: "ipAddr1",
-							"orderable": false	
-						},  {
-							data: "adminNo",
-							"orderable": false	
-						}],
-						// set the initial value
-						"pageLength": 20,
-						"iDisplayLength": 20,
-						"pagingType": "bootstrap_full_number",
-						"language": {
-							"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 관리자",
-							"infoEmpty": "검색된 데이터가 없습니다.",
-							"zeroRecords" :"검색된 데이터가 없습니다.",
-							"lengthMenu": "  _MENU_ 개",
-							"paginate": {
-								"previous":"Prev",
-								"next": "Next",
-								"last": "Last",
-								"first": "First"
-							},
-							
-						},
-						"columnDefs": [
-						{	
-							"targets": [0],	//번호
-							"class":"center-cell"
-						},         
-						{  // set default column settings
-							'targets': [1]	//아이디
-							,"class":"center-cell"
-						}, {	
-							"targets": [2]	//권한
-							,"class":"center-cell"
-							,"render" : function(data, type, row){
-								var result = "";
-								if(data == 0 ){
-									result = '콘솔/레포트'
-								}else if(data == 1 ){
-									result = '콘솔'
-								}else if(data == 2 ){
-									result = '레포트'
-								}else{
-									result = '권한 지정안됨'
-								}
-								return result;
-							}
-
-						}, {	
-							"targets": [3]	//아이피
-							,"class":"center-cell"
-						}, {	
-							"targets": [4]	//아이피2
-							,"class":"center-cell"
-						}, {	
-							"targets": [5]	//패스워드
-							,"class":"center-cell"
-							,"render":function(data,type,row){
- 								var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:onClickModifyAdmin(' +row.adminNo+ ')"><i class="fa fa-gear" aria-hidden="true">&nbsp;수정</i></button>';
- 								ret += '<button type="button" class="btn btn-danger btn-xs" onclick="javascript:onClickRemoveAdmin(' +row.adminNo+ ')"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>';
-
- 								return ret;
-							}
+				},
+				"columnDefs": [
+				{	
+					"targets": [0],	//번호
+					"class":"center-cell"
+				},         
+				{  // set default column settings
+					'targets': [1]	//아이디
+					,"class":"center-cell"
+				},{  // set default column settings
+					'targets': [2]	//부서
+					,"class":"center-cell"
+				}, {	
+					"targets": [3]	//권한
+					,"class":"center-cell"
+					,"render" : function(data, type, row){
+						var result = "";
+						if(data == 0 ){
+							result = '콘솔/레포트'
+						}else if(data == 1 ){
+							result = '콘솔'
+						}else if(data == 2 ){
+							result = '레포트'
+						}else{
+							result = '권한 지정안됨'
 						}
+						return result;
+					}
 
-					],						
-						"initComplete": function( settings, json ) {
-							$('.export-print').hide();
-						}
-					});
+				}, {	
+					"targets": [4]	//아이피
+					,"class":"center-cell"
+				}, {	
+					"targets": [5]	//아이피2
+					,"class":"center-cell"
+				}, {	
+					"targets": [6]	//패스워드
+					,"class":"center-cell"
+					,"render":function(data,type,row){
+							var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:onClickModifyAdmin(' +row.adminNo+ ')"><i class="fa fa-gear" aria-hidden="true">&nbsp;수정</i></button>';
+							ret += '<button type="button" class="btn btn-danger btn-xs" onclick="javascript:onClickRemoveAdmin(' +row.adminNo+ ')"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>';
+
+							return ret;
+					}
+				}
+
+			],						
+				"initComplete": function( settings, json ) {
+					$('.export-print').hide();
 				}
 			});
-			});
-			});
-			});
-			}); 
-		});
-jQuery('#preloader').hide();
+		}
+	}
+
+	$(document).ready(function(){
+     	setTree();
+		$('#org_tree')
+		.bind('ready.jstree', function(e, data) {
+			setDataTable();
+		})
+		jQuery('#preloader').hide();
 
     });
 </script>
