@@ -20,6 +20,8 @@ import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
 import gcom.Model.PrivacyLogModel;
 import gcom.common.util.ConfigInfo;
+import gcom.service.common.CommonServiceImpl;
+import gcom.service.common.ICommonService;
 import gcom.user.model.UserContactModel;
 
 
@@ -1245,6 +1247,7 @@ sql += whereSql;
 		
 		int agent_id = Integer.parseInt(map.get("agent_no").toString());
 		int user_id = Integer.parseInt(map.get("user_no").toString());
+		//정책
 		int isUninstall = Integer.parseInt(map.get("isUninstall").toString());
 		int isFileEncryption = Integer.parseInt(map.get("isFileEncryption").toString());
 		int isCdEncryption = Integer.parseInt(map.get("isCdEncryption").toString());
@@ -1322,6 +1325,7 @@ sql += whereSql;
 			rs = pstmt.getGeneratedKeys();
 			
 			if (rs.next()) {
+				
 				int policy_id = rs.getInt(1);
 				sql = "UPDATE agent_info SET policy_no = ? WHERE no = ? AND own_user_no = ? ";
 				
@@ -1330,9 +1334,13 @@ sql += whereSql;
 				pstmt.setInt(2, agent_id);
 				pstmt.setInt(3, user_id);
 				pstmt.executeUpdate();
+				
+				con.commit();
+				
+				// 정책 변경 로그
+				ICommonService commonService = new CommonServiceImpl();
+				commonService.setPolicyUpdateToInsertLog(policy_id);
 			}
-									
-			con.commit();
 		
 		}catch(SQLException ex){
 			returnCode = ConfigInfo.RETURN_CODE_ERROR;
@@ -1354,6 +1362,7 @@ sql += whereSql;
 	public String updatePolicyDataSave(HashMap<String, Object> map) {
 		
 		int policy_id = Integer.parseInt(map.get("policy_no").toString());
+		
 		int isUninstall = Integer.parseInt(map.get("isUninstall").toString());
 		int isFileEncryption = Integer.parseInt(map.get("isFileEncryption").toString());
 		int isCdEncryption = Integer.parseInt(map.get("isCdEncryption").toString());
@@ -1369,36 +1378,39 @@ sql += whereSql;
 		String isComPortBlock = map.get("isComPortBlock").toString();
 		String isNetPortBlock = map.get("isNetPortBlock").toString();
 		String isProcessList = map.get("isProcessList").toString();
+		int isProcessCheck = Integer.parseInt(map.get("isProcessCheck").toString());
 		String isFilePattern = map.get("isFilePattern").toString();
+		int isPatternCheck = Integer.parseInt(map.get("isPatternCheck").toString());
 		String isWebAddr = map.get("isWebAddr").toString();
 		String isMsgBlock = map.get("isMsgBlock").toString();
 		String waterMark = map.get("waterMark").toString();
+		int isWaterMarkPrint = Integer.parseInt(map.get("isWaterMarkPrint").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
-		String sql= "UPDATE policy_info "
-				+ "SET "
-					+ "update_server_time= NOW(), " 
-					+ "uninstall_enabled= ?, " 
-					+ "file_encryption_enabled= ?, " 
-					+ "cd_encryption_enabled= ?, " 
-					+ "printer_enabled= ?, " 
-					+ "cd_enabled= ?, " 
-					+ "cd_export_enabled= ?, " 
-					+ "wlan_enabled= ?, " 
-					+ "net_share_enabled= ?, " 
-					+ "web_export_enabled= ?, " 
-					+ "usb_dev_list= ?, " 
-					+ "com_port_list= ?, " 
-					+ "net_port_list= ?, "
-					+ "process_list= ?, " 
-					+ "file_pattern_list= ?, " 
-					+ "web_addr_list= ?, " 
-					+ "msg_block_list= ?, " 
-					+ "watermark_descriptor= ?, " 
-					+ "print_log_descriptor= ?, " 
-					+ "pattern_file_control= ? " 
-				+ "WHERE no= ? ";
+		String sql= "UPDATE policy_info SET update_server_time= NOW()";
+		 
+		if (isUninstall != -1) { sql += ",uninstall_enabled= ? "; }
+		if (isFileEncryption != -1) { sql += ",file_encryption_enabled= ? "; }
+		if (isCdEncryption != -1) { sql += ",cd_encryption_enabled= ? "; }
+		if (isPrint != -1) { sql += ",printer_enabled= ? "; }
+		if (isCdEnabled != -1) { sql += ",cd_enabled= ? "; }
+		if (isCdExport != -1) { sql += ",cd_export_enabled= ? "; }
+		if (isWlan != -1) { sql += ",wlan_enabled= ? "; }
+		if (isNetShare != -1) { sql += ",net_share_enabled= ? "; }
+		if (isWebExport != -1) { sql += ",web_export_enabled= ? "; }
+		if (!"".equals(isUsbBlock)) { sql += ",usb_dev_list= ? "; }
+		if (!"".equals(isComPortBlock)) { sql += ",com_port_list= ? "; }
+		if (!"".equals(isNetPortBlock)) { sql += ",net_port_list= ? "; }
+		if (isProcessCheck != -1) { sql += ",process_list= ? "; }
+		if (isPatternCheck != -1) { sql += ",file_pattern_list= ? "; }
+		if (!"".equals(isWebAddr)) { sql += ",web_addr_list= ? "; }
+		if (!"".equals(isMsgBlock)) { sql += ",msg_block_list= ? "; }
+		if (isWaterMarkPrint != -1) { sql += ",watermark_descriptor= ? "; }
+		if (Integer.parseInt(printLogDesc) != -1) { sql += ",print_log_descriptor= ? "; }
+		if (patternFileControl != -1) { sql += ",pattern_file_control= ? "; }
+		
+		sql += "WHERE no= ? ";
 		
 		try{
 			
@@ -1406,29 +1418,36 @@ sql += whereSql;
 			con.setAutoCommit(false);
 			pstmt=con.prepareStatement(sql);
 			
-			pstmt.setInt(1, isUninstall);
-			pstmt.setInt(2, isFileEncryption);
-			pstmt.setInt(3, isCdEncryption);
-			pstmt.setInt(4, isPrint);
-			pstmt.setInt(5, isCdEnabled);
-			pstmt.setInt(6, isCdExport);
-			pstmt.setInt(7, isWlan);
-			pstmt.setInt(8, isNetShare);
-			pstmt.setInt(9, isWebExport);
-			pstmt.setString(10, isUsbBlock);
-			pstmt.setString(11, isComPortBlock);
-			pstmt.setString(12, isNetPortBlock);
-			pstmt.setString(13, isProcessList);
-			pstmt.setString(14, isFilePattern);
-			pstmt.setString(15, isWebAddr);
-			pstmt.setString(16, isMsgBlock);
-			pstmt.setString(17, waterMark);
-			pstmt.setString(18, printLogDesc);
-			pstmt.setInt(19, patternFileControl);
-			pstmt.setInt(20, policy_id);
+			int i = 1;
+			
+			if (isUninstall != -1) { pstmt.setInt(i++ , isUninstall); }
+			if (isFileEncryption != -1) { pstmt.setInt(i++ , isFileEncryption); }
+			if (isCdEncryption != -1) { pstmt.setInt(i++ , isCdEncryption); }
+			if (isPrint != -1) { pstmt.setInt(i++ , isPrint); }
+			if (isCdEnabled != -1) { pstmt.setInt(i++ , isCdEnabled); }
+			if (isCdExport != -1) { pstmt.setInt(i++ , isCdExport); }
+			if (isWlan != -1) { pstmt.setInt(i++ , isWlan); }
+			if (isNetShare != -1) { pstmt.setInt(i++ , isNetShare); }
+			if (isWebExport != -1) { pstmt.setInt(i++ , isWebExport); }
+			if (!"".equals(isUsbBlock)) { pstmt.setString(i++ , isUsbBlock); }
+			if (!"".equals(isComPortBlock)) { pstmt.setString(i++ , isComPortBlock); }
+			if (!"".equals(isNetPortBlock)) { pstmt.setString(i++ , isNetPortBlock); }
+			if (isProcessCheck != -1) { pstmt.setString(i++ , isProcessList); }
+			if (isPatternCheck != -1) { pstmt.setString(i++ , isFilePattern); }
+			if (!"".equals(isWebAddr)) { pstmt.setString(i++ , isWebAddr); }
+			if (!"".equals(isMsgBlock)) { pstmt.setString(i++ , isMsgBlock); }
+			if (isWaterMarkPrint != -1) { pstmt.setString(i++ , waterMark); }
+			if (Integer.parseInt(printLogDesc) != -1) { pstmt.setString(i++ , printLogDesc); }
+			if (patternFileControl != -1) { pstmt.setInt(i++ , patternFileControl); }
+			
+			pstmt.setInt(i++ , policy_id);
 			pstmt.executeUpdate();
 									
 			con.commit();
+			
+			// 정책 변경 로그
+			ICommonService commonService = new CommonServiceImpl();
+			commonService.setPolicyUpdateToInsertLog(policy_id);
 		
 		}catch(SQLException ex){
 			returnCode = ConfigInfo.RETURN_CODE_ERROR;

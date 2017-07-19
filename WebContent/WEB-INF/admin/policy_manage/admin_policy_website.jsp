@@ -185,7 +185,8 @@
 								"next": "Next",
 								"last": "Last",
 								"first": "First"
-							}
+							},
+							"zeroRecords": "정책이 존재하지 않습니다."
 						},
 				 	  	"columnDefs": [
 						{	

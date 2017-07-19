@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import gcom.Model.ServerAuditModel;
 import gcom.common.services.ConfigInfo;
@@ -29,11 +30,11 @@ public class axAdminApplyPolicySave extends HttpServlet {
     	HttpSession session = httpReq.getSession(false);
 
 		HashMap<String, Object> param = JSONUtil.convertJsonToHashMap(request.getParameter("apply_policy").toString());
-		
 		insertAdminAction action = new insertAdminAction();
 		
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
+			
 			data = action.applyPolicyDataSave(param);
 			
 			ServerAuditModel model = new ServerAuditModel();

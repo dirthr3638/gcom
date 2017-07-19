@@ -27,7 +27,7 @@
 					</label>
 				<% } else { %>
 					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_com_port_block" value="Y" checked/><i></i> 허용
+						<input type="radio" name="radio_com_port_block" value="Y" /><i></i> 허용
 					</label>
 					<label class="radio nomargin-top nomargin-bottom">
 						<input type="radio" name="radio_com_port_block" value="N" /><i></i> 차단
@@ -39,7 +39,7 @@
 				<% if (onlyFlag) { %>
 					<input type="text" id="att_com_port_type" name="att_com_port_type" class="form-control" value="<%= applyCode%>" disabled />
 				<% } else { %>
-					<input type="text" id="att_com_port_type" name="att_com_port_type" class="form-control" value="Y" disabled />
+					<input type="text" id="att_com_port_type" name="att_com_port_type" class="form-control" value="" disabled />
 				<% } %>
 			</td>
 		</tr>
@@ -66,9 +66,17 @@
 			var chk_value = $(':radio[name="radio_com_port_block"]:checked').val();
 			var type = $('#att_com_port_type').val();		
 			if (chk_value == 'Y') {
-				$('#att_com_port_type').val(type.replace('N','Y'));	
+				if (type == '') {
+					$('#att_com_port_type').val(chk_value);
+				} else {
+					$('#att_com_port_type').val(type.replace('N','Y'));
+				}
 			} else {
-				$('#att_com_port_type').val(type.replace('Y','N'));
+				if (type == '') {
+					$('#att_com_port_type').val(chk_value);
+				} else {
+					$('#att_com_port_type').val(type.replace('Y','N'));
+				}
 			}
 		});
 	});
@@ -77,6 +85,12 @@
 		
 		var serialCode = $(check_box).val();
 		var type = $('#att_com_port_type').val();
+		
+		if (type == '') {
+			alert('차단여부를 먼저 선택해주세요.');
+			$(check_box).prop('checked', false);
+			return false;
+		}
 		
 		if ($(check_box).is(':checked')) {
 			

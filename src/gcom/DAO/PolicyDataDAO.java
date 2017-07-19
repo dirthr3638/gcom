@@ -2446,8 +2446,6 @@ sql += whereSql;
 		int sCount = 0;
 		int fCount = 0;
 		
-		ICommonService commonService = new CommonServiceImpl();
-		
 		String sql= "SELECT "
 					+ "ai.no as agent_no, "
 						+ "ai.policy_no, "
@@ -2489,6 +2487,8 @@ sql += whereSql;
 							
 							con.commit();
 							
+							// 정책 변경 로그
+							ICommonService commonService = new CommonServiceImpl();
 							commonService.setPolicyUpdateToInsertLog(policy_no);
 						}
 						

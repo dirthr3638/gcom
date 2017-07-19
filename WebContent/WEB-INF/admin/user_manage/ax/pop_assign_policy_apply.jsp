@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <% 
-	List<HashMap<String, Object>> apply_list = (List<HashMap<String, Object>>)request.getAttribute("list");
-	boolean onlyFlag = apply_list.size() == 1 ? true : false;
-	HashMap<String, Object> data = apply_list.get(0);
+	List<HashMap<String, Object>> apply_list = (List<HashMap<String, Object>>)request.getAttribute("apply_list");
+	boolean onlyFlag = Boolean.parseBoolean(request.getAttribute("only_flag").toString());
+	HashMap<String, Object> data = (HashMap<String, Object>)request.getAttribute("current_policy");
 %>
 <script type="text/javascript" src="/assets/js/admin_function.js"></script>
 <div id="modalApplyPolicy" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
@@ -52,63 +52,106 @@
 														<div id="basics" class="tab-pane fade in active">
 															<table class="table table-bordered">
 																<tbody>
-																	<tr>
-																		<td class="th-cell-gray" width="300px;">에이전트 삭제 가능 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isUninstall_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isUninstall"))){ %> checked <%}%> /></td>
-																	</tr>	
-																	<tr>
-																		<td class="th-cell-gray">파일실시간 암호화</td>
-																		<td><input type="checkbox" value="Y" id="chk_isFileEncryption_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isFileEncryption"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">CD실시간 암호화</td>
-																		<td><input type="checkbox" value="Y" id="chk_isCdEncryption_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isCdEncryption"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">프린터 사용 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isPrint_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isPrint"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">CD 사용 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isCdEnabled_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isCdEnabled"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">CD 반출 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isCdExport_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isCdExport"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">무선랜 사용 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isWlan_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isWlan"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">공유폴더 사용 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isNetShare_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isNetShare"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">메일 반출 여부</td>
-																		<td><input type="checkbox" value="Y" id="chk_isWebExport_item" name="chk_policy_item" <% if (onlyFlag && Boolean.TRUE.equals(data.get("isWebExport"))){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">민감파일 접근 시 삭제</td>
-																		<td><input type="checkbox" value="1" id="chk_patternFileControl_item" name="chk_policy_item" <% if (onlyFlag && Integer.parseInt(data.get("patternFileControl").toString()) == 1 ){ %> checked <%}%> /></td>
-																	</tr>
-																	<tr>
-																		<td class="th-cell-gray">프린터 인쇄 로그</td>
-																		<td>
-																			<% if (onlyFlag){ 
-																				int printLogDesc = Integer.parseInt(data.get("printLogDesc").toString());
-																			%>  
+																	<% if (onlyFlag){ %>
+																		<tr>
+																			<td class="th-cell-gray" width="300px;">에이전트 삭제 가능 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_isUninstall_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isUninstall"))){ %> checked <%}%> /></td>
+																		</tr>	
+																		<tr>
+																			<td class="th-cell-gray">파일실시간 암호화</td>
+																			<td><input type="checkbox" value="1" id="chk_isFileEncryption_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isFileEncryption"))){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">CD실시간 암호화</td>
+																			<td><input type="checkbox" value="1" id="chk_isCdEncryption_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isCdEncryption"))){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">프린터 사용 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_isPrint_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isPrint"))){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">CD 사용 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_isCdEnabled_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isCdEnabled"))){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">CD 반출 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_isCdExport_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isCdExport"))){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">무선랜 사용 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_isWlan_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isWlan"))){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">공유폴더 사용 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_isNetShare_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isNetShare"))){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">메일 반출 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_isWebExport_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isWebExport"))){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">민감파일 접근 시 삭제</td>
+																			<td><input type="checkbox" value="1" id="chk_patternFileControl_item" name="chk_policy_item" <% if (Integer.parseInt(data.get("patternFileControl").toString()) == 1 ){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">프린터 인쇄 로그</td>
+																			<td>
+																				<% int printLogDesc = Integer.parseInt(data.get("printLogDesc").toString()); %>
 																				<input type="radio" value="0" id="radio_printLogDesc_item" name="radio_printLogDesc_item" <% if (printLogDesc == 0){ %> checked <%}%> />로그전송안함
 																				<input type="radio" value="1" id="radio_printLogDesc_item" name="radio_printLogDesc_item" <% if (printLogDesc == 1){ %> checked <%}%> />이벤트로그
 																				<input type="radio" value="2" id="radio_printLogDesc_item" name="radio_printLogDesc_item" <% if (printLogDesc == 2){ %> checked <%}%> />파일원본로그
-																			<% } else { %>
-																				<input type="radio" value="0" id="radio_printLogDesc_item" name="radio_printLogDesc_item" checked/>로그전송안함
+																			</td>
+																		</tr>
+																 	<%} else {%>
+																 		<tr>
+																			<td class="th-cell-gray" width="300px;">에이전트 삭제 가능 여부</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isUninstall_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isUninstall"))){ %> indeterminate <%}%> /></td>
+																		</tr>	
+																		<tr>
+																			<td class="th-cell-gray">파일실시간 암호화</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isFileEncryption_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isFileEncryption"))){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">CD실시간 암호화</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isCdEncryption_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isCdEncryption"))){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">프린터 사용 여부</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isPrint_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isPrint"))){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">CD 사용 여부</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isCdEnabled_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isCdEnabled"))){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">CD 반출 여부</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isCdExport_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isCdExport"))){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">무선랜 사용 여부</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isWlan_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isWlan"))){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">공유폴더 사용 여부</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isNetShare_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isNetShare"))){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">메일 반출 여부</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isWebExport_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isWebExport"))){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">민감파일 접근 시 삭제</td>
+																			<td><input type="checkbox" class="tristate" id="chk_patternFileControl_item" name="chk_policy_item" <% if (Integer.parseInt(data.get("patternFileControl").toString()) == 1 ){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">프린터 인쇄 로그</td>
+																			<td>
+																				<input type="radio" value="0" id="radio_printLogDesc_item" name="radio_printLogDesc_item" />로그전송안함
 																				<input type="radio" value="1" id="radio_printLogDesc_item" name="radio_printLogDesc_item" />이벤트로그
 																				<input type="radio" value="2" id="radio_printLogDesc_item" name="radio_printLogDesc_item" />파일원본로그
-																			<% } %>
-																		</td>
-																	</tr>
-																	
+																			</td>
+																		</tr>
+																 	<%}%>	
 																</tbody>
 															</table>
 														</div>
@@ -224,6 +267,9 @@
 		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 
+	<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/plugins/jquery.tristate.js"></script>
 
 <script type="text/javascript">
 
@@ -235,25 +281,25 @@
 		pattern_table();
 		web_site_table();
 		msg_block_table();
+		
+		$('.tristate').tristate({
+			checked: 1,
+	        unchecked: 0,
+	        indeterminate: -1,
+		});
 	});
 
 	function fn_policy_apply_save() {
-		var data = getPolicyApplyData();
+		var flag = '<%= onlyFlag %>';
+		var policy_data = getPolicyApplyData(flag);
 		var apply_list = getApplyPolicyUserData();
-		console.log(apply_list);
-		data['apply_list'] = apply_list;
-		
+		policy_data['apply_list'] = apply_list;
+
 		if(apply_list.length > 1) {
-			if (confirm("주의! 한명 이상에게 정책 적용 시 선택 된 정책으로 모든 정책이 적용됩니다. 선택 된 정책을 적용하시겠습니까?") == true){    //확인
-			    
-			}else{   //취소
-				$('#modalApplyPolicy').modal('hide');
-			    return false;
-			}
-			/* vex.defaultOptions.className = 'vex-theme-os'
+			vex.defaultOptions.className = 'vex-theme-os'
 				
 			vex.dialog.open({
-				message: '주의! 한명 이상에게 정책 적용 시 선택 된 정책으로 모든 정책이 적용됩니다. 선택 된 정책을 적용하시겠습니까?',
+				message: '주의! 한명 이상에게 정책 적용 시 변경 된 정책만 적용되오니 유의하시기 바랍니다. 선택 된 정책을 적용하시겠습니까?',
 				  buttons: [
 				    $.extend({}, vex.dialog.buttons.YES, {
 				      text: '확인'
@@ -262,20 +308,27 @@
 				      text: '취소'
 				  })],
 				  callback: function(data) {
-			 	  	if (!data) {
-			 	  		$('#modalApplyPolicy').modal('hide');
+			 	  	if (data) {
+			 	  		saveData(policy_data);
+			 	    } else {
+			 	    	$('#modalApplyPolicy').modal('hide');
 			 	  		return false;
 			 	    }
 			 	  }
-			})*/
+			})
+		} else {
+			saveData(policy_data);
 		}
-		
+	}
+	
+	function saveData (policy_data) {
+		console.log(policy_data);
 		$.ajax({      
 		    type:"POST",  
 		    url:'/admin/user/apply/save',
 		    async: false,
 		    data:{
-		    	apply_policy : JSON.stringify(data),
+		    	apply_policy : JSON.stringify(policy_data),
 		    	_ : $.now()
 		    },
 		    success:function(data){
