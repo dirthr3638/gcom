@@ -22,7 +22,7 @@
 					</label>
 				<% } else { %>
 					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_pattern_block" value="Y" checked /><i></i> 허용
+						<input type="radio" name="radio_pattern_block" value="Y" /><i></i> 허용
 					</label>
 					<label class="radio nomargin-top nomargin-bottom">
 						<input type="radio" name="radio_pattern_block" value="N" /><i></i> 차단

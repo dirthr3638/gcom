@@ -2,6 +2,7 @@ package gcom.service.Personal;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gcom.Model.FileInfoModel;
 import gcom.Model.MailExportContentModel;
@@ -31,4 +32,5 @@ public interface IPersonalService {
 	public HashMap<String, Object> insertContactCommentSave(HashMap<String, Object> map);
 	public HashMap<String, Object> getCommentInfo(HashMap<String, Object> map);
 	public HashMap<String, Object> updateContactCommentUpdate(HashMap<String, Object> map);
+	public HashMap<String, Object> getCurrentPolicyCheck(List<Map<String, Object>> apply_list);
 }

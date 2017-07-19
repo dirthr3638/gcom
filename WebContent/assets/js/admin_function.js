@@ -1,19 +1,37 @@
 
-function getPolicyApplyData(){
+function getPolicyApplyData(flag){
 	var map = new Object();
 	
-	// 기본 탭 데이터 Set Operation
-	map['isUninstall'] 			= $('#chk_isUninstall_item').is(':checked') == true ? 1 : 0 ;					// 에이전트 삭제 가능 여부
-	map['isFileEncryption']		= $('#chk_isFileEncryption_item').is(':checked') == true ? 1 : 0 ;				// 파일실시간 암호화 여부
-	map['isCdEncryption'] 		= $('#chk_isCdEncryption_item').is(':checked') == true ? 1 : 0 ;				// CD실시간 암호화 여부
-	map['isPrint'] 				= $('#chk_isPrint_item').is(':checked') == true ? 1 : 0 ;						// 프린터 사용 여부	
-	map['isCdEnabled'] 			= $('#chk_isCdEnabled_item').is(':checked') == true ? 1 : 0 ;					// CD 사용여부
-	map['isCdExport'] 			= $('#chk_isCdExport_item').is(':checked') == true ? 1 : 0 ;					// CD 반출 여부
-	map['isWlan'] 				= $('#chk_isWlan_item').is(':checked') == true ? 1 : 0 ;						// 무선랜 사용 여부
-	map['isNetShare'] 			= $('#chk_isNetShare_item').is(':checked') == true ? 1 : 0 ;					// 공유폴더 사용 여부
-	map['isWebExport'] 			= $('#chk_isWebExport_item').is(':checked') == true ? 1 : 0 ;					// 메일 반출 여부
-	map['patternFileControl'] 	= $('#chk_patternFileControl_item').is(':checked') == true ? 1 : 0 ;			// 민감파일 접근 시 삭제
-	map['printLogDesc'] 		= $(':radio[name="radio_printLogDesc_item"]:checked').val();					// 프린터 인쇄 로그
+	if (flag == 'true') {
+		console.log("solo")
+		// 기본 탭 데이터 Set Operation
+		map['isUninstall'] 			= $('#chk_isUninstall_item').is(':checked') == true ? 1 : 0 ;					// 에이전트 삭제 가능 여부
+		map['isFileEncryption']		= $('#chk_isFileEncryption_item').is(':checked') == true ? 1 : 0 ;				// 파일실시간 암호화 여부
+		map['isCdEncryption'] 		= $('#chk_isCdEncryption_item').is(':checked') == true ? 1 : 0 ;				// CD실시간 암호화 여부
+		map['isPrint'] 				= $('#chk_isPrint_item').is(':checked') == true ? 1 : 0 ;						// 프린터 사용 여부	
+		map['isCdEnabled'] 			= $('#chk_isCdEnabled_item').is(':checked') == true ? 1 : 0 ;					// CD 사용여부
+		map['isCdExport'] 			= $('#chk_isCdExport_item').is(':checked') == true ? 1 : 0 ;					// CD 반출 여부
+		map['isWlan'] 				= $('#chk_isWlan_item').is(':checked') == true ? 1 : 0 ;						// 무선랜 사용 여부
+		map['isNetShare'] 			= $('#chk_isNetShare_item').is(':checked') == true ? 1 : 0 ;					// 공유폴더 사용 여부
+		map['isWebExport'] 			= $('#chk_isWebExport_item').is(':checked') == true ? 1 : 0 ;					// 메일 반출 여부
+		map['patternFileControl'] 	= $('#chk_patternFileControl_item').is(':checked') == true ? 1 : 0 ;			// 민감파일 접근 시 삭제
+	
+	} else {
+		console.log("many")
+		// 기본 탭 데이터 Set Operation
+		map['isUninstall'] 			= $('#chk_isUninstall_item').val();					// 에이전트 삭제 가능 여부
+		map['isFileEncryption']		= $('#chk_isFileEncryption_item').val();				// 파일실시간 암호화 여부
+		map['isCdEncryption'] 		= $('#chk_isCdEncryption_item').val();				// CD실시간 암호화 여부
+		map['isPrint'] 				= $('#chk_isPrint_item').val();						// 프린터 사용 여부	
+		map['isCdEnabled'] 			= $('#chk_isCdEnabled_item').val();					// CD 사용여부
+		map['isCdExport'] 			= $('#chk_isCdExport_item').val();					// CD 반출 여부
+		map['isWlan'] 				= $('#chk_isWlan_item').val();						// 무선랜 사용 여부
+		map['isNetShare'] 			= $('#chk_isNetShare_item').val();					// 공유폴더 사용 여부
+		map['isWebExport'] 			= $('#chk_isWebExport_item').val();					// 메일 반출 여부
+		map['patternFileControl'] 	= $('#chk_patternFileControl_item').val();			// 민감파일 접근 시 삭제
+	}
+	 
+	map['printLogDesc'] 		= $(':radio[name="radio_printLogDesc_item"]').is(':checked') == true ? $(':radio[name="radio_printLogDesc_item"]:checked').val() : -1 ;				// 프린터 인쇄 로그
 	
 	// USB 탭 데이터 Set Operation
 	map['isUsbBlock']		= $('#att_usb_block_type').val();			// USB 차단정책
@@ -26,9 +44,11 @@ function getPolicyApplyData(){
 	
 	// 프로세스 탭 데이터 Set Operation
 	map['isProcessList']	= $('#att_process_type').val();				// 프로세스 차단정책
+	map['isProcessCheck']   = $(':radio[name="radio_process_block"]').is(':checked') == true ? 1 : -1 ;
 	
 	// 패턴 탭 데이터 Set Operation
 	map['isFilePattern']	= $('#att_pattern_type').val();				// 민감 패턴 차단정책
+	map['isPatternCheck']   = $(':radio[name="radio_pattern_block"]').is(':checked') == true ? 1 : -1 ;
 	
 	// 사이트 탭 데이터 Set Operation
 	map['isWebAddr']		= $('#att_website_block_type').val();		// 사이트 차단정책
@@ -37,14 +57,53 @@ function getPolicyApplyData(){
 	map['isMsgBlock']		= $('#att_msg_block_type').val();			// 메신저 차단정책
 	
 	// 워터마크 탭 데이터 Set Operation // 워터마크 정책
-	var isWaterMarkPrint	= $(':radio[name="radio_water_mark_print"]:checked').val();
-	var waterMarkDate		= $('#att_waterMark_end_date').val(); 
-	var waterMarkType		= $('#att_waterMark_type').val();
-	var waterMaskPolicy = isWaterMarkPrint=='N'? 'N' : isWaterMarkPrint + "," + waterMarkDate + "," + waterMarkType;
+	var isWaterMarkPrint	= $(':radio[name="radio_water_mark_print"]:checked').val();	
+	var waterMarkCheck = $(':radio[name="radio_water_mark_print"]').is(':checked') == true ? 1 : -1 ;				
+	map['isWaterMarkPrint'] = waterMarkCheck;
+	var waterMarkDate		= $('#att_waterMark_end_date').val();
+	var waterMaekTime		= $('#att_waterMark_end_time').val();
+	
+	if (waterMaekTime != "") {
+		waterMaekTime = getFormatTime(waterMaekTime);
+	}
+	
+	var waterMarkType		= $('#att_waterMark_type').val();			// 워터마크 타입
+	var waterMaskPolicy = '';
+		if (waterMarkCheck != -1) {
+			waterMaskPolicy = isWaterMarkPrint=='N'? isWaterMarkPrint : isWaterMarkPrint + "," + waterMarkDate + " " + waterMaekTime + "," + waterMarkType;
+		} else {
+			waterMaskPolicy = '';
+		}
+		
 	
 	map['waterMark'] = waterMaskPolicy;									// 워터마크 정책
 	
 	return map;
+}
+
+function getFormatTime(time) {
+	var splitTimeArray = time.split(':');
+	var hour = splitTimeArray[0].trim();
+	var min = splitTimeArray[1].trim();
+	var checkTime = splitTimeArray[2].trim();
+	
+	var changeHour = '';
+	
+	if (checkTime == 'PM') {
+		if( parseInt(hour) != 12) {
+			changeHour = (parseInt(hour) + 12).toString() ;
+		} else {
+			changeHour = "12";
+		}
+	} else {
+		if(parseInt(hour) == 12) {
+			changeHour = "00";
+		} else {
+			changeHour = hour;
+		}
+	}
+	
+	return changeHour+":"+min;
 }
 
 function getApplyPolicyDetailItem(data){
