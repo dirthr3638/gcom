@@ -60,7 +60,7 @@
 								</div>
 
 								<!-- panel content -->
-								<div id="dept_tree" class="panel-body">
+								<div id="dept_tree" class="panel-body" style="padding-left: 0px; padding-right: 0px;">
 
 								</div>
 								<!-- /panel content -->
