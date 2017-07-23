@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <% 
-	boolean onlyFlag = Boolean.parseBoolean(request.getParameter("onlyFlag"));
 	boolean isProcessList = Boolean.parseBoolean(request.getParameter("isProcessList"));
 	String processListCode = request.getParameter("processListCode").toString();
 	String applyCode = processListCode.length() > 0 ? processListCode : "";

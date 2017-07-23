@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <% 
-	boolean onlyFlag = Boolean.parseBoolean(request.getParameter("onlyFlag"));
 	boolean isWebAddr = Boolean.parseBoolean(request.getParameter("isWebAddr"));
 	String webAddrCode = request.getParameter("webAddrCode").toString();
 	String applyCode = webAddrCode.length() > 0 ? "," + webAddrCode : "";

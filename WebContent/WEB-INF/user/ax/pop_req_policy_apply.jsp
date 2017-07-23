@@ -109,6 +109,15 @@
 																	
 																</tbody>
 															</table>
+															
+															<table class="table table-bordered" style="margin:0;">
+															<tbody>
+																<tr>
+																	<td class="th-cell-gray" width="300px;" style="vertical-align: middle;">요청사유</td>
+																	<td><input type="text" class="form-control" value="" id="att_change_policy_notice" name="att_change_policy_notice" /></td>
+																</tr>
+															</tbody>
+														</table>
 														</div>
 														
 														<!-- USB 차단정책 -->
@@ -175,7 +184,6 @@
    																<jsp:param name="waterMarkEndDate" value="<%= data.getWaterMarkEndDate() %>"/>
    															</jsp:include>
 														</div>
-														
 													</div>
 												</div>	
 											</div>
@@ -193,6 +201,8 @@
 								</div>
 							</div>
 						</div>
+						
+												
 					</div>
 				<!-- /Modal body -->
 
@@ -248,14 +258,53 @@
 		map['isMsgBlock']		= $('#att_msg_block_type').val();			// 메신저 차단정책
 		
 		// 워터마크 탭 데이터 Set Operation // 워터마크 정책
-		var isWaterMarkPrint	= $(':radio[name="radio_water_mark_print"]:checked').val();
-		var waterMarkDate		= $('#att_waterMark_end_date').val(); 
-		var waterMarkType		= $('#att_waterMark_type').val();
-		var waterMaskPolicy = isWaterMarkPrint=='N'? 'N' : isWaterMarkPrint + "," + waterMarkDate + "," + waterMarkType;
+		var isWaterMarkPrint	= $(':radio[name="radio_water_mark_print"]:checked').val();	
+		var waterMarkCheck = $(':radio[name="radio_water_mark_print"]').is(':checked') == true ? 1 : -1 ;				
+		map['isWaterMarkPrint'] = waterMarkCheck;
+		var waterMarkDate		= $('#att_waterMark_end_date').val();
+		var waterMaekTime		= $('#att_waterMark_end_time').val();
+		
+		if (waterMaekTime != "") {
+			waterMaekTime = getFormatTime(waterMaekTime);
+		}
+		
+		var waterMarkType		= $('#att_waterMark_type').val();			// 워터마크 타입
+		var waterMaskPolicy = '';
+		
+		if (waterMarkCheck != -1) {
+			waterMaskPolicy = isWaterMarkPrint=='N'? isWaterMarkPrint : isWaterMarkPrint + "," + waterMarkDate + " " + waterMaekTime + "," + waterMarkType;
+		} else {
+			waterMaskPolicy = '';
+		}
 		
 		map['waterMark'] = waterMaskPolicy;									// 워터마크 정책
 		
 		return map;
+	}
+
+	function getFormatTime(time) {
+		var splitTimeArray = time.split(':');
+		var hour = splitTimeArray[0].trim();
+		var min = splitTimeArray[1].trim();
+		var checkTime = splitTimeArray[2].trim();
+		
+		var changeHour = '';
+		
+		if (checkTime == 'PM') {
+			if( parseInt(hour) != 12) {
+				changeHour = (parseInt(hour) + 12).toString() ;
+			} else {
+				changeHour = "12";
+			}
+		} else {
+			if(parseInt(hour) == 12) {
+				changeHour = "00";
+			} else {
+				changeHour = hour;
+			}
+		}
+		
+		return changeHour+":"+min;
 	}
 
 	$(document).ready(function(){
@@ -273,6 +322,7 @@
 		data['agent_no'] = <%= data.getAgentNo() %>
 		data['user_no'] = <%= data.getUserNo() %>
 		data['policy_no'] = <%= data.getPolicyNo() %>
+		data['notice'] = $('#att_change_policy_notice').val();;
 		
 		$.ajax({      
 		    type:"POST",  

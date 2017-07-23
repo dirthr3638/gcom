@@ -69,11 +69,12 @@ function getPolicyApplyData(flag){
 	
 	var waterMarkType		= $('#att_waterMark_type').val();			// 워터마크 타입
 	var waterMaskPolicy = '';
-		if (waterMarkCheck != -1) {
-			waterMaskPolicy = isWaterMarkPrint=='N'? isWaterMarkPrint : isWaterMarkPrint + "," + waterMarkDate + " " + waterMaekTime + "," + waterMarkType;
-		} else {
-			waterMaskPolicy = '';
-		}
+	
+	if (waterMarkCheck != -1) {
+		waterMaskPolicy = isWaterMarkPrint=='N'? isWaterMarkPrint : isWaterMarkPrint + "," + waterMarkDate + " " + waterMaekTime + "," + waterMarkType;
+	} else {
+		waterMaskPolicy = '';
+	}
 	
 	map['waterMark'] = waterMaskPolicy;									// 워터마크 정책
 	

@@ -53,7 +53,8 @@
 		<section>
 			<div class="container">
 				<!-- RIGHT -->
-				<div class="col-lg-9 col-md-9 col-sm-8 col-lg-push-3 col-md-push-3 col-sm-push-4 margin-bottom-80">
+				<!-- <div class="col-lg-9 col-md-9 col-sm-8 col-lg-push-3 col-md-push-3 col-sm-push-4 margin-bottom-80"> -->
+				<div class="col-lg-12 col-md-12 col-sm-12 margin-bottom-80">
 					<!-- PERSONAL INFO TAB -->
 					<div class="tab-pane fade in active" id="info">
 						<form id="frmUserInfo" role="form" action="/user/info/save" method="post">
@@ -91,58 +92,12 @@
 								<button id="btnUserInfoSave" class="btn btn-primary"><i class="fa fa-check"></i> 정보 수정 </button>
 								<a href="/main" class="btn btn-default">취소</a>
 							</div>
-							
-							<!-- 파일 업로드 정보 -->
-							<input type="text" name="att_File_id" id="att_File_id" class="hidden" value="<%=attfile_id %>">
-							<input type="text" name="att_upload_save_filename" id="att_upload_save_filename" class="hidden" value="">
-	 						<input type="text" name="att_upload_view_filename" id="att_upload_view_filename" class="hidden" value="">
-	 						<input type="text" name="att_upload_filepath" id="att_upload_filepath" class="hidden" value="">
+						
 						</form>
 					</div>
 				</div>
 
 
-				<!-- LEFT -->
-				<div class="col-lg-3 col-md-3 col-sm-4 col-lg-pull-9 col-md-pull-9 col-sm-pull-8">
-				
-					<div class="thumbnail text-center padding-top-10">
-						<a href="javascript:document.getElementById('att_file_upload').click();">
-							<% if(attfile_id == 0) { %>
-								<img src="/assets/images/460x427.png" alt="" width="460px" height="427px"/>
-							<% } else { %>
-								<img src="/assets/images/460x427.png" alt="" width="460px" height="427px"/>
-								<%-- <img src="<%= imgPath %>/getpic?pic_id=<%= attfile_id %>" alt="" width="460px" height="427px"/> --%>
-							<% } %>
-						</a>
-						<h2 class="size-18 margin-top-10 margin-bottom-0"><%= name %></h2>
-						<h3 class="size-11 margin-top-0 margin-bottom-10 text-muted"><%= rank %></h3>
-					</div>
-
-					<!-- completed -->
-					<div class="margin-bottom-30">
-						<!-- 실제 파일 업로드 input -->
-						<input type="file" class="form-control hidden" id="att_file_upload" name="att_file_upload" />
- 						
- 						<div id="upload_progress">
-							<span id="upload_progress_txt">사진을 클릭하여 업로드하세요.</span>
-							<div class="progress progress-xxs">
-								<div id="upload_progress_bar" class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; min-width: 0em;"></div>
-							</div>
-						</div>
-					</div>
-					<!-- /completed -->
-
-					<!-- SIDE NAV -->
-					<ul class="side-nav list-group margin-bottom-60" id="sidebar-nav">
-						<!-- <li class="list-group-item"><a href="page-profile.html"><i class="fa fa-eye"></i> PROFILE</a></li>
-						<li class="list-group-item"><a href="page-profile-projects.html"><i class="fa fa-tasks"></i> PROJECTS</a></li>
-						<li class="list-group-item"><a href="page-profile-comments.html"><i class="fa fa-comments-o"></i> COMMENTS</a></li>
-						<li class="list-group-item"><a href="page-profile-history.html"><i class="fa fa-history"></i> HISTORY</a></li> -->
-						<li class="list-group-item active"><a href="page-profile-settings.html"><i class="fa fa-gears"></i> SETTINGS</a></li>
-					</ul>
-					<!-- /SIDE NAV -->
-
-				</div>
 			</div>
 		</section>
 		
@@ -162,64 +117,6 @@
 					fn_info_save_proc();
 				});
 				
-				$('#att_file_upload').fileupload({
-					 url : '/common/fileupload', 
-			         dataType: 'json',
-			         xhrFields: {
-			             withCredentials: true
-			         },
-			         replaceFileInput : true,
-			         add: function(e, data){
-			             var uploadFile = data.files[0];
-			             var isValid = true;
-			             
-			             if (!(/png|jpe?g|gif/i).test(uploadFile.name)) {
-			                 alert('파일업로드실패 : png, jpg, gif 만 가능합니다.');
-			                 e.preventDefault();
-			                 isValid = false;
-			             }
-			             
-			             if (uploadFile.size > 10000000) { 
-			        		 alert('파일 용량은 10M 를 초과할 수 없습니다.');
-			        		 e.preventDefault();
-			        		 isValid = false;
-			             }
-			             
-			             if (isValid) {
-			            	 $('#upload_progress_txt').text("업로드 진행중 잠시 기다려주세요.");
-			                 data.submit();              
-			             }
-			             
-			         }, progressall: function(e,data) {
-			             var progress = parseInt(data.loaded / data.total * 100, 10);
-			             $('#upload_progress_txt').html(progress + "% 업로드 진행중");
-		                 $('#upload_progress_bar').css('width', progress + '%');            	             	 
-			            	 
-			         }, done: function (e, data) {
-			        	 if(data.result.returnCode == 'S'){
-				        	 $('#upload_progress_txt').html('<b style="color:blue">[업로드 성공] 정보수정을 클릭하여 저장하세요.</b>')  
-				        	 $('#att_upload_save_filename').val(data.result.saveFileName);
-				        	 $('#att_upload_view_filename').val(data.result.viewFileName);
-				        	 $('#att_upload_filepath').val(data.result.filepath);
-			        	 }
-			        	 else{
-			        		 console.log(data.result.returnCode);
-			        		 call_toast(4, '파일업로드실패', '서버와의 통신 장애로 파일업로드에 실패하였습니다. ( error code : ' + data.result.returnCode+  ' )');
-				        	 $('#upload_progress_txt').html('<b style="color:red">&nbsp;[업로드 실패]</b>')  
-
-			        	 }
-			        	 
-			         }, fail: function(e, data){
-			             // data.errorThrown
-			             // data.textStatus;
-			             // data.jqXHR;
-			             alert('서버와 통신 중 문제가 발생했습니다');
-			             foo = data;
-			             console.log(e);
-			             console.log(data);
-			             
-			         }
-				});
 			});
 			
 			function fn_info_save_proc() {

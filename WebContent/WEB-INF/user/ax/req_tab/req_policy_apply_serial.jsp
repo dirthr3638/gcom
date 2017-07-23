@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <% 
-	boolean onlyFlag = Boolean.parseBoolean(request.getParameter("onlyFlag"));
 	boolean isComPortBlock = Boolean.parseBoolean(request.getParameter("isComPortBlock"));
 	String comPortBlockCode = request.getParameter("comPortBlockCode").toString();
 	String applyCode = comPortBlockCode.length() > 0 ? "," + comPortBlockCode : "";
