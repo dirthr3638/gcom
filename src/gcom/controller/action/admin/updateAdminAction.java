@@ -91,4 +91,14 @@ public class updateAdminAction {
 		IPolicyService as = new PolicyServiceImpl();
 		return as.updatePolicyUsbUpdate(map);
 	}
+
+	public HashMap<String, Object> updatePermitRequestPolicy(HashMap<String, Object> map) {
+		IPolicyService as = new PolicyServiceImpl();
+		return as.updatePermitRequestPolicy(map);
+	}
+
+	public HashMap<String, Object> updateRejectRequestPolicy(HashMap<String, Object> map) {
+		IPolicyService as = new PolicyServiceImpl();
+		return as.updateRejectRequestPolicy(map);
+	}
 }

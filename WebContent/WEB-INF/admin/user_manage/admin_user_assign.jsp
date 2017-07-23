@@ -25,9 +25,7 @@
 		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
 		<script type="text/javascript" src="/assets/js/admin_function.js"></script>
-	<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
-	
-	
+		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
 	
 		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>

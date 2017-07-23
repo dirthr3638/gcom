@@ -79,4 +79,6 @@ public interface IPolicyService {
 	public HashMap<String, Object> insertPolicyUsbSave(HashMap<String, Object> map);
 	public HashMap<String, Object> updatePolicyUsbUpdate(HashMap<String, Object> map);
 	public HashMap<String, Object> insertPolicyDeviceSave(HashMap<String, Object> map);
+	public HashMap<String, Object> updatePermitRequestPolicy(HashMap<String, Object> map);
+	public HashMap<String, Object> updateRejectRequestPolicy(HashMap<String, Object> map);
 }

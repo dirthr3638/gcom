@@ -249,4 +249,12 @@ public class PolicyServiceImpl implements IPolicyService {
 		
 		return result;
 	}
+	
+	public HashMap<String, Object> updatePermitRequestPolicy(HashMap<String, Object> map) {
+		return poDao.updatePermitRequestPolicy(map);
+	}
+	
+	public HashMap<String, Object> updateRejectRequestPolicy(HashMap<String, Object> map) {
+		return poDao.updateRejectRequestPolicy(map);
+	}
 }

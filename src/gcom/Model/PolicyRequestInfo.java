@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class PolicyRequestInfo {
-	private int policyNo;
+	
+	private int requestNo;
 	private int userNo;
 	private String userName = "";
 	private String userId = "";
@@ -15,6 +16,10 @@ public class PolicyRequestInfo {
 	private String pcName = "";
 	private String deptName = "";
 	private String phone = "";
+	private String reqNotice = "";
+	private String permitState = "";
+	private String permitDate = "";
+	private String permitStaf = "";
 
 	private Boolean isUninstall;
 	private Boolean isFileEncryption;
@@ -29,17 +34,22 @@ public class PolicyRequestInfo {
 	private Boolean isStorageAdmin;
 
 	private Boolean isUsbBlock;
-	
 	private Boolean isComPortBlock;
-	
 	private Boolean isNetPortBlock;
-	
 	private Boolean isProcessList;
 	private Boolean isFilePattern;
-	
 	private Boolean isWebAddr;
+	private Boolean isMsgBlock;
 	
-	private String waterMarkInfo = "";
+	// LongText형 List 정책 정보 적용 코드 데이터 (String)
+	private String usbBlockCode = "";
+	private String comPortBlockCode = "";
+	private String netPortBlockCode = "";
+	private String processListCode = "";
+	private String filePatternCode = "";
+	private String webAddrCode = "";
+	private String msgBlockCode = "";
+	
 	private Boolean isWaterMark;
 	private String waterMarkEndDate = "";
 	private int waterMarkType;
@@ -48,7 +58,7 @@ public class PolicyRequestInfo {
 	//private String quarantinePathAccessCode = "";
 	private int patternFileControl;   //검출된 패턴파일 처리 방법 0:격리 1:삭제
 
-	private PolicyInfoModel oldPolicy = null;
+	private UserPolicyModel oldPolicy = null;
 	
 	public void setIsUninstall(int value){
 		if(value == 0){
@@ -130,30 +140,47 @@ public class PolicyRequestInfo {
 	
 	public void setIsUsbBlock(String value){
 		if(value.substring(0,1).equals("Y")){
-			isUsbBlock = true;
-		}else{
 			isUsbBlock = false;
+			usbBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isUsbBlock = true;
+			usbBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		};		
 	}
 	public void setIsComPortBlock(String value){
 		if(value.substring(0,1).equals("Y")){
-			isComPortBlock = true;
-		}else{
 			isComPortBlock = false;
-		};		
+			comPortBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isComPortBlock = true;
+			comPortBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		};
 	}
 	public void setIsNetPortBlock(String value){
 		if(value.substring(0,1).equals("Y")){
-			isNetPortBlock = true;
-		}else{
 			isNetPortBlock = false;
+			netPortBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isNetPortBlock = true;
+			netPortBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		};		
 	}
 	public void setIsWebAddr(String value){
 		if(value.substring(0,1).equals("Y")){
-			isWebAddr = true;
+			isWebAddr = false;			
+			webAddrCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		}else{
-			isWebAddr = false;
+			isWebAddr = true;
+			webAddrCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		};		
+	}
+	public void setIsMsgBlock(String value){
+		if(value.substring(0,1).equals("Y")){
+			isMsgBlock = false;
+			msgBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
+		}else{
+			isMsgBlock = true;
+			msgBlockCode = value.length() > 1 ? value.substring(2, value.length()) : "" ;
 		};		
 	}
 	public void setWatermarkInfo(String value){
@@ -166,19 +193,21 @@ public class PolicyRequestInfo {
 		}
 	}
 
-	public void setIsProcessList(int value){
-		if(value == 0){
+	public void setIsProcessList(String value){
+		if("".equals(value)){
 			isProcessList = false;
 		}else{
 			isProcessList = true;
+			processListCode = value;
 		}
 	}
 	
-	public void setIsFilePattern(int value){
-		if(value == 0){
+	public void setIsFilePattern(String value){
+		if("".equals(value)){
 			isFilePattern = false;
 		}else{
 			isFilePattern = true;
+			processListCode = value;
 		}
 	}
 }

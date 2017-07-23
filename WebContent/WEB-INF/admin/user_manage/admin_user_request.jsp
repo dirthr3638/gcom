@@ -20,6 +20,15 @@
 		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+		
+		<script type="text/javascript" src="/assets/js/admin_function.js"></script>
+		
+		<!-- Alert -->
+		<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+        <link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+
+        <script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
+        <script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -120,59 +129,80 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12" style="overflow: hidden;">
-											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
+											<table class="table table-bordered x-scroll-table" id="table_request_info" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
 														<th></th>
+														<th>요청코드</th>
 														<th>부서</th>
 														<th>아이디</th>
 														<th>이름</th>
-														<th >직책</th>
-														<th >계급</th>
-														<th >연락처</th>
-														<th></th>
-														<th></th>
-														<th></th>
-
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th ></th>
-														<th ></th>
-														<th ></th>
-														<th></th>
-														<th></th>
-														<th></th>
-
+														<th>직책</th>
+														<th>계급</th>
+														<th>연락처</th>
+														<th>승인여부</th>
+														<!-- <th></th>
 														<th></th>
 														<th></th>
 														<th></th>
 														<th></th>
-														<th ></th>
-														<th ></th>
-														<th ></th>
-														<th></th>
-														<th></th>
-														<th></th>
-
 														<th></th>
 														<th></th>
 														<th></th>
 														<th></th>
-														<th ></th>
-														<th ></th>
-														<th ></th>
-														<th></th>
-														<th></th>
-														<th></th>
-
 														<th></th>
 														<th></th>
 														<th></th>
 														<th></th>
-														<th ></th>
-
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th> -->
 													</tr>
 												</thead>
 				
@@ -190,6 +220,9 @@
 				</div>
 			</section>
 		</div>
+		
+		<!-- 정책 정보 Ajax PopUp Div -->
+		<div id="pop_policy_setting_info"></div>
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
@@ -238,7 +271,7 @@
 	}
  	
  	function searchUserLog(){
- 		var datatable = $('#table_userinfo').dataTable().api();
+ 		var datatable = $('#table_request_info').dataTable().api();
 		datatable.ajax.reload();   	
  	
  	}
@@ -255,12 +288,188 @@
  		
  	}
  	
+ 	function fn_sel_policy_detailOpen(type, code){
+ 		
+		if(type == 'isWaterMark') {
+			alert("준비중입니다.");
+			return false;
+		}
+ 		
+ 		$.ajax({      
+		    type:"POST",  
+		    url:'/admin/user/assign/setting/info',
+		    async: false,
+		    data:{
+		    	type : type,
+		    	code : code,
+		    	_ : $.now()
+		    },
+		    success:function(data){
+		    	$("#pop_policy_setting_info").html(data);
+		    	
+		    	if (type == 'isUsbBlock') {
+		    		 $('#modalUsbSettingInfo').modal('show');
+		    		 	usb_info_table();
+		    	} else if (type == 'isComPortBlock') {
+		    		$('#modalComPortSettingInfo').modal('show');
+		    			 com_port_info_table();
+		    	} else if (type == 'isNetPortBlock') {
+		    		$('#modalNetPortSettingInfo').modal('show');
+		    			net_port_info_table();
+		    	} else if (type == 'isProcessList') {
+		    		$('#modalProcessSettingInfo').modal('show');
+		    			process_info_table();
+		    	} else if (type == 'isFilePattern') {
+		    		$('#modalPatternSettingInfo').modal('show');
+		    			pattern_info_table();
+		    	} else if (type == 'isWebAddr') {
+		    		$('#modalWebAddrSettingInfo').modal('show');
+		    			web_site_info_table();
+		    	} else if (type == 'isMsgBlock') {
+		    		$('#modalMsgBlockSettingInfo').modal('show');
+		    			msg_block_info_table();
+		    	} 
+	           
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+ 	}
+ 	
+ 	function fn_permit_request_policy(pol, req) {
+ 		
+ 		$.ajax({      
+		    type:"POST",  
+		    url:'/admin/user/req/permit',
+		    async: false,
+		    data:{
+		    	policy_no : pol,
+		    	request_no : req,
+		    	_ : $.now()
+		    },
+		    success:function(data){
+		    	if(data.returnCode == "S") {
+		    		vex.defaultOptions.className = 'vex-theme-os'
+		    			
+	    			vex.dialog.open({
+	    				message: '정책이 승인 되었습니다.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })],
+	    				  callback: function(data) {
+    				 	  	if (data) {
+    				 	  		var datatable = $('#table_request_info').dataTable().api();
+    				 			datatable.ajax.reload();
+    				 	    }
+    				 	  }
+	    				  
+	    			})
+		    		
+		    	} else {
+		    		vex.defaultOptions.className = 'vex-theme-os'
+		    			
+	    			vex.dialog.open({
+	    				message: '정책 승인이 실패했습니다.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })]
+	    			})
+		    	}
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+ 	}
+ 	
+ 	function fn_reject_request_policy(req) {
+ 		
+ 		$.ajax({      
+		    type:"POST",  
+		    url:'/admin/user/req/reject',
+		    async: false,
+		    data:{
+		    	request_no : req,
+		    	_ : $.now()
+		    },
+		    success:function(data){
+		    	if(data.returnCode == "S") {
+		    		vex.defaultOptions.className = 'vex-theme-os'
+		    			
+	    			vex.dialog.open({
+	    				message: '정책이 거절 되었습니다.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })],
+	    				  callback: function(data) {
+    				 	  	if (data) {
+    				 	  		var datatable = $('#table_request_info').dataTable().api();
+    				 			datatable.ajax.reload();
+    				 	    }
+    				 	  }
+	    				  
+	    			})
+		    		
+		    	} else {
+		    		vex.defaultOptions.className = 'vex-theme-os'
+		    			
+	    			vex.dialog.open({
+	    				message: '정책 거절이 실패했습니다.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })]
+	    			})
+		    	}
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+ 	}
+ 	
+ 	function requestPermitInfo(adminId, date){
+		vex.defaultOptions.className = 'vex-theme-os';
+		vex.dialog.open({
+			input: [
+			         '<label>승인관리자</label>',			        
+			         '<input name="adminId" type="text" readonly value=" '+ adminId +' " />',
+			         '<label>승인일자</label>',			        
+			         '<input name="date" type="text" readonly value=" '+ date +' " />'
+			     ].join(''),
+			buttons: [
+		    $.extend({}, vex.dialog.buttons.YES, {
+		      text: '확인'
+		    })]
+ 		});
+ 	}
+ 	
+ 	function requestRejectInfo(adminId, date){
+		vex.defaultOptions.className = 'vex-theme-os';
+		vex.dialog.open({
+			input: [
+			         '<label>반려관리자</label>',			        
+			         '<input name="adminId" type="text" readonly value=" '+ adminId +' " />',
+			         '<label>반려일자</label>',			        
+			         '<input name="date" type="text" readonly value=" '+ date +' " />'
+			     ].join(''),
+			buttons: [
+		    $.extend({}, vex.dialog.buttons.YES, {
+		      text: '확인'
+		    })]
+ 		});
+ 	}
+ 	
  	function setDataTable(){
  		if (jQuery().dataTable) {
 
 			var export_filename = 'Filename';
 			
-			var table = jQuery('#table_userinfo');
+			var table = jQuery('#table_request_info');
 			table.dataTable({
 				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 				//dom: 'Bfrtip',
@@ -317,7 +526,10 @@
 		 	    "ordering": true,
 				"columns": [{
 					data: "userNo",							
-					"orderable": false		//추가정보
+					"orderable": false	//추가정보
+				}, {
+					data: "requestNo",
+					"orderable": false	//요청코드
 				}, {
 					data: "deptName",
 					"orderable": false	//부서
@@ -327,8 +539,7 @@
 				}, {
 					data: "userName",
 					"orderable": false	//이름
-				},
-				{
+				}, {
 					data: "duty",
 					"orderable": false	//직책
 				}, {
@@ -338,119 +549,208 @@
 					data: "phone",
 					"orderable": false	//연락
 				}, {
+					data: "permitState",
+					"orderable": false	//승인여부
+					,render : function (data,type,row) {
+						var tag = '';
+						var state = data;
+						if (state == 'W') {
+							tag += '<button type="button" class="btn btn-success btn-xs" onclick="javascript:fn_permit_request_policy(' + row.oldPolicy.policyNo + ','+ row.requestNo +');"><i class="fa fa-check" aria-hidden="true">&nbsp;승인</i></button>';
+							tag +='<button type="button" class="btn btn-danger btn-xs" onclick="javascript:fn_reject_request_policy('+ row.requestNo +');" ><i class="fa fa-remove" aria-hidden="true">&nbsp;거절</i></button>'
+						} else if (state == 'P') {
+							tag += '<button type="button" class="btn btn-info btn-xs" onclick="javascript:requestPermitInfo(\''+ row.permitStaf  +'\', \'' + row.permitDate + '\')"><i class="fa fa-check" aria-hidden="true">&nbsp;승인완료</i></button>';
+						} else if (state == 'R') {
+							tag += '<button type="button" class="btn btn-purple btn-xs" onclick="javascript:requestRejectInfo(\''+ row.permitStaf  +'\', \'' + row.permitDate + '\')"><i class="fa fa-remove" aria-hidden="true">&nbsp;반려처리</i></button>';
+						}
+						
+						return tag;
+					}
+				}, {
+					data: "permitDate",
+					"orderable": false	//승인일시
+				}, {
+					data: "permitStaf",
+					"orderable": false	//승인자
+				}, {
 					data: "isUninstall",
-					"orderable": false	//연락
+					"orderable": false	//요청 에이전트삭제가능
 				}, {
 					data: "isFileEncryption",
-					"orderable": false	//연락
+					"orderable": false	//요청 파일실시간암호화
 				}, {
 					data: "isCdEncryption",
-					"orderable": false	//연락
+					"orderable": false	//요청 CD실시간암호화
 				}, {
 					data: "isPrint",
-					"orderable": false	//연락
+					"orderable": false	//요청 프린트사용여부
 				}, {
 					data: "isCdEnabled",
-					"orderable": false	//연락
+					"orderable": false	//요청 CD사용가능여부
 				}, {
 					data: "isCdExport",
-					"orderable": false	//연락
+					"orderable": false	//요청 CD반출여부
 				}, {
 					data: "isWlan",
-					"orderable": false	//연락
+					"orderable": false	//요청 무선랜사용가능여부
 				}, {
 					data: "isNetShare",
-					"orderable": false	//연락
+					"orderable": false	//요청 공유폴더사용여부
 				}, {
 					data: "isWebExport",
-					"orderable": false	//연락
+					"orderable": false	//요청 메일반출여부
 				}, {
 					data: "isStorageExport",
-					"orderable": false	//연락
+					"orderable": false	//요청
 				}, {
 					data: "isStorageAdmin",
-					"orderable": false	//연락
+					"orderable": false	//요청
 				}, {
 					data: "isUsbBlock",
-					"orderable": false	//연락
+					"orderable": false	//요청 USB포트사용여부
+				}, {
+					data: "usbBlockCode",
+					"orderable": false	//요청 USB차단코드
 				}, {
 					data: "isComPortBlock",
-					"orderable": false	//연락
+					"orderable": false	//요청 시리얼포트사용여부
+				}, {
+					data: "comPortBlockCode",
+					"orderable": false	//요청 시리얼포트차단코드
 				}, {
 					data: "isNetPortBlock",
-					"orderable": false	//연락
+					"orderable": false	//요청 네트워크포트사용여부
+				}, {
+					data: "netPortBlockCode",
+					"orderable": false	//요청 네트워크포트차단코드
 				}, {
 					data: "isProcessList",
-					"orderable": false	//연락
+					"orderable": false	//요청 프로세스차단여부
+				}, {
+					data: "processListCode",
+					"orderable": false	//요청 프로세스차단코드
 				}, {
 					data: "isFilePattern",
-					"orderable": false	//연락
+					"orderable": false	//요청 민감패턴차단여부
+				}, {
+					data: "filePatternCode",
+					"orderable": false	//요청 민감패턴차단코드
 				}, {
 					data: "isWebAddr",
-					"orderable": false	//연락
-				},  {
-					data: "oldPolicy.isWaterMark",
-					"orderable": false	//연락
+					"orderable": false	//요청 사이트차단여부
 				}, {
-					data: "oldPolicy.patternFileControl",
-					"orderable": false	//연락
+					data: "webAddrCode",
+					"orderable": false	//요청 사이트차단코드
+				}, {
+					data: "isMsgBlock",
+					"orderable": false	//요청 메신저차단여부
+				}, {
+					data: "msgBlockCode",
+					"orderable": false	//요청 메신저차단코드
+				}, {
+					data: "isWaterMark",
+					"orderable": false	//요청 워터마크
+				}, {
+					data: "waterMarkType",
+					"orderable": false	//요청 워터적용코드
+				}, {
+					data: "waterMarkEndDate",
+					"orderable": false	//요청 워터마크적용일시
+				}, {
+					data: "printLogDesc",
+					"orderable": false	//요청 프린터인쇄로그설정
+				}, {
+					data: "oldPolicy.policyNo",
+					"orderable": false	//기존 정책코드
 				}, {
 					data: "oldPolicy.isUninstall",
-					"orderable": false	//연락
+					"orderable": false	//기존 에이전트삭제가능
 				}, {
 					data: "oldPolicy.isFileEncryption",
-					"orderable": false	//연락
+					"orderable": false	//기존 파일실시간암호화
 				}, {
 					data: "oldPolicy.isCdEncryption",
-					"orderable": false	//연락
+					"orderable": false	//기존 CD실시간암호화
 				}, {
 					data: "oldPolicy.isPrint",
-					"orderable": false	//연락
+					"orderable": false	//기존 프린트사용여부
 				}, {
 					data: "oldPolicy.isCdEnabled",
-					"orderable": false	//연락
+					"orderable": false	//기존 CD사용가능여부
 				}, {
 					data: "oldPolicy.isCdExport",
-					"orderable": false	//연락
+					"orderable": false	//기존 CD반출여부
 				}, {
 					data: "oldPolicy.isWlan",
-					"orderable": false	//연락
+					"orderable": false	//기존 무선랜사용가능여부
 				}, {
 					data: "oldPolicy.isNetShare",
-					"orderable": false	//연락
+					"orderable": false	//기존 공유폴더사용여부
 				}, {
 					data: "oldPolicy.isWebExport",
-					"orderable": false	//연락
+					"orderable": false	//기존 메일반출여부
 				}, {
 					data: "oldPolicy.isStorageExport",
-					"orderable": false	//연락
+					"orderable": false	//기존
 				}, {
 					data: "oldPolicy.isStorageAdmin",
-					"orderable": false	//연락
+					"orderable": false	//기존
 				}, {
 					data: "oldPolicy.isUsbBlock",
-					"orderable": false	//연락
+					"orderable": false	//기존 USB포트사용여부
+				}, {
+					data: "oldPolicy.usbBlockCode",
+					"orderable": false	//기존 USB차단코드
 				}, {
 					data: "oldPolicy.isComPortBlock",
-					"orderable": false	//연락
+					"orderable": false	//기존 시리얼포트사용여부
+				}, {
+					data: "oldPolicy.comPortBlockCode",
+					"orderable": false	//기존 시리얼포트차단코드
 				}, {
 					data: "oldPolicy.isNetPortBlock",
-					"orderable": false	//연락
+					"orderable": false	//기존 네트워크포트사용여부
+				}, {
+					data: "oldPolicy.netPortBlockCode",
+					"orderable": false	//기존 네트워크포트차단코드
 				}, {
 					data: "oldPolicy.isProcessList",
-					"orderable": false	//연락
+					"orderable": false	//기존 프로세스차단여부
+				}, {
+					data: "oldPolicy.processListCode",
+					"orderable": false	//기존 프로세스차단코드
 				}, {
 					data: "oldPolicy.isFilePattern",
-					"orderable": false	//연락
+					"orderable": false	//기존 민감패턴차단여부
+				}, {
+					data: "oldPolicy.filePatternCode",
+					"orderable": false	//기존 민감패턴차단코드
 				}, {
 					data: "oldPolicy.isWebAddr",
-					"orderable": false	//연락
-				},  {
-					data: "oldPolicy.isWaterMark",
-					"orderable": false	//연락
+					"orderable": false	//기존 사이트차단여부
 				}, {
-					data: "oldPolicy.patternFileControl",
-					"orderable": false	//연락
+					data: "oldPolicy.webAddrCode",
+					"orderable": false	//기존 사이트차단코드
+				}, {
+					data: "oldPolicy.isMsgBlock",
+					"orderable": false	//기존 메신저차단여부
+				}, {
+					data: "oldPolicy.msgBlockCode",
+					"orderable": false	//기존 메신저차단코드
+				}, {
+					data: "oldPolicy.isWaterMark",
+					"orderable": false	//기존 워터마크
+				}, {
+					data: "oldPolicy.waterMarkType",
+					"orderable": false	//기존 워터적용코드
+				}, {
+					data: "oldPolicy.waterMarkEndDate",
+					"orderable": false	//기존 워터마크적용일시
+				}, {
+					data: "oldPolicy.printLogDesc",
+					"orderable": false	//기존 프린터인쇄로그설정
+				}, {
+					data: "reqNotice",
+					"orderable": false	//요청사유
 				}],
 				// set the initial value
 				"pageLength": 20,
@@ -469,186 +769,224 @@
 					},
 					
 				},
-				"columnDefs": [
-				{	
+				"columnDefs": [{	
 					"targets": [0],	//추가정보
 					"class":"center-cell add_detail_info",
 					"render":function(data,type,row){
 						return '<span class="datables-td-detail datatables-close"></span>';
 					}
-				},         
-				{  // set default column settings
-					'targets': [1]	//부서
+				}, {
+					'targets': [1]	//요청코드
+					,"visible" : false
+				}, {	
+					"targets": [2]	//부서
 					,"class":"center-cell"
 				}, {	
-					"targets": [2]	//아이디
+					"targets": [3]	//아이디
 					,"class":"center-cell"
 				}, {	
-					"targets": [3]	//이름
-					,"class":"center-cell"
-				}, {	
-					"targets": [4]	//직책
+					"targets": [4]	//이름
 					,"class" : "center-cell"
 				}, {	
-					"targets": [5]	//계급
+					"targets": [5]	//직책
 					,"class" : "center-cell"
 				}, {	
-					"targets": [6]	//연락처
+					"targets": [6]	//계급
 					,"class" : "center-cell"
 				}, {
 					"targets": [7]	//연락처
-				,"class" : "center-cell"
-					,"visible" : false
-				
+					,"class" : "center-cell"
 				}, {
-					"targets": [8]	//연락처
-				,"class" : "center-cell"
-					,"visible" : false
+					"targets": [8]	//승인여부
+					,"class" : "center-cell"
 				}, {
-					"targets": [9]	//연락처
-				,"class" : "center-cell"
-					,"visible" : false
+					"targets": [9]	//승인일시
+					,"visible" : false	
 				}, {
-					"targets": [10]	//연락처
-				,"class" : "center-cell"
+					"targets": [10]	//승인자
 					,"visible" : false
 				}, {
-					"targets": [11]	//연락처
-				,"class" : "center-cell"
+					"targets": [11]	//요청 에이전트삭제가능
 					,"visible" : false
 				}, {
-					"targets": [12]	//연락처
+					"targets": [12]	//요청 파일실시간암호화
+					,"visible" : false
+				}, {
+					"targets": [13]	//요청 CD실시간암호화
 				,"class" : "center-cell"
 					,"visible" : false
 				}, {
-					"targets": [13]	//연락처
-				,"class" : "center-cell"
+					"targets": [14]	//요청 프린트사용여부
 					,"visible" : false
 				}, {
-					"targets": [14]	//연락처
-					,"class" : "center-cell"
+					"targets": [15]	//요청 CD사용가능여부
 					,"visible" : false
 				}, {
-					"targets": [15]	//연락처
-					,"class" : "center-cell"
+					"targets": [16]	//요청 CD반출여부
 					,"visible" : false
 				}, {
-					"targets": [16]	//연락처
-					,"class" : "center-cell"
+					"targets": [17]	//요청 무선랜사용가능여부
 					,"visible" : false
 				}, {
-					"targets": [17]	//연락처
-					,"class" : "center-cell"
+					"targets": [18]	//요청 공유폴더사용여부
 					,"visible" : false
 				}, {
-					"targets": [18]	//연락처
-					,"class" : "center-cell"
+					"targets": [19]	//요청 메일반출여부
 					,"visible" : false
 				}, {
-					"targets": [19]	//연락처
-					,"class" : "center-cell"
+					"targets": [20]	//요청
 					,"visible" : false
 				}, {
-					"targets": [20]	//연락처
-					,"class" : "center-cell"
+					"targets": [21]	//요청
 					,"visible" : false
 				}, {
-					"targets": [21]	//연락처
-					,"class" : "center-cell"
+					"targets": [22]	//요청 USB포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [22]	//연락처
-					,"class" : "center-cell"
+					"targets": [23]	//요청 USB차단코드
 					,"visible" : false
 				}, {
-					"targets": [23]	//연락처
-					,"class" : "center-cell"
+					"targets": [24]	//요청 시리얼포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [24]	//연락처
-					,"class" : "center-cell"
+					"targets": [25]	//요청 시리얼포트차단코드
 					,"visible" : false
 				}, {
-					"targets": [25]	//연락처
-					,"class" : "center-cell"
+					"targets": [26]	//요청 네트워크포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [26]	//연락처
-					,"class" : "center-cell"
+					"targets": [27]	//요청 네트워크포트차단코드
 					,"visible" : false
 				}, {
-					"targets": [27]	//연락처
-					,"class" : "center-cell"
+					"targets": [28]	//요청 프로세스차단여부
 					,"visible" : false
 				}, {
-					"targets": [28]	//연락처
-					,"class" : "center-cell"
+					"targets": [29]	//요청 프로세스차단코드
 					,"visible" : false
 				}, {
-					"targets": [29]	//연락처
-					,"class" : "center-cell"
+					"targets": [30]	//요청 민감패턴차단여부
 					,"visible" : false
 				}, {
-					"targets": [30]	//연락처
-					,"class" : "center-cell"
+					"targets": [31]	//요청 민감패턴차단코드
 					,"visible" : false
 				}, {
-					"targets": [31]	//연락처
-					,"class" : "center-cell"
+					"targets": [32]	//요청 사이트차단여부
 					,"visible" : false
 				}, {
-					"targets": [32]	//연락처
-					,"class" : "center-cell"
+					"targets": [33]	//요청 사이트차단코드
 					,"visible" : false
 				}, {
-					"targets": [33]	//연락처
-					,"class" : "center-cell"
+					"targets": [34]	//요청 메신저차단여부
 					,"visible" : false
 				}, {
-					"targets": [34]	//연락처
-					,"class" : "center-cell"
+					"targets": [35]	//요청 메신저차단코드
 					,"visible" : false
 				}, {
-					"targets": [35]	//연락처
-					,"class" : "center-cell"
+					"targets": [36]	//요청 워터마크
 					,"visible" : false
 				}, {
-					"targets": [36]	//연락처
-					,"class" : "center-cell"
+					"targets": [37]	//요청 워터적용코드
 					,"visible" : false
 				}, {
-					"targets": [37]	//연락처
-					,"class" : "center-cell"
+					"targets": [38]	//요청 워터마크적용일시
 					,"visible" : false
 				}, {
-					"targets": [38]	//연락처
-					,"class" : "center-cell"
+					"targets": [39]	//요청 프린터인쇄로그설정
 					,"visible" : false
 				}, {
-					"targets": [39]	//연락처
-					,"class" : "center-cell"
+					"targets": [40]	//기존 정책코드
 					,"visible" : false
 				}, {
-					"targets": [40]	//연락처
-					,"class" : "center-cell"
+					"targets": [41]	//기존 에이전트삭제가능
 					,"visible" : false
 				}, {
-					"targets": [41]	//연락처
-					,"class" : "center-cell"
+					"targets": [42]	//기존 파일실시간암호화
 					,"visible" : false
 				}, {
-					"targets": [42]	//연락처
-					,"class" : "center-cell"
+					"targets": [43]	//기존 CD실시간암호화
 					,"visible" : false
 				}, {
-					"targets": [43]	//연락처
-					,"class" : "center-cell"
+					"targets": [44]	//기존 프린트사용여부
 					,"visible" : false
 				}, {
-					"targets": [44]	//연락처
-					,"class" : "center-cell"
+					"targets": [45]	//기존 CD사용가능여부
 					,"visible" : false
-				}						],						
+				}, {
+					"targets": [46]	//기존 CD반출여부
+					,"visible" : false
+				}, {
+					"targets": [47]	//기존 무선랜사용가능여부
+					,"visible" : false
+				}, {
+					"targets": [48]	//기존 공유폴더사용여부
+					,"visible" : false
+				}, {
+					"targets": [49]	//기존 메일반출여부
+					,"visible" : false
+				}, {
+					"targets": [50]	//기존 
+					,"visible" : false
+				}, {
+					"targets": [51]	//기존 
+					,"visible" : false
+				}, {
+					"targets": [52]	//기존 USB포트사용여부
+					,"visible" : false
+				}, {
+					"targets": [53]	//기존 USB차단코드
+					,"visible" : false
+				}, {
+					"targets": [54]	//기존 시리얼포트사용여부
+					,"visible" : false
+				}, {
+					"targets": [55]	//기존 시리얼포트차단코드
+					,"visible" : false
+				}, {
+					"targets": [56]	//기존 네트워크포트사용여부
+					,"visible" : false
+				}, {
+					"targets": [57]	//기존 네트워크포트차단코드
+					,"visible" : false
+				}, {
+					"targets": [58]	//기존 프로세스차단여부
+					,"visible" : false
+				}, {
+					"targets": [59]	//기존 프로세스차단코드
+					,"visible" : false
+				}, {
+					"targets": [60]	//기존 민감패턴차단여부
+					,"visible" : false
+				}, {
+					"targets": [61]	//기존 민감패턴차단코드
+					,"visible" : false
+				}, {
+					"targets": [62]	//기존 사이트차단여부
+					,"visible" : false
+				}, {
+					"targets": [63]	//기존 사이트차단코드
+					,"visible" : false
+				}, {
+					"targets": [64]	//기존 메신저차단여부
+					,"visible" : false
+				}, {
+					"targets": [65]	//기존 메신저차단코드
+					,"visible" : false
+				}, {
+					"targets": [66]	//기존 워터마크
+					,"visible" : false
+				}, {
+					"targets": [67]	//기존 워터적용코드
+					,"visible" : false
+				}, {
+					"targets": [68]	//기존 워터마크적용일시
+					,"visible" : false
+				}, {
+					"targets": [69]	//기존 프린터인쇄로그설정
+					,"visible" : false
+				}, {
+					"targets": [70]	//요청사유
+					,"visible" : false
+				}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
 				}
@@ -656,14 +994,12 @@
 			
 			function fnFormatDetails(oTable, nTr) {
 				var aData = oTable.fnGetData(nTr);
-				var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
-				sOut += getRequestPolicyDetailTable(aData);
-				sOut += '</table>';
+				var sOut = getRequestPolicyDetailTable(aData);
 
 				return sOut;
 			}
 			
-			var jTable = jQuery('#table_userinfo');
+			var jTable = jQuery('#table_request_info');
 			jTable.on('click', ' tbody td .datables-td-detail', function () {
 				var nTr = jQuery(this).parents('tr')[0];
 				if (table.fnIsOpen(nTr)) {

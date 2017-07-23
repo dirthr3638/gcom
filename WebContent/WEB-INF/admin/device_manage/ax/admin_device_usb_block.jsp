@@ -1,224 +1,159 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!-- Alert -->
+<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 
-<!doctype html>
-<html lang="utf-8">
-	<head>
-	
-		<meta charset="utf-8" />
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		<title>GuardCom Console</title>
+<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
 
-		<!-- mobile settings -->
-		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+<div id="content" class="dashboard padding-20">
+	<div class="row">
+		<div class="col-md-2">
+			<div id="panel-2" class="panel panel-default">
+				<div class="panel-heading">
+					<span class="title elipsis">
+						<strong>조직도</strong> <!-- panel title -->
+					</span>
+				</div>
 
-		<!-- CORE CSS -->
-		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-		
-		<!-- THEME CSS -->
-		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
-		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
-		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
-		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
-		
-		<!-- Alert -->
-		<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
-		<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
-		
-		<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
-		
-	</head>
-	<body>
-		<!-- WRAPPER -->
-		<div id="wrapper" class="clearfix">
+				<!-- panel content -->
+				<div id="dept_tree" class="panel-body">
+				</div>
+				<!-- /panel content -->
 
-			<% request.setAttribute("menu_parent", 4000); %> 
-			<% request.setAttribute("menu_sub_first", 4200); %> 
-			<jsp:include page="/WEB-INF/common/left_menu.jsp" flush="false" />
-			<jsp:include page="/WEB-INF/common/top_navi.jsp" flush="false" />	
-			<section id="middle">
+			</div>
+			<!-- /PANEL -->
+		</div>
+
+		<div class="col-md-10">
+			<div id="panel-2" class="panel panel-default">
 			
-				<!-- page title -->
-				<header id="page-header">
-					<h1>USB연결 차단현황</h1>
-				</header>
-				<!-- /page title -->
-			
-				<div id="content" class="dashboard padding-20">
-					<div class="row">
-						<div class="col-md-2">
-							<div id="panel-2" class="panel panel-default">
-								<div class="panel-heading">
-									<span class="title elipsis">
-										<strong>조직도</strong> <!-- panel title -->
-									</span>
+				<div class="panel-heading">
+					<span class="title elipsis">
+						<strong>USB연결 차단현황</strong> <!-- panel title -->
+					</span>
+				</div> 
+				<div id="usb_block" class="tab-pane fade">
+					<!-- panel content -->
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-12">
+
+								<!-- Standard button -->
+								<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
+
+								<!-- Info -->
+								<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
+								
+								
+								<!-- Primary -->
+								<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
+								<!-- Success -->
+								<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
+								<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
+									<table id="user" class="table table-bordered">
+										<tbody> 
+											<tr>         
+												<td width="15%">아이디</td>
+												<td>
+													<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+												</td>
+												<td width="15%">이름</td>
+												<td>
+													<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+												</td>
+
+											</tr>
+											<tr>         
+
+												<td width="15%">검색시작일</td>
+												<td>
+				<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+												</td>
+
+												<td width="15%">검색종료일</td>
+												<td>
+				<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+												</td>
+											</tr>																															
+											<tr>  
+												<td width="15%">직책</td>
+												<td>
+													<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control required">
+												</td>
+												<td width="15%">계급</td>
+												<td>
+													<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
+												</td>       
+											</tr>	
+											<tr>  
+												<td width="15%">장치이름</td>
+												<td>
+													<input type="text" name="filterUserDevice" id="filterUserDevice" value="" class="form-control required">
+												</td>
+												<td width="15%">PC명</td>
+												<td>
+													<input type="text" name="filterUserPcName" id="filterUserPcName" value="" class="form-control required">
+												</td>       
+											</tr>
+											<tr>  
+												<td width="15%">장치속성</td>
+												<td colspan="3">
+													<input type="text" name="filterUserDeviceDetail" id="filterUserDeviceDetail" value="" class="form-control required">
+												</td>
+
+											</tr>																															
+											
+										</tbody>
+									</table>	
+									
+									<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">접기</button>
+																		
 								</div>
-
-								<!-- panel content -->
-								<div id="dept_tree" class="panel-body">
-
-								</div>
-								<!-- /panel content -->
-
 							</div>
-							<!-- /PANEL -->
-					
 						</div>
-
-						<div class="col-md-10">
-							<div id="panel-2" class="panel panel-default">
-						
-								<div class="panel-heading">
-									<span class="title elipsis">
-										<strong>USB연결 차단현황</strong> <!-- panel title -->
-									</span>
-								</div>
-	
-								<!-- panel content -->
-								<div class="panel-body">
-									<div class="row">
-										<div class="col-md-12">
-			
-											<!-- Standard button -->
-											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
-		
-											<!-- Info -->
-											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
-											
-											
-											<!-- Primary -->
-											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
-											<!-- Success -->
-											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
-												<table id="user" class="table table-bordered">
-													<tbody> 
-														<tr>         
-															<td width="15%">아이디</td>
-															<td>
-																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
-															</td>
-															<td width="15%">이름</td>
-															<td>
-																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
-															</td>
-
-														</tr>
-														<tr>         
-
-															<td width="15%">검색시작일</td>
-															<td>
-							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-															</td>
-
-															<td width="15%">검색종료일</td>
-															<td>
-							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-															</td>
-														</tr>																															
-														<tr>  
-															<td width="15%">직책</td>
-															<td>
-																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control required">
-															</td>
-															<td width="15%">계급</td>
-															<td>
-																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
-															</td>       
-														</tr>	
-														<tr>  
-															<td width="15%">장치이름</td>
-															<td>
-																<input type="text" name="filterUserDevice" id="filterUserDevice" value="" class="form-control required">
-															</td>
-															<td width="15%">PC명</td>
-															<td>
-																<input type="text" name="filterUserPcName" id="filterUserPcName" value="" class="form-control required">
-															</td>       
-														</tr>
-														<tr>  
-															<td width="15%">장치속성</td>
-															<td colspan="3">
-																<input type="text" name="filterUserDeviceDetail" id="filterUserDeviceDetail" value="" class="form-control required">
-															</td>
-
-														</tr>																															
-														
-													</tbody>
-												</table>	
-												
-												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">접기</button>
-																					
-											</div>
-<!-- 										
-											<button type="button" class="btn btn-warning">Warning</button>
-		
-											
-											<button type="button" class="btn btn-danger">Danger</button> -->
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-12" style="overflow: hidden;">
-											<table class="table table-bordered table-hover x-scroll-table" id="table_usb_block" style="width:100%; min-width: 600px;">
-												<thead>
-													<tr>
-														<th style="width:20px"></th>
-														<th>부서</th>
-														<th>아이디</th>
-														<th>이름</th>
-														<th>번호</th>
-														<th >직책</th>
-														<th >계급</th>														
-														<th >IP</th>
-														<th >MAC</th>
-														<th >PC이름</th>
-														<th >연결시간(서버)</th>
-														<th >연결시간(PC)</th>
-														<th >장치이름</th>
-														<th >장치속성</th>
-														<th >차단분류</th>
-													</tr>
-												</thead>				
-												<tbody>
-												</tbody>
-											</table>									
-										</div>
-									</div>
-									
-									
-									<div class="ld_modal hidden" >
-									    <div class="ld_center" >
-									        <img alt="" src="/assets/images/loaders/loading.gif" />
-									    </div>
-									</div>
-									
-								</div>
-								<!-- /panel content -->
+						<div class="row">
+							<div class="col-md-12" style="overflow: hidden;">
+								<table class="table table-bordered table-hover" id="table_usb_block" style="width:100%; min-width: 500px;">
+									<thead>
+										<tr>
+											<th style="width:20px"></th>
+											<th>부서</th>
+											<th>아이디</th>
+											<th>이름</th>
+											<th>번호</th>
+											<th>직책</th>
+											<th>계급</th>														
+											<th>IP</th>
+											<th>MAC</th>
+											<th>PC이름</th>
+											<th>연결시간(서버)</th>
+											<th>연결시간(PC)</th>
+											<th>장치이름</th>
+											<th>장치속성</th>
+											<th>차단분류</th>
+										</tr>
+									</thead>				
+									<tbody>
+									</tbody>
+								</table>									
 							</div>
+						</div>
+						
+						<div class="ld_modal hidden" >
+						    <div class="ld_center" >
+						        <img alt="" src="/assets/images/loaders/loading.gif" />
+						    </div>
 						</div>
 					</div>
+					<!-- /panel content -->
 				</div>
-			</section>
+			</div>
 		</div>
-	
-		<!-- JAVASCRIPT FILES -->
-		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
-		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="/assets/js/app.js"></script>
-		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
-
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
-
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
-<script>
-
+	</div>
+</div>
+		
+<script type="text/javascript">
 	//라디오타입에 따라 컬럼 hide/show
 	var setColumnType = function(cType){
 		
@@ -300,7 +235,6 @@
 		 	  }
    				
    		})
- 		
  	}
  	
  	var excuteDeviceSave = function(code) {
@@ -372,8 +306,9 @@
  	}
  	
  	function setDataTable(){
+ 		
  		if (jQuery().dataTable) {
-
+		
 			var export_filename = 'Filename';
 			
 			var table = jQuery('#table_usb_block');
@@ -584,7 +519,7 @@
 			
 			function fnFormatDetails(oTable, nTr) {
 				var aData = oTable.fnGetData(nTr);
-				var sOut = '<table class="table table-bordered"  style="width:100%;overflow:auto">';
+				var sOut = '<table class="table table-bordered" style="width:100%; min-width: 500px;">';
 				sOut += '<tr><td class="center-cell th-cell-gray">MAC:</td><td>' + aData.macAddr + '</td>';
 				sOut += '<td class="center-cell th-cell-gray">PC명:</td><td>' + aData.pcName + '</td>';
 				sOut += '<td class="center-cell th-cell-gray">서버연결시간:</td><td>' + aData.connectServerTime ;
@@ -623,13 +558,13 @@
 
 		
      	setTree();
+     	
 		$('#org_tree')
 		.bind('ready.jstree', function(e, data) {
+			console.log('dddddddddddd');
 			setDataTable();
 		})
 				
 		jQuery('#preloader').hide();
     });
 </script>
-	</body>
-</html>

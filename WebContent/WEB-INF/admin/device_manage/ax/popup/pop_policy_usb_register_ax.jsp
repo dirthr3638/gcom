@@ -164,7 +164,7 @@ function fn_policy_usb_save () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegMessenger').modal('hide');
-  				 	  		location.href = '/admin/device/usb';
+  				 	  		location.href = '/admin/device';
   				 	    }
   				 	  }
 	    				
@@ -219,7 +219,7 @@ function fn_policy_usb_modify () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegUsb').modal('hide');
-  				 	  		location.href = '/admin/device/usb';
+  				 	  		location.href = '/admin/device';
   				 	    }
   				 	  }
 	    				
