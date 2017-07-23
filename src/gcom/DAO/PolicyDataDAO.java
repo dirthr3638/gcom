@@ -2583,6 +2583,11 @@ sql += whereSql;
 			pstmt.executeUpdate();
 			
 			con.commit();
+			
+			// 정책 변경 로그
+			ICommonService commonService = new CommonServiceImpl();
+			commonService.setPolicyUpdateToInsertLog(policyNo);
+			
 			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
 			
 		}catch(SQLException ex){
