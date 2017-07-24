@@ -23,9 +23,7 @@ public class axUserAccountRequestViewController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     	deptAction act = new deptAction();
-        HttpServletRequest httpReq = (HttpServletRequest)request;
-        HttpSession session = httpReq.getSession(false);
-    	request.setAttribute("dept", act.getDeptList(Integer.parseInt(session.getAttribute("dept_no").toString())));
+        request.setAttribute("dept", act.getDeptList(1));
     	
     	request.getRequestDispatcher("/WEB-INF/user/ax/main_account_request_modal_ax.jsp").forward(request, response);
 	}

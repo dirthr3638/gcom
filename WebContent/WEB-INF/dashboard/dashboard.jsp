@@ -787,7 +787,8 @@
 					,"class":"center-cell",
 						"render":function(data,type,row){
 							return '<a href="#" class="btn btn-default btn-xs btn-block">View</a>';
-						}
+						},
+						"visible":false
 				}]
 			});
 
@@ -830,7 +831,8 @@
 					"orderable": false	//아이디
 				}, {
 					data: "contactNo",
-					"orderable": false	//이름
+					"orderable": false,	//이름
+					"visible":false
 				}],
 				// set the initial value
 				"pageLength": 20,

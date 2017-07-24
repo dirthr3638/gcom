@@ -297,7 +297,7 @@
      									data: "replyContent"		//답변내용
      								}],
      						 		"language": {
-	     								"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
+	     								"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 문의사항",
 	     								"infoEmpty":      "검색된 데이터가 없습니다.",
 	     								"lengthMenu": "  _MENU_ 개",
 	     								"paginate": {
