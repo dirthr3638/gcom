@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 
-<div id="org_tree" style="overflow: hidden;">
+<div id="org_tree" style="overflow: auto;">
      <ul>
          <li class="jstree-open" data-jstree='{"type":"root"}'>Company
              <ul>

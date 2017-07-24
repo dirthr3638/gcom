@@ -57,7 +57,7 @@
 								</div>
 
 								<!-- panel content -->
-								<div id="dept_tree" class="panel-body">
+								<div id="dept_tree" class="panel-body" style="padding-left: 0px; padding-right: 0px;">
 
 								</div>
 								<!-- /panel content -->
@@ -190,7 +190,7 @@
 														<th >제목</th>
 														<th >발송시간(서버)</th>
 														<th >발송시간</th>
-														<th >첨부파일다운로드</th>
+                                                        <th >첨부파일</th>
 
 													</tr>
 												</thead>				
@@ -217,6 +217,8 @@
 		</div>
 		<div id="mail_content">
 		
+		</div>
+		<div id="file_list_area">
 		</div>
 	
 		<!-- JAVASCRIPT FILES -->
@@ -296,9 +298,7 @@
  		$buttons.click();
  	}
  	
- 	function viewMailFile(mail_no){
- 		console.log(mail_no)
- 		
+ 	function viewMailFile(mail_no){ 		
  		$.ajax({      
 	        type:"GET",  
 	        url:'/ax/report/mail/detail',
@@ -431,10 +431,10 @@
 				}, {
 					data: "sendClientTime",
 					"orderable": false	//클라시간
-				}, {
-					data: "fileId",
-					"orderable": false	//파일명
-				}],
+				},{
+                    data: "fileId",
+                    "orderable": false    //파일명
+                }],
 				// set the initial value
 				"pageLength": 20,
 				"iDisplayLength": 20,
@@ -528,14 +528,19 @@
 				}, {	
 					"targets": [13]	//발송시간(PC)
 					,"class" : "center-cell"
-				},{	
-					"targets": [14]	//첨부파일다운로드
-					,"class" : "center-cell"
-						,"render":function(data,type,row){									
-							return '<i title="다운로드" class="fa fa-download" aria-hidden="true" onclick="javascript:downloadFile('+ data +')">';
+	            },{    
+            	    "targets": [14]    //첨부파일다운로드
+               		,"class" : "center-cell"
+                    ,"render":function(data,type,row){
+                    	if(data == null || data == ''){
+							return '-';
+						}else{
+							return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:msgFileDetail('+ row.mailNo + ', \'mail_log\',\''+ encodeURI(row.fileId) +'\')">';
+                    	}
 
-						}					
-			}],						
+                    }                    
+     		   }],                        
+						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
 				}
@@ -569,6 +574,27 @@
 				}
 			});
 		}
+ 	}
+ 	
+ 	function msgFileDetail(no, type, file_id){
+		$.ajax({      
+	        type:"POST",  
+	        url:'/ax/report/filelist/detail',
+	        async: false,
+	        data:{
+	        	no : no,
+	        	type : type,
+	        	file_id : decodeURI(file_id)
+	        },
+	        success:function(args){   
+	            $("#file_list_area").html(args);      
+	            $("#fileListModal").modal('show');
+	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	            console.log(e.responseText);  
+	        }  
+	    }); 
  	}
  	
 	$(document).ready(function(){

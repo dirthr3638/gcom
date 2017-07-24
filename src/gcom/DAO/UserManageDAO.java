@@ -51,6 +51,7 @@ public class UserManageDAO {
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 
 		String numberCheck = "SELECT COUNT(*) AS cnt FROM user_info WHERE number = ? ";
+		String idCheck = "SELECT COUNT(*) AS cnt FROM user_info WHERE id = ? ";
 		
 		
 		String insertSql= "INSERT INTO user_info "
@@ -68,12 +69,23 @@ public class UserManageDAO {
 
 			rs = pstmt.executeQuery();
 			int numberCount = 0;
+			int idCount = 0;
 			if(rs.next()){	
 				numberCount = rs.getInt("cnt");
 			}
 			
 			if(numberCount > 0){
 				result.put("returnCode", ConfigInfo.EXIST_USER_NUMBER);
+				return result;
+			}
+
+			pstmt=con.prepareStatement(idCheck);
+
+			 i = 1;
+			pstmt.setString(i++, id);
+
+			if(idCount > 0){
+				result.put("returnCode", ConfigInfo.DUP_USER_ID);
 				return result;
 			}
 
@@ -125,6 +137,7 @@ public class UserManageDAO {
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		String numberCheck = "SELECT COUNT(*) AS cnt FROM user_info WHERE number = ? AND no != ?";
+		String idCheck = "SELECT COUNT(*) AS cnt FROM user_info WHERE id = ? AND no != ?";
 
 		
 		String insertSql= "UPDATE user_info SET  "
@@ -152,6 +165,7 @@ public class UserManageDAO {
 
 			rs = pstmt.executeQuery();
 			int numberCount = 0;
+			int idCount = 0;
 			if(rs.next()){	
 				numberCount = rs.getInt("cnt");
 			}
@@ -161,6 +175,16 @@ public class UserManageDAO {
 				return result;
 			}
 
+			
+			pstmt=con.prepareStatement(idCheck);
+
+			 i = 1;
+			pstmt.setString(i++, id);
+
+			if(idCount > 0){
+				result.put("returnCode", ConfigInfo.DUP_USER_ID);
+				return result;
+			}
 			
 			pstmt=con.prepareStatement(insertSql, java.sql.Statement.RETURN_GENERATED_KEYS);
 			i = 1;

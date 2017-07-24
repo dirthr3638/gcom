@@ -744,6 +744,7 @@ sql += whereSql;
 + "msg.no AS msg_no, "
 + "msg.msg_type AS msg_type, "
 + "msg.file_list AS file_list, "
++ "msg.file_id AS file_id, "
 + "msg.send_server_time AS send_server_time, "
 + "msg.send_client_time AS send_client_time, "
 + "ur.no AS user_no,  "
@@ -796,6 +797,7 @@ sql += whereSql;
 			while(rs.next()){
 				MsnFileModel model = new MsnFileModel();
 				model.setMsgNo(rs.getInt("msg_no"));
+				model.setFileId(rs.getString("file_id"));
 				model.setDuty(rs.getString("duty"));
 				model.setRank(rs.getString("rank"));
 				model.setUserName(rs.getString("user_name"));

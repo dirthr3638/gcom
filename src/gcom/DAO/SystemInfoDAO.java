@@ -166,5 +166,34 @@ sql += whereSql;
 		return result;
 	}
 	
+	public int serverLogoutTimeInfo() {
+		int result = 600000;
+
+		String selectSql= "SELECT value FROM system_info WHERE name = 'console_time_out' ";
+
+		try{
+			con = ds.getConnection();
+			
+			pstmt=con.prepareStatement(selectSql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("value");
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 	
 }

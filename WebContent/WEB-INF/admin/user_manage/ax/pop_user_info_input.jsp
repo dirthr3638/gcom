@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<div id="modalUserInfo" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="margin-top: 10%;">
+<div id="modalUserInfo" class="modal fade" role="dialog" aria-hidden="true" style="margin-top: 10%;">
 	<div class="modal-dialog" style="width:940px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -38,8 +38,8 @@
 										<div class="row">
 										
 											<div class="col-md-6" style="overflow: hidden;">
-												<label>부서</label>
-							                         <select class="form-control" id="user_dept">
+												<label>부서</label><br />
+							                         <select class="form-control select2" style="width:100%" id="user_dept">
 				                              
 				                              
 <c:choose>

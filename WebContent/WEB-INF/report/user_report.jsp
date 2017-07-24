@@ -60,7 +60,7 @@
 								</div>
 
 								<!-- panel content -->
-								<div id="dept_tree" class="panel-body">
+								<div id="dept_tree" class="panel-body" style="padding-left: 0px; padding-right: 0px;">
 
 								</div>
 								<!-- /panel content -->
@@ -525,7 +525,7 @@
 							}else{
 								return data;
 							}
-						}								
+						}
 				}, {	
 					"targets": [12]	//버전
 					,"class" : "agentinfo center-cell"
@@ -573,7 +573,7 @@
 				var sOut = '<table class="table table-bordered">';
 				sOut += '<col width="25%"><col width="25%"><col width="25%"><col width="25%">';
 				sOut += '<tr><td class="center-cell th-cell-gray">설치시간:</td><td>' + aData.install_server_time + '</td>';
-				sOut += '<td class="center-cell th-cell-gray">접속시간:</td><td>' + aData.connect_client_time + '</td></tr>';
+				sOut += '<td class="center-cell th-cell-gray">접속시간:</td><td>' + aData.server_client_time + '</td></tr>';
 				sOut += '</table>';
 
 				return sOut;
@@ -601,7 +601,6 @@
    			  dropdownAutoWidth : true,
    			  width: 'auto'
    		});
-
 		
      	setTree();
 
@@ -609,8 +608,8 @@
 		.bind('ready.jstree', function(e, data) {
 			setDataTable();
 		})	
-			
-jQuery('#preloader').hide();
+
+		jQuery('#preloader').hide();
        
     });
 </script>

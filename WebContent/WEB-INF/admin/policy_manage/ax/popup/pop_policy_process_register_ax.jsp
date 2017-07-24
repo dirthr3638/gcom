@@ -72,7 +72,8 @@
 												<tr>
 													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >해시데이터</td>
 													<td>
-														<input type="text" id="att_process_hash" name="att_process_hash" class="form-control" value="<%= hash %>" />
+														<input type="text" id="att_process_hash" name="att_process_hash" class="form-control" value="<%= hash %>" readonly />
+														<input type="file" id="fileupload" name="hash"  />
 													</td>
 												</tr>
 												<tr>
@@ -116,6 +117,35 @@
 													
 
 <script type="text/javascript">
+
+var upload = $('#fileupload')[0];
+
+upload.onchange = function(e){
+	console.log('file upload');
+	var file = upload.files[0];
+	var formData = new FormData();
+	formData.append('hash', file);
+	
+	$.ajax({
+		  url: '/ax/admin/filehash',
+		  type: 'POST',
+		  processData: false, // important
+		  contentType: false, // important
+		  dataType : 'json',
+		  data: formData,
+		  success:function(data){
+			  $('#att_process_hash').val(data.hash);
+		  },   
+		    error:function(e){
+		    	alert("파일 해시값 변환에 실패하였습니다.");
+		        console.log(e.responseText);  
+		    }  
+		})
+		
+	    
+	    
+	    
+}
 
 function get_policy_process_setting_data(){
 	

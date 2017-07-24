@@ -52,7 +52,7 @@
 								</div>
 
 								<!-- panel content -->
-								<div id="dept_tree" class="panel-body">
+								<div id="dept_tree" class="panel-body" style="padding-left: 0px; padding-right: 0px;">
 
 								</div>
 								<!-- /panel content -->
@@ -386,6 +386,8 @@
 		    			infoAlert('수정이 완료되었습니다.')
 		        	}else if(args.returnCode == 'EUN'){
 		    			infoAlert('사번이 이미 존재합니다.')
+		        	}else if(args.returnCode == 'DUI'){
+		    			infoAlert('아이디가 이미 존재합니다.')
 		        	}else{
 		    			infoAlert('서버와의 통신에 실패하였습니다.')
 		        	}
@@ -415,6 +417,8 @@
 		    			infoAlert('사용자추가가 완료되었습니다.')
 		        	}else if(args.returnCode == 'EUN'){
 		    			infoAlert('사번이 이미 존재합니다.')
+		        	}else if(args.returnCode == 'DUI'){
+		    			infoAlert('아이디가 이미 존재합니다.')
 		        	}else{
 		    			infoAlert('서버와의 통신에 실패하였습니다.')
 		        	}

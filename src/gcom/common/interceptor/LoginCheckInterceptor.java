@@ -21,6 +21,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import gcom.DAO.AuditDataDAO;
+import gcom.service.System.ISystemService;
+import gcom.service.System.SystemServiceImpl;
 /**
  * @author gillee
  * @since 2017-05-29 마지막 수정
@@ -94,19 +96,21 @@ public class LoginCheckInterceptor implements Filter {
         HttpServletResponse httpRes = (HttpServletResponse)response;
         HttpSession session = httpReq.getSession(false);
         
+        
         httpReq.setCharacterEncoding("UTF-8");
         boolean loginFlag = false;
         
         if (session != null) {
         	String userId = (String)session.getAttribute("user_id");
-        	
-
-        	
+        	        	
         	if(userId != null) {
 
         		loginFlag = true;
+        		
             	int admin_mode = (int)session.getAttribute("admin_mode");
-            	
+
+            	ISystemService sys = new SystemServiceImpl();
+            	session.setMaxInactiveInterval(sys.serverLogoutTimeInfo());
 
             	if(admin_mode == 1){	//콘솔권한
                 	if(checkUri(httpReq.getRequestURI(), reportUrls) || checkUri(httpReq.getRequestURI(), userUrls) ){
@@ -149,7 +153,7 @@ public class LoginCheckInterceptor implements Filter {
         		String url = (String)session.getAttribute("login_root");
         		httpRes.sendRedirect(url);
         	} else {
-        		//로그인 되어있고 리퀘스트 받은 결과 넘김
+        		//로그인 되어있고 루트디렉토리가 아닐시 리퀘스트 받은 결과 넘김
         		request.setAttribute("dept_no", session.getAttribute("dept_no"));
         		chain.doFilter(request, response);
         	}

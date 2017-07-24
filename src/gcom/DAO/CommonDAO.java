@@ -111,4 +111,80 @@ public class CommonDAO {
 		
 	}
 	
+	public String getFileList(HashMap<String, Object> map){
+		String result = "";
+		String type = map.get("type").toString();
+		int no = Integer.parseInt(map.get("no").toString());
+		
+		String sql= "SELECT "
+				+ "file_list FROM "
+				+ type
+				+ " WHERE no = ? ";
+				
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			
+			pstmt.setInt(1, no);			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getString("file_list");				
+			}
+			
+		}catch(SQLException ex){
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+		
+	}
+	
+	public String getFilePath(HashMap<String, Object> map){
+		String result = "";
+		String file_id = map.get("file_id").toString();
+		
+		String sql= "SELECT "
+				+ "file_path FROM "
+				+ "log_file_info "
+				+ "WHERE file_id = ? ";
+				
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			
+			pstmt.setString(1, file_id);			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getString("file_path");				
+			}
+			
+		}catch(SQLException ex){
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
 }
