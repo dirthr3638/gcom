@@ -14,11 +14,9 @@ import com.google.gson.Gson;
 
 import gcom.Model.DeptModel;
 import gcom.Model.ServerAuditModel;
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.ConfigInfo;
 import gcom.controller.action.deptAction;
-import gcom.controller.action.admin.getAdminAction;
 import gcom.controller.action.admin.insertAdminAction;
-import gcom.controller.action.admin.updateAdminAction;
 
 @WebServlet("/admin/do/dept/*")
 public class userDeptDoController extends HttpServlet {

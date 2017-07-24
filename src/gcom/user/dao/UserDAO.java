@@ -524,7 +524,7 @@ public class UserDAO {
 		String eMail = map.get("eMail").toString();
 		int conType = Integer.parseInt(map.get("conType").toString());
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "INSERT INTO user_contact_info (contact_title, contact_body, reg_user_staf_no, reg_dt, email, contact_type, comment_yn) " 
 					+ " VALUES ( ?, ?, ?, NOW(), ?, ?, 'N') ";
@@ -544,7 +544,7 @@ public class UserDAO {
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -573,7 +573,7 @@ public class UserDAO {
 		String user_phone = map.get("user_phone").toString();
 
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "INSERT "
 				+ "INTO user_account_request "
@@ -605,7 +605,7 @@ public class UserDAO {
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			ex.printStackTrace();
 		}finally {
 			try{

@@ -13,8 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import gcom.Model.ServerAuditModel;
-import gcom.common.services.ConfigInfo;
-import gcom.common.util.JSONUtil;
+import gcom.common.util.ConfigInfo;
 import gcom.controller.action.admin.insertAdminAction;
 
 @WebServlet("/admin/policy/device/save")

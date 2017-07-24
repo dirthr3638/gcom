@@ -1448,7 +1448,7 @@ sql += whereSql;
 		int file_log = Integer.parseInt(map.get("file_log").toString());
 		int file_block = Integer.parseInt(map.get("file_block").toString());
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "INSERT INTO msg_info (name, process_name, txt_log, txt_block, file_log, file_block) VALUES (?, ?, ?, ?, ?, ?)";
 		
@@ -1468,7 +1468,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -1496,7 +1496,7 @@ sql += whereSql;
 		int file_log = Integer.parseInt(map.get("file_log").toString());
 		int file_block = Integer.parseInt(map.get("file_block").toString());
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "UPDATE msg_info  SET name = ?, process_name = ?, txt_log = ?, txt_block = ?, file_log = ?, file_block = ? WHERE no = ?";
 		
@@ -1517,7 +1517,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -1592,7 +1592,7 @@ sql += whereSql;
 		String notice = map.get("notice").toString();
 		int valid = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "INSERT INTO process_info (process_name, process_path, hash, notice, valid) VALUES (?, ?, ?, ?, ?)";
 		
@@ -1611,7 +1611,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -1638,7 +1638,7 @@ sql += whereSql;
 		String notice = map.get("notice").toString();
 		int valid = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "UPDATE process_info SET process_name = ?, process_path = ?, hash = ?, notice = ?, valid = ? WHERE no = ? ";
 		
@@ -1658,7 +1658,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -1729,7 +1729,7 @@ sql += whereSql;
 		String notice = map.get("notice").toString();
 		int valid = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "INSERT INTO pattern_info (description, data, notice, valid) VALUES (?, ?, ?, ?)";
 		
@@ -1747,7 +1747,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -1773,7 +1773,7 @@ sql += whereSql;
 		String notice = map.get("notice").toString();
 		int valid = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "UPDATE pattern_info SET description = ?, data = ?, notice = ?, valid = ? WHERE no = ? ";
 		
@@ -1792,7 +1792,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -1865,7 +1865,7 @@ sql += whereSql;
 		String descript = map.get("descript").toString();
 		int valid = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "INSERT INTO net_port_info (name, port, descriptor, allow) VALUES (?, ?, ?, ?) ";
 		
@@ -1883,7 +1883,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -1909,7 +1909,7 @@ sql += whereSql;
 		String descript = map.get("descript").toString();
 		int valid = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "UPDATE net_port_info SET name = ?, port = ?, descriptor = ?, allow = ? WHERE no = ? ";
 		
@@ -1928,7 +1928,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -1997,7 +1997,7 @@ sql += whereSql;
 		String descript = map.get("descript").toString();
 		int allow = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "INSERT INTO com_port_info (name, allow, description) VALUES (?, ?, ?) ";
 		
@@ -2014,7 +2014,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -2039,7 +2039,7 @@ sql += whereSql;
 		String descript = map.get("descript").toString();
 		int allow = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "UPDATE com_port_info SET name = ?, allow = ?, description = ? WHERE no = ? ";
 		
@@ -2057,7 +2057,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -2126,7 +2126,7 @@ sql += whereSql;
 		String descript = map.get("descript").toString();
 		int allow = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "INSERT INTO web_addr_info (address, allow, description) VALUES (?, ?, ?) ";
 		
@@ -2143,7 +2143,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -2168,7 +2168,7 @@ sql += whereSql;
 		String descript = map.get("descript").toString();
 		int allow = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "UPDATE web_addr_info SET address = ?, allow = ?, description = ? WHERE no = ? ";
 		
@@ -2186,7 +2186,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -2263,7 +2263,7 @@ sql += whereSql;
 		String descript = map.get("descript").toString();
 		int allow = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "INSERT INTO usb_dev_info (name, vid, pid, serial_number, allow, description) VALUES (?, ?, ?, ?, ?, ?) ";
 		
@@ -2283,7 +2283,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {

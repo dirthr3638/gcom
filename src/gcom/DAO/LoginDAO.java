@@ -10,7 +10,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.ConfigInfo;
 import gcom.common.util.EncProc;
 import gcom.common.util.encrypto.hashEncrypto;
 
@@ -42,7 +42,7 @@ public class LoginDAO {
 			e1.printStackTrace();
 		}
 		
-    	String returnCode = "S";
+    	String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
     	
     	String sql= 
 				"SELECT no, "
