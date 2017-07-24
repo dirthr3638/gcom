@@ -58,12 +58,12 @@
 											<table id="table-process-policy" class="table table-bordered table-hover">
 												<thead>
 													<tr>
-														<td>ID</td>
-														<td>프로세스 파일명</td>
-														<td>프로세스 경로</td>
-														<td>프로세스 해시 데이터</td>
-														<td>설명</td>
-														<td>사용여부</td>
+														<th>ID</th>
+														<th>프로세스 파일명</th>
+														<th>프로세스 경로</th>
+														<th>프로세스 해시 데이터</th>
+														<th>설명</th>
+														<th>사용여부</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -166,6 +166,7 @@
 				                  }
 				              }
 					     ],
+					    "ordering" : false,
 				 		"serverSide" : true,
 				 		"columns": [{
 							data: "proNo"			//ID

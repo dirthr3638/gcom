@@ -57,13 +57,13 @@
 											<table id="table-messenger-policy" class="table table-bordered table-hover">
 												<thead>
 													<tr>
-														<td>ID</td>
-														<td>메신저명</td>
-														<td>파일명</td>
-														<td>Message로깅</td>
-														<td>Message차단</td>
-														<td>File전송로깅</td>
-														<td>File전송차단</td>
+														<th>ID</th>
+														<th>메신저명</th>
+														<th>파일명</th>
+														<th>Message로깅</th>
+														<th>Message차단</th>
+														<th>File전송로깅</th>
+														<th>File전송차단</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -209,7 +209,8 @@
 									return '미사용';
 								}
 							}
-						}],  
+						}],
+						"ordering" : false,
 						"pageLength": 20,
 						"iDisplayLength": 20,
 				 		"language": {               
