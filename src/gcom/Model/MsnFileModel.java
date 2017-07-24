@@ -10,6 +10,7 @@ public class MsnFileModel {
 	private String userId = "";
 	private int deptId ;
 	private String duty = "";
+	private String fileId = "";
 	private String rank = "";
 	private String ipAddr = "";
 	private String macAddr = "";

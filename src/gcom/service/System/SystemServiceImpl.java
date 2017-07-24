@@ -22,5 +22,8 @@ public class SystemServiceImpl implements ISystemService {
 	public HashMap<String, Object> updateSystemInfo(HashMap<String, Object> map){
 		return siDao.updateSystemInfo(map);				
 	}
-
+	
+	public int serverLogoutTimeInfo() {
+		return siDao.serverLogoutTimeInfo();				
+	}
 }

@@ -127,14 +127,24 @@ upload.onchange = function(e){
 	formData.append('hash', file);
 	
 	$.ajax({
-		  url: 'upload.php',
+		  url: '/ax/admin/filehash',
 		  type: 'POST',
 		  processData: false, // important
 		  contentType: false, // important
 		  dataType : 'json',
-		  data: myFormData
-		});
-	
+		  data: formData,
+		  success:function(data){
+			  $('#att_process_hash').val(data.hash);
+		  },   
+		    error:function(e){
+		    	alert("파일 해시값 변환에 실패하였습니다.");
+		        console.log(e.responseText);  
+		    }  
+		})
+		
+	    
+	    
+	    
 }
 
 function get_policy_process_setting_data(){

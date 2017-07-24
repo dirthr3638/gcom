@@ -180,7 +180,7 @@
 														<th >파일정보</th>
 														<th >발송시간(서버)</th>
 														<th >발송시간</th>
-														<th >다운로드</th>
+														<th >파일아이디</th>
 													</tr>
 												</thead>				
 												<tbody>
@@ -204,17 +204,19 @@
 				</div>
 			</section>
 		</div>
-<div id="detail-file-modal" class="modal fade">
+		<div id="file_list_area">
+		</div>		
+<!-- <div id="detail-file-modal" class="modal fade">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 
-			<!-- Modal Header -->
+			Modal Header
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 				<h4 class="modal-title" id="myModalLabel">파일경로</h4>
-			</div><!-- /Modal Header -->
+			</div>/Modal Header
 
-			<!-- body modal -->
+			body modal
 			<div class="modal-body clearfix" id="detail-modal-data">
 				<p>
 				</p>
@@ -222,7 +224,7 @@
 
 		</div>
 	</div>
-</div>
+</div> -->
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
@@ -299,10 +301,27 @@
  		$buttons.click();
  	}
  	
- 	function msgFileDetail(data){
- 		$('#detail-modal-data').html(decodeURI(data))
- 		$('#detail-file-modal').modal('show')
+ 	function msgFileDetail(no, type, file_id){
+		$.ajax({      
+	        type:"POST",  
+	        url:'/ax/report/filelist/detail',
+	        async: false,
+	        data:{
+	        	no : no,
+	        	type : type,
+	        	file_id : decodeURI(file_id)
+	        },
+	        success:function(args){   
+	            $("#file_list_area").html(args);      
+	            $("#fileListModal").modal('show');
+	        },   
+	        //beforeSend:showRequest,  
+	        error:function(e){  
+	            console.log(e.responseText);  
+	        }  
+	    }); 
 
+ 
  	}
  	
  	function setDataTable(){
@@ -417,8 +436,8 @@
 					data: "sendClientTime",
 					"orderable": false	//클라시간
 				}, {
-					data: "msgNo",
-					"orderable": false	//다운로드
+					data: "fileId",
+					"orderable": false	//파일아이디
 				}],
 				// set the initial value
 				"pageLength": 20,
@@ -504,7 +523,7 @@
 					"targets": [11]	//파일리스트
 					,"class" : "center-cell"
 					,"render": function(data,type,row){
-						return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:msgFileDetail(\''+ encodeURI(data) + ' \')">';
+						return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:msgFileDetail('+ row.msgNo + ', \'msg_file_log\',\''+ encodeURI(row.fileId) +'\')">';
 //						return '<i title="상세보기" class="fa fa-commenting" aria-hidden="true" onclick="javascript:msgFileDetail(this)">'
 
 
@@ -515,14 +534,11 @@
 				}, {	
 					"targets": [13]	//발송시간(PC)
 					,"class" : "center-cell"
-				}	, {	
-					"targets": [14]	
+				}, {	
+					"targets": [14]	//
 					,"class" : "center-cell"
-					,"render": function(data,type,row){
-						return '<i title="다운로드" class="fa fa-download" aria-hidden="true">'
-					}
-				}		
-			],						
+					,"visible" : false
+			}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
 				}

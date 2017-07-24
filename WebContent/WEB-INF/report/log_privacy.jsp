@@ -160,7 +160,7 @@
 															<td>
 																<input type="text" name="filterMatchedData" id="filterMatchedData" value="" class="form-control required">
 															</td>
-															<td width="15%">파일명</td>
+															<td width="15%">파일정보</td>
 															<td>
 																<input type="text" name="filterFileName" id="filterFileName" value="" class="form-control required">
 															</td>
@@ -235,17 +235,17 @@
 				</div>
 			</section>
 		</div>
+		<div id="file_list_area">
+		</div>
 <div id="detail-pattern-modal" class="modal fade">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 
-			<!-- Modal Header -->
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-				<h4 class="modal-title" id="myModalLabel">파일경로</h4>
-			</div><!-- /Modal Header -->
+				<h4 class="modal-title" id="myModalLabel">파일정보</h4>
+			</div>
 
-			<!-- body modal -->
 			<div class="modal-body clearfix" id="detail-modal-data">
 				<p>
 				</p>
@@ -253,7 +253,7 @@
 
 		</div>
 	</div>
-</div>
+</div> 
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
@@ -332,8 +332,8 @@
  	
  	function msgFileDetail(data){
  		
- 		$('#detail-modal-data').html(decodeURI(data))
- 		$('#detail-pattern-modal').modal('show')
+  		$('#detail-modal-data').html(decodeURI(data))
+ 		$('#detail-pattern-modal').modal('show') 
  		
  	}
 

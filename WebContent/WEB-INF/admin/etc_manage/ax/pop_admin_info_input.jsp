@@ -2,7 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<div id="modalAdminInfo" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="margin-top: 10%;">
+<link href="/assets/plugins/ztree/zTreeStyle.css" rel="stylesheet" type="text/css"  />
+
+<div id="modalAdminInfo" class="modal fade" role="dialog" aria-hidden="true" style="margin-top: 10%;">
 	<div class="modal-dialog" style="width:940px;">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -38,8 +40,8 @@
 										<div class="row">
 										
 											<div class="col-md-6" style="overflow: hidden;">
-												<label>부서</label>
-							                         <select class="form-control" id="admin_dept">
+												<label>부서</label><br />
+							                         <select class="form-control select2" id="admin_dept" style="width:100%">
 				                              
 				                              
 <c:choose>
@@ -131,7 +133,7 @@
 </div>
 		<script type="text/javascript" src="/assets/js/app.js"></script>
 		<script type="text/javascript" src="/assets/plugins/form.masked/jquery.mask.min.js"></script>
-
+		<script type="text/javascript" src="/assets/plugins/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript">
 var options =  { 
        onKeyPress: function(cep, event, currentField, options){

@@ -33,6 +33,8 @@ import gcom.service.Policy.IPolicyService;
 import gcom.service.Policy.PolicyServiceImpl;
 import gcom.service.UserAgent.IUserAgentService;
 import gcom.service.UserAgent.UserAgentServiceImpl;
+import gcom.service.common.CommonServiceImpl;
+import gcom.service.common.ICommonService;
 import gcom.user.service.UserService;
 import gcom.user.service.UserServiceImpl;
 
@@ -370,6 +372,17 @@ public class getAction {
 		}
 		
 		return result;
+	}
+	
+	public List<HashMap<String, Object>> getFileList(HashMap<String, Object> map) {
+		ICommonService ca = new CommonServiceImpl();
+		return ca.getFileList(map);
+	}
+
+	public String getFilePath(HashMap<String, Object> map){
+		ICommonService ca = new CommonServiceImpl();
+		return ca.getFilePath(map);
+		
 	}
 
 
