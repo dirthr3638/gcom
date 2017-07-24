@@ -139,18 +139,15 @@ function fn_policy_network_save () {
 	    	if (data.returnCode == 'S') {
 	    		$('#modalPolicyRegNetwork').modal('hide');
 	    		
+	    		var datatable = $('#table-network-policy').dataTable().api();
+	    		datatable.ajax.reload();
+	    		
 	    		vex.dialog.open({
 	    			message: '정책 등록이 완료되었습니다.',
 	    			  buttons: [
 	    			    $.extend({}, vex.dialog.buttons.YES, {
 	    			      text: '확인'
-	    			  })],
-	    			  callback: function(data) {
-  				 	  	if (data) {
-  				 	  		location.href = '/admin/policy/network';
-  				 	    }
-  				 	  }
-	    				
+	    			  })]
 	    		})
 	    		
 	    	} else {
@@ -195,18 +192,15 @@ function fn_policy_network_modify () {
 	    	if (data.returnCode == 'S') {
 	    		$('#modalPolicyRegNetwork').modal('hide');
 	    		
+	    		var datatable = $('#table-network-policy').dataTable().api();
+	    		datatable.ajax.reload();
+	    		
 	    		vex.dialog.open({
 	    			message: '정책 수정이 완료되었습니다.',
 	    			  buttons: [
 	    			    $.extend({}, vex.dialog.buttons.YES, {
 	    			      text: '확인'
-	    			  })],
-	    			  callback: function(data) {
-  				 	  	if (data) {
-  				 	  		location.href = '/admin/policy/network';
-  				 	    }
-  				 	  }
-	    				
+	    			  })]
 	    		})
 	    		
 	    	} else {
