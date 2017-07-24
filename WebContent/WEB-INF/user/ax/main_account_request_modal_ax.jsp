@@ -235,26 +235,5 @@ function fn_request_input_valid(data) {
 	return true;
 }
 
-
-function fn_login_callback(data){
-	
-	if(data.returnCode == "S"){
-		location.href= data.goUrl;
-	}else{
-		switch (data.returnCode){
-		  case "E":
-			alert(data.message);
-		    break;
-		  case "NI":
-			  alert("등록되지 않은 계정입니다. 계정 신청 후 사용하시기 바랍니다.");
-		    break;
-		  case "DI":
-			alert("아이디 또는 암호를 확인해 주세요.");
-		    break;
-		  default:
-		}
-	}
-	
-}
 </script>
 
