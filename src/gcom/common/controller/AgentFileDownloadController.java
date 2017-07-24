@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -32,10 +33,14 @@ public class AgentFileDownloadController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		
-		String saveName = ConfigInfo.AGENT_FILE_NAME;
-        String filePath = ConfigInfo.AGENT_FILE_PATH;
-        Set pathSet = request.getSession().getServletContext().getResourcePaths("/");
-        System.out.println(pathSet);
+		String path = this.getClass().getClassLoader().getResource("").getPath();
+		String fullPath = URLDecoder.decode(path, "UTF-8");
+		String pathArr[] = fullPath.split("/WEB-INF/classes/");
+		
+        String filePath = pathArr[0] + ConfigInfo.AGENT_FILE_PATH;
+        String saveName = ConfigInfo.AGENT_FILE_REAL_NAME;
+        String realName = ConfigInfo.AGENT_FILE_VIEW_NAME;
+        
         InputStream in = null;
         OutputStream os = null;
         File file = null;
@@ -61,13 +66,13 @@ public class AgentFileDownloadController extends HttpServlet {
 	        if(!skip){
 	            // IE
 	            if(client.indexOf("MSIE") != -1 || client.indexOf("rv") != -1 ){
-	                response.setHeader ("Content-Disposition", "attachment; filename="+new String(saveName.getBytes("KSC5601"),"ISO8859_1"));
+	                response.setHeader ("Content-Disposition", "attachment; filename="+new String(realName.getBytes("KSC5601"),"ISO8859_1"));
 	 
 	            }else{
 	                // 한글 파일명 처리
-	            	saveName = new String(saveName.getBytes("utf-8"), "iso-8859-1");
+	            	realName = new String(realName.getBytes("utf-8"), "iso-8859-1");
 	 
-	                response.setHeader("Content-Disposition", "attachment; filename=\"" + saveName + "\"");
+	                response.setHeader("Content-Disposition", "attachment; filename=\"" + realName + "\"");
 	                response.setContentType("application/octer-stream"); 
 	                response.setHeader("Content-Transfer-Encoding", "binary;");
 	            } 

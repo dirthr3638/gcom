@@ -14,13 +14,10 @@ import com.google.gson.Gson;
 
 import gcom.Model.ServerAuditModel;
 import gcom.Model.SubAdminModel;
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.ConfigInfo;
 import gcom.controller.action.admin.insertAdminAction;
 import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
-import gcom.user.model.UserInfoModel;
-import gcom.user.service.UserServiceImpl;
-import gcom.user.service.UserService;
 
 /**
  * Servlet implementation class axCommonUI

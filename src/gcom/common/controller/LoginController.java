@@ -12,13 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
-import gcom.DAO.AuditDataDAO;
-import gcom.Model.AuditServerModel;
 import gcom.Model.ServerAuditModel;
-import gcom.common.services.ConfigInfo;
+import gcom.common.util.ConfigInfo;
 import gcom.controller.action.commonAction;
 import gcom.controller.action.admin.insertAdminAction;
-import gcom.controller.front.admin.ax.adminInfoInputController;
 
 /**
  * Servlet implementation class dashboardServlet

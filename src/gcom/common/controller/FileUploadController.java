@@ -97,12 +97,12 @@ public class FileUploadController extends HttpServlet {
 					}
 				}
 			}
-			resultMap.put("returnCode", "S");
+			resultMap.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
 		} catch (org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException e) {
-			resultMap.put("returnCode", "M");
+			resultMap.put("returnCode", ConfigInfo.EXIST_OVER_FILE_SIZE);
 			System.out.println("파일 사이즈가 100메가 보다 더 초과되었습니다");
 		} catch (Exception e) {
-			resultMap.put("returnCode", "E");
+			resultMap.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			System.out.println("업로드시 예기치 못한 오류가 발생하였습니다");
 		}
 		
