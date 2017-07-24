@@ -137,7 +137,7 @@ public class LoginCheckInterceptor implements Filter {
 			}
 		}
 
-		String[] uris = { "/report", "/report/users", "/assets", "/login/check", "/test/hash", "/account/request/view",
+		String[] uris = { "/assets", "/login/check", "/test/hash", "/account/request/view",
 				"/account/request/do" }; // check URL - ex) 건너뛰거나 체크에서 제외될 URL
 		String uri = httpReq.getRequestURI(); // 요청 URL
 		for (String s : uris) {
