@@ -58,11 +58,11 @@
 											<table id="table-network-policy" class="table table-bordered table-hover">
 												<thead>
 													<tr>
-														<td>ID</td>
-														<td>포트이름</td>
-														<td>포트번호</td>
-														<td>설명</td>
-														<td>사용여부</td>
+														<th>ID</th>
+														<th>포트이름</th>
+														<th>포트번호</th>
+														<th>설명</th>
+														<th>사용여부</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -165,6 +165,7 @@
 				                  }
 				              }
 					     ],
+					    "ordering" : false, 
 				 		"serverSide" : true,
 				 		"columns": [{
 							data: "netNo"			//ID

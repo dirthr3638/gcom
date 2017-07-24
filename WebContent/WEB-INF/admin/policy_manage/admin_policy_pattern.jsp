@@ -57,11 +57,11 @@
 											<table id="table-pattern-policy" class="table table-bordered table-hover">
 												<thead>
 													<tr>
-														<td>ID</td>
-														<td>패턴 이름</td>
-														<td>패턴 데이터</td>
-														<td>설명</td>
-														<td>사용여부</td>
+														<th>ID</th>
+														<th>패턴 이름</th>
+														<th>패턴 데이터</th>
+														<th>설명</th>
+														<th>사용여부</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -164,6 +164,7 @@
 				                  }
 				              }
 					     ],
+					    "ordering" : false,
 				 		"serverSide" : true,
 				 		"columns": [{
 							data: "patNo"			//ID

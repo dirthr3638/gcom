@@ -58,10 +58,10 @@
 											<table id="table-website-policy" class="table table-bordered table-hover">
 												<thead>
 													<tr>
-														<td>선택</td>
-														<td>사이트ID</td>
-														<td>사이트주소</td>
-														<td>설명</td>
+														<th>선택</th>
+														<th>사이트ID</th>
+														<th>사이트주소</th>
+														<th>설명</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -164,6 +164,7 @@
 				                  }
 				              }
 					     ],
+					    "ordering" : false,
 				 		"serverSide" : true,
 				 		"columns": [{
 							data: "siteId"			//ID
