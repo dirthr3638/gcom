@@ -9,12 +9,6 @@
 	String duty = data.getDuty();
 	String rank = data.getRank();
 	String notice = data.getNotice();
-	int attfile_id = data.getAttfile_id();
-	
-	String imgPath = "";
-	if(attfile_id != 0) {
-		imgPath = "localhost:8080";
-	}
 	
 %>
 

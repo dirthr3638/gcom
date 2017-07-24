@@ -3,6 +3,8 @@ package gcom.common.util;
 public class ConfigInfo {
 	/* file path */
 	public final static String FILE_UPLOAD_PATH = "/uploads";
+	public final static String AGENT_FILE_PATH = "/agent";
+	public final static String AGENT_FILE_NAME = "/testAgent.txt";
 	
 	/* Result Code */
 	public final static String RETURN_CODE_SUCCESS = "S";	// 성공

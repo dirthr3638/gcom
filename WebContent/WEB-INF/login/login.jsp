@@ -190,7 +190,7 @@
 			function fn_login_callback(data){
 				
 				if(data.returnCode == "S"){
-					location.href= data.goUrl;
+					location.reload();
 				}else{
 					switch (data.returnCode){
 					  case "E":
