@@ -137,7 +137,7 @@ function fn_policy_serial_save () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegSerial').modal('hide');
-  				 	  		location.href = '/admin/policy/export';
+  				 	  		location.href = '/admin/policy/serial';
   				 	    }
   				 	  }
 	    				
@@ -192,7 +192,7 @@ function fn_policy_serial_modify () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegSerial').modal('hide');
-  				 	  		location.href = '/admin/policy/export';
+  				 	  		location.href = '/admin/policy/serial';
   				 	    }
   				 	  }
 	    				

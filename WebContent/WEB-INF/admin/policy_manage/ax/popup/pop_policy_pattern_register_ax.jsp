@@ -146,7 +146,7 @@ function fn_policy_pattern_save () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegPattern').modal('hide');
-  				 	  		location.href = '/admin/policy/person';
+  				 	  		location.href = '/admin/policy/pattern';
   				 	    }
   				 	  }
 	    				
@@ -201,7 +201,7 @@ function fn_policy_pattern_modify () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegPattern').modal('hide');
-  				 	  		location.href = '/admin/policy/person';
+  				 	  		location.href = '/admin/policy/pattern';
   				 	    }
   				 	  }
 	    				

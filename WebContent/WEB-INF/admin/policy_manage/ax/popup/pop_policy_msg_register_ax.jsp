@@ -193,7 +193,7 @@ function fn_policy_msg_save () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegMessenger').modal('hide');
-  				 	  		location.href = '/admin/policy/person';
+  				 	  		location.href = '/admin/policy/messenger';
   				 	    }
   				 	  }
 	    				
@@ -248,7 +248,7 @@ function fn_policy_msg_modify () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegMessenger').modal('hide');
-  				 	  		location.href = '/admin/policy/person';
+  				 	  		location.href = '/admin/policy/messenger';
   				 	    }
   				 	  }
 	    				

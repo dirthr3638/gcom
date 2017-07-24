@@ -146,7 +146,7 @@ function fn_policy_network_save () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegNetwork').modal('hide');
-  				 	  		location.href = '/admin/policy/export';
+  				 	  		location.href = '/admin/policy/network';
   				 	    }
   				 	  }
 	    				
@@ -201,7 +201,7 @@ function fn_policy_network_modify () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegNetwork').modal('hide');
-  				 	  		location.href = '/admin/policy/export';
+  				 	  		location.href = '/admin/policy/network';
   				 	    }
   				 	  }
 	    				

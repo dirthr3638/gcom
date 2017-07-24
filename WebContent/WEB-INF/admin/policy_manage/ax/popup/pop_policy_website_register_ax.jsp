@@ -137,7 +137,7 @@ function fn_policy_website_save () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegWebsite').modal('hide');
-  				 	  		location.href = '/admin/policy/export';
+  				 	  		location.href = '/admin/policy/website';
   				 	    }
   				 	  }
 	    				
@@ -192,7 +192,7 @@ function fn_policy_website_modify () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegWebsite').modal('hide');
-  				 	  		location.href = '/admin/policy/export';
+  				 	  		location.href = '/admin/policy/website';
   				 	    }
   				 	  }
 	    				

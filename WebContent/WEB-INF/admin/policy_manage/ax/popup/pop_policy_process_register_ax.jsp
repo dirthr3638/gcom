@@ -185,7 +185,7 @@ function fn_policy_process_save () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegProcess').modal('hide');
-  				 	  		location.href = '/admin/policy/person';
+  				 	  		location.href = '/admin/policy/process';
   				 	    }
   				 	  }
 	    				
@@ -240,7 +240,7 @@ function fn_policy_process_modify () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalPolicyRegProcess').modal('hide');
-  				 	  		location.href = '/admin/policy/person';
+  				 	  		location.href = '/admin/policy/process';
   				 	    }
   				 	  }
 	    				
