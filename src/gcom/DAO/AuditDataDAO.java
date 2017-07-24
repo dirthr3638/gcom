@@ -461,12 +461,12 @@ sql += whereSql;
 		String sql= 
 "SELECT "
 + "audit.no AS audit_no, "
-+ "audit.id AS admin_id, "
-+ "audit.ip AS ip, "
-+ "audit.parameter, "
-+ "audit.description, "
-+ "audit.audit_time, "
-+ "audit.status "
++ "IFNULL(audit.id, '') AS admin_id, "
++ "IFNULL(audit.ip, '') AS ip, "
++ "IFNULL(audit.parameter, '') AS parameter, "
++ "IFNULL(audit.description, '') AS description, "
++ "IFNULL(audit.audit_time, '') AS audit_time, "
++ "IFNULL(audit.status, '') AS status "
 + "FROM server_audit AS audit ";
 sql += whereSql;			
 			
