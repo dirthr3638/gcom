@@ -44,8 +44,7 @@
 					class="main-icon fa fa-usb"></i> <span>디바이스관리</span>
 			</a>
 				<ul>
-					<li ${menu_sub_first == 4100 ? 'class="active"' : ''}><a href="/admin/device/usb">USB관리</a></li>
-					<li ${menu_sub_first == 4200 ? 'class="active"' : ''}><a href="/admin/device/usbblock">비인가USB연결현황</a></li>
+					<li ${menu_sub_first == 4100 ? 'class="active"' : ''}><a href="/admin/device">USB 관리</a></li>
 				</ul>
 			</li>
 			<li ${menu_parent == 5000 ? 'class="active"' : ''}><a href="/admin/system/manage"> <i

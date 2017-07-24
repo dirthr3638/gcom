@@ -1388,6 +1388,7 @@ public class UserDAO {
 		String isWebAddr = map.get("isWebAddr").toString();
 		String isMsgBlock = map.get("isMsgBlock").toString();
 		String waterMark = map.get("waterMark").toString();
+		String notice = map.get("notice").toString();
 		
 		String sql= "INSERT INTO policy_request_info ( "
 						+ "agent_no, "
@@ -1449,7 +1450,7 @@ public class UserDAO {
 			pstmt.setString(22, printLogDesc);
 			pstmt.setString(23, "Y");
 			pstmt.setInt(24, patternFileControl);
-			pstmt.setString(25, "아잉");
+			pstmt.setString(25, notice);
 			pstmt.executeUpdate();
 									
 			con.commit();

@@ -3,32 +3,11 @@ package gcom.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-
-import gcom.Model.PolicyInfoModel;
-import gcom.Model.PolicyMessengerModel;
-import gcom.Model.PolicyNetworkModel;
-import gcom.Model.PolicyPatternModel;
-import gcom.Model.PolicyProcessModel;
-import gcom.Model.PolicyRequestInfo;
-import gcom.Model.PolicySerialModel;
-import gcom.Model.PolicyWebSiteBlocklModel;
-import gcom.Model.UsbDevInfoModel;
-import gcom.Model.UserPolicyLogModel;
-import gcom.Model.UserPolicyLogModel;
-import gcom.Model.UserPolicyModel;
-import gcom.common.util.CommonUtil;
-import gcom.common.util.ConfigInfo;
-import gcom.service.common.CommonServiceImpl;
-import gcom.service.common.ICommonService;
 
 
 

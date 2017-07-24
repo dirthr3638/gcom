@@ -258,22 +258,25 @@
 		</div>
 	</div>
 </div>
-		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
 
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+	<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
 
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+	<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+	<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 
 	<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
 	<script type="text/javascript" src="/assets/plugins/jquery.tristate.js"></script>
 
 <script type="text/javascript">
-
+	var oriData = new Object();
+	
 	$(document).ready(function(){
+		initData();
+				
 		usb_policy_table();
 		com_port_table();
 		net_port_table();
@@ -288,12 +291,30 @@
 	        indeterminate: -1,
 		});
 	});
+	
+	function initData() {
+		var flag = '<%= onlyFlag %>';
+		oriData = getPolicyApplyData(flag);
+	}
 
 	function fn_policy_apply_save() {
 		var flag = '<%= onlyFlag %>';
 		var policy_data = getPolicyApplyData(flag);
 		var apply_list = getApplyPolicyUserData();
 		policy_data['apply_list'] = apply_list;
+		
+		if(!isChangeValueCheck(policy_data)) {
+			vex.defaultOptions.className = 'vex-theme-os'
+				
+			vex.dialog.open({
+				message: '변경된 정책이 없습니다. 적용할 정책을 선택 후 등록해주세요.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			})
+			return false;
+		}
 
 		if(apply_list.length > 1) {
 			vex.defaultOptions.className = 'vex-theme-os'
@@ -322,7 +343,7 @@
 	}
 	
 	function saveData (policy_data) {
-		console.log(policy_data);
+		
 		$.ajax({      
 		    type:"POST",  
 		    url:'/admin/user/apply/save',
@@ -374,6 +395,35 @@
 		    }  
 		});
 		
+	}
+	
+	function isChangeValueCheck(change_policy_data) {
+		var cnt = 0;
+		
+		if( oriData.isUninstall != change_policy_data.isUninstall ){ cnt++; }
+		if( oriData.isFileEncryption != change_policy_data.isFileEncryption	){ cnt++; }
+		if( oriData.isCdEncryption != change_policy_data.isCdEncryption ){ cnt++; }
+		if( oriData.isPrint != change_policy_data.isPrint ){ cnt++; }
+		if( oriData.isCdEnabled	!= change_policy_data.isCdEnabled ){ cnt++; }
+		if( oriData.isCdExport != change_policy_data.isCdExport ){ cnt++; }
+		if( oriData.isWlan != change_policy_data.isWlan ){ cnt++; }
+		if( oriData.isNetShare != change_policy_data.isNetShare ){ cnt++; }
+		if( oriData.isWebExport != change_policy_data.isWebExport ){ cnt++; }
+		if( oriData.patternFileControl != change_policy_data.patternFileControl ){ cnt++; }
+		if( oriData.printLogDesc != change_policy_data.printLogDesc ){ cnt++; }
+		if( oriData.isUsbBlock != change_policy_data.isUsbBlock ){ cnt++; }
+		if( oriData.isComPortBlock != change_policy_data.isComPortBlock	){ cnt++; }
+		if( oriData.isNetPortBlock != change_policy_data.isNetPortBlock ){ cnt++; }
+		if( oriData.isProcessList != change_policy_data.isProcessList ){ cnt++; }
+		if( oriData.isProcessCheck != change_policy_data.isProcessCheck ){ cnt++; }
+		if( oriData.isFilePattern != change_policy_data.isFilePattern ){ cnt++; }
+		if( oriData.isPatternCheck != change_policy_data.isPatternCheck ){ cnt++; }
+		if( oriData.isWebAddr != change_policy_data.isWebAddr ){ cnt++; }
+		if( oriData.isMsgBlock != change_policy_data.isMsgBlock ){ cnt++; }
+		if( oriData.isWaterMarkPrint != change_policy_data.isWaterMarkPrint ){ cnt++; }
+		if( oriData.waterMark != change_policy_data.waterMark ){ cnt++; }
+			
+		return cnt == 0 ? false : true;
 	}
 	
 	function getApplyPolicyUserData(){

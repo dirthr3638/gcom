@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <% 
-	boolean onlyFlag = Boolean.parseBoolean(request.getParameter("onlyFlag"));
 	boolean isNetPortBlock = Boolean.parseBoolean(request.getParameter("isNetPortBlock"));
 	String netPortBlockCode = request.getParameter("netPortBlockCode").toString();
 	String applyCode = netPortBlockCode.length() > 0 ? "," + netPortBlockCode : "";

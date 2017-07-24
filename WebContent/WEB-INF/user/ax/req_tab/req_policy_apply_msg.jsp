@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <% 
-	boolean onlyFlag = Boolean.parseBoolean(request.getParameter("onlyFlag"));
 	boolean isMsgBlock = Boolean.parseBoolean(request.getParameter("isMsgBlock"));
 	String msgBlockCode = request.getParameter("msgBlockCode").toString();
 	String applyCode = msgBlockCode.length() > 0 ? "," + msgBlockCode : "";

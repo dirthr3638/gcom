@@ -63,7 +63,6 @@ public class LoginController extends HttpServlet {
 		model.setWorkIp(httpReq.getRemoteAddr());
 		
 		
-		
 		//로그인 성공시
 		if (ConfigInfo.RETURN_CODE_SUCCESS.equals(ReturnCode)) {
 			session.setAttribute("user_id", data.get("userId"));
@@ -87,7 +86,6 @@ public class LoginController extends HttpServlet {
 				}else{
 					session.setAttribute("login_root", "/dashboard");					
 				}
-
 				
 			}
 			session.setAttribute("dept_no", data.get("deptNo"));

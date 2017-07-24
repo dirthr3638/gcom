@@ -13,7 +13,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import gcom.Model.PolicyInfoModel;
 import gcom.Model.PolicyMessengerModel;
 import gcom.Model.PolicyNetworkModel;
 import gcom.Model.PolicyPatternModel;
@@ -959,9 +958,6 @@ sql += whereSql;
 		}
 		if(oDept != null)			whereSql += " AND ur.dept_no in ("+idList+") ";
 		
-		
-		whereSql += "ORDER BY request.no DESC LIMIT ?, ? ";	
-		
 		String sql= 
 "SELECT "
 + "COUNT(*) AS cnt "
@@ -988,9 +984,6 @@ sql += whereSql;
 					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
 				}
 			}
-			
-			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
-			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
 	
 			rs = pstmt.executeQuery();
 			
@@ -1072,6 +1065,7 @@ sql += whereSql;
 + "request.new_policy_process_list, "
 + "request.new_policy_file_pattern_list, "
 + "request.new_policy_web_addr_list, "
++ "request.new_policy_msg_block_list, "
 + "request.new_policy_watermark_descriptor, "
 + "request.new_policy_print_log_descriptor, "
 + "request.new_policy_quarantine_path_access_code, "
@@ -1079,6 +1073,10 @@ sql += whereSql;
 + "request.notice, "
 + "request.request_server_time, "
 + "request.request_client_time, "
++ "request.permit, "
++ "IFNULL(request.permit_date, '') as permit_date, "
++ "IFNULL(request.permit_admin_id, '') as permit_admin_id, "
++ "policy.no as policy_no, "
 + "policy.uninstall_enabled AS uninstall_enabled, "
 + "policy.file_encryption_enabled AS file_encryption_enabled, "
 + "policy.cd_encryption_enabled, policy.printer_enabled, "
@@ -1095,6 +1093,7 @@ sql += whereSql;
 + "policy.process_list, "
 + "policy.file_pattern_list, "
 + "policy.web_addr_list, "
++ "policy.msg_block_list, "
 + "policy.watermark_descriptor, "
 + "policy.print_log_descriptor, "
 + "policy.quarantine_path_access_code, "
@@ -1106,6 +1105,7 @@ sql += whereSql;
 + "ur.duty, "
 + "ur.rank, "
 + "ur.phone, "
++ "agent.no as agent_no, "
 + "agent.ip_addr, "
 + "agent.mac_addr, "
 + "agent.pc_name, "
@@ -1139,11 +1139,11 @@ sql += whereSql;
 			
 			while(rs.next()){
 				PolicyRequestInfo model = new PolicyRequestInfo();
-				PolicyInfoModel p_model = new PolicyInfoModel();
+				UserPolicyModel p_model = new UserPolicyModel();
 
-				model.setPolicyNo(rs.getInt("request_no"));
+				model.setRequestNo(rs.getInt("request_no"));
 				model.setUserNo(rs.getInt("request_no"));
-
+				
 				model.setIpAddr(rs.getString("ip_addr"));
 				model.setUserName(rs.getString("user_name"));
 				model.setUserId(rs.getString("user_id"));
@@ -1153,7 +1153,11 @@ sql += whereSql;
 				model.setPcName(rs.getString("pc_name"));
 				model.setDeptName(rs.getString("dept_name"));
 				model.setPhone(rs.getString("phone"));
-
+				model.setReqNotice(rs.getString("notice"));
+				model.setPermitState(rs.getString("permit"));
+				model.setPermitDate(rs.getString("permit_date"));
+				model.setPermitStaf(rs.getString("permit_admin_id"));
+				
 				model.setIsUninstall(rs.getInt("new_policy_uninstall_enabled"));
 				model.setIsFileEncryption(rs.getInt("new_policy_file_encryption_enabled"));
 				model.setIsCdEncryption(rs.getInt("new_policy_cd_encryption_enabled"));
@@ -1165,16 +1169,20 @@ sql += whereSql;
 				model.setIsWebExport(rs.getInt("new_policy_web_export_enabled"));
 				model.setIsStorageExport(rs.getInt("new_policy_removal_storage_export_enabled"));
 				model.setIsStorageAdmin(rs.getInt("new_policy_removal_storage_admin_mode"));
+				
 				model.setIsUsbBlock(rs.getString("new_policy_usb_dev_list"));
 				model.setIsComPortBlock(rs.getString("new_policy_com_port_list"));
 				model.setIsNetPortBlock(rs.getString("new_policy_net_port_list"));
-				model.setIsProcessList(rs.getInt("new_policy_process_list"));
-				model.setIsFilePattern(rs.getInt("new_policy_file_pattern_list"));
+				model.setIsProcessList(rs.getString("new_policy_process_list"));
+				model.setIsFilePattern(rs.getString("new_policy_file_pattern_list"));
 				model.setIsWebAddr(rs.getString("new_policy_web_addr_list"));
+				model.setIsMsgBlock(rs.getString("new_policy_msg_block_list"));
 				model.setWatermarkInfo(rs.getString("new_policy_watermark_descriptor"));
 				model.setPrintLogDesc(rs.getInt("new_policy_print_log_descriptor"));
 				model.setPatternFileControl(rs.getInt("new_policy_pattern_file_control"));
 
+				p_model.setAgentNo(rs.getInt("agent_no"));
+				p_model.setPolicyNo(rs.getInt("policy_no"));
 				p_model.setIsUninstall(rs.getInt("uninstall_enabled"));
 				p_model.setIsFileEncryption(rs.getInt("file_encryption_enabled"));
 				p_model.setIsCdEncryption(rs.getInt("cd_encryption_enabled"));
@@ -1189,9 +1197,10 @@ sql += whereSql;
 				p_model.setIsUsbBlock(rs.getString("usb_dev_list"));
 				p_model.setIsComPortBlock(rs.getString("com_port_list"));
 				p_model.setIsNetPortBlock(rs.getString("net_port_list"));
-				p_model.setIsProcessList(rs.getInt("process_list"));
-				p_model.setIsFilePattern(rs.getInt("file_pattern_list"));
+				p_model.setIsProcessList(rs.getString("process_list"));
+				p_model.setIsFilePattern(rs.getString("file_pattern_list"));
 				p_model.setIsWebAddr(rs.getString("web_addr_list"));
+				p_model.setIsMsgBlock(rs.getString("msg_block_list"));
 				p_model.setWatermarkInfo(rs.getString("watermark_descriptor"));
 				p_model.setPrintLogDesc(rs.getInt("print_log_descriptor"));
 				p_model.setPatternFileControl(rs.getInt("pattern_file_control"));
@@ -2302,7 +2311,7 @@ sql += whereSql;
 		String descript = map.get("descript").toString();
 		int allow = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
 		
-		String returnCode = "S";
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String sql= "UPDATE usb_dev_info SET name = ?, vid = ?, pid = ?, serial_number = ?, allow = ?, description = ? WHERE no = ? ";
 		
@@ -2323,7 +2332,7 @@ sql += whereSql;
 			result.put("returnCode", returnCode);
 			
 		}catch(SQLException ex){
-			result.put("returnCode", "E");
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
 			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
@@ -2505,6 +2514,127 @@ sql += whereSql;
 			}
 			
 		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+
+	public HashMap<String, Object> updatePermitRequestPolicy(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int policyNo = Integer.parseInt(map.get("policy_no").toString());
+		int requestNo = Integer.parseInt(map.get("request_no").toString());
+		String adminId = map.get("admin_id").toString();
+		
+		String sql= "UPDATE policy_info AS pi, (SELECT * FROM policy_request_info WHERE no = ?) AS pri "
+				+ "SET "
+					+ "pi.uninstall_enabled = pri.new_policy_uninstall_enabled"
+					+ ",pi.file_encryption_enabled = pri.new_policy_file_encryption_enabled"
+					+ ",pi.cd_encryption_enabled = pri.new_policy_cd_encryption_enabled"
+					+ ",pi.printer_enabled = pri.new_policy_printer_enabled"
+					+ ",pi.cd_enabled = pri.new_policy_cd_enabled"
+					+ ",pi.cd_export_enabled = pri.new_policy_cd_export_enabled"
+					+ ",pi.wlan_enabled = pri.new_policy_wlan_enabled" 
+					+ ",pi.net_share_enabled = pri.new_policy_net_share_enabled"
+					+ ",pi.web_export_enabled = pri.new_policy_web_export_enabled"
+				    + ",pi.removal_storage_export_enabled = pri.new_policy_removal_storage_export_enabled"
+				    + ",pi.removal_storage_admin_mode = pri.new_policy_removal_storage_admin_mode"
+					+ ",pi.usb_dev_list = pri.new_policy_usb_dev_list"
+					+ ",pi.com_port_list = pri.new_policy_com_port_list"
+					+ ",pi.net_port_list = pri.new_policy_net_port_list"
+					+ ",pi.process_list = pri.new_policy_process_list"
+					+ ",pi.file_pattern_list = pri.new_policy_file_pattern_list"
+					+ ",pi.web_addr_list = pri.new_policy_web_addr_list"
+					+ ",pi.msg_block_list = pri.new_policy_msg_block_list"
+					+ ",pi.watermark_descriptor = pri.new_policy_watermark_descriptor"
+					+ ",pi.print_log_descriptor = pri.new_policy_print_log_descriptor"
+				    + ",pi.quarantine_path_access_code = pri.new_policy_quarantine_path_access_code"
+					+ ",pi.pattern_file_control = pri.new_policy_pattern_file_control "
+				+ "WHERE pi.no = ? ";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, requestNo);
+			pstmt.setInt(2, policyNo);
+			pstmt.executeUpdate();
+			
+			sql = "UPDATE policy_request_info "
+				+ "SET "
+					+ "permit = 'P' "
+					+ ",permit_date = NOW()"
+					+ ",permit_admin_id = ? "
+				+ "WHERE no = ? "; 
+			
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, adminId);
+			pstmt.setInt(2, requestNo);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			
+			// 정책 변경 로그
+			ICommonService commonService = new CommonServiceImpl();
+			commonService.setPolicyUpdateToInsertLog(policyNo);
+			
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+
+	public HashMap<String, Object> updateRejectRequestPolicy(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int requestNo = Integer.parseInt(map.get("request_no").toString());
+		String adminId = map.get("admin_id").toString();
+		
+		String sql = "UPDATE policy_request_info "
+				+ "SET "
+				+ "permit = 'R' "
+				+ ",permit_date = NOW()"
+				+ ",permit_admin_id = ? "
+			+ "WHERE no = ? "; 
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, adminId);
+			pstmt.setInt(2, requestNo);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
 			ex.printStackTrace();
 		}finally {
 			try{

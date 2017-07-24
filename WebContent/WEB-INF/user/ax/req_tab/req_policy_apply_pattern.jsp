@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <% 
-	boolean onlyFlag = Boolean.parseBoolean(request.getParameter("onlyFlag"));
 	boolean isFilePattern = Boolean.parseBoolean(request.getParameter("isFilePattern"));
 	String filePatternCode = request.getParameter("filePatternCode").toString();
 	String applyCode = filePatternCode.length() > 0 ? filePatternCode : "";

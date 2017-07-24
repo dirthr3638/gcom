@@ -33,8 +33,9 @@
 					<h1 class="weight-300 size-40">GUARD COM USER</h1>
 					<h2 class="weight-300 letter-spacing-1 size-13"><span>Welcome to Guard Com Customer Center</span></h2>
 					<div class="margin-top-20">
-						<a href="#" class="btn btn-3d btn-lg btn-teal"><i class="fa fa-download"></i>DOWNLOAD</a>
+						<a id="btnAgentDown" class="btn btn-3d btn-lg btn-teal"><i class="fa fa-download"></i>DOWNLOAD</a>
 					</div>
+					<form id="formFileDown" action="/common/agentfiledown" method="post"></form>
 				</div>
 
 			</div>
@@ -62,6 +63,10 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 				fn_member_policy_info();
+				
+				$('#btnAgentDown').click(function() {
+					fn_file_download();
+				});
 			});
 			
 			function fn_member_policy_info() {
@@ -101,6 +106,10 @@
 				        console.log(e.responseText);  
 				    }  
 				});
+			}
+			
+			function fn_file_download() {
+				$('#formFileDown').submit();
 			}
 			
 		</script>
