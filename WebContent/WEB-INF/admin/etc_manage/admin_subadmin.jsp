@@ -137,7 +137,6 @@
 		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 	
-		<script type="text/javascript" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
     
 <script>
@@ -560,6 +559,7 @@
 		jQuery('#preloader').hide();
 
     });
-</script>
+
+	</script>
 	</body>
 </html>

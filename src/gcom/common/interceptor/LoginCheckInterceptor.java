@@ -96,7 +96,7 @@ public class LoginCheckInterceptor implements Filter {
 		HttpServletRequest httpReq = (HttpServletRequest) request;
 		HttpServletResponse httpRes = (HttpServletResponse) response;
 		HttpSession session = httpReq.getSession(false);
-
+		
 		httpReq.setCharacterEncoding("UTF-8");
 		boolean loginFlag = false;
 

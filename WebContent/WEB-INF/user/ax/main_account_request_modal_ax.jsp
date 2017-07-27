@@ -15,7 +15,7 @@
 		<link href="/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
 
 
-<div id="modalRequestDetail" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="margin-top: 10%;">
+<div id="modalRequestDetail" class="modal fade" role="dialog" aria-hidden="true" style="margin-top: 10%;">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content" style="width:400px">
 
@@ -89,8 +89,8 @@
 
 						</div>
 
-						<label class="nomargin"><a href="#" >소속부서를선택해주세요</a></label>
-							<select class="form-control" id="user_dept" name="user_dept">
+						<label class="nomargin"><a href="#" >소속부서를선택해주세요</a></label><br />
+							<select class="form-control select2" id="user_dept" name="user_dept" style="width:100%">
 				                              
 				                              
 <c:choose>
@@ -125,8 +125,11 @@
 	</div>
 </div> 
 
+<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+
 <script>
 
+$('#user_dept').select2();
 
 $(document).ready(function(){
 	$("#btnRequest").on("click" , function(e){
