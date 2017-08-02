@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!-- Alert -->
-<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
-<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 
 <div id="content" class="dashboard padding-20">
 	<div class="row">
@@ -142,7 +142,7 @@
 						
 						<div class="ld_modal hidden" >
 						    <div class="ld_center" >
-						        <img alt="" src="/assets/images/loaders/loading.gif" />
+						        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 						    </div>
 						</div>
 					</div>
@@ -184,7 +184,7 @@
  	function setTree(){
 		$.ajax({      
 	        type:"POST",  
-	        url:'/common/tree/dept',
+	        url:'${context}/common/tree/dept',
 	        async: false,
 	        //data:{},
 	        success:function(args){   
@@ -241,7 +241,7 @@
  		
  		$.ajax({      
  		    type:"POST",  
- 		    url:'/admin/policy/device/save',
+ 		    url:'${context}/admin/policy/device/save',
  		    async: false,
  		    data:{
  		    	code : code,
@@ -316,7 +316,7 @@
 				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 				//dom: 'Bfrtip',
 				"ajax" : {
-					"url":'/ax/usbblocklist',
+					"url":'${context}/ax/usbblocklist',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  function(param) {

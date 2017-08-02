@@ -11,12 +11,12 @@
 		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
 
 		<!-- CORE CSS -->
-		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		
 		<!-- THEME CSS -->
-		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="${context}/assets/css/essentials.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/layout.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
 
 	</head>
 	<body>
@@ -425,29 +425,31 @@
 		
 	
 		<!-- JAVASCRIPT FILES -->
-		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
-		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="/assets/js/app.js"></script>
-		<script type="text/javascript" src="/assets/js/date.js"></script>
+		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
+		<script type="text/javascript">var context = '${context}';</script>
 
-		<script type="text/javascript" src="/assets/js/dashboard_function.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
+		<script type="text/javascript" src="${context}/assets/js/date.js"></script>
 
-		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.resize.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.time.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.fillbetween.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.orderBars.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.pie.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/chart.flot/jquery.flot.tooltip.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/js/dashboard_function.js"></script>
 
-		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.resize.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.time.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.fillbetween.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.orderBars.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.pie.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.tooltip.min.js"></script>
 
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
 
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 
 
 		<!-- PAGE LEVEL SCRIPT -->
@@ -460,7 +462,7 @@
 			var data;
 			$.ajax({      
 		        type:"POST",  
-		        url:'/ax/admin/statistic/chart',
+		        url:'${context}/ax/admin/statistic/chart',
 		        async: false,
 		        data:input,
 		        success:function(args){   
@@ -719,7 +721,7 @@
 				"dom": 't',
 				//dom: 'Bfrtip',
 				"ajax" : {
-					"url":'/ax/simplerequest/list',
+					"url":'${context}/ax/simplerequest/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  function(param) {
@@ -807,7 +809,7 @@
 				"dom": 't',
 				//dom: 'Bfrtip',
 				"ajax" : {
-					"url":'/ax/simplecantact/list',
+					"url":'${context}/ax/simplecantact/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  function(param) {

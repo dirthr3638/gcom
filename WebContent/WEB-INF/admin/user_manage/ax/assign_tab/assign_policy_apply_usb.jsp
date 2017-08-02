@@ -128,7 +128,7 @@
 					"dom": '<"row view-filter"<"col-sm-12"<"pull-left"><"pull-right"><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 					"ajax" : {
 						async: false,
-						"url":'/ax/admin/policy/usbblock/list',
+						"url":'${context}/ax/admin/policy/usbblock/list',
 					   	"type":'POST',
 					   	"dataSrc" : "data",
 					   	"data" :  {},

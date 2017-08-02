@@ -5,7 +5,7 @@
 	boolean onlyFlag = Boolean.parseBoolean(request.getAttribute("only_flag").toString());
 	HashMap<String, Object> data = (HashMap<String, Object>)request.getAttribute("current_policy");
 %>
-<script type="text/javascript" src="/assets/js/admin_function.js"></script>
+<script type="text/javascript" src="${context}/assets/js/admin_function.js"></script>
 <div id="modalApplyPolicy" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
 	<div class="modal-dialog" style="width:940px;">
 			<div class="modal-content">
@@ -237,7 +237,7 @@
 										
 										<div class="ld_modal hidden" >
 										    <div class="ld_center" >
-										        <img alt="" src="/assets/images/loaders/loading.gif" />
+										        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 										    </div>
 										</div>
 										
@@ -258,18 +258,18 @@
 		</div>
 	</div>
 </div>
-	<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
 
-	<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-	<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+	<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
 
-	<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
-	<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+	<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+	<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 
-	<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
-	<script type="text/javascript" src="/assets/plugins/jquery.tristate.js"></script>
+	<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript" src="${context}/assets/plugins/jquery.tristate.js"></script>
 
 <script type="text/javascript">
 	var oriData = new Object();
@@ -346,7 +346,7 @@
 		
 		$.ajax({      
 		    type:"POST",  
-		    url:'/admin/user/apply/save',
+		    url:'${context}/admin/user/apply/save',
 		    async: false,
 		    data:{
 		    	apply_policy : JSON.stringify(policy_data),

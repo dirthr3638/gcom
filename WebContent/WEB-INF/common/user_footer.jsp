@@ -8,7 +8,7 @@
 				
 				<div class="col-md-4">
 					<!-- Footer Logo -->
-					<img class="footer-logo" src="/assets/images/user_footer_logo.png" alt="" />
+					<img class="footer-logo" src="${context}/assets/images/user_footer_logo.png" alt="" />
 
 					<!-- Small Description -->
 					<p>내부자료 유출 방지 시스템</p>
@@ -114,7 +114,6 @@
 	<!-- /FOOTER -->
 
 
-</div>
 <!-- /wrapper -->
 	
 	<!-- SCROLL TO TOP -->
@@ -127,7 +126,7 @@
 		</div>
 	</div><!-- /PRELOADER -->
 	
-	<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
-	<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-	<script type="text/javascript" src="/assets/js/scripts.js"></script>
+	<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
+	<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+	<script type="text/javascript" src="${context}/assets/js/scripts.js"></script>
 	

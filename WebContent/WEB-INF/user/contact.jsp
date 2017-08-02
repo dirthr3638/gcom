@@ -16,15 +16,15 @@
 		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
 	
 		<!-- CORE CSS -->
-		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		
 		<!-- THEME CSS -->
-		<link href="/assets/css/user_essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/user_essentials.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
 		
 		<!-- PAGE LEVEL STYLE -->
-		<link href="/assets/css/user_header.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/user_green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="${context}/assets/css/user_header.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/color_scheme/user_green.css" rel="stylesheet" type="text/css" id="color_scheme" />
 
 	</head>
 	<body class="smoothscroll enable-animation">
@@ -67,7 +67,7 @@
 					<!-- /Alert Mandatory -->
 
 
-					<form id="frmContact" action="/contact/save" method="post">
+					<form id="frmContact" action="${context}/contact/save" method="post">
 						<fieldset>
 							<!-- <input type="hidden" name="action" value="contact_send" /> -->
 
@@ -177,15 +177,15 @@
 		<jsp:include page="/WEB-INF/common/user_footer.jsp" flush="false" />
 	
 		<!-- PAGE LEVEL SCRIPTS -->
-		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/jquery/jquery.form.js" ></script>
+		<script type="text/javascript" src="${context}/assets/plugins/select2/js/select2.full.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery.form.js" ></script>
 		
 		<script type="text/javascript">
 		
 		function fn_reg_contact_proc() {
 			
 			var option = {
-			        url:       		"/contact/save",
+			        url:       		"${context}/contact/save",
 			    	type:      		"post",       
 			    	success:     	fn_contact_callback,
 			    	fail:			callbackFail,
@@ -218,7 +218,7 @@
 		function fn_open_contact_view(contactId) {
 			$.ajax({      
 		        type:"POST",  
-		        url:'/contact/view',
+		        url:'${context}/contact/view',
 		        async: false,
 		        data:{
 		        	contactId : contactId,
@@ -264,7 +264,7 @@
 	     							table.dataTable({
 	     								"dom": '<"row view-filter"<"col-sm-12"<"pull-right"><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-left" i ><"pull-right"p>>>',
      									"ajax" : {
-     									"url":'/ax/contact/list',
+     									"url":'${context}/ax/contact/list',
      								   	"type":'POST',
      								   	"dataSrc" : "data",
      								   	"data" :  {},

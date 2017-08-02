@@ -64,7 +64,7 @@
 									
 									<div class="ld_modal hidden" >
 									    <div class="ld_center" >
-									        <img alt="" src="/assets/images/loaders/loading.gif" />
+									        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 									    </div>
 									</div>
 									

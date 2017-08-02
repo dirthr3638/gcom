@@ -10,13 +10,13 @@
 %>
 
 <!-- Alert -->
-<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
-<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 
-<script type="text/javascript" src="/se2/js/service/HuskyEZCreator.js"></script>
+<script type="text/javascript" src="${context}/se2/js/service/HuskyEZCreator.js"></script>
 
 <div id="modalNoticeModify" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
 	<div class="modal-dialog" style="width:940px;">
@@ -104,7 +104,7 @@
 									
 									<div class="ld_modal hidden" >
 									    <div class="ld_center" >
-									        <img alt="" src="/assets/images/loaders/loading.gif" />
+									        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 									    </div>
 									</div>
 									
@@ -125,10 +125,10 @@
 </div>
 		
 		<!-- file_upload-->
-		<script src="/assets/plugins/fileupload/jquery.ui.widget.js" charset="utf-8"></script>
-		<script src="/assets/plugins/fileupload/jquery.fileupload.js" charset="utf-8"></script>
-		<script src="/assets/plugins/fileupload/jquery.fileupload-ui.js" charset="utf-8"></script>
-		<script src="/assets/plugins/fileupload/jquery.iframe-transport.js" charset="utf-8"></script>
+		<script src="${context}/assets/plugins/fileupload/jquery.ui.widget.js" charset="utf-8"></script>
+		<script src="${context}/assets/plugins/fileupload/jquery.fileupload.js" charset="utf-8"></script>
+		<script src="${context}/assets/plugins/fileupload/jquery.fileupload-ui.js" charset="utf-8"></script>
+		<script src="${context}/assets/plugins/fileupload/jquery.iframe-transport.js" charset="utf-8"></script>
 		
 		<script type="text/javascript">
 		var oEditors = [];
@@ -136,7 +136,7 @@
 		nhn.husky.EZCreator.createInIFrame({
 		    oAppRef: oEditors,
 		    elPlaceHolder: "ir1",
-		    sSkinURI: "/se2/SmartEditor2Skin_ko_KR.html",
+		    sSkinURI: "${context}/se2/SmartEditor2Skin_ko_KR.html",
 		    fCreator: "createSEditor2"
 		});
 		
@@ -175,7 +175,7 @@
        	 	
 			$.ajax({      
 			    type:"POST",  
-			    url:'/admin/user/notice/update',
+			    url:'${context}/admin/user/notice/update',
 			    async: false,
 			    data:{
 			    	bbsId : bbsId,
@@ -202,7 +202,7 @@
 			    			  })],
 			    			  callback: function(data) {
 		    				 	  if (data) {
-		    				 		  location.href = '/admin/user/notice';
+		    				 		  location.href = '${context}/admin/user/notice';
 		    				 	  }
 	    				 	  }
 			   			});
@@ -235,7 +235,7 @@
 			});
 			
 			$('#att_file_upload').fileupload({
-				 url : '/common/fileupload', 
+				 url : '${context}/common/fileupload', 
 		         dataType: 'json',
 		         xhrFields: {
 		             withCredentials: true

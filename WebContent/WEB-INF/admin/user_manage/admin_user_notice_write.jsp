@@ -13,14 +13,14 @@
 		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
 
 		<!-- CORE CSS -->
-		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		
 		<!-- THEME CSS -->
-		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="${context}/assets/css/essentials.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/layout.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		
-		<script type="text/javascript" src="/se2/js/service/HuskyEZCreator.js"></script>
+		<script type="text/javascript" src="${context}/se2/js/service/HuskyEZCreator.js"></script>
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -85,7 +85,7 @@
 						 						<input type="text" id="att_upload_filepath" class="hidden" value="">
 											</div>
 											<div class="fl_right">
-												<a href="/admin/user/notice" class="btn btn-amber pull-right" style="margin:0;"><i class="fa fa-list"></i>목록</a>
+												<a href="${context}/admin/user/notice" class="btn btn-amber pull-right" style="margin:0;"><i class="fa fa-list"></i>목록</a>
 												<button id="btnNoticeSave" class="btn btn-green pull-right" style="margin:0 10px 0 0;"><i class="fa fa-check"></i>등록</button>
 											</div>
 											
@@ -94,7 +94,7 @@
 									
 									<div class="ld_modal hidden" >
 									    <div class="ld_center" >
-									        <img alt="" src="/assets/images/loaders/loading.gif" />
+									        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 									    </div>
 									</div>
 									
@@ -108,17 +108,17 @@
 		</div>
 		
 		<!-- JAVASCRIPT FILES -->
-		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
-		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="/assets/js/app.js"></script>
-		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
+		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/jstree/jstree.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/select2/js/select2.full.min.js"></script>
 		
 		<!-- file_upload-->
-		<script src="/assets/plugins/fileupload/jquery.ui.widget.js" charset="utf-8"></script>
-		<script src="/assets/plugins/fileupload/jquery.fileupload.js" charset="utf-8"></script>
-		<script src="/assets/plugins/fileupload/jquery.fileupload-ui.js" charset="utf-8"></script>
-		<script src="/assets/plugins/fileupload/jquery.iframe-transport.js" charset="utf-8"></script>
+		<script src="${context}/assets/plugins/fileupload/jquery.ui.widget.js" charset="utf-8"></script>
+		<script src="${context}/assets/plugins/fileupload/jquery.fileupload.js" charset="utf-8"></script>
+		<script src="${context}/assets/plugins/fileupload/jquery.fileupload-ui.js" charset="utf-8"></script>
+		<script src="${context}/assets/plugins/fileupload/jquery.iframe-transport.js" charset="utf-8"></script>
 		
 		<script type="text/javascript">
 		var oEditors = [];
@@ -126,7 +126,7 @@
 		nhn.husky.EZCreator.createInIFrame({
 		    oAppRef: oEditors,
 		    elPlaceHolder: "ir1",
-		    sSkinURI: "/se2/SmartEditor2Skin_ko_KR.html",
+		    sSkinURI: "${context}/se2/SmartEditor2Skin_ko_KR.html",
 		    fCreator: "createSEditor2"
 		});
 		
@@ -163,7 +163,7 @@
        	 	
 			$.ajax({      
 			    type:"POST",  
-			    url:'/admin/user/notice/save',
+			    url:'${context}/admin/user/notice/save',
 			    async: false,
 			    data:{
 			    	title : title,
@@ -180,7 +180,7 @@
 			    	
 			    	if (data.returnCode == 'S') {
 			    		alert("공지사항이 등록 되었습니다.");
-			    		location.href = '/admin/user/notice';
+			    		location.href = '${context}/admin/user/notice';
 			    	} else {
 			    		alert("공지사항 등록중 예기치 못한 오류가 발생하여 등록에 실패하였습니다.");
 			    	}
@@ -199,7 +199,7 @@
 			});
 			
 			$('#att_file_upload').fileupload({
-				 url : '/common/fileupload', 
+				 url : '${context}/common/fileupload', 
 		         dataType: 'json',
 		         xhrFields: {
 		             withCredentials: true

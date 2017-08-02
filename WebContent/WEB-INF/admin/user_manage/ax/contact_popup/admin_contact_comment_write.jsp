@@ -3,14 +3,14 @@
 <%
 	String contactId = request.getAttribute("contact_id").toString();
 %>
-<script type="text/javascript" src="/se2/js/service/HuskyEZCreator.js"></script>
+<script type="text/javascript" src="${context}/se2/js/service/HuskyEZCreator.js"></script>
 
 <!-- Alert -->
-<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
-<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
         
 <div id="modalCommentWrite" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
 	<div class="modal-dialog modal-lg">
@@ -43,7 +43,7 @@
 
 										<div class="ld_modal hidden" >
 										    <div class="ld_center" >
-										        <img alt="" src="/assets/images/loaders/loading.gif" />
+										        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 										    </div>
 										</div>
 										
@@ -72,7 +72,7 @@ var oEditors = [];
 nhn.husky.EZCreator.createInIFrame({
     oAppRef: oEditors,
     elPlaceHolder: "ir1",
-    sSkinURI: "/se2/SmartEditor2Skin_ko_KR.html",
+    sSkinURI: "${context}/se2/SmartEditor2Skin_ko_KR.html",
     fCreator: "createSEditor2"
 });
 
@@ -83,7 +83,7 @@ function fn_comment_save () {
 	
 	$.ajax({      
 	    type:"POST",  
-	    url:'/admin/user/comment/save',
+	    url:'${context}/admin/user/comment/save',
 	    async: false,
 	    data:{
 	    	contact_id : contactId,
@@ -103,7 +103,7 @@ function fn_comment_save () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalCommentWrite').modal('hide');
-  				 	  		location.href = '/admin/user/contact';
+  				 	  		location.href = '${context}/admin/user/contact';
   				 	    }
   				 	  }
 	    				
@@ -141,10 +141,3 @@ $(document).ready(function(){
 });
 	
 </script>
-
-
-
-
-
-
-

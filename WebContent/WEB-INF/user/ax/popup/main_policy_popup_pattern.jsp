@@ -46,7 +46,7 @@
 
 										<div class="ld_modal hidden" >
 										    <div class="ld_center" >
-										        <img alt="" src="/assets/images/loaders/loading.gif" />
+										        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 										    </div>
 										</div>
 										
@@ -79,7 +79,7 @@ function pattern_info_table() {
 				"dom": '<"row view-filter"<"col-sm-12"<"pull-left"><"pull-right"><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 				"ajax" : {
 				 	async: false,
-					"url":'/ax/user/policy/pattern/list',
+					"url":'${context}/ax/user/policy/pattern/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  {

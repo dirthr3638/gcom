@@ -2,8 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<link href="/assets/plugins/ztree/zTreeStyle.css" rel="stylesheet" type="text/css"  />
-
 <div id="modalAdminInfo" class="modal fade" role="dialog" aria-hidden="true" style="margin-top: 10%;">
 	<div class="modal-dialog" style="width:940px;">
 			<div class="modal-content">
@@ -131,9 +129,8 @@
 		</div>
 	</div>
 </div>
-		<script type="text/javascript" src="/assets/js/app.js"></script>
-		<script type="text/javascript" src="/assets/plugins/form.masked/jquery.mask.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/ztree/jquery.ztree.core.js"></script>
+		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/form.masked/jquery.mask.min.js"></script>
 <script type="text/javascript">
 var options =  { 
        onKeyPress: function(cep, event, currentField, options){

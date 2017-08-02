@@ -11,7 +11,7 @@
 function moveReport(){
 	// 0 관리자, 1 콘솔, 2 레포트 -1 사용자
 	if(<%= admin_mode %> == '0' ||  <%= admin_mode %> == '2'){
-		location.href = '/report/dashboard';
+		location.href = '${context}/report/dashboard';
 	}else{
 		alert('권한이 없습니다.')
 	}
@@ -25,7 +25,7 @@ function moveReport(){
 
 				<!-- Logo -->
 				<span class="logo pull-left">
-					<img src="/assets/images/logo_light.png" alt="admin panel" height="35" />
+					<img src="${context}/assets/images/logo_light.png" alt="admin panel" height="35" />
 				</span>
 
 				<nav>
@@ -36,7 +36,7 @@ function moveReport(){
 						<!-- USER OPTIONS -->
 						<li class="dropdown pull-left">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-								<img class="user-avatar" src='/assets/images/EditProfile-512.png' alt="" height="34" /> 
+								<img class="user-avatar" src='${context}/assets/images/EditProfile-512.png' alt="" height="34" /> 
 								<span class="user-name">
 									<span class="hidden-xs">
 										<%= user_id %> <i class="fa fa-angle-down"></i>
@@ -54,7 +54,7 @@ function moveReport(){
  -->
 								<li class="divider"></li>
 								<li><!-- logout -->
-									<a href="/logout"><i class="fa fa-power-off"></i>로그아웃</a>
+									<a href="${context}/logout"><i class="fa fa-power-off"></i>로그아웃</a>
 								</li>
 							</ul>
 						</li>

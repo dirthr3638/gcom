@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!-- Alert -->
-<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
-<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 
 <div id="usb_policy" class="tab-pane fade in active">
 	<!-- panel content -->
@@ -76,7 +76,7 @@
 		
 		<div class="ld_modal hidden" >
 		    <div class="ld_center" >
-		        <img alt="" src="/assets/images/loaders/loading.gif" />
+		        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 		    </div>
 		</div>
 		
@@ -109,7 +109,7 @@
  	function fn_open_reg_usb_popup(code) {
  		$.ajax({      
 		    type:"POST",  
-		    url:'/admin/policy/usb/register',
+		    url:'${context}/admin/policy/usb/register',
 		    async: false,
 		    data:{ 
 		    	code : code,
@@ -141,7 +141,7 @@
 				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" ><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 				//dom: 'Bfrtip',
 				"ajax" : {
-					"url":'/ax/unauthusb/list',
+					"url":'${context}/ax/unauthusb/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  function(param) {

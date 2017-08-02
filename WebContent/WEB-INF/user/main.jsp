@@ -11,15 +11,15 @@
 		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
 	
 		<!-- CORE CSS -->
-		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		
 		<!-- THEME CSS -->
-		<link href="/assets/css/user_essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/user_essentials.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
 		
 		<!-- PAGE LEVEL STYLE -->
-		<link href="/assets/css/user_header.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/user_green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="${context}/assets/css/user_header.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/color_scheme/user_green.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		
 	</head>
 	<body class="smoothscroll enable-animation">
@@ -35,7 +35,7 @@
 					<div class="margin-top-20">
 						<a id="btnAgentDown" class="btn btn-3d btn-lg btn-teal"><i class="fa fa-download"></i>DOWNLOAD</a>
 					</div>
-					<form id="formFileDown" action="/common/agentfiledown" method="post"></form>
+					<form id="formFileDown" action="${context}/common/agentfiledown" method="post"></form>
 				</div>
 
 			</div>
@@ -73,7 +73,7 @@
 				
 				$.ajax({      
 			        type:"POST",  
-			        url:'/ax/main/policy',
+			        url:'${context}/ax/main/policy',
 			        async: false,
 			        data:{
 			        	_ : $.now()
@@ -92,7 +92,7 @@
 				
 				$.ajax({       
 				    type:"POST",  
-				    url:'/ax/main/req/policy',
+				    url:'${context}/ax/main/req/policy',
 				    async: false,
 				    data:{
 				    	policy_no : code,

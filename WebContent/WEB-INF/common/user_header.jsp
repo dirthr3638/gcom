@@ -14,9 +14,9 @@
 				<li>
 					<a class="dropdown-toggle no-text-underline" data-toggle="dropdown" href="#"><i class="fa fa-user hidden-xs"></i> MY INFO</a>
 					<ul class="dropdown-menu pull-right">
-						<li><a tabindex="-1" href="/userinfo"><i class="fa fa-cog"></i> MY SETTINGS</a></li>
+						<li><a tabindex="-1" href="${context}/userinfo"><i class="fa fa-cog"></i> MY SETTINGS</a></li>
 						<li class="divider"></li>
-						<li><a tabindex="-1" href="/logout"><i class="glyphicon glyphicon-off"></i> LOGOUT</a></li>
+						<li><a tabindex="-1" href="${context}/logout"><i class="glyphicon glyphicon-off"></i> LOGOUT</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -36,8 +36,8 @@
 				</button>
 
 				<!-- Logo -->
-				<a class="logo pull-left" href="/main">
-					<img src="/assets/images/guardcom_user_logo.png" alt="" />
+				<a class="logo pull-left" href="${context}/main">
+					<img src="${context}/assets/images/guardcom_user_logo.png" alt="" />
 				</a>
 
 				<!-- 
@@ -60,13 +60,13 @@
 						-->
 						<ul id="topMain" class="nav nav-pills nav-main">
 							<li class="dropdown"><!-- HOME -->
-								<a href="/main">HOME</a>
+								<a href="${context}/main">HOME</a>
 							</li>
 							<li class="dropdown"><!-- NOTICE -->
-								<a href="/notice">NOTICE</a>
+								<a href="${context}/notice">NOTICE</a>
 							</li>
 							<li class="dropdown mega-menu"><!-- CONTACT -->
-								<a href="/contact">CONTACT</a>
+								<a href="${context}/contact">CONTACT</a>
 							</li>
 						</ul>
 					</nav>
@@ -75,5 +75,6 @@
 			</div>
 		</header>
 		<!-- /Top Nav -->
+	</div>
 	</div>
 	<!-- /HEADER -->

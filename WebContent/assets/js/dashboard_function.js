@@ -11,7 +11,7 @@ function getDashboardFlotChartData(obj){
 	
 	$.ajax({      
         type:"POST",  
-        url:'/ax/admin/statistic/chart',
+        url:context + '/ax/admin/statistic/chart',
         async: false,
         data:input,
         success:function(args){   
@@ -32,7 +32,7 @@ function getDashboardSimpleAuditForm(obj){
 	//var data;
 	$.ajax({      
         type:"GET",  
-        url:'/ax/admin/statistic/audit',
+        url:context + '/ax/admin/statistic/audit',
         async: true,
         data:{
         	

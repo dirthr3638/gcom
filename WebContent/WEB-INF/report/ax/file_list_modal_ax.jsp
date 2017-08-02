@@ -57,7 +57,7 @@ function fn_download(size, offset, fileName){
 	formData.append('file_offset', offset);
 	formData.append('file_size', size);
 	
-	window.open('/ax/file/download?&file_id=${file_id}&file_offset=' + offset + '&file_size=' + size + '&file_name=' + encodeURI(fileName));
+	window.open('${context}/ax/file/download?&file_id=${file_id}&file_offset=' + offset + '&file_size=' + size + '&file_name=' + encodeURI(fileName));
 
 	
 /* 	$.ajax({
@@ -83,7 +83,7 @@ if (jQuery().dataTable) {
 		"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 		dom: 't',
 		"ajax" : {
-			"url":'/ax/file/list',
+			"url":'${context}/ax/file/list',
 		   	"type":'POST',
 		   	"dataSrc" : "data",
 		   	"data" :  function(param) {

@@ -67,7 +67,7 @@
 									
 									<div class="ld_modal hidden" >
 									    <div class="ld_center" >
-									        <img alt="" src="/assets/images/loaders/loading.gif" />
+									        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 									    </div>
 									</div>
 									
@@ -91,7 +91,7 @@
 								</li>
 							</ul>
 						</div>
-						<form id="formFileDown" action="/common/filedownload" method="post">
+						<form id="formFileDown" action="${context}/common/filedownload" method="post">
 							<input type="hidden" name="save_name" id="save_name" value="<%= file.getAttSaveFileName() %>" />
 							<input type="hidden" name="real_name" id="real_name" value="<%= file.getAttViewFileName() %>" />
 						</form>

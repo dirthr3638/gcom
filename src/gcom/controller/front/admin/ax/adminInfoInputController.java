@@ -25,6 +25,7 @@ public class adminInfoInputController extends HttpServlet {
         HttpServletRequest httpReq = (HttpServletRequest)request;
         HttpSession session = httpReq.getSession(false);
 
+        String context = httpReq.getContextPath();
 		deptAction act = new deptAction();
 		request.setAttribute("deptList", act.getDeptList(Integer.parseInt(session.getAttribute("dept_no").toString())));
 				
@@ -32,7 +33,7 @@ public class adminInfoInputController extends HttpServlet {
 			param.put("no",  request.getParameter("admin_no"));
 
 		
-		if(requestUri.equals("/ax/admin/admininput/modify")){
+		if(requestUri.equals(context + "/ax/admin/admininput/modify")){
 			request.setAttribute("popup_type", "modify");
 			
 			getAdminAction uAction = new getAdminAction();
@@ -40,7 +41,7 @@ public class adminInfoInputController extends HttpServlet {
 
 			request.getRequestDispatcher("/WEB-INF/admin/etc_manage/ax/pop_admin_info_input.jsp").forward(request, response);
 
-		}else if(requestUri.equals("/ax/admin/admininput/create")){
+		}else if(requestUri.equals(context + "/ax/admin/admininput/create")){
 			request.setAttribute("popup_type", "create");    		
         	request.getRequestDispatcher("/WEB-INF/admin/etc_manage/ax/pop_admin_info_input.jsp").forward(request, response);
     	

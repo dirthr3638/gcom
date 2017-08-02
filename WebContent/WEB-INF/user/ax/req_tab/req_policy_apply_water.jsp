@@ -24,7 +24,7 @@
 	}
 	
 %>
-<script type="text/javascript" src="/assets/js/app.js"></script>
+<script type="text/javascript" src=${context}assets/js/app.js"></script>
 <div>
 	<table class="table table-bordered">
 		<tr>
