@@ -21,11 +21,11 @@
 %>
 
 <!-- Alert -->
-<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
-<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
         
 <div id="modalPolicyRegPattern" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
 	<div class="modal-dialog">
@@ -80,7 +80,7 @@
 
 										<div class="ld_modal hidden" >
 										    <div class="ld_center" >
-										        <img alt="" src="/assets/images/loaders/loading.gif" />
+										        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 										    </div>
 										</div>
 										
@@ -127,7 +127,7 @@ function fn_policy_pattern_save () {
 	
 	$.ajax({      
 	    type:"POST",  
-	    url:'/admin/policy/pattern/save',
+	    url:'${context}/admin/policy/pattern/save',
 	    async: false,
 	    data:{
 	    	data : JSON.stringify(data),
@@ -180,7 +180,7 @@ function fn_policy_pattern_modify () {
 	
 	$.ajax({      
 	    type:"POST",  
-	    url:'/admin/policy/pattern/modify',
+	    url:'${context}/admin/policy/pattern/modify',
 	    async: false,
 	    data:{
 	    	data : JSON.stringify(data),

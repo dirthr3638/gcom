@@ -11,17 +11,17 @@
 		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
 
 		<!-- CORE CSS -->
-		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		
 		<!-- THEME CSS -->
-		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
-		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
-		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
-		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
-        <link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
-        <link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/css/essentials.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/layout.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="${context}/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+        <link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+        <link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 
 	</head>
 	<body>
@@ -103,7 +103,7 @@
 									
 									<div class="ld_modal hidden" >
 									    <div class="ld_center" >
-									        <img alt="" src="/assets/images/loaders/loading.gif" />
+									        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 									    </div>
 									</div>
 									
@@ -120,32 +120,31 @@
 		</div>
 	
 		<!-- JAVASCRIPT FILES -->
-		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
-		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="/assets/js/app.js"></script>
-		<script type="text/javascript" src="/assets/js/admin_function.js"></script>
-		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
-	    <script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
-        <script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
+		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
+		<script type="text/javascript" src="${context}/assets/js/admin_function.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/jstree/jstree.min.js"></script>
+	    <script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+        <script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
 
 
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
 
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 	
-		<script type="text/javascript" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/select2/js/select2.full.min.js"></script>
     
 <script>
 
  	function setTree(){
 		$.ajax({      
 	        type:"POST",  
-	        url:'/common/tree/dept',
+	        url:'${context}/common/tree/dept',
 	        async: false,
 	        //data:{},
 	        success:function(args){   
@@ -224,7 +223,7 @@
 	function DoRemoveAdmin(admin_no){
 		$.ajax({      
 	        type:"POST",  
-	        url:'/admin/admin/manage/do/remove',
+	        url:'${context}/admin/admin/manage/do/remove',
 	        async: false,
 	        data:{
 	        	admin_no : admin_no,
@@ -247,7 +246,7 @@
  	function onClickAddAdmin(){
  		$.ajax({      
 	        type:"GET",  
-	        url:'/ax/admin/admininput/create',
+	        url:'${context}/ax/admin/admininput/create',
 	        async: false,
 	        data:{
 	        	_:$.now()
@@ -267,7 +266,7 @@
  	function onClickModifyAdmin(admin_no){
  		$.ajax({      
 	        type:"GET",  
-	        url:'/ax/admin/admininput/modify',
+	        url:'${context}/ax/admin/admininput/modify',
 	        async: false,
 	        data:{
 	        	admin_no : admin_no,
@@ -291,7 +290,7 @@
 			console.log('관리자수정')
 			$.ajax({      
 		        type:"POST",  
-		        url:'/admin/admin/manage/do/create',
+		        url:'${context}/admin/admin/manage/do/create',
 		        async: false,
 		        data: data,
 		        dataType: "json",
@@ -324,7 +323,7 @@
 			console.log('관리자수정')
 			$.ajax({      
 		        type:"POST",  
-		        url:'/admin/admin/manage/do/update',
+		        url:'${context}/admin/admin/manage/do/update',
 		        async: false,
 		        data: data,
 		        dataType: "json",
@@ -414,7 +413,7 @@
 				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 				//dom: 'Bfrtip',
 				"ajax" : {
-					"url":'/ax/admin/subadmin/list',
+					"url":'${context}/ax/admin/subadmin/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  function(param) {
@@ -560,6 +559,7 @@
 		jQuery('#preloader').hide();
 
     });
-</script>
+
+	</script>
 	</body>
 </html>

@@ -23,22 +23,22 @@
 		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
 	
 		<!-- CORE CSS -->
-		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		
 		<!-- THEME CSS -->
-		<link href="/assets/css/user_essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/user_essentials.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
 		
 		<!-- PAGE LEVEL STYLE -->
-		<link href="/assets/css/user_header.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/user_green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="${context}/assets/css/user_header.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/color_scheme/user_green.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		
 		<!-- Alert -->
-		<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
-		<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 		
-		<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 
 	</head>
 	<body class="smoothscroll enable-animation">
@@ -51,7 +51,7 @@
 				<div class="col-lg-12 col-md-12 col-sm-12 margin-bottom-80">
 					<!-- PERSONAL INFO TAB -->
 					<div class="tab-pane fade in active" id="info">
-						<form id="frmUserInfo" role="form" action="/user/info/save" method="post">
+						<form id="frmUserInfo" role="form" action="${context}/user/info/save" method="post">
 							<input type="hidden" value="<%= userNo %>" name="user_no" id="user_no" />
 							<div class="form-group">
 								<label class="control-label">이름</label>
@@ -84,7 +84,7 @@
 							</div>
 							<div class="margiv-top10">
 								<button id="btnUserInfoSave" class="btn btn-primary"><i class="fa fa-check"></i> 정보 수정 </button>
-								<a href="/main" class="btn btn-default">취소</a>
+								<a href="${context}/main" class="btn btn-default">취소</a>
 							</div>
 						
 						</form>
@@ -97,12 +97,12 @@
 		
 		<jsp:include page="/WEB-INF/common/user_footer.jsp" flush="false" />
 		
-		<script type="text/javascript" src="/assets/plugins/jquery/jquery.form.js" ></script>
+		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery.form.js" ></script>
 		<!-- file_upload-->
-		<script src="/assets/plugins/fileupload/jquery.ui.widget.js" charset="utf-8"></script>
-		<script src="/assets/plugins/fileupload/jquery.fileupload.js" charset="utf-8"></script>
-		<script src="/assets/plugins/fileupload/jquery.fileupload-ui.js" charset="utf-8"></script>
-		<script src="/assets/plugins/fileupload/jquery.iframe-transport.js" charset="utf-8"></script>
+		<script src="${context}/assets/plugins/fileupload/jquery.ui.widget.js" charset="utf-8"></script>
+		<script src="${context}/assets/plugins/fileupload/jquery.fileupload.js" charset="utf-8"></script>
+		<script src="${context}/assets/plugins/fileupload/jquery.fileupload-ui.js" charset="utf-8"></script>
+		<script src="${context}/assets/plugins/fileupload/jquery.iframe-transport.js" charset="utf-8"></script>
 		
 		<script type="text/javascript">
 			$(document).ready(function(){
@@ -131,7 +131,7 @@
 				}
 				
 				var option = {
-				        url:       		"/user/info/save",
+				        url:       		"${context}/user/info/save",
 				    	type:      		"post",       
 				    	success:     	fn_save_callback,
 				    	fail:			callbackFail,
@@ -166,7 +166,7 @@
 	    				  })],
 	    				  callback: function(data) {
     				 	  	if (data) {
-    				 	  		location.href="/main";
+    				 	  		location.href="${context}/main";
     				 	    }
     				 	  }
 	    			})

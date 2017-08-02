@@ -41,8 +41,7 @@ public class LoginOutController extends HttpServlet {
  		model.setStatus("성공");
 		insertAdminAction action = new insertAdminAction();
 		action.insertServeriAudit(model);
-
          session.invalidate();
-         request.getRequestDispatcher("/").forward(request, response);
+         request.getRequestDispatcher("/WEB-INF/login/login.jsp").forward(request, response);
 	}
 }

@@ -326,7 +326,7 @@
 		
 		$.ajax({      
 		    type:"POST",  
-		    url:'/user/req/policy/save',
+		    url:'${context}/user/req/policy/save',
 		    async: false,
 		    data:{
 		    	request_policy : JSON.stringify(data),

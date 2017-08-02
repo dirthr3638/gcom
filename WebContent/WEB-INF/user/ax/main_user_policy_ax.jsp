@@ -15,8 +15,8 @@
 
 %>
 
-<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
 
 
 	<% if (isEmpty) { %>
@@ -154,7 +154,7 @@
 			
 			$.ajax({      
 		    type:"POST",  
-		    url:'/ax/main/policy/modal',
+		    url:'${context}/ax/main/policy/modal',
 		    async: false,
 		    data:{
 		    	type : type,

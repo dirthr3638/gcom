@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Guard Com</title>
 <script type="text/javascript">
-	document.location.href="/";
+	document.location.href="${context}/";
 </script>
 </head>
 <body>

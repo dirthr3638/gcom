@@ -12,18 +12,18 @@
 		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
 
 		<!-- CORE CSS -->
-		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		
 		<!-- THEME CSS -->
-		<link href="/assets/css/essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/layout.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
-		<link href="/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
-		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
-		<link href="/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
-        <link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
-        <link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
-		<script type="text/javascript" src="/assets/js/admin_function.js"></script>
+		<link href="${context}/assets/css/essentials.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/layout.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="${context}/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+        <link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+        <link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		<script type="text/javascript" src="${context}/assets/js/admin_function.js"></script>
 
 	</head>
 	<body>
@@ -129,13 +129,13 @@
 		</div>
 	
 		<!-- JAVASCRIPT FILES -->
-		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
-		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="/assets/js/app.js"></script>
-		<script type="text/javascript" src="/assets/plugins/jstree/jstree.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/select2/js/select2.full.min.js"></script>
-        <script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
-        <script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
+		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/jstree/jstree.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/select2/js/select2.full.min.js"></script>
+        <script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+        <script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 
 <script>
 
@@ -144,7 +144,7 @@
  	function setTree(){
 		$.ajax({      
 	        type:"POST",  
-	        url:'/common/tree/selectdept',
+	        url:'${context}/common/tree/selectdept',
 	        async: false,
 	        //data:{},
 	        success:function(args){   
@@ -163,7 +163,7 @@
 
  		$.ajax({      
 	        type:"GET",  
-	        url:'/dept/data/info',
+	        url:'${context}/dept/data/info',
 	        data:{
 				dept_no : selectedDeptNo,
 	        	_:$.now()
@@ -189,7 +189,7 @@
  		
  		$.ajax({      
 	        type:"POST",  
-	        url:'/admin/do/dept/remove',
+	        url:'${context}/admin/do/dept/remove',
 	        data:{
 				no : $('#dept_no').val(),
 	        },
@@ -226,7 +226,7 @@
  		
  		$.ajax({      
 	        type:"POST",  
-	        url:'/admin/do/dept/update',
+	        url:'${context}/admin/do/dept/update',
 	        data:{
 				no : $('#dept_no').val(),
 				name : $('#dept_name').val(),
@@ -287,7 +287,7 @@
  	function createDeptDo(obj){
  		$.ajax({      
 	        type:"POST",  
-	        url:'/admin/do/dept/create',
+	        url:'${context}/admin/do/dept/create',
 	        data:{
 				parent : obj.parent,
 				name : obj.name,

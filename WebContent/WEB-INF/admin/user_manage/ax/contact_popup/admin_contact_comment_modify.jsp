@@ -4,14 +4,14 @@
 	String commentId = request.getAttribute("comment_id").toString();
 	HashMap<String, Object> comment_info = (HashMap<String, Object>)request.getAttribute("comment_info");
 %>
-<script type="text/javascript" src="/se2/js/service/HuskyEZCreator.js"></script>
+<script type="text/javascript" src="${context}/se2/js/service/HuskyEZCreator.js"></script>
 
 <!-- Alert -->
-<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
-<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
         
 <div id="modalCommentModify" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
 	<div class="modal-dialog modal-lg">
@@ -44,7 +44,7 @@
 
 										<div class="ld_modal hidden" >
 										    <div class="ld_center" >
-										        <img alt="" src="/assets/images/loaders/loading.gif" />
+										        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 										    </div>
 										</div>
 										
@@ -73,7 +73,7 @@ var oEditors = [];
 nhn.husky.EZCreator.createInIFrame({
     oAppRef: oEditors,
     elPlaceHolder: "ir1",
-    sSkinURI: "/se2/SmartEditor2Skin_ko_KR.html",
+    sSkinURI: "${context}/se2/SmartEditor2Skin_ko_KR.html",
     fCreator: "createSEditor2"
 });
 
@@ -84,7 +84,7 @@ function fn_comment_modify () {
 	
 	$.ajax({      
 	    type:"POST",  
-	    url:'/admin/user/comment/modify',
+	    url:'${context}/admin/user/comment/modify',
 	    async: false,
 	    data:{
 	    	comment_id : commentId,
@@ -104,7 +104,7 @@ function fn_comment_modify () {
 	    			  callback: function(data) {
   				 	  	if (data) {
   				 	  		$('#modalCommentModify').modal('hide');
-  				 	  		location.href = '/admin/user/contact';
+  				 	  		location.href = '${context}/admin/user/contact';
   				 	    }
   				 	  }
 	    				

@@ -11,12 +11,12 @@
 		<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
 	
 		<!-- CORE CSS -->
-		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-		
+		<link href="${context}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		 
 		<!-- THEME CSS -->
-		<link href="/assets/css/user_essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/darkblue.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="${context}/assets/css/user_essentials.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/color_scheme/darkblue.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		
 		<style type="text/css">
 			.blur-bg {
@@ -28,7 +28,7 @@
 				width: 100%;
 				height: 100%;
 				padding: 20px;
-				background: url("/assets/images/guard_login_bg.jpg") no-repeat center center fixed;
+				background: url("${context}/assets/images/guard_login_bg.jpg") no-repeat center center fixed;
 				background-size: cover; 
 				/*background-color:#35373d;*/
 			}
@@ -59,10 +59,10 @@
 						<div class="col-md-6 col-md-offset-3" >
 							<div class="box-static box-border-top padding-30 text-center login-bg-color">
 								<div class="box-title margin-bottom-30">
-									<div style="width:300px; margin:0 auto;"><img src="/assets/images/guardcom_login_logo.png" width="100%"></div>
+									<div style="width:300px; margin:0 auto;"><img src="${context}/assets/images/guardcom_login_logo.png" width="100%"></div>
 								</div>
 		
-								<form id="frmLogin" name="frmLogin" class="nomargin" role="form" action="/login/check" method="post">
+								<form id="frmLogin" name="frmLogin" class="nomargin" role="form" action="${context}/login/check" method="post">
 									<div class="clearfix">
 										<div class="form-group">
 											<div class="radio_login"><label><input type="radio" name="loginType" value="U" checked/>사용자</label></div>
@@ -109,10 +109,10 @@
 		<!-- /wrapper -->
 		
 		<!-- JAVASCRIPT FILES -->
-		<script type="text/javascript">var plugin_path = '/assets/plugins/';</script>
-		<script type="text/javascript" src="/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="/assets/plugins/jquery/jquery.form.js" ></script>
-		<script type="text/javascript" src="/assets/js/scripts.js"></script>
+		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
+		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery.form.js" ></script>
+		<script type="text/javascript" src="${context}/assets/js/scripts.js"></script>
 		
 
 		<script type="text/javascript">
@@ -131,7 +131,7 @@
 				console.log('123')
 				$.ajax({      
 			        type:"GET",  
-			        url:'/account/request/view',
+			        url:'${context}/account/request/view',
 			        async: false,
 			        //data:{},
 			        success:function(args){   
@@ -174,7 +174,7 @@
 				}
 				
 				var option = {
-				        url:       		"/login/check",
+				        url:       		"${context}/login/check",
 				    	type:      		"post",       
 				    	success:     	fn_login_callback,
 				    	fail:			callbackFail,

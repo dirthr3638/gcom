@@ -11,16 +11,16 @@
 		<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
 	
 		<!-- CORE CSS -->
-		<link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		
 		<!-- THEME CSS -->
-		<link href="/assets/css/user_essentials.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/user_essentials.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
 		
 		<!-- PAGE LEVEL STYLE -->
-		<link href="/assets/css/user_header.css" rel="stylesheet" type="text/css" />
-		<link href="/assets/css/color_scheme/user_green.css" rel="stylesheet" type="text/css" id="color_scheme" />
-		<link href="/assets/css/simplePagination/simplePagination.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/user_header.css" rel="stylesheet" type="text/css" />
+		<link href="${context}/assets/css/color_scheme/user_green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="${context}/assets/css/simplePagination/simplePagination.css" rel="stylesheet" type="text/css" />
 		
 	</head>
 	<body class="smoothscroll enable-animation">
@@ -63,7 +63,7 @@
 		<jsp:include page="/WEB-INF/common/user_footer.jsp" flush="false" />
 		
 		<!-- PAGE LEVEL SCRIPT -->
-		<script type="text/javascript" src="/assets/plugins/simplePagination/jquery.simplePagination.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/simplePagination/jquery.simplePagination.js"></script>
 		
 		<script type="text/javascript">
 			var tableRowCount 	= 20;
@@ -111,7 +111,7 @@
 				
 				$.ajax({      
 			        type:"POST",  
-			        url:'/ax/user/notice/list',
+			        url:'${context}/ax/user/notice/list',
 			        async: false,
 			        data:{
 			        	search_type : search_type,
@@ -137,7 +137,7 @@
 				
 				$.ajax({      
 			        type:"POST",  
-			        url:'/notice/view',
+			        url:'${context}/notice/view',
 			        async: false,
 			        data:{
 			        	bbs_id : bbs_id,

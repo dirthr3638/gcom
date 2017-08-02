@@ -1,10 +1,7 @@
 package gcom.common.interceptor;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -17,10 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
-import gcom.DAO.AuditDataDAO;
 import gcom.service.System.ISystemService;
 import gcom.service.System.SystemServiceImpl;
 
@@ -96,11 +89,14 @@ public class LoginCheckInterceptor implements Filter {
 		HttpServletRequest httpReq = (HttpServletRequest) request;
 		HttpServletResponse httpRes = (HttpServletResponse) response;
 		HttpSession session = httpReq.getSession(false);
-				
+
 		httpReq.setCharacterEncoding("UTF-8");
 		boolean loginFlag = false;
+		
+		String context = httpReq.getContextPath();
+		httpReq.setAttribute("context", context); 
 
-		if (session != null) {
+		if (session != null && httpReq.isRequestedSessionIdValid()) {
 			String userId = (String) session.getAttribute("user_id");
 
 			if (userId != null) {
@@ -148,7 +144,7 @@ public class LoginCheckInterceptor implements Filter {
 		}
 
 		if (loginFlag) {
-			if (uri.equals("/") || uri.equals("")) {
+			if (uri.equals(context + "/") || uri.equals("")) {
 				// 로그인 상태에서 루트 실행시 메인 페이지로 넘김
 				String url = (String) session.getAttribute("login_root");
 				httpRes.sendRedirect(url);
@@ -161,10 +157,10 @@ public class LoginCheckInterceptor implements Filter {
 			// 세션없어서 로그인 풀릴때
 
 			// ajax일경우
-			if (uri.equals("/logout")) {
+			if (uri.equals(context + "/logout")) {
 				chain.doFilter(request, response);
 			} else if ("XMLHttpRequest".equals(httpReq.getHeader("X-Requested-With"))) {
-				httpRes.sendRedirect("/logout");
+				httpRes.sendRedirect(context + "/logout");
 			} else {
 				request.getRequestDispatcher("/WEB-INF/login/login.jsp").forward(request, response);
 			}
