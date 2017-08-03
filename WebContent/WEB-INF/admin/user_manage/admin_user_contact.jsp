@@ -92,11 +92,6 @@
 											<!-- Info -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
 											
-											
-											<!-- Primary -->
-											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
-											<!-- Success -->
-											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
 											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
@@ -230,18 +225,6 @@
 		datatable.ajax.reload();   	
  	
  	}
-
- 	function onClickPrintButton(){
- 		var $buttons = $('.export-print');
- 		$buttons.click();
- 	}
- 	
- 	function onClickExcelButton(){
-		console.log('excel')
- 		var $buttons = $('.export-csv');
- 		$buttons.click();
- 		
- 	}
  	
  	function fn_open_comment(conId) {
 	 	
@@ -374,8 +357,8 @@
 					}, {
 						data: "replyContent"		//답변내용
 				}],
-				"pageLength": 10,
-				"iDisplayLength": 10,
+				"pageLength": 20,
+				"iDisplayLength": 20,
 				"language": {
 					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 문의",
 					"infoEmpty": "검색된 데이터가 없습니다.",

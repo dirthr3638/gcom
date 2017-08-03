@@ -121,9 +121,41 @@ function get_policy_pattern_setting_data(){
 	return map;
 }
 
+function isValied(data) {
+	vex.defaultOptions.className = 'vex-theme-os';
+	
+	if(data.pat_name.trim() == '' || data.pat_name.trim().length < 1) {
+		vex.dialog.open({
+			message: '패턴이름은 필수 입력 사항입니다.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		})
+		return false;
+	}
+	
+	if(data.pat_data.trim() == '' || data.pat_data.trim().length < 1) {
+		vex.dialog.open({
+			message: '패턴 데이터는 필수 입력 사항입니다.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		})
+		return false;
+	}
+	
+	return true;
+}
+
 function fn_policy_pattern_save () {
 	
 	var data = get_policy_pattern_setting_data();
+	
+	if(!isValied(data)) {
+		return false;
+	}
 	
 	$.ajax({      
 	    type:"POST",  
@@ -177,6 +209,10 @@ function fn_policy_pattern_save () {
 function fn_policy_pattern_modify () {
 	
 	var data = get_policy_pattern_setting_data();
+	
+	if(!isValied(data)) {
+		return false;
+	}
 	
 	$.ajax({      
 	    type:"POST",  

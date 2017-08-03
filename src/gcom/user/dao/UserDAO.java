@@ -276,7 +276,7 @@ public class UserDAO {
 			if("1".equals(search_type)) {
 				sql += "AND bbs.bbs_title like ? ";
 			} else if ("2".equals(search_type)) {
-				sql += "AND user_info.name like ? ";
+				sql += "AND admin.id like ? ";
 			}
 		}
 		

@@ -21,6 +21,15 @@
 		<link href="${context}/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+		
+		<!-- Alert -->
+		<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+        <link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+
+        <script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+        <script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
+        
+        <script type="text/javascript" src="${context}/assets/js/admin_function.js"></script>
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -53,9 +62,47 @@
 								<!-- panel content -->
 								<div class="panel-body">
 									<div class="row">
-										<button id="btnNoticeWrite" class="btn btn-primary pull-right" style="margin-right: 40px;">게시글작성</button>
+										<div class="col-md-12">
+											<div>
+												<select class="form-control pull-left" id="sel_search_type" name="sel_search_type" style="width:100px;">
+													<option value="1">제목</option>
+													<option value="2">등록자</option>
+												</select>
+												<input type="text" class="form-control pull-left" id="att_search_text" name="att_search_text" placeholder="검색어를 입력해주세요." style="width:200px;" value="" />
+												<button onclick="searchUserLog();" class="btn btn-info pull-left"><i class="fa fa-search"></i> 검색</button>
+											</div>
+											
+											<button id="btnNoticeDel" class="btn btn-amber pull-right">게시글삭제</button>
+											<button id="btnNoticeWrite" class="btn btn-green pull-right">게시글작성</button>
+											
+											<!-- <div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+												<table id="user" class="table table-bordered">
+													<tbody> 
+														<tr>         
+															<td width="35%">제목</td>
+															<td>
+																<input type="text" name="filterNoticeTitel" id="filterNoticeTitel" value="" class="form-control required">
+															</td>
+														</tr>
+														<tr>         
+															<td width="35%">등록자</td>
+															<td>
+																<input type="text" name="filterNoticeRegStaf" id="filterNoticeRegStaf" value="" class="form-control required">
+															</td>
+														</tr>
+													</tbody>
+												</table>	
+												
+												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">접기</button>
+																					
+											</div> -->
+										</div>
+									</div>
+									
+									<div class="row">
 										<div class="col-md-12" style="overflow: hidden;">
 											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_notice" style="width:100%; min-width: 600px;">
+												<col width="20px">
 												<col width="80px">
 												<col width="70px">
 												<col>
@@ -64,7 +111,7 @@
 												<col width="50px">
 												<thead>
 													<tr>
-														<th>ID</th>
+														<th><input type="checkbox" id="all_check_info" name="all_check_info" /></th>
 														<th>No</th>
 														<th>중요</th>
 														<th class="center-cell">제목</th>
@@ -114,18 +161,6 @@
 				datatable.ajax.reload();   	
 		 	
 		 	}
-		
-		 	function onClickPrintButton(){
-		 		var $buttons = $('.export-print');
-		 		$buttons.click();
-		 	}
-		 	
-		 	function onClickExcelButton(){
-				console.log('excel')
-		 		var $buttons = $('.export-csv');
-		 		$buttons.click();
-		 		
-		 	}
 		 	
 			function fn_bbs_detail_view(bbs_id, file_yn, file_id) {
 				
@@ -172,6 +207,81 @@
 			        }  
 			    });
 			}
+			
+			// 체크 박스 클릭 시 전체 체크 여부 확인
+		 	var check_Info = function() {
+				
+		 		var checkboxLen =  $("input:checkbox[name='notice_item_check']").length;
+		 		var checkedLen = $("input:checkbox[name='notice_item_check']:checked").length;
+		
+		 		if(checkboxLen == checkedLen){
+		 			$("#all_check_info").prop("checked", true);
+		 		} else {
+		 			$("#all_check_info").prop("checked", false);
+		 		}
+		 		
+		 	}
+			
+			function fn_delete_notice_item () {
+				var checkedLen = $("input:checkbox[name='notice_item_check']:checked").length;
+		 		if (checkedLen < 1) {
+		 			infoAlert("삭제 할 게시물을 선택해주세요.");
+		 			return false;
+		 		}
+		 		
+		 		var delete_arr = new Array();
+				
+				$(":checkbox[name='notice_item_check']:checked").each(function(pi,po){
+					var check_item = $(this).val();
+					delete_arr.push(parseInt(check_item));
+				});
+				
+				console.log(delete_arr);
+				
+				$.ajax({      
+				    type:"POST", 
+				    url:'${context}/admin/user/notice/delete',
+				    async: false,
+				    data:{
+				    	delete_list : JSON.stringify(delete_arr),
+				    	_ : $.now()
+				    },
+				    success:function(data){
+				    	vex.defaultOptions.className = 'vex-theme-os'
+				    	
+			    		var datatable = $('#table_notice').dataTable().api();
+						datatable.ajax.reload();
+						
+				    	if(data.returnCode == "S") {
+				    			
+			    			vex.dialog.open({
+			    				message: '게시물이 삭제 되었습니다.',
+			    				  buttons: [
+			    				    $.extend({}, vex.dialog.buttons.YES, {
+			    				      text: '확인'
+			    				  })],
+			    				  callback: function(data) {
+		    				 	  	if (data) {
+		    				 	  		
+		    				 	    }
+		    				 	  }
+			    			})
+				    	} else {
+				    			
+			    			vex.dialog.open({
+			    				message: '게시물 삭제에 실패하였습니다.',
+			    				  buttons: [
+			    				    $.extend({}, vex.dialog.buttons.YES, {
+			    				      text: '확인'
+			    				  })]
+			    			})
+				    	}
+				    },   
+				    error:function(e){  
+				        console.log(e.responseText);  
+				    }  
+				});
+			}
 		 	
 			$(document).ready(function(){
 				
@@ -183,6 +293,20 @@
 				
 				$('#btnNoticeWrite').click(function(){
 					location.href = "${context}/admin/user/notice/write" ;					
+				});
+				
+				$('#btnNoticeDel').click(function(){
+					fn_delete_notice_item();
+				});
+				
+				//전체 체크 박스 선택 시
+				$("#all_check_info").click(function(){
+					
+				      if($(this).is(":checked")) {
+				    	  $(".notice_item_check").prop("checked", true);
+				      } else {
+				    	  $(".notice_item_check").prop("checked", false);
+				      }
 				});
 		
 				loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
@@ -202,6 +326,8 @@
 								   	"type":'POST',
 								   	"dataSrc" : "data",
 								   	"data" :  function(param) {
+								   		param.search_type = $('#sel_search_type option:checked').val();
+										param.search_text = $('#att_search_text').val();
 							        },
 		 					        "beforeSend" : function(){
 										jQuery('#preloader').show();
@@ -241,10 +367,12 @@
 		
 							     ],
 						 		"serverSide" : true,
-						 	    "ordering": true,
+						 	    "ordering": false,
 								"columns": [{
-									data: "bbsId",							
-									"orderable": false	//ID
+									data: "bbsId"
+									,render : function(data, type, row){
+										return '<input type="checkbox" name="notice_item_check" class="notice_item_check" value="' + data + '" onClick="javascript:check_Info()"/>'
+									}
 								}, {
 									data: "bbsId",
 									"orderable": false	//No
@@ -302,7 +430,6 @@
 								{	
 									"targets": [0],	//ID
 									"class":"center-cell"
-									,"visible" : false
 								}, {  
 									'targets': [1]	//No
 									,"class":"center-cell"
@@ -339,7 +466,7 @@
 							notice.on( 'click', 'td', function () {
 								var data = notice.row( $(this).parent() ).data();
 								
-								if($(this).index() == 2){	// 제목 클릭
+								if($(this).index() == 3){	// 제목 클릭
 									fn_bbs_detail_view(data.bbsId, data.bbsAttfileYN, data.attfileId);
 								}
 							});

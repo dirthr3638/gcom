@@ -25,8 +25,8 @@ public class axAdminNoticeListController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		getAdminAction action = new getAdminAction();
-		map.put("search_type", 1);
-		map.put("search_text", "");
+		map.put("search_type", Integer.parseInt( request.getParameter("search_type").toString()) );
+		map.put("search_text", request.getParameter("search_text").toString() );
 		map.put("startRow", Integer.parseInt( request.getParameter("start").toString()) );
 		map.put("endRow", Integer.parseInt( request.getParameter("length").toString()) );
 		

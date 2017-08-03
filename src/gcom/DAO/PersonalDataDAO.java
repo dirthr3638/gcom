@@ -1899,5 +1899,42 @@ sql += whereSql;
 		
 		return result;
 	}
+
+	public HashMap<String, Object> updateNoticeDelete(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int del_staf_no = Integer.parseInt(map.get("del_staf_no").toString());
+		String del_bbs_id = map.get("del_bbs_id").toString();
+		
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
+		
+		String sql= "UPDATE user_notice_bbs SET del_staf_no = ?, del_dt = NOW(), del_yn= 'Y' WHERE bbs_id in ("+ del_bbs_id +")";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+					
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, del_staf_no);
+			pstmt.executeUpdate();
+									
+			con.commit();
+			result.put("returnCode", returnCode);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 	
 }

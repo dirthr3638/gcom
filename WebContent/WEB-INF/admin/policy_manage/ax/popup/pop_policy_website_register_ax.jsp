@@ -112,9 +112,30 @@ function get_policy_website_setting_data(){
 	return map;
 }
 
+function isValied(data) {
+	vex.defaultOptions.className = 'vex-theme-os';
+	
+	if(data.site_address.trim() == '' || data.site_address.trim().length < 1) {
+		vex.dialog.open({
+			message: '사이트주소는 필수 입력 사항입니다.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		})
+		return false;
+	}
+	
+	return true;
+}
+
 function fn_policy_website_save () {
 	
 	var data = get_policy_website_setting_data();
+	
+	if(!isValied(data)) {
+		return false;
+	}
 	
 	$.ajax({      
 	    type:"POST",  
@@ -168,6 +189,10 @@ function fn_policy_website_save () {
 function fn_policy_website_modify () {
 	
 	var data = get_policy_website_setting_data();
+	
+	if(!isValied(data)) {
+		return false;
+	}
 	
 	$.ajax({      
 	    type:"POST",  

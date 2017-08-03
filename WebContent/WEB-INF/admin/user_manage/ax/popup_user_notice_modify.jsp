@@ -62,12 +62,15 @@
 													<!-- 실제 파일 업로드 input -->
 													<input type="file" class="form-control hidden" id="att_file_upload" name="att_file_upload" />												
 													<!-- 파일 업로드 View -->
-													<div class="input-group m-b-xxs" style="max-width: 300px;">
+													<div class="input-group m-b-xxs" style="max-width: 500px;">
 														<span class="input-group-btn">
 							                            	<button type="button" class="btn btn-primary"  onclick="document.getElementById('att_file_upload').click();">파일선택</button> 
-							                             </span>
-							                             <input type="text" class="form-control" id="att_file_upload_view" name="att_file_upload_view" value="<%= file.getAttViewFileName() %>" disabled>
-								                     </div>
+							                            </span>
+							                            <input type="text" class="form-control" id="att_file_upload_view" name="att_file_upload_view" value="<%= file.getAttViewFileName() %>" disabled>
+							                            <span class="input-group-btn" style="width:120px;">
+							                            	<button id="btnFileDelete" type="button" class="btn btn-amber"  onclick="deleteFile();">첨부파일삭제</button>
+							                            </span>
+								                    </div>
 													
 													<div id="uploadPer">
 										    		</div>
@@ -80,12 +83,18 @@
 							 						<!-- 실제 파일 업로드 input -->
 													<input type="file" class="form-control hidden" id="att_file_upload" name="att_file_upload" />												
 													<!-- 파일 업로드 View -->
-													<div class="input-group m-b-xxs" style="max-width: 300px;">
+													<div class="input-group m-b-xxs" style="max-width: 500px;">
 														<span class="input-group-btn">
 							                            	<button type="button" class="btn btn-primary"  onclick="document.getElementById('att_file_upload').click();">파일선택</button> 
-							                             </span>
-							                             <input type="text" class="form-control" id="att_file_upload_view" name="att_file_upload_view" value="" disabled>
-								                     </div>
+							                            </span>
+							                            <input type="text" class="form-control" id="att_file_upload_view" name="att_file_upload_view" value="" disabled>
+							                            <!-- 삭제버튼 -->
+							                            <span class="input-group-btn" style="width:120px;">
+							                            	<button id="btnFileDelete" type="button" class="btn btn-amber"  onclick="deleteFile();" style="display: none;">첨부파일삭제</button>
+							                            </span>
+								                    </div>
+								                     
+								                    
 													
 													<div id="uploadPer">
 										    		</div>
@@ -227,6 +236,14 @@
 			});
 		}
 		
+		var deleteFile = function() {
+			 $('#att_upload_save_filename').val("");
+        	 $('#att_upload_view_filename').val("");
+        	 $('#att_upload_filepath').val("");
+        	 $('#att_file_upload_view').val(""); 
+        	 $('#btnFileDelete').css('display', 'none'); 
+		}
+		
 		$(document).ready(function(){
 			jQuery('#preloader').hide();
 			
@@ -269,6 +286,8 @@
 			        	 $('#att_upload_view_filename').val(data.result.viewFileName);
 			        	 $('#att_upload_filepath').val(data.result.filepath);
 			        	 $('#att_file_upload_view').val(data.result.viewFileName); 
+			        	 
+			        	 $('#btnFileDelete').css('display', 'block');
 		        	 }
 		        	 else{
 		        		 console.log(data.result.returnCode);

@@ -168,9 +168,41 @@ function get_policy_msg_setting_data(){
 	return map;
 }
 
+function isValied(data) {
+	vex.defaultOptions.className = 'vex-theme-os';
+	
+	if(data.msg_name.trim() == '' || data.msg_name.trim().length < 1) {
+		vex.dialog.open({
+			message: '메신저명은 필수 입력 사항입니다.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		})
+		return false;
+	}
+	
+	if(data.msg_pro_name.trim() == '' || data.msg_pro_name.trim().length < 1) {
+		vex.dialog.open({
+			message: '메신저 프로세스명은 필수 입력 사항입니다.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		})
+		return false;
+	}
+	
+	return true;
+}
+
 function fn_policy_msg_save () {
 	
 	var data = get_policy_msg_setting_data();
+	
+	if(!isValied(data)) {
+		return false;
+	}
 	
 	$.ajax({      
 	    type:"POST",  
@@ -220,10 +252,13 @@ function fn_policy_msg_save () {
 	});
 }
 
-
 function fn_policy_msg_modify () {
 	
 	var data = get_policy_msg_setting_data();
+	
+	if(!isValied(data)) {
+		return false;
+	}
 	
 	$.ajax({      
 	    type:"POST",  
