@@ -20,7 +20,7 @@ body.has-video-bg section {
 
 body #wrapper {/* used by RTL*/
 	overflow:hidden; 
-	min-height:100%; /*  because short page hide long menus */
+	/*min-height:100%;*/ /*  because short page hide long menus */
 }
 
 body.bg-grey,
