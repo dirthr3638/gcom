@@ -34,6 +34,7 @@ public class axPolicyRequestedListController extends HttpServlet {
 		map.put("user_duty", request.getParameter("user_duty").toString());
 		map.put("user_rank", request.getParameter("user_rank").toString());
 		map.put("user_number", request.getParameter("user_number").toString());
+		map.put("policy_permit", request.getParameter("policy_permit").toString());
 		
 		getAdminAction action = new getAdminAction();
 		HashMap<String, Object> data = action.getRequestedPolicyList(map);

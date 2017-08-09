@@ -124,7 +124,19 @@
 															<td>
 																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control">
 															</td>
-														</tr>																														
+														</tr>
+														<tr>
+															<td>승인여부</td>
+															<td>
+																<select class="select2theme" id="filterPermit" name="filterPermit">
+																  <option value="">전체</option>
+																  <option value="W">대기</option>
+																  <option value="P">승인</option>
+																  <option value="R">거절</option>
+																</select>
+															</td>
+														</tr>
+																																										
 													</tbody>
 												</table>	
 												
@@ -493,6 +505,7 @@
 						param.user_pc = $('#filterUserPCName').val();
 						param.user_ip = $('#filterUserIPAddr').val();
 						param.user_phone = $('#filterUserPhone').val();
+						param.policy_permit = $('#filterPermit option:selected').val();	
 						
 						param.dept = getCheckedDept();
 			        },

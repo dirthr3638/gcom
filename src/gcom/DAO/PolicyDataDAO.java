@@ -979,6 +979,7 @@ sql += whereSql;
 		String user_duty = map.get("user_duty").toString();
 		String user_rank = map.get("user_rank").toString();
 		String user_number = map.get("user_number").toString();
+		String policy_permit = map.get("policy_permit").toString();
 		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
@@ -1002,6 +1003,7 @@ sql += whereSql;
 		if(!user_duty.equals("")) whereSql += "AND ur.duty LIKE ? ";
 		if(!user_rank.equals("")) whereSql += "AND ur.rank LIKE ? ";
 		if(!user_number.equals("")) whereSql += "AND ur.number LIKE ? ";
+		if(!policy_permit.equals("")) whereSql += "AND request.permit = ? ";
 		
 		if(oDept != null)			whereSql += " AND ur.dept_no in ("+idList+") ";
 		
@@ -1028,7 +1030,8 @@ sql += whereSql;
 
 			if(!user_duty.equals("")) pstmt.setString(i++, "%" + user_duty + "%");
 			if(!user_rank.equals("")) pstmt.setString(i++, "%" + user_rank + "%");
-			if(!user_number.equals(""))	pstmt.setString(i++, "%" + user_number + "%");;
+			if(!user_number.equals(""))	pstmt.setString(i++, "%" + user_number + "%");
+			if(!policy_permit.equals("")) 	pstmt.setString(i++, policy_permit);
 
 			if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
@@ -1068,6 +1071,7 @@ sql += whereSql;
 		String user_duty = map.get("user_duty").toString();
 		String user_rank = map.get("user_rank").toString();
 		String user_number = map.get("user_number").toString();
+		String policy_permit = map.get("policy_permit").toString();
 		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
@@ -1089,6 +1093,7 @@ sql += whereSql;
 		if(!user_duty.equals("")) whereSql += "AND ur.duty LIKE ? ";
 		if(!user_rank.equals("")) whereSql += "AND ur.rank LIKE ? ";
 		if(!user_number.equals("")) whereSql += "AND ur.number LIKE ? ";
+		if(!policy_permit.equals("")) whereSql += "AND request.permit = ? ";
 		
 		if(oDept != null)			whereSql += " AND ur.dept_no in ("+idList+") ";
 
@@ -1180,7 +1185,8 @@ sql += whereSql;
 
 			if(!user_duty.equals("")) pstmt.setString(i++, "%" + user_duty + "%");
 			if(!user_rank.equals("")) pstmt.setString(i++, "%" + user_rank + "%");
-			if(!user_number.equals(""))	pstmt.setString(i++, "%" + user_number + "%");;
+			if(!user_number.equals(""))	pstmt.setString(i++, "%" + user_number + "%");
+			if(!policy_permit.equals("")) 	pstmt.setString(i++, policy_permit);
 			
 		 	if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
