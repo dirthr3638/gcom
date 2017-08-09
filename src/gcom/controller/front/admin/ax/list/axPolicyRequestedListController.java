@@ -21,14 +21,21 @@ public class axPolicyRequestedListController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		getAdminAction action = new getAdminAction();
+		
+		//paging row param
 		map.put("startRow", Integer.parseInt( request.getParameter("start").toString()) );
 		map.put("endRow", Integer.parseInt( request.getParameter("length").toString()) );
+		
+		//Search param
+		map.put("dept", request.getParameterValues("dept[]"));
 		map.put("user_id", request.getParameter("user_id").toString());
 		map.put("user_name", request.getParameter("user_name").toString());
 		map.put("user_phone", request.getParameter("user_phone").toString());
-		map.put("dept", request.getParameterValues("dept[]"));
-
+		map.put("user_duty", request.getParameter("user_duty").toString());
+		map.put("user_rank", request.getParameter("user_rank").toString());
+		map.put("user_number", request.getParameter("user_number").toString());
+		
+		getAdminAction action = new getAdminAction();
 		HashMap<String, Object> data = action.getRequestedPolicyList(map);
 
 		data.putAll(data);

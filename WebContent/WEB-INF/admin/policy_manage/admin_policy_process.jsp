@@ -53,7 +53,7 @@
 								<!-- panel content -->
 								<div class="panel-body">
 									<div class="row">
-										<div class="col-md-12" style="overflow: hidden;">
+										<div class="col-md-12" style="overflow: auto;">
 											<button type="button" id="btnRegProcess" class="btn btn-sm btn-green pull-right" onclick="javascript:fn_open_reg_process_popup(0);"><i class="fa fa-check"></i>정책 등록</button>
 											<table id="table-process-policy" class="table table-bordered table-hover">
 												<thead>

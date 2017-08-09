@@ -113,7 +113,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12" style="overflow: hidden;">
+							<div class="col-md-12" style="overflow: auto;">
 								<table class="table table-bordered table-hover" id="table_usb_block" style="width:100%; min-width: 500px;">
 									<thead>
 										<tr>

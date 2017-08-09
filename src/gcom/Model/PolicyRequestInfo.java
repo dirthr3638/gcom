@@ -20,6 +20,7 @@ public class PolicyRequestInfo {
 	private String permitState = "";
 	private String permitDate = "";
 	private String permitStaf = "";
+	private int userNumber;
 
 	private Boolean isUninstall;
 	private Boolean isFileEncryption;

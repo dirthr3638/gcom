@@ -135,7 +135,7 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-12" style="overflow: hidden;">
+										<div class="col-md-12" style="overflow: auto;">
 											<table class="table table-bordered table-hover x-scroll-table" id="table_contact" style="width:100%; min-width: 600px;">
 												<col width="20px;">
 												<col width="80px;">
