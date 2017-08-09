@@ -86,52 +86,44 @@
 									<div class="row">
 										<div class="col-md-12">
 			
-											<!-- Standard button -->
+											<!-- search filter button -->
 											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
-		
-											<!-- Info -->
+											<!-- search button -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
 											
+											<!-- search text content -->
 											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="35%">문의구분</td>
 															<td>
-																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+																<select class="select2theme" id="filterContactType" name="filterContactType">
+																  <option value="">전&nbsp;&nbsp;&nbsp;체</option>
+																  <option value="1">단순문의</option>
+																  <option value="2">서비스문의</option>
+																  <option value="3">버그문의</option>
+																</select>
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">이름</td>
+															<td width="35%">제목</td>
 															<td>
-																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+																<input type="text" name="filterContactTitle" id="filterContactTitle" value="" class="form-control">
 															</td>
 														</tr>
-														<!-- 
 														<tr>         
-															<td width="35%">작업시작일</td>
+															<td width="35%">등록자</td>
 															<td>
-							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+																<input type="text" name="filterRegUser" id="filterRegUser" value="" class="form-control">
 															</td>
-														</tr>																													
-														<tr >         
-															<td width="35%">작업종료일</td>
-															<td>
-							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-															</td>
-														</tr>																															
-														 -->
+														</tr>
 													</tbody>
 												</table>	
 												
 												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">접기</button>
 																					
 											</div>
-<!-- 										
-											<button type="button" class="btn btn-warning">Warning</button>
-		
-											
-											<button type="button" class="btn btn-danger">Danger</button> -->
 										</div>
 									</div>
 									<div class="row">
@@ -318,10 +310,9 @@
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  function(param) {
-						param.user_id = $('#filterUserId').val();
-						param.user_name = $('#filterUserName').val();
-						param.start_date = $('#filterStartDate').val();
-						param.end_date = $('#filterEndDate').val();
+						param.contact_type = $('#filterContactType option:selected').val();
+						param.contact_tilte = $('#filterContactTitle').val();
+						param.contact_user = $('#filterRegUser').val();
 						
 						param.dept = getCheckedDept();
 			        },

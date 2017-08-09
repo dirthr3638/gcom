@@ -1599,8 +1599,9 @@ sql += whereSql;
 		List<UserContactModel> data = new ArrayList<UserContactModel>();
 		
 		String whereSql = "WHERE 1=1 ";
-		String user_id = map.get("user_id").toString();
-		String user_name = map.get("user_name").toString();
+		String contact_type = map.get("contact_type").toString();
+		String contact_tilte = map.get("contact_tilte").toString();
+		String contact_user = map.get("contact_user").toString();
 		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
@@ -1616,8 +1617,10 @@ sql += whereSql;
 		}else{
 			return data;
 		}
-		if(!user_id.equals("")) 	whereSql += "AND ui.id LIKE ? ";
-		if(!user_name.equals("")) 	whereSql += "AND ui.name LIKE ? ";
+		
+		if(!contact_type.equals("")) 	whereSql += "AND con.contact_type = ? ";
+		if(!contact_tilte.equals("")) 	whereSql += "AND con.contact_title LIKE ? ";
+		if(!contact_user.equals("")) 	whereSql += "AND ui.name LIKE ? ";
 
 		if(oDept != null)			whereSql += "AND ui.dept_no in ("+idList+") ";
 
@@ -1649,8 +1652,9 @@ sql += whereSql;
 			pstmt=con.prepareStatement(sql);
 		
 			int i = 1;
-			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
-			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!contact_type.equals("")) pstmt.setString(i++, contact_type);
+			if(!contact_tilte.equals("")) pstmt.setString(i++, "%" + contact_tilte + "%");
+			if(!contact_user.equals("")) pstmt.setString(i++, "%" + contact_user + "%");
 			if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
 					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
@@ -1699,8 +1703,9 @@ sql += whereSql;
 		int result = 0;
 		
 		String whereSql = "WHERE 1=1 ";
-		String user_id = map.get("user_id").toString();
-		String user_name = map.get("user_name").toString();
+		String contact_type = map.get("contact_type").toString();
+		String contact_tilte = map.get("contact_tilte").toString();
+		String contact_user = map.get("contact_user").toString();
 		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
@@ -1716,8 +1721,10 @@ sql += whereSql;
 		}else{
 			return result;
 		}
-		if(!user_id.equals("")) 	whereSql += "AND ui.id LIKE ? ";
-		if(!user_name.equals("")) 	whereSql += "AND ui.name LIKE ? ";
+
+		if(!contact_type.equals("")) 	whereSql += "AND con.contact_type = ? ";
+		if(!contact_tilte.equals("")) 	whereSql += "AND con.contact_title LIKE ? ";
+		if(!contact_user.equals("")) 	whereSql += "AND ui.name LIKE ? ";
 
 		if(oDept != null)			whereSql += "AND ui.dept_no in ("+idList+") ";
 	
@@ -1737,8 +1744,9 @@ sql += whereSql;
 
 			int i = 1;
 
-			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
-			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!contact_type.equals("")) pstmt.setString(i++, contact_type);
+			if(!contact_tilte.equals("")) pstmt.setString(i++, "%" + contact_tilte + "%");
+			if(!contact_user.equals("")) pstmt.setString(i++, "%" + contact_user + "%");
 			
 			if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
