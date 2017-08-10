@@ -27,13 +27,14 @@ public class axUserManageDoController extends HttpServlet {
 		HttpServletRequest httpReq = (HttpServletRequest)request;
     	HttpSession session = httpReq.getSession(false);
     	
+    	String context = request.getContextPath();
 		HashMap<String, Object> param = new HashMap<String, Object>();
     	param.put("user_no", request.getParameter("user_no"));
 
     	String requestUri = request.getRequestURI();
 		HashMap<String, Object> data =  new HashMap<String, Object>();;
 		
-		if(requestUri.equals("/admin/user/manage/do/create")){
+		if(requestUri.equals(context + "/admin/user/manage/do/create")){
 	    	param.put("dept_no", request.getParameter("user_dept"));
 	    	param.put("duty", request.getParameter("user_duty"));
 	    	param.put("rank", request.getParameter("user_rank"));
@@ -56,7 +57,7 @@ public class axUserManageDoController extends HttpServlet {
 	   		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);
-		}else if(requestUri.equals("/admin/user/manage/do/update")){
+		}else if(requestUri.equals(context + "/admin/user/manage/do/update")){
 	    	param.put("dept_no", request.getParameter("user_dept"));
 	    	param.put("duty", request.getParameter("user_duty"));
 	    	param.put("rank", request.getParameter("user_rank"));
@@ -79,7 +80,7 @@ public class axUserManageDoController extends HttpServlet {
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);
     	
-		}else if(requestUri.equals("/admin/user/manage/do/remove")){
+		}else if(requestUri.equals(context + "/admin/user/manage/do/remove")){
     		updateAdminAction action = new updateAdminAction();
     		data = action.removeUserInfo(param);    		
 

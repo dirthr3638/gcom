@@ -106,12 +106,13 @@ public class LoginCheckInterceptor implements Filter {
 		if (session != null && httpReq.isRequestedSessionIdValid()) {
 			String userId = (String) session.getAttribute("user_id");
 
+			
 			if (userId != null) {
 
 				loginFlag = true;
 
 				int admin_mode = (int) session.getAttribute("admin_mode");
-
+				request.setAttribute("admin_mode", admin_mode);
 				ISystemService sys = new SystemServiceImpl();
 				session.setMaxInactiveInterval(sys.serverLogoutTimeInfo());
 				// session.setMaxInactiveInterval(1);

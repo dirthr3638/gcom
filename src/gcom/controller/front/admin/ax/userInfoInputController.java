@@ -24,7 +24,7 @@ public class userInfoInputController extends HttpServlet {
 
         HttpServletRequest httpReq = (HttpServletRequest)request;
         HttpSession session = httpReq.getSession(false);		
-
+        String context = request.getContextPath();
         deptAction act = new deptAction();
     	request.setAttribute("deptList", act.getDeptList(Integer.parseInt(session.getAttribute("dept_no").toString())));
 				
@@ -32,7 +32,7 @@ public class userInfoInputController extends HttpServlet {
 			param.put("user_no",  request.getParameter("user_no"));
 
 		
-		if(requestUri.equals("/ax/admin/userinput/modify")){
+		if(requestUri.equals(context + "/ax/admin/userinput/modify")){
 			request.setAttribute("popup_type", "modify");
 			
 			getAdminAction uAction = new getAdminAction();
@@ -40,7 +40,7 @@ public class userInfoInputController extends HttpServlet {
 
 			request.getRequestDispatcher("/WEB-INF/admin/user_manage/ax/pop_user_info_input.jsp").forward(request, response);
 
-		}else if(requestUri.equals("/ax/admin/userinput/create")){
+		}else if(requestUri.equals(context + "/ax/admin/userinput/create")){
 			request.setAttribute("popup_type", "create");    		
         	request.getRequestDispatcher("/WEB-INF/admin/user_manage/ax/pop_user_info_input.jsp").forward(request, response);
     	

@@ -524,8 +524,6 @@
 					,"class" : "center-cell"
 					,"render": function(data,type,row){
 						return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:msgFileDetail('+ row.msgNo + ', \'msg_file_log\',\''+ encodeURI(row.fileId) +'\')">';
-//						return '<i title="상세보기" class="fa fa-commenting" aria-hidden="true" onclick="javascript:msgFileDetail(this)">'
-
 
 					}
 				}, {	

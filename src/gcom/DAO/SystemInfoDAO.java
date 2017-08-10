@@ -15,7 +15,6 @@ import javax.sql.DataSource;
 import gcom.Model.SystemInfoModel;
 import gcom.common.util.ConfigInfo;
 
-//이동식디스크 파일전송로그
 public class SystemInfoDAO {
 	DataSource ds;
 	Connection con=null;

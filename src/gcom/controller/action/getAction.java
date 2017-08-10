@@ -7,6 +7,7 @@ import java.util.List;
 import gcom.Model.AuditClientModel;
 import gcom.Model.AuditServerModel;
 import gcom.Model.DiskExportModel;
+import gcom.Model.FileEventLogModel;
 import gcom.Model.LoginLogModel;
 import gcom.Model.MailExportContentModel;
 import gcom.Model.MailExportModel;
@@ -373,6 +374,23 @@ public class getAction {
 		
 		return result;
 	}
+
+	
+	public HashMap<String, Object> getRmvDiskFileLogList(HashMap<String, Object> map){
+		IDeviceInfoService ds = new DeviceInfoServiceImpl();
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int total = ds.getRmvDiskFileLogListCount(map);
+		List<FileEventLogModel> data = ds.getRmvDiskFileLogList(map);
+
+		result.put("data", data);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+				
+		return result;
+	}
+
+
 	
 	public List<HashMap<String, Object>> getFileList(HashMap<String, Object> map) {
 		ICommonService ca = new CommonServiceImpl();
@@ -381,8 +399,7 @@ public class getAction {
 
 	public String getFilePath(HashMap<String, Object> map){
 		ICommonService ca = new CommonServiceImpl();
-		return ca.getFilePath(map);
-		
+		return ca.getFilePath(map);	
 	}
 
 

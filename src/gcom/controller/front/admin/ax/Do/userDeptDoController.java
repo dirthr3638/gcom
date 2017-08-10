@@ -33,6 +33,7 @@ public class userDeptDoController extends HttpServlet {
     	HashMap<String, Object> result = null;
    		HttpServletRequest httpReq = (HttpServletRequest)request;
     	HttpSession session = httpReq.getSession(false);
+    	String context = request.getContextPath();
 
 		if (request.getParameterMap().containsKey("no")){
 			data.setDeptNo(Integer.parseInt(request.getParameter("no")));
@@ -53,7 +54,7 @@ public class userDeptDoController extends HttpServlet {
         ServerAuditModel model = new ServerAuditModel();
 		model.setAdminId((String)session.getAttribute("user_id"));
 
-		if(requestUri.equals("/admin/do/dept/create")){
+		if(requestUri.equals(context + "/admin/do/dept/create")){
 			result = action.insertDeptInfo(data);
 			model.setActionId(1400);
 			model.setWorkIp(httpReq.getRemoteAddr());
@@ -62,7 +63,7 @@ public class userDeptDoController extends HttpServlet {
 	 		model.setStatus(result.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);
-    	}else if(requestUri.equals("/admin/do/dept/update")){
+    	}else if(requestUri.equals(context + "/admin/do/dept/update")){
     		result = action.updateDeptNameInfo(data);    		
 			model.setActionId(1401);
 			model.setWorkIp(httpReq.getRemoteAddr());
@@ -71,7 +72,7 @@ public class userDeptDoController extends HttpServlet {
 	 		model.setStatus(result.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);
-    	}else if(requestUri.equals("/admin/do/dept/remove")){
+    	}else if(requestUri.equals(context + "/admin/do/dept/remove")){
     		result = action.removeDeptInfo(data.getDeptNo());    	
 			model.setActionId(1402);
 			model.setWorkIp(httpReq.getRemoteAddr());

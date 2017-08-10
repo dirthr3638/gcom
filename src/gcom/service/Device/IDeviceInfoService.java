@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import gcom.Model.DiskExportModel;
+import gcom.Model.FileEventLogModel;
 import gcom.Model.PrintFileModel;
 import gcom.Model.UsbConnectModel;
 import gcom.Model.UsbDevInfoModel;
@@ -18,5 +19,8 @@ public interface IDeviceInfoService {
 	public int getUsbBlockListCount(HashMap<String, Object> map);
 	public List<PrintFileModel> getPrintLogList(HashMap<String, Object> map);
 	public int getPrintLogCount(HashMap<String, Object> map);
+	
+	public List<FileEventLogModel> getRmvDiskFileLogList(HashMap<String, Object> map);
+	public int getRmvDiskFileLogListCount(HashMap<String, Object> map);
 	
 }

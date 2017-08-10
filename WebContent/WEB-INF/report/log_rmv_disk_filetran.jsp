@@ -30,7 +30,7 @@
 				Keep it outside of #wrapper (responsive purpose)
 			-->
 			<% request.setAttribute("menu_parent", 2000); %> 
-			<% request.setAttribute("menu_sub_first", 2200); %> 
+			<% request.setAttribute("menu_sub_first", 2700); %> 
 			<jsp:include page="/WEB-INF/common/report_left_menu.jsp" flush="false" />
 			
 			<!-- /ASIDE -->
@@ -45,7 +45,7 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>디스크 반출로그</h1>
+					<h1>이동식디스크 반출로그</h1>
 				</header>
 				<!-- /page title -->
 			
@@ -125,35 +125,9 @@
 															<td>
 																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
 															</td>
-															<td width="15%">등급</td>
-															<td>
-																<select class="select2theme" id="filterGrade">
-																  <option value="-1">전체</option>
-																  <option value="0">대외비</option>
-																  <option value="1">3급비문</option>
-																  <option value="2">2급비문</option>
-																  <option value="3">평문</option>
-																</select>
-															</td>
-														</tr>
-														<tr>         
-															<td width="15%">파일</td>
-															<td>
-																<input type="text" name="filterFileList" id="filterFileList" value="" class="form-control required">
-															</td>
 															<td width="15%">PC명</td>
 															<td>
 																<input type="text" name="filterUserPCName" id="filterUserPCName" value="" class="form-control required">
-															</td>
-														</tr>
-														<tr>         
-															<td width="15%">메모</td>
-															<td>
-																<input type="text" name="filterNotice" id="filterNotice" value="" class="form-control required">
-															</td>
-															<td width="15%">파티션명</td>
-															<td>
-																<input type="text" name="filterPartitionName" id="filterPartitionName" value="" class="form-control required">
 															</td>
 														</tr>
 														
@@ -168,6 +142,12 @@
 															</td>
 
 														</tr>																															
+														<tr>         
+															<td width="15%">파일명</td>
+															<td>
+																<input type="text" name="filterFileList" id="filterFileList" value="" class="form-control required">
+															</td>
+														</tr>
 														
 													</tbody>
 												</table>	
@@ -199,11 +179,8 @@
 														<th >PC이름</th>
 														<th >반출시간(서버)</th>
 														<th >반출시간(PC)</th>
-														<th >파티션식별자</th>
-														<th >파티션이름</th>
-														<th >등급</th>
+														<th >설명</th>
 														<th >파일목록</th>
-														<th >메모</th>
 													</tr>
 												</thead>
 				
@@ -221,8 +198,9 @@
 				</div>
 			</section>
 		</div>
-			<div id="file_list_area">
+		<div id="file_list_area">
 		</div>
+			
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
 		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
@@ -323,7 +301,7 @@
 				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 				//dom: 'Bfrtip',
 				"ajax" : {
-					"url":'${context}/ax/disktran/list',
+					"url":'${context}/ax/rmvdisktran/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  function(param) {
@@ -333,11 +311,8 @@
 						param.user_number = $('#filterUserNumber').val();
 						param.user_duty = $('#filterUserDuty').val();
 						param.user_rank = $('#filterUserRank').val();
-						param.grade = $('#filterGrade option:selected').val();
-						param.file_list = $('#filterFileList').val();
+						param.file_name = $('#filterFileList').val();
 						param.pc_name = $('#filterUserPCName').val();
-						param.notice = $('#filterNotice').val();
-						param.partition_name = $('#filterPartitionName').val();
 
 						param.start_date = $('#filterStartDate').val();
 						param.end_date = $('#filterEndDate').val();
@@ -384,7 +359,7 @@
 		 		"processing": true,
 		 	    "ordering": true,
 				"columns": [{
-					data: "exportNo",							
+					data: "fileNo",							
 					"orderable": false	//추가정보
 				}, {
 					data: "deptName",
@@ -414,25 +389,16 @@
 					data: "pcName",
 					"orderable": false	//PC이름
 				}, {
-					data: "exportServerTime",
+					data: "serverTime",
 					"orderable": false	//반출시간(서버)
 				}, {
-					data: "exportClientTime",
+					data: "clientTime",
 					"orderable": false	//반출시간(PC)
-				}, {
-					data: "partitionGuid",
-					"orderable": false	//파티션식별자
-				}, {
-					data: "partitionLabel",
-					"orderable": false	//파티션이름
-				}, {
-					data: "grade",
-					"orderable": false	//등급
-				}, {
-					data: "fileId",
+				},{
+					data: "description",
 					"orderable": false	//파일목록
 				}, {
-					data: "notice",
+					data: "fileId",
 					"orderable": false	//메모
 				}],
 				// set the initial value
@@ -515,46 +481,20 @@
 				}, {	
 					"targets": [10]	//서버반출시간
 					,"class" : "center-cell"
-					,"visible" : false
 				}, {	
 					"targets": [11]	//PC반출시간
 					,"class" : "center-cell"
-				}, {	
-					"targets": [12]	//파티션식별자
-					,"class" : "center-cell"
 					,"visible" : false
-
 				}, {	
-					"targets": [13]	//파티션이름
+					"targets": [12]	//설명
 					,"class" : "center-cell"
-					,"visible" : false	
 				}, {	
-					"targets": [14]	//등급
-					,"class" : "center-cell"
-					,"render":function(data,type,row){
-						if(data == 0){
-							return '대외비';									
-						}else if(data == 1){
-							return '3급';									
-						}else if(data == 2){
-							return '2급';									
-						}else if(data == 3){
-							return '평문';									
-						}else{
-							return '기타';
-						}
-					}
-				}, {	
-					"targets": [15]	//파일목록
+					"targets": [13]	//파일목록
 					,"class" : "center-cell"
 					,"render": function(data,type,row){
-						return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:FileDetail('+ row.exportNo + ', \'disk_export_log\',\''+ encodeURI(row.fileId) +'\')">';
+						return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:FileDetail('+ row.fileNo + ', \'file_event_log\',\''+ encodeURI(row.fileId) +'\')">';
 
 					}
-				}, {	
-					"targets": [16]	//메모
-					,"class" : "center-cell"
-					,"visible" : false
 
 				}],						
 				"initComplete": function( settings, json ) {
@@ -567,10 +507,7 @@
 				var sOut = '<table class="table fixed">';
 				sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
 				sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-				sOut += '<tr><td class="center-cell">서버반출시간:</td><td>' + aData.exportServerTime + '</td>';
-				sOut += '<td class="center-cell">파티션식별자:</td><td>' + aData.partitionGuid + '</td></tr>';
-				sOut += '<tr><td class="center-cell">파티션이름:</td><td>' + aData.partitionLabel + '</td>';
-				sOut += '<td class="center-cell">메모:</td><td>' + aData.notice + '</td></tr>';
+				sOut += '<tr><td class="center-cell">PC반출시간:</td><td>' + aData.clientTime + '</td><td></td><td></td></tr>';
 										
 				sOut += '</table>';
 
@@ -581,9 +518,9 @@
 			jTable.on('click', ' tbody td .datables-td-detail', function () {
 				var nTr = jQuery(this).parents('tr')[0];
 				if (table.fnIsOpen(nTr)) {
-					/* This row is already open - close it */
+					/* This row is already open - close it */3
 					jQuery(this).addClass("datatables-close").removeClass("datatables-open");
-					table.fnClose(nTr);
+					table.fnClose(nTr);3
 				} else {
 					/* Open this row */
 					jQuery(this).addClass("datatables-open").removeClass("datatables-close");
@@ -592,6 +529,8 @@
 			});
 		} 		
  	}
+
+ 	
  	
  	function FileDetail(no, type, file_id){
 		$.ajax({      
@@ -612,10 +551,8 @@
 	            console.log(e.responseText);  
 	        }  
 	    }); 
-
- 
  	}
-
+ 	
  	$(document).ready(function(){
 		
 		$(".select2theme").select2({

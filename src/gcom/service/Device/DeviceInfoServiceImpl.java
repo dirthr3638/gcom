@@ -6,6 +6,7 @@ import java.util.List;
 import gcom.DAO.DeviceDataDAO;
 import gcom.DAO.DiskDataDAO;
 import gcom.Model.DiskExportModel;
+import gcom.Model.FileEventLogModel;
 import gcom.Model.PrintFileModel;
 import gcom.Model.UsbConnectModel;
 import gcom.Model.UsbDevInfoModel;
@@ -23,7 +24,7 @@ public class DeviceInfoServiceImpl implements IDeviceInfoService {
 		return diskDao.getUnAuthUsbListCount(map);		
 	}
 	
-	//이동식디스크 파일전송로그
+	//디스크반출 로그
 	public List<DiskExportModel> getDiskTranList(HashMap<String, Object> map){		
 		return diskDao.getDiskExportList(map);
 	}	
@@ -44,8 +45,19 @@ public class DeviceInfoServiceImpl implements IDeviceInfoService {
 	public List<PrintFileModel> getPrintLogList(HashMap<String, Object> map){		
 		return uaDao.getPrintLogList(map);
 	}	
+	
 	public int getPrintLogCount(HashMap<String, Object> map){		
 		return uaDao.getPrintLogListCount(map);		
 	}
+
+	//이동식 디스크 파일전송로그
+	public List<FileEventLogModel> getRmvDiskFileLogList(HashMap<String, Object> map){		
+		return diskDao.getRmvDiskFileLogList(map);
+	}	
+	
+	public int getRmvDiskFileLogListCount(HashMap<String, Object> map){
+		return diskDao.getRmvDiskFileLogListCount(map);		
+	}
+
 
 }

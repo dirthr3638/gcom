@@ -30,10 +30,11 @@ public class axAdminManageDoController extends HttpServlet {
 		HashMap<String, Object> data =  new HashMap<String, Object>();;
 		HttpServletRequest httpReq = (HttpServletRequest)request;
     	HttpSession session = httpReq.getSession(false);
+    	String context = request.getContextPath();
 
 
 		//관리자생성
-		if(requestUri.equals("/admin/admin/manage/do/create")){
+		if(requestUri.equals(context + "/admin/admin/manage/do/create")){
 			deptAction act = new deptAction();
 			request.setAttribute("deptList", act.getDeptList(Integer.parseInt(session.getAttribute("dept_no").toString())));
 			
@@ -59,7 +60,7 @@ public class axAdminManageDoController extends HttpServlet {
 			aud.insertServeriAudit(model);
 
    		//관리자수정
-		}else if(requestUri.equals("/admin/admin/manage/do/update")){
+		}else if(requestUri.equals(context + "/admin/admin/manage/do/update")){
 			deptAction act = new deptAction();
 			request.setAttribute("deptList", act.getDeptList(Integer.parseInt(session.getAttribute("dept_no").toString())));
 			
@@ -84,7 +85,7 @@ public class axAdminManageDoController extends HttpServlet {
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);   		//관리자삭제
-		}else if(requestUri.equals("/admin/admin/manage/do/remove")){
+		}else if(requestUri.equals(context + "/admin/admin/manage/do/remove")){
 	    	param.put("no", request.getParameter("admin_no"));
 
 			updateAdminAction action = new updateAdminAction();

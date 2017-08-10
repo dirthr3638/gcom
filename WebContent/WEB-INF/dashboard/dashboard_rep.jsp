@@ -17,6 +17,8 @@
 		<link href="${context}/assets/css/essentials.css" rel="stylesheet" type="text/css" />
 		<link href="${context}/assets/css/layout.css" rel="stylesheet" type="text/css" />
 		<link href="${context}/assets/css/color_scheme/black.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 
 	</head>
 	<body>
@@ -320,10 +322,16 @@
 													</tbody>
 												</table>
 
-												<a class="size-12" href="#">
+
+												<a class="size-12" onclick="goUriHelper('account')">
 													<i class="fa fa-arrow-right text-muted"></i> 
-													요청내역 페이지 이동
+													계정요청 페이지 이동
 												</a>
+												<a class="size-12" onclick="goUriHelper('policy')">
+													<i class="fa fa-arrow-right text-muted"></i> 
+													정책요청 페이지 이동
+												</a>
+
 
 											</div>
 
@@ -345,10 +353,11 @@
 													</tbody>
 												</table>
 
-												<a class="size-12" href="#">
+												<a class="size-12" onclick="goUriHelper('contact')">
 													<i class="fa fa-arrow-right text-muted"></i> 
 													문의사항 페이지이동
 												</a>
+
 
 											</div>
 
@@ -393,7 +402,8 @@
 								<!-- panel footer -->
 								<div class="panel-footer">
 
-									<a href="#"><i class="fa fa-arrow-right text-muted"></i>감사내역페이지 이동 </a>
+									<a onclick="goUriHelper('audit')">
+									<i class="fa fa-arrow-right text-muted"></i>감사내역페이지 이동 </a>
 
 								</div>
 								<!-- /panel footer -->
@@ -435,6 +445,8 @@
 
 		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 
 
 		<!-- PAGE LEVEL SCRIPT -->
@@ -442,6 +454,48 @@
 		
 		var currentType = 'DAY';
 		var setChardData = new Object();
+		function goUriHelper(uri){
+			console.log('${admin_mode}')
+			if(uri == 'contact'){		// 콘솔	문의사항
+				if('${admin_mode}' != 1 && '${admin_mode}' != 0){
+					authAlert();
+				}else{
+					location.href = '${context}/admin/user/contact'
+				}
+			}else if(uri == 'audit'){	//레포트	에이전트감사로그
+				if('${admin_mode}' != 2 && '${admin_mode}' != 0){
+					authAlert();
+				}else{
+					location.href = '${context}/report/audit/agent'
+				}								
+			}else if(uri == 'account'){		//콘솔	회원등록요청
+				if('${admin_mode}' != 1 && '${admin_mode}' != 0){
+					authAlert();
+				}else{
+					location.href = '${context}/admin/user/enroll'
+				}								
+			}else if(uri == 'policy'){		//콘솔	정책변경요청
+				if('${admin_mode}' != 1 && '${admin_mode}' != 0){
+					authAlert();
+				}else{
+					location.href = '${context}/admin/user/request'
+				}								
+			}
+			
+		}
+		
+		function authAlert(){
+			vex.defaultOptions.className = 'vex-theme-os'
+    			
+    			vex.dialog.open({
+    				message: '해당 페이지의 권한이 없습니다.',
+    				  buttons: [
+    				    $.extend({}, vex.dialog.buttons.YES, {
+    				      text: '확인'
+    				  })]
+    			})
+				return false;
+		}
 		
 		function getChartData(input){
 			var data;
@@ -774,7 +828,9 @@
 					,"class":"center-cell",
 						"render":function(data,type,row){
 							return '<a href="#" class="btn btn-default btn-xs btn-block">View</a>';
-						}
+						},
+					"visible":false
+
 				}]
 			});
 
@@ -853,6 +909,8 @@
 						"render":function(data,type,row){
 							return '<a href="#" class="btn btn-default btn-xs btn-block">View</a>';
 						}
+					,"visible":false
+
 				}]
 			});
 

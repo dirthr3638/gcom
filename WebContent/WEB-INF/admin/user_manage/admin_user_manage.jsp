@@ -232,7 +232,9 @@
 	        	_:$.now()
 	        },
 	        success:function(args){   
-	            $("#user_input_popup").html(args);      
+		        console.log(args);   
+
+	        	$("#user_input_popup").html(args);      
 	            $("#modalUserInfo").modal('show');
 	        },   
 	        //beforeSend:showRequest,  
@@ -384,6 +386,7 @@
 		        	if(args.returnCode == 'S'){
 		        		reloadTablePreventPage();
 		    			infoAlert('수정이 완료되었습니다.')
+		    			$('#modalUserInfo').modal('hide');
 		        	}else if(args.returnCode == 'EUN'){
 		    			infoAlert('사번이 이미 존재합니다.')
 		        	}else if(args.returnCode == 'DUI'){
