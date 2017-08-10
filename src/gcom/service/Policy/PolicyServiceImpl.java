@@ -257,4 +257,32 @@ public class PolicyServiceImpl implements IPolicyService {
 	public HashMap<String, Object> updateRejectRequestPolicy(HashMap<String, Object> map) {
 		return poDao.updateRejectRequestPolicy(map);
 	}
+	
+	public HashMap<String, Object> daletePolicyMsgData(HashMap<String, Object> map) {
+		return poDao.daletePolicyMsgData(map);
+	}
+	
+	public HashMap<String, Object> daletePolicyProcessData(HashMap<String, Object> map) {
+		return poDao.daletePolicyProcessData(map);
+	}
+	
+	public HashMap<String, Object> daletePolicyPatternData(HashMap<String, Object> map) {
+		return poDao.daletePolicyPatternData(map);
+	}
+	
+	public HashMap<String, Object> daletePolicyNetworkData(HashMap<String, Object> map) {
+		return poDao.daletePolicyNetworkData(map);
+	}
+	
+	public HashMap<String, Object> daletePolicySerialData(HashMap<String, Object> map) {
+		return poDao.daletePolicySerialData(map);
+	}
+	
+	public HashMap<String, Object> daletePolicyWebsiteData(HashMap<String, Object> map) {
+		return poDao.daletePolicyWebsiteData(map);
+	}
+	
+	public HashMap<String, Object> daletePolicyUsbData(HashMap<String, Object> map) {
+		return poDao.daletePolicyUsbData(map);
+	}
 }

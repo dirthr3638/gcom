@@ -15,17 +15,17 @@ import com.google.gson.Gson;
 import gcom.Model.ServerAuditModel;
 import gcom.common.util.ConfigInfo;
 import gcom.common.util.JSONUtil;
+import gcom.controller.action.admin.deleteAdminAction;
 import gcom.controller.action.admin.insertAdminAction;
-import gcom.controller.action.admin.updateAdminAction;
 
-@WebServlet("/admin/policy/process/modify")
-public class axAdminPolicyProcessUpdate extends HttpServlet {
+@WebServlet("/admin/policy/pattern/delete")
+public class axAdminPolicyPatternDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public axAdminPolicyProcessUpdate() {
+    public axAdminPolicyPatternDelete() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,22 +36,25 @@ public class axAdminPolicyProcessUpdate extends HttpServlet {
     @Override  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
    		HttpServletRequest httpReq = (HttpServletRequest)request;
-    	HttpSession session = httpReq.getSession(false);
-  
-    	HashMap<String, Object> param = JSONUtil.convertJsonToHashMap(request.getParameter("data").toString());
+    	HttpSession session = httpReq.getSession(false); 
     	
-		updateAdminAction action = new updateAdminAction();
+    	String patNo = request.getParameter("code").toString();
+    	
+    	HashMap<String, Object> param = new HashMap<String, Object>();
+    	param.put("pat_no", patNo);
+    	
+    	deleteAdminAction action = new deleteAdminAction();
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
-			data = action.updatePolicyProcessUpdate(param);
+			data = action.daletePolicyPatternData(param);
             ServerAuditModel model = new ServerAuditModel();
 			model.setAdminId((String)session.getAttribute("user_id"));
-			model.setActionId(2041);
+			model.setActionId(2020);
 			model.setWorkIp(httpReq.getRemoteAddr());
-			model.setDescription("프로세스 정책 수정");
+			model.setDescription("민감정보 정책 삭제");
 			model.setParameter(param.toString());
-			model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");		
-	 	
+	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+		
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);
 		} catch (Exception e) {

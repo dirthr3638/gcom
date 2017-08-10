@@ -76,35 +76,47 @@
 									<div class="row">
 										<div class="col-md-12">
 			
-											<!-- Standard button -->
+											<!-- search filter button -->
 											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
-		
-											<!-- Info -->
+											<!-- search button -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
-<!-- 											<button type="button" class="btn btn-danger" onclick="onClickRemoveUser()"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>
- -->											<button type="button" class="btn btn-success" onclick="onClickCreateUser()"><i class="fa fa-plus" aria-hidden="true">&nbsp;추가</i></button>
 											
-											<!-- Primary -->
+											<!-- delete button -->
+ 											<!-- <button type="button" class="btn btn-danger" onclick="onClickRemoveUser()"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button> -->
+ 											<!-- register button -->
+ 											<button type="button" class="btn btn-success" onclick="onClickCreateUser()"><i class="fa fa-plus" aria-hidden="true">&nbsp;추가</i></button>
+											
+											<!-- export button -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
-											<!-- Success -->
+											<!-- print button -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											
+											<!-- search text content -->
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="15%">아이디</td>
 															<td>
-																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control">
+															</td>
+															<td width="15%">이름</td>
+															<td>
+																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">직책</td>
 															<td>
-																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control">
+															</td>
+															<td width="15%">계급</td>
+															<td>
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">연락처</td>
+															<td width="15%">연락처</td>
 															<td>
 																<input type="text" name="filterUserPhone" id="filterUserPhone" value="" class="form-control required">
 															</td>
@@ -454,9 +466,12 @@
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  function(param) {
-						param.user_id = $('#filterUserId').val();
+				   		param.user_id = $('#filterUserId').val();
 						param.user_name = $('#filterUserName').val();
+						param.user_duty = $('#filterUserDuty').val();
+						param.user_rank = $('#filterUserRank').val();
 						param.user_phone = $('#filterUserPhone').val();
+						
 						param.dept = getCheckedDept();
 			        },
 				        "beforeSend" : function(){

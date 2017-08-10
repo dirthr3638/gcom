@@ -14,18 +14,17 @@ import com.google.gson.Gson;
 
 import gcom.Model.ServerAuditModel;
 import gcom.common.util.ConfigInfo;
-import gcom.common.util.JSONUtil;
+import gcom.controller.action.admin.deleteAdminAction;
 import gcom.controller.action.admin.insertAdminAction;
-import gcom.controller.action.admin.updateAdminAction;
 
-@WebServlet("/admin/policy/process/modify")
-public class axAdminPolicyProcessUpdate extends HttpServlet {
+@WebServlet("/admin/policy/usb/delete")
+public class axAdminPolicyUsbDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public axAdminPolicyProcessUpdate() {
+    public axAdminPolicyUsbDelete() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,21 +36,24 @@ public class axAdminPolicyProcessUpdate extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
    		HttpServletRequest httpReq = (HttpServletRequest)request;
     	HttpSession session = httpReq.getSession(false);
-  
-    	HashMap<String, Object> param = JSONUtil.convertJsonToHashMap(request.getParameter("data").toString());
+
+    	String usbNo = request.getParameter("code").toString();
     	
-		updateAdminAction action = new updateAdminAction();
+    	HashMap<String, Object> param = new HashMap<String, Object>();
+    	param.put("usb_no", usbNo);
+    	
+    	deleteAdminAction action = new deleteAdminAction();
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
-			data = action.updatePolicyProcessUpdate(param);
+			data = action.daletePolicyUsbData(param);
             ServerAuditModel model = new ServerAuditModel();
 			model.setAdminId((String)session.getAttribute("user_id"));
-			model.setActionId(2041);
+			model.setActionId(2050);
 			model.setWorkIp(httpReq.getRemoteAddr());
-			model.setDescription("프로세스 정책 수정");
+			model.setDescription("USB 정책 삭제");
 			model.setParameter(param.toString());
-			model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");		
-	 	
+	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);
 		} catch (Exception e) {

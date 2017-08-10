@@ -20,6 +20,13 @@
 		<link href="${context}/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+		
+		<!-- Alert -->
+		<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -58,10 +65,11 @@
 											<table id="table-water-policy" class="table table-bordered table-hover">
 												<thead>
 													<tr>
-														<th>선택</th>
-														<th>사이트ID</th>
-														<th>사이트주소</th>
-														<th>설명</th>
+														<th>No</th>
+														<th>워터마크</th>
+													</tr>
+													<tr>
+														<td colspan="2">준비중입니다.</td>
 													</tr>
 												</thead>
 												<tbody>
@@ -96,14 +104,16 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
-				fn_get_watermark_policy_data();
+				//fn_get_watermark_policy_data();
+				jQuery('#preloader').hide();
 			});
 		
 			function fn_open_reg_watermark_popup(code){
-				
+				alert('준비중 입니다.')
+				return false;
 				$.ajax({      
 				    type:"POST",  
-				    url:'${context}/admin/policy/website/register',
+				    url:'${context}/admin/policy/water/register',
 				    async: false,
 				    data:{ 
 				    	code : code,
@@ -112,6 +122,68 @@
 				    success:function(data){
 				    	$("#reg_watermark_popup_div").html(data);
 			            $('#modalPolicyRegWebsite').modal('show');
+				    },   
+				    error:function(e){  
+				        console.log(e.responseText);  
+				    }  
+				});
+			}
+			/*
+			function fn_delete_warter_policy_item(code) {
+				vex.defaultOptions.className = 'vex-theme-os';
+	    		
+	    		vex.dialog.open({
+					message: '해당 정책을 삭제 하시겠습니까?',
+					buttons: [
+				    	$.extend({}, vex.dialog.buttons.YES, {
+				     	text: '삭제'
+				  	}),
+				  	$.extend({}, vex.dialog.buttons.NO, {
+				    	text: '취소'
+				  	})],
+				  	callback: function(data) {
+			 	  		if (data) {
+			 	  			delete_data(code);
+			 	    	} else {
+			 	  			return false;
+			 	    	}
+			 	  	}
+				})
+			}
+			
+			function delete_data(code){
+				
+				$.ajax({      
+				    type:"POST",  
+				    url:'${context}/admin/policy/water/delete',
+				    async: false,
+				    data:{ 
+				    	code : code,
+				    	_ : $.now()
+				    },
+				    success:function(data){
+				    	
+				    	if (data.returnCode == 'S') {
+				    		var datatable = $('#table-water-policy').dataTable().api();
+				    		datatable.ajax.reload();
+				    		
+				    		vex.dialog.open({
+				    			message: '정책 삭제가 완료되었습니다.',
+				    			  buttons: [
+				    			    $.extend({}, vex.dialog.buttons.YES, {
+				    			      text: '확인'
+				    			  })]
+				    		})
+				    		
+				    	} else {
+			    			vex.dialog.open({
+			    				message: '정책 삭제중 예기치 못한 오류가 발생하여 삭제에 실패하였습니다.',
+			    				  buttons: [
+			    				    $.extend({}, vex.dialog.buttons.YES, {
+			    				      text: '확인'
+			    				  })]
+			    			});
+				    	}
 				    },   
 				    error:function(e){  
 				        console.log(e.responseText);  
@@ -134,7 +206,7 @@
 						table.dataTable({
 							"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right"><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 							"ajax" : {
-							"url":'${context}/ax/admin/policy/website/list',
+							"url":'${context}/ax/admin/policy/water/list',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  {},
@@ -167,7 +239,12 @@
 					    "ordering" : false,
 				 		"serverSide" : true,
 				 		"columns": [{
-							data: "siteId"			//ID
+							data: "waterId"			//ID
+							,render : function(data, type, row, a){
+								var paging = a.settings._iDisplayStart;
+								return paging + a.row + 1;
+								
+							}
 						}, {
 							data: "siteId"			//포트 이름
 						}, {
@@ -193,7 +270,6 @@
 						{	
 							"targets": [0],	//ID
 							"class":"center-cell"
-							,"visible":false
 						}, {  
 							'targets': [1]	//포트 이름
 							,"class":"center-cell"
@@ -220,7 +296,7 @@
 				});
 				});
 				});
-			}
+			} */
 		</script>
 	</body>
 </html>		

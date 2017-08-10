@@ -502,7 +502,11 @@ sql += whereSql;
 		String whereSql = "WHERE userinfo.valid=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+		
 		String user_phone = map.get("user_phone").toString();
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
 
@@ -522,6 +526,8 @@ sql += whereSql;
 		if(!user_id.equals("")) 	whereSql += "AND userinfo.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND userinfo.name LIKE ? ";
 		if(!user_phone.equals("")) 	whereSql += "AND userinfo.phone LIKE ? ";
+		if(!user_duty.equals("")) whereSql += "AND userinfo.duty LIKE ? ";
+		if(!user_rank.equals("")) whereSql += "AND userinfo.rank LIKE ? ";
 		
 		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";
 		
@@ -540,6 +546,10 @@ sql += whereSql;
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+
+			if(!user_duty.equals("")) pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) pstmt.setString(i++, "%" + user_rank + "%");
+			
 			if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
 					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
@@ -573,7 +583,11 @@ sql += whereSql;
 		String whereSql = "WHERE userinfo.valid=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+		
 		String user_phone = map.get("user_phone").toString();
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
 
@@ -592,6 +606,8 @@ sql += whereSql;
 		if(!user_id.equals("")) 	whereSql += "AND userinfo.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND userinfo.name LIKE ? ";
 		if(!user_phone.equals("")) 	whereSql += "AND userinfo.phone LIKE ? ";
+		if(!user_duty.equals("")) whereSql += "AND userinfo.duty LIKE ? ";
+		if(!user_rank.equals("")) whereSql += "AND userinfo.rank LIKE ? ";
 		
 		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";
 		
@@ -620,6 +636,10 @@ sql += whereSql;
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+
+			if(!user_duty.equals("")) pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) pstmt.setString(i++, "%" + user_rank + "%");
+			
 			if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
 					pstmt.setInt(i++, Integer.parseInt(oDept[t]));

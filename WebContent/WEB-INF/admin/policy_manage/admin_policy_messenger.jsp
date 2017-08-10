@@ -19,6 +19,13 @@
 		<link href="${context}/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+		
+		<!-- Alert -->
+		<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -57,13 +64,14 @@
 											<table id="table-messenger-policy" class="table table-bordered table-hover">
 												<thead>
 													<tr>
-														<th>ID</th>
+														<th>No</th>
 														<th>메신저명</th>
 														<th>파일명</th>
 														<th>Message로깅</th>
 														<th>Message차단</th>
 														<th>File전송로깅</th>
 														<th>File전송차단</th>
+														<th>정책삭제</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -120,6 +128,68 @@
 				    }  
 				});
 			}
+			
+			function fn_delete_msg_policy_item(code) {
+				vex.defaultOptions.className = 'vex-theme-os';
+	    		
+	    		vex.dialog.open({
+					message: '해당 정책을 삭제 하시겠습니까?',
+					buttons: [
+				    	$.extend({}, vex.dialog.buttons.YES, {
+				     	text: '삭제'
+				  	}),
+				  	$.extend({}, vex.dialog.buttons.NO, {
+				    	text: '취소'
+				  	})],
+				  	callback: function(data) {
+			 	  		if (data) {
+			 	  			delete_data(code);
+			 	    	} else {
+			 	  			return false;
+			 	    	}
+			 	  	}
+				})
+			}
+			
+			function delete_data(code){
+				
+				$.ajax({      
+				    type:"POST",  
+				    url:'${context}/admin/policy/msg/delete',
+				    async: false,
+				    data:{ 
+				    	code : code,
+				    	_ : $.now()
+				    },
+				    success:function(data){
+				    	
+				    	if (data.returnCode == 'S') {
+				    		var datatable = $('#table-messenger-policy').dataTable().api();
+				    		datatable.ajax.reload();
+				    		
+				    		vex.dialog.open({
+				    			message: '정책 삭제가 완료되었습니다.',
+				    			  buttons: [
+				    			    $.extend({}, vex.dialog.buttons.YES, {
+				    			      text: '확인'
+				    			  })]
+				    		})
+				    		
+				    	} else {
+			    			vex.dialog.open({
+			    				message: '정책 삭제중 예기치 못한 오류가 발생하여 삭제에 실패하였습니다.',
+			    				  buttons: [
+			    				    $.extend({}, vex.dialog.buttons.YES, {
+			    				      text: '확인'
+			    				  })]
+			    			});
+				    	}
+				    },   
+				    error:function(e){  
+				        console.log(e.responseText);  
+				    }  
+				});
+			}
 		
 			function fn_get_messenger_policy_data() {
 				
@@ -169,6 +239,11 @@
 				 		"serverSide" : true,
 				 		"columns": [{
 							data: "msgNo"			//ID
+							,render : function(data, type, row, a){
+								var paging = a.settings._iDisplayStart;
+								return paging + a.row + 1;
+								
+							}
 						}, {
 							data: "msgName"			//메신저명
 						}, {
@@ -209,6 +284,11 @@
 									return '미사용';
 								}
 							}
+						},{                                   
+							data: "msgNo" //삭제  
+							,render : function(data,type,row) {
+								return '<button type="button" id="btnDeletePolicy" class="btn btn-xs btn-danger" onclick="javascript:fn_delete_msg_policy_item('+ data +');"><i class="fa fa-trash" aria-hidden="true"></i>정책삭제</button>';
+							}
 						}],
 						"ordering" : false,
 						"pageLength": 20,
@@ -229,7 +309,6 @@
 						{	
 							"targets": [0],	//ID
 							"class":"center-cell"
-							,"visible":false
 						}, {  
 							'targets': [1]	//메신저명
 							,"class":"center-cell"
@@ -248,6 +327,9 @@
 						}, {	
 							"targets": [6]	//File 차단
 							,"class" : "center-cell"
+						}, {	
+							"targets": [7]	//삭제
+							,"class" : "center-cell"
 						}],
 						"initComplete": function( settings, json ) {
 						}
@@ -256,7 +338,10 @@
 					var con = $('#table-messenger-policy').DataTable();
 					con.on( 'click', 'td', function () {
 						var data = con.row( $(this).parent() ).data();
-						fn_open_reg_msg_popup(data.msgNo);
+						
+						if($(this).index() != 7) {
+							fn_open_reg_msg_popup(data.msgNo);	
+						}
 					});
 				}
 		   		});

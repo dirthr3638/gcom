@@ -11,17 +11,18 @@
 	if (!"".equals(waterMarkEndDate)) {
 		String[] date = waterMarkEndDate.split(" ");
 		endDate = date[0];
-		endTime = date[1];
-		
-		String[] timeTemp = endTime.split(":");
-		int hour = Integer.parseInt(timeTemp[0]);
-		
-		if (hour < 12) {
-			endTime = hour + " : " + timeTemp[1] + " : AM";
-		} else {
-			endTime = (hour - 12) + " : " + timeTemp[1] + " : PM";
+		if(date.length > 1) {
+			endTime = date[1];
+			
+			String[] timeTemp = endTime.split(":");
+			int hour = Integer.parseInt(timeTemp[0]);
+			
+			if (hour < 12) {
+				endTime = hour + " : " + timeTemp[1] + " : AM";
+			} else {
+				endTime = (hour - 12) + " : " + timeTemp[1] + " : PM";
+			}			
 		}
-		
 	}
 	
 %>

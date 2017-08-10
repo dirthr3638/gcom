@@ -19,6 +19,13 @@
 		<link href="${context}/assets/plugins/jstree/themes/default/style.min.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
+		
+		<!-- Alert -->
+		<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -57,10 +64,11 @@
 											<table id="table-serial-policy" class="table table-bordered table-hover">
 												<thead>
 													<tr>
-														<th>ID</th>
+														<th>No</th>
 														<th>포트이름</th>
 														<th>설명</th>
 														<th>사용여부</th>
+														<th>정책삭제</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -117,6 +125,68 @@
 				    }  
 				});
 			}
+			
+			function fn_delete_serial_policy_item(code) {
+				vex.defaultOptions.className = 'vex-theme-os';
+	    		
+	    		vex.dialog.open({
+					message: '해당 정책을 삭제 하시겠습니까?',
+					buttons: [
+				    	$.extend({}, vex.dialog.buttons.YES, {
+				     	text: '삭제'
+				  	}),
+				  	$.extend({}, vex.dialog.buttons.NO, {
+				    	text: '취소'
+				  	})],
+				  	callback: function(data) {
+			 	  		if (data) {
+			 	  			delete_data(code);
+			 	    	} else {
+			 	  			return false;
+			 	    	}
+			 	  	}
+				})
+			}
+			
+			function delete_data(code){
+				
+				$.ajax({      
+				    type:"POST",  
+				    url:'${context}/admin/policy/serial/delete',
+				    async: false,
+				    data:{ 
+				    	code : code,
+				    	_ : $.now()
+				    },
+				    success:function(data){
+				    	
+				    	if (data.returnCode == 'S') {
+				    		var datatable = $('#table-serial-policy').dataTable().api();
+				    		datatable.ajax.reload();
+				    		
+				    		vex.dialog.open({
+				    			message: '정책 삭제가 완료되었습니다.',
+				    			  buttons: [
+				    			    $.extend({}, vex.dialog.buttons.YES, {
+				    			      text: '확인'
+				    			  })]
+				    		})
+				    		
+				    	} else {
+			    			vex.dialog.open({
+			    				message: '정책 삭제중 예기치 못한 오류가 발생하여 삭제에 실패하였습니다.',
+			    				  buttons: [
+			    				    $.extend({}, vex.dialog.buttons.YES, {
+			    				      text: '확인'
+			    				  })]
+			    			});
+				    	}
+				    },   
+				    error:function(e){  
+				        console.log(e.responseText);  
+				    }  
+				});
+			}
 		
 			function fn_get_serial_policy_data() {
 				console.log("dataTable");
@@ -167,12 +237,25 @@
 				 		"serverSide" : true,
 				 		"columns": [{
 							data: "serialNo"			//ID
+							,render : function(data, type, row, a){
+								var paging = a.settings._iDisplayStart;
+								return paging + a.row + 1;
+								
+							}
 						}, {
 							data: "serialName"			//포트 이름
 						}, {
 							data: "description"			//설명
 						}, {                        	           
 							data: "allow"				//사용여부
+							,render : function(data,type,row) {
+								return data == 1? '사용' : '사용안함';
+							}
+						}, {                                   
+							data: "serialNo"			//삭제
+							,render : function(data,type,row) {
+								return '<button type="button" id="btnDeletePolicy" class="btn btn-xs btn-danger" onclick="javascript:fn_delete_serial_policy_item('+ data +');"><i class="fa fa-trash" aria-hidden="true"></i>정책삭제</button>';
+							}
 						}],  
 						"pageLength": 20,
 						"iDisplayLength": 20,
@@ -192,7 +275,6 @@
 						{	
 							"targets": [0],	//ID
 							"class":"center-cell"
-							,"visible":false
 						}, {  
 							'targets': [1]	//포트 이름
 							,"class":"center-cell"
@@ -202,7 +284,9 @@
 						}, {	
 							"targets": [3],	//사용여부
 							"class":"center-cell"
-							,"visible":false
+						}, {	
+							"targets": [4],	//삭제
+							"class":"center-cell"
 						}],
 						"initComplete": function( settings, json ) {
 						}
@@ -211,7 +295,11 @@
 					var ctbl = $('#table-serial-policy').DataTable();
 					ctbl.on( 'click', 'td', function () {
 						var data = ctbl.row( $(this).parent() ).data();
-						fn_open_reg_serial_popup(data.serialNo);
+						
+						if($(this).index() != 4) {
+							fn_open_reg_serial_popup(data.serialNo);
+						}
+						
 					});
 				}
 		   		});
