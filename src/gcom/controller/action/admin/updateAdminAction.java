@@ -101,4 +101,9 @@ public class updateAdminAction {
 		IPolicyService as = new PolicyServiceImpl();
 		return as.updateRejectRequestPolicy(map);
 	}
+
+	public HashMap<String, Object> updateNoticeDelete(HashMap<String, Object> map) {
+		IPersonalService as = new PersonalServiceImpl();
+		return as.updateNoticeDelete(map);
+	}
 }

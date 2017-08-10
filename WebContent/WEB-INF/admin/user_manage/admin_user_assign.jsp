@@ -21,24 +21,6 @@
 		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css"  />
 		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
 		
-		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/select2/js/select2.full.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/js/admin_function.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/jstree/jstree.min.js"></script>
-	
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
-
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
-
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
-
-		
-	
-		
 		<!-- Alert -->
 		<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
         <link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
@@ -99,61 +81,72 @@
 									<div class="row">
 										<div class="col-md-12">
 			
-											<!-- Standard button -->
+											<!-- search filter button -->
 											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
-		
-											<!-- Info -->
+											<!-- search button -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
-											
-											<!-- Primary -->
+											<!-- export button -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
-											<!-- Success -->
+											<!-- print button -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
+											<!--policy apply button -->
 											<button type="button" class="btn btn-blue pull-right" onclick="fn_apply_policy()"><i class="fa fa-check" aria-hidden="true">&nbsp;정책할당</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											
+											<!-- search text content -->
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="15%">아이디</td>
 															<td>
-																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control">
+															</td>
+															<td width="15%">이름</td>
+															<td>
+																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">사번</td>
 															<td>
-																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control">
+															</td>
+															<td width="15%">연락처</td>
+															<td>
+																<input type="text" name="filterUserPhone" id="filterUserPhone" value="" class="form-control">
 															</td>
 														</tr>
-														<!-- 
 														<tr>         
-															<td width="35%">작업시작일</td>
+															<td width="15%">직책</td>
 															<td>
-							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control">
 															</td>
-														</tr>																													
-														<tr >         
-															<td width="35%">작업종료일</td>
+															<td width="15%">계급</td>
 															<td>
-							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control">
 															</td>
-														</tr>																															
-														 -->
+														</tr>
+														<tr>         
+															<td width="15%">PC명</td>
+															<td>
+																<input type="text" name="filterUserPCName" id="filterUserPCName" value="" class="form-control">
+															</td>
+															<td width="15%">IP</td>
+															<td>
+																<input type="text" name="filterUserIPAddr" id="filterUserIPAddr" value="" class="form-control">
+															</td>
+														</tr>
 													</tbody>
 												</table>	
 												
 												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">접기</button>
 																					
 											</div>
-<!-- 										
-											<button type="button" class="btn btn-warning">Warning</button>
-		
-											
-											<button type="button" class="btn btn-danger">Danger</button> -->
+											<!-- /search text content -->
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-12" style="overflow: hidden;">
+										<div class="col-md-12" style="overflow: auto;">
 											<table class="table table-bordered x-scroll-table" id="table_apply_policy" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
@@ -172,45 +165,33 @@
                                                       
                                                         <!-- 
                                                        	<th>정책NO</th>
-                                                        
                                                         <th>에이전트삭제가능</th>   
                                                         <th>파일실시간암호화</th>
                                                         <th>CD실시간암호화</th>
-
                                                         <th>프린트사용여부</th>
-
                                                         <th>CD사용가능여부</th>
                                                         <th>CD반출여부</th>
                                                         <th>무선랜사용가능여부</th>
                                                         <th>공유폴더사용여부</th>
                                                         <th>메일반출여부</th>
-
                                                         <th>USB포트사용여부</th>
                                                         <th>USB차단코드</th>
-
                                                         <th>시리얼포트사용여부</th>
                                                         <th>시리얼포트차단코드</th>
-
                                                         <th>네트워크포트사용여부</th>
                                                         <th>네트워크포트차단코드</th>
-
                                                         <th>프로그램차단여부</th>
                                                         <th>프로그램차단코드</th>
-
                                                         <th>민감패턴차단여부</th>
                                                         <th>민감패턴차단코드</th>
                                                         <th>민감패턴파일처리코드</th>
-
                                                         <th>사이트차단여부</th>
                                                         <th>사이트차단코드</th>
-
                                                         <th>메신저차단여부</th>
                                                         <th>메신저차단코드</th>
-
                                                         <th>워터마크</th>
                                                         <th>워터적용코드</th>
                                                         <th>워터마크적용일시</th>
-                                                     
                                                         <th>프린터인쇄로그설정</th>
 													 	-->
 													</tr>
@@ -245,6 +226,21 @@
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
+		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/select2/js/select2.full.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/js/admin_function.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/jstree/jstree.min.js"></script>
+	
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.colVis.min.js"></script>
 
 		<script type="text/javascript">
 			var table;
@@ -276,6 +272,7 @@
 		
 		 	// 인쇄 버튼 클릭 시 
 		 	function onClickPrintButton(){
+		 		console.log('ptint')
 		 		var $buttons = $('.export-print');
 		 		$buttons.click();
 		 	}
@@ -388,24 +385,27 @@
 		 	}
 		 	
 		 	function setDataTable(){
-
 				if (jQuery().dataTable) {
 
 					var export_filename = 'Filename';
 					
 					apTable = jQuery('#table_apply_policy');
 					table = apTable.dataTable({
-						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i><"pull-right" ><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB><"pull-right" ><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
 						"ajax" : {
 							"url":'${context}/ax/policy/assign/list',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  function(param) {
-								param.user_id 	= $('#filterUserId').val();
+								param.user_id = $('#filterUserId').val();
 								param.user_name = $('#filterUserName').val();
-								param.start_date = $('#filterStartDate').val();
-								param.end_date 	= $('#filterEndDate').val();
+								param.user_number = $('#filterUserNumber').val();
+								param.user_duty = $('#filterUserDuty').val();
+								param.user_rank = $('#filterUserRank').val();
+								param.user_pc = $('#filterUserPCName').val();
+								param.user_ip = $('#filterUserIPAddr').val();
+								param.user_phone = $('#filterUserPhone').val();
 								
 								param.dept = getCheckedDept();
 					        },
@@ -417,7 +417,35 @@
 				                return json.data;
 				            }   
 						},
+						"buttons": [
+						          {
+					                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+					                  extend: 'csvHtml5',
+					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+					                  bom: true,
+					                  exportOptions: {
+						                    modifier: {
+						                        search: 'applied',
+						                        order: 'applied'
+						                    },
+					                  		columns: [2,3,4,5,6,7,8,9,10,11]
+					                  }
+					              },
+					            {
+				                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+				                  extend: 'print',
+				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+				                  exportOptions: {
+				                      modifier: {
+				                          search: 'applied',
+				                          order: 'applied'
+				                      },
+				                  	  columns: [2,3,4,5,6,7,8,9,10,11]
+				                  }
+				              },
+				     	],
 				 		"serverSide" : true,
+				 		"processing": true,
 				 	    "ordering": true,
 						"columns": [{
 							data: "userNo",							
@@ -438,8 +466,8 @@
 							data: "userName",
 							"orderable": false	//이름
 						}, {
-							data: "userNo",
-							"orderable": false	//번호
+							data: "userNumber",
+							"orderable": false	//사번
 						}, {
 							data: "duty",
 							"orderable": false	//직책
@@ -748,7 +776,6 @@
 		 	}
 		 	
 			$(document).ready(function(){
-				
 
 				$(".select2theme").select2({
 		   			  minimumResultsForSearch: -1,
@@ -773,7 +800,7 @@
 					setDataTable();
 				})
 		 
-			jQuery('#preloader').hide();
+				jQuery('#preloader').hide();
 		
 		    });
 			

@@ -268,4 +268,8 @@ public class PersonalServiceImpl implements IPersonalService {
 		return policy;
 	}
 	
+	public HashMap<String, Object> updateNoticeDelete(HashMap<String, Object> map) {
+		return poDao.updateNoticeDelete(map);	
+	}
+	
 }

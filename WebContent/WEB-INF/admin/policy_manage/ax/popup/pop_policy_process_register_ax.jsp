@@ -160,9 +160,52 @@ function get_policy_process_setting_data(){
 	return map;
 }
 
+function isValied(data) {
+	vex.defaultOptions.className = 'vex-theme-os';
+	
+	if(data.pro_name.trim() == '' || data.pro_name.trim().length < 1) {
+		vex.dialog.open({
+			message: '프로세스명은 필수 입력 사항입니다.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		})
+		return false;
+	}
+	
+	if(data.pro_path.trim() == '' || data.pro_path.trim().length < 1) {
+		vex.dialog.open({
+			message: '프로세스 경로는 필수 입력 사항입니다.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		})
+		return false;
+	}
+	
+	if(data.hash.trim() == '' || data.hash.trim().length < 1) {
+		vex.dialog.open({
+			message: '프로세스 해시는 필수 선택 사항입니다.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		})
+		return false;
+	}
+	
+	return true;
+}
+
 function fn_policy_process_save () {
 	
 	var data = get_policy_process_setting_data();
+	
+	if(!isValied(data)) {
+		return false;
+	}
 	
 	$.ajax({      
 	    type:"POST",  
@@ -216,6 +259,10 @@ function fn_policy_process_save () {
 function fn_policy_process_modify () {
 	
 	var data = get_policy_process_setting_data();
+	
+	if(!isValied(data)) {
+		return false;
+	}
 	
 	$.ajax({      
 	    type:"POST",  

@@ -1,10 +1,7 @@
 package gcom.common.interceptor;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -17,10 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-
-import gcom.DAO.AuditDataDAO;
 import gcom.service.System.ISystemService;
 import gcom.service.System.SystemServiceImpl;
 
@@ -96,7 +89,7 @@ public class LoginCheckInterceptor implements Filter {
 		HttpServletRequest httpReq = (HttpServletRequest) request;
 		HttpServletResponse httpRes = (HttpServletResponse) response;
 		HttpSession session = httpReq.getSession(false);
-		
+
 		httpReq.setCharacterEncoding("UTF-8");
 		boolean loginFlag = false;
 		

@@ -158,7 +158,7 @@
 
 															<td width="15%">계급</td>
 															<td>
-																<input type="text" name="filterUserName" id="filterUserRank" value="" class="form-control ">
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control ">
 															</td>
 
 														</tr>																																
@@ -166,11 +166,11 @@
 
 															<td width="15%">PC명</td>
 															<td>
-																<input type="text" name="filterUserName" id="filterUserPCName" value="" class="form-control ">
+																<input type="text" name="filterUserPCName" id="filterUserPCName" value="" class="form-control ">
 															</td>
 															<td width="15%">IP</td>
 															<td>
-																<input type="text" name="filterUserPhone" id="filterUserIPAddr" value="" class="form-control ">
+																<input type="text" name="filterUserIPAddr" id="filterUserIPAddr" value="" class="form-control ">
 															</td>
 
 
@@ -190,7 +190,7 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-12" style="overflow: hidden;">
+										<div class="col-md-12" style="overflow: auto;">
 											<table class="table table-striped table-bordered table-hover x-scroll-table" id="table_userinfo" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>

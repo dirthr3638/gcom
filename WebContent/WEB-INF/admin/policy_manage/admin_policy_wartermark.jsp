@@ -26,7 +26,7 @@
 		<div id="wrapper" class="clearfix">
 
 			<% request.setAttribute("menu_parent", 3000); %> 
-			<% request.setAttribute("menu_sub_first", 3400); %> 
+			<% request.setAttribute("menu_sub_first", 3700); %> 
 			<jsp:include page="/WEB-INF/common/left_menu.jsp" flush="false" />
 			<jsp:include page="/WEB-INF/common/top_navi.jsp" flush="false" />			
 
@@ -34,7 +34,7 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>네트워크 포트 관리</h1>
+					<h1>워터마크 관리</h1>
 				</header>
 				<!-- /page title -->
 			
@@ -46,7 +46,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>네트워크 포트 정보</strong> <!-- panel title -->
+										<strong>워터마크 정보</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -54,15 +54,14 @@
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-md-12" style="overflow: auto;">
-											<button type="button" id="btnRegNetwork" class="btn btn-sm btn-green pull-right" onclick="javascript:fn_open_reg_network_popup(0);"><i class="fa fa-check"></i>정책 등록</button>
-											<table id="table-network-policy" class="table table-bordered table-hover">
+											<button type="button" id="btnRegWaterMark" class="btn btn-sm btn-green pull-right" onclick="javascript:fn_open_reg_watermark_popup(0);"><i class="fa fa-check"></i>정책 등록</button>
+											<table id="table-water-policy" class="table table-bordered table-hover">
 												<thead>
 													<tr>
-														<th>ID</th>
-														<th>포트이름</th>
-														<th>포트번호</th>
+														<th>선택</th>
+														<th>사이트ID</th>
+														<th>사이트주소</th>
 														<th>설명</th>
-														<th>사용여부</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -86,7 +85,7 @@
 			</section>
 		</div>
 
-		<div id="reg_network_popup_div"></div>
+		<div id="reg_watermark_popup_div"></div>
 		
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
@@ -97,22 +96,22 @@
 
 		<script type="text/javascript">
 			$(document).ready(function(){
-				fn_get_network_policy_data();
+				fn_get_watermark_policy_data();
 			});
 		
-			function fn_open_reg_network_popup(code){
+			function fn_open_reg_watermark_popup(code){
 				
 				$.ajax({      
 				    type:"POST",  
-				    url:'${context}/admin/policy/network/register',
+				    url:'${context}/admin/policy/website/register',
 				    async: false,
 				    data:{ 
 				    	code : code,
 				    	_ : $.now()
 				    },
 				    success:function(data){
-				    	$("#reg_network_popup_div").html(data);
-			            $('#modalPolicyRegNetwork').modal('show');
+				    	$("#reg_watermark_popup_div").html(data);
+			            $('#modalPolicyRegWebsite').modal('show');
 				    },   
 				    error:function(e){  
 				        console.log(e.responseText);  
@@ -120,8 +119,8 @@
 				});
 			}
 		
-			function fn_get_network_policy_data() {
-				
+			function fn_get_watermark_policy_data() {
+			
 				loadScript(plugin_path + "datatables/media/js/jquery.dataTables.min.js", function(){
 				loadScript(plugin_path + "datatables/media/js/dataTables.bootstrap.min.js", function(){
 				loadScript(plugin_path + "datatables/extensions/Buttons/js/dataTables.buttons.min.js", function(){
@@ -131,11 +130,11 @@
 					 
 					if (jQuery().dataTable) {
 				
-						var table = jQuery('#table-network-policy');
+						var table = jQuery('#table-water-policy');
 						table.dataTable({
 							"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right"><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 							"ajax" : {
-							"url":'${context}/ax/admin/policy/network/list',
+							"url":'${context}/ax/admin/policy/website/list',
 						   	"type":'POST',
 						   	"dataSrc" : "data",
 						   	"data" :  {},
@@ -165,18 +164,16 @@
 				                  }
 				              }
 					     ],
-					    "ordering" : false, 
+					    "ordering" : false,
 				 		"serverSide" : true,
 				 		"columns": [{
-							data: "netNo"			//ID
+							data: "siteId"			//ID
 						}, {
-							data: "netName"			//포트 이름
+							data: "siteId"			//포트 이름
 						}, {
-							data: "port"			//포트 번호
-						}, {
-							data: "descriptor"		//설명
-						}, {                                   
-							data: "allow"			//사용여부
+							data: "address"			//설명
+						}, {                        	           
+							data: "description"		//사용여부
 						}],  
 						"pageLength": 20,
 						"iDisplayLength": 20,
@@ -201,24 +198,20 @@
 							'targets': [1]	//포트 이름
 							,"class":"center-cell"
 						}, {	
-							"targets": [2]	//포트 번호
+							"targets": [2]	//설명
 							,"class":"center-cell"
 						}, {	
-							"targets": [3]	//설명
-							,"class":"center-cell"
-						}, {	
-							"targets": [4],	//사용여부
+							"targets": [3],	//사용여부
 							"class":"center-cell"
-							,"visible":false
 						}],
 						"initComplete": function( settings, json ) {
 						}
 					});
 						
-					var ctbl = $('#table-network-policy').DataTable();
+					var ctbl = $('#table-water-policy').DataTable();
 					ctbl.on( 'click', 'td', function () {
 						var data = ctbl.row( $(this).parent() ).data();
-						fn_open_reg_network_popup(data.netNo);
+						fn_open_reg_watermark_popup(data.siteId);
 					});
 				}
 		   		});
@@ -230,4 +223,4 @@
 			}
 		</script>
 	</body>
-</html>
+</html>		

@@ -30,8 +30,9 @@ public class axAdminContactListController extends HttpServlet {
 		
 		//Search param
 		map.put("dept"		 , request.getParameterValues("dept[]"));
-		map.put("user_id"	 , request.getParameter("user_id").toString());
-		map.put("user_name"	 , request.getParameter("user_name").toString());
+		map.put("contact_type"	 , request.getParameter("contact_type").toString());
+		map.put("contact_tilte"	 , request.getParameter("contact_tilte").toString());
+		map.put("contact_user"	 , request.getParameter("contact_user").toString());
 		
 		getAdminAction action = new getAdminAction();
 		

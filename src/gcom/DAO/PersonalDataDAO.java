@@ -1599,8 +1599,9 @@ sql += whereSql;
 		List<UserContactModel> data = new ArrayList<UserContactModel>();
 		
 		String whereSql = "WHERE 1=1 ";
-		String user_id = map.get("user_id").toString();
-		String user_name = map.get("user_name").toString();
+		String contact_type = map.get("contact_type").toString();
+		String contact_tilte = map.get("contact_tilte").toString();
+		String contact_user = map.get("contact_user").toString();
 		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
@@ -1616,8 +1617,10 @@ sql += whereSql;
 		}else{
 			return data;
 		}
-		if(!user_id.equals("")) 	whereSql += "AND ui.id LIKE ? ";
-		if(!user_name.equals("")) 	whereSql += "AND ui.name LIKE ? ";
+		
+		if(!contact_type.equals("")) 	whereSql += "AND con.contact_type = ? ";
+		if(!contact_tilte.equals("")) 	whereSql += "AND con.contact_title LIKE ? ";
+		if(!contact_user.equals("")) 	whereSql += "AND ui.name LIKE ? ";
 
 		if(oDept != null)			whereSql += "AND ui.dept_no in ("+idList+") ";
 
@@ -1649,8 +1652,9 @@ sql += whereSql;
 			pstmt=con.prepareStatement(sql);
 		
 			int i = 1;
-			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
-			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!contact_type.equals("")) pstmt.setString(i++, contact_type);
+			if(!contact_tilte.equals("")) pstmt.setString(i++, "%" + contact_tilte + "%");
+			if(!contact_user.equals("")) pstmt.setString(i++, "%" + contact_user + "%");
 			if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
 					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
@@ -1699,8 +1703,9 @@ sql += whereSql;
 		int result = 0;
 		
 		String whereSql = "WHERE 1=1 ";
-		String user_id = map.get("user_id").toString();
-		String user_name = map.get("user_name").toString();
+		String contact_type = map.get("contact_type").toString();
+		String contact_tilte = map.get("contact_tilte").toString();
+		String contact_user = map.get("contact_user").toString();
 		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
@@ -1716,8 +1721,10 @@ sql += whereSql;
 		}else{
 			return result;
 		}
-		if(!user_id.equals("")) 	whereSql += "AND ui.id LIKE ? ";
-		if(!user_name.equals("")) 	whereSql += "AND ui.name LIKE ? ";
+
+		if(!contact_type.equals("")) 	whereSql += "AND con.contact_type = ? ";
+		if(!contact_tilte.equals("")) 	whereSql += "AND con.contact_title LIKE ? ";
+		if(!contact_user.equals("")) 	whereSql += "AND ui.name LIKE ? ";
 
 		if(oDept != null)			whereSql += "AND ui.dept_no in ("+idList+") ";
 	
@@ -1737,8 +1744,9 @@ sql += whereSql;
 
 			int i = 1;
 
-			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
-			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!contact_type.equals("")) pstmt.setString(i++, contact_type);
+			if(!contact_tilte.equals("")) pstmt.setString(i++, "%" + contact_tilte + "%");
+			if(!contact_user.equals("")) pstmt.setString(i++, "%" + contact_user + "%");
 			
 			if(oDept != null){
 				for(int t = 0; t<oDept.length ; t++){
@@ -1878,6 +1886,43 @@ sql += whereSql;
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, reply_content);
 			pstmt.setInt(2, comment_id);
+			pstmt.executeUpdate();
+									
+			con.commit();
+			result.put("returnCode", returnCode);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public HashMap<String, Object> updateNoticeDelete(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int del_staf_no = Integer.parseInt(map.get("del_staf_no").toString());
+		String del_bbs_id = map.get("del_bbs_id").toString();
+		
+		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
+		
+		String sql= "UPDATE user_notice_bbs SET del_staf_no = ?, del_dt = NOW(), del_yn= 'Y' WHERE bbs_id in ("+ del_bbs_id +")";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+					
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, del_staf_no);
 			pstmt.executeUpdate();
 									
 			con.commit();

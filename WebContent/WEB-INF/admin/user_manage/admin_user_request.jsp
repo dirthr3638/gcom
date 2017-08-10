@@ -82,53 +82,71 @@
 									<div class="row">
 										<div class="col-md-12">
 			
-											<!-- Standard button -->
+											<!-- search filter button -->
 											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
-		
-											<!-- Info -->
+											<!-- search button -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
-											
-											<!-- Primary -->
+											<!-- export button -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
-											<!-- Success -->
+											<!-- print button -->
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
+											
+											<!-- search text content -->
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="35%">아이디</td>
+															<td width="15%">아이디</td>
 															<td>
-																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control">
+															</td>
+															<td width="15%">이름</td>
+															<td>
+																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">이름</td>
+															<td width="15%">사번</td>
 															<td>
-																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
+																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control">
+															</td>
+															<td width="15%">연락처</td>
+															<td>
+																<input type="text" name="filterUserPhone" id="filterUserPhone" value="" class="form-control">
 															</td>
 														</tr>
 														<tr>         
-															<td width="35%">연락처</td>
+															<td width="15%">직책</td>
 															<td>
-																<input type="text" name="filterUserPhone" id="filterUserPhone" value="" class="form-control required">
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control">
 															</td>
-														</tr>																															
-														
+															<td width="15%">계급</td>
+															<td>
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control">
+															</td>
+														</tr>
+														<tr>
+															<td>승인여부</td>
+															<td>
+																<select class="select2theme" id="filterPermit" name="filterPermit">
+																  <option value="">전체</option>
+																  <option value="W">대기</option>
+																  <option value="P">승인</option>
+																  <option value="R">거절</option>
+																</select>
+															</td>
+														</tr>
+																																										
 													</tbody>
 												</table>	
 												
 												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">접기</button>
 																					
 											</div>
-<!-- 										
-											<button type="button" class="btn btn-warning">Warning</button>
-		
-											
-											<button type="button" class="btn btn-danger">Danger</button> -->
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-12" style="overflow: hidden;">
+										<div class="col-md-12" style="overflow: auto;">
 											<table class="table table-bordered x-scroll-table" id="table_request_info" style="width:100%; min-width: 600px;">
 												<thead>
 													<tr>
@@ -137,6 +155,7 @@
 														<th>부서</th>
 														<th>아이디</th>
 														<th>이름</th>
+														<th>사번</th>
 														<th>직책</th>
 														<th>계급</th>
 														<th>연락처</th>
@@ -478,9 +497,16 @@
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  function(param) {
-						param.user_id = $('#filterUserId').val();
+				   		param.user_id = $('#filterUserId').val();
 						param.user_name = $('#filterUserName').val();
-						param.user_phone = $('#filterUserPhone').val();								
+						param.user_number = $('#filterUserNumber').val();
+						param.user_duty = $('#filterUserDuty').val();
+						param.user_rank = $('#filterUserRank').val();
+						param.user_pc = $('#filterUserPCName').val();
+						param.user_ip = $('#filterUserIPAddr').val();
+						param.user_phone = $('#filterUserPhone').val();
+						param.policy_permit = $('#filterPermit option:selected').val();	
+						
 						param.dept = getCheckedDept();
 			        },
 				        "beforeSend" : function(){
@@ -540,6 +566,9 @@
 					data: "userName",
 					"orderable": false	//이름
 				}, {
+					data: "userNumber",
+					"orderable": false	//사번
+				},{
 					data: "duty",
 					"orderable": false	//직책
 				}, {
@@ -788,203 +817,206 @@
 					"targets": [4]	//이름
 					,"class" : "center-cell"
 				}, {	
-					"targets": [5]	//직책
+					"targets": [5]	//사번
+					,"class" : "center-cell"
+				},{	
+					"targets": [6]	//직책
 					,"class" : "center-cell"
 				}, {	
-					"targets": [6]	//계급
+					"targets": [7]	//계급
 					,"class" : "center-cell"
 				}, {
-					"targets": [7]	//연락처
+					"targets": [8]	//연락처
 					,"class" : "center-cell"
 				}, {
-					"targets": [8]	//승인여부
+					"targets": [9]	//승인여부
 					,"class" : "center-cell"
 				}, {
-					"targets": [9]	//승인일시
+					"targets": [10]	//승인일시
 					,"visible" : false	
 				}, {
-					"targets": [10]	//승인자
+					"targets": [11]	//승인자
 					,"visible" : false
 				}, {
-					"targets": [11]	//요청 에이전트삭제가능
+					"targets": [12]	//요청 에이전트삭제가능
 					,"visible" : false
 				}, {
-					"targets": [12]	//요청 파일실시간암호화
+					"targets": [13]	//요청 파일실시간암호화
 					,"visible" : false
 				}, {
-					"targets": [13]	//요청 CD실시간암호화
+					"targets": [14]	//요청 CD실시간암호화
 				,"class" : "center-cell"
 					,"visible" : false
 				}, {
-					"targets": [14]	//요청 프린트사용여부
+					"targets": [15]	//요청 프린트사용여부
 					,"visible" : false
 				}, {
-					"targets": [15]	//요청 CD사용가능여부
+					"targets": [16]	//요청 CD사용가능여부
 					,"visible" : false
 				}, {
-					"targets": [16]	//요청 CD반출여부
+					"targets": [17]	//요청 CD반출여부
 					,"visible" : false
 				}, {
-					"targets": [17]	//요청 무선랜사용가능여부
+					"targets": [18]	//요청 무선랜사용가능여부
 					,"visible" : false
 				}, {
-					"targets": [18]	//요청 공유폴더사용여부
+					"targets": [19]	//요청 공유폴더사용여부
 					,"visible" : false
 				}, {
-					"targets": [19]	//요청 메일반출여부
-					,"visible" : false
-				}, {
-					"targets": [20]	//요청
+					"targets": [20]	//요청 메일반출여부
 					,"visible" : false
 				}, {
 					"targets": [21]	//요청
 					,"visible" : false
 				}, {
-					"targets": [22]	//요청 USB포트사용여부
+					"targets": [22]	//요청
 					,"visible" : false
 				}, {
-					"targets": [23]	//요청 USB차단코드
+					"targets": [23]	//요청 USB포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [24]	//요청 시리얼포트사용여부
+					"targets": [24]	//요청 USB차단코드
 					,"visible" : false
 				}, {
-					"targets": [25]	//요청 시리얼포트차단코드
+					"targets": [25]	//요청 시리얼포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [26]	//요청 네트워크포트사용여부
+					"targets": [26]	//요청 시리얼포트차단코드
 					,"visible" : false
 				}, {
-					"targets": [27]	//요청 네트워크포트차단코드
+					"targets": [27]	//요청 네트워크포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [28]	//요청 프로세스차단여부
+					"targets": [28]	//요청 네트워크포트차단코드
 					,"visible" : false
 				}, {
-					"targets": [29]	//요청 프로세스차단코드
+					"targets": [29]	//요청 프로세스차단여부
 					,"visible" : false
 				}, {
-					"targets": [30]	//요청 민감패턴차단여부
+					"targets": [30]	//요청 프로세스차단코드
 					,"visible" : false
 				}, {
-					"targets": [31]	//요청 민감패턴차단코드
+					"targets": [31]	//요청 민감패턴차단여부
 					,"visible" : false
 				}, {
-					"targets": [32]	//요청 사이트차단여부
+					"targets": [32]	//요청 민감패턴차단코드
 					,"visible" : false
 				}, {
-					"targets": [33]	//요청 사이트차단코드
+					"targets": [33]	//요청 사이트차단여부
 					,"visible" : false
 				}, {
-					"targets": [34]	//요청 메신저차단여부
+					"targets": [34]	//요청 사이트차단코드
 					,"visible" : false
 				}, {
-					"targets": [35]	//요청 메신저차단코드
+					"targets": [35]	//요청 메신저차단여부
 					,"visible" : false
 				}, {
-					"targets": [36]	//요청 워터마크
+					"targets": [36]	//요청 메신저차단코드
 					,"visible" : false
 				}, {
-					"targets": [37]	//요청 워터적용코드
+					"targets": [37]	//요청 워터마크
 					,"visible" : false
 				}, {
-					"targets": [38]	//요청 워터마크적용일시
+					"targets": [38]	//요청 워터적용코드
 					,"visible" : false
 				}, {
-					"targets": [39]	//요청 프린터인쇄로그설정
+					"targets": [39]	//요청 워터마크적용일시
 					,"visible" : false
 				}, {
-					"targets": [40]	//기존 정책코드
+					"targets": [40]	//요청 프린터인쇄로그설정
 					,"visible" : false
 				}, {
-					"targets": [41]	//기존 에이전트삭제가능
+					"targets": [41]	//기존 정책코드
 					,"visible" : false
 				}, {
-					"targets": [42]	//기존 파일실시간암호화
+					"targets": [42]	//기존 에이전트삭제가능
 					,"visible" : false
 				}, {
-					"targets": [43]	//기존 CD실시간암호화
+					"targets": [43]	//기존 파일실시간암호화
 					,"visible" : false
 				}, {
-					"targets": [44]	//기존 프린트사용여부
+					"targets": [44]	//기존 CD실시간암호화
 					,"visible" : false
 				}, {
-					"targets": [45]	//기존 CD사용가능여부
+					"targets": [45]	//기존 프린트사용여부
 					,"visible" : false
 				}, {
-					"targets": [46]	//기존 CD반출여부
+					"targets": [46]	//기존 CD사용가능여부
 					,"visible" : false
 				}, {
-					"targets": [47]	//기존 무선랜사용가능여부
+					"targets": [47]	//기존 CD반출여부
 					,"visible" : false
 				}, {
-					"targets": [48]	//기존 공유폴더사용여부
+					"targets": [48]	//기존 무선랜사용가능여부
 					,"visible" : false
 				}, {
-					"targets": [49]	//기존 메일반출여부
+					"targets": [49]	//기존 공유폴더사용여부
 					,"visible" : false
 				}, {
-					"targets": [50]	//기존 
+					"targets": [50]	//기존 메일반출여부
 					,"visible" : false
 				}, {
 					"targets": [51]	//기존 
 					,"visible" : false
 				}, {
-					"targets": [52]	//기존 USB포트사용여부
+					"targets": [52]	//기존 
 					,"visible" : false
 				}, {
-					"targets": [53]	//기존 USB차단코드
+					"targets": [53]	//기존 USB포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [54]	//기존 시리얼포트사용여부
+					"targets": [54]	//기존 USB차단코드
 					,"visible" : false
 				}, {
-					"targets": [55]	//기존 시리얼포트차단코드
+					"targets": [55]	//기존 시리얼포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [56]	//기존 네트워크포트사용여부
+					"targets": [56]	//기존 시리얼포트차단코드
 					,"visible" : false
 				}, {
-					"targets": [57]	//기존 네트워크포트차단코드
+					"targets": [57]	//기존 네트워크포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [58]	//기존 프로세스차단여부
+					"targets": [58]	//기존 네트워크포트차단코드
 					,"visible" : false
 				}, {
-					"targets": [59]	//기존 프로세스차단코드
+					"targets": [59]	//기존 프로세스차단여부
 					,"visible" : false
 				}, {
-					"targets": [60]	//기존 민감패턴차단여부
+					"targets": [60]	//기존 프로세스차단코드
 					,"visible" : false
 				}, {
-					"targets": [61]	//기존 민감패턴차단코드
+					"targets": [61]	//기존 민감패턴차단여부
 					,"visible" : false
 				}, {
-					"targets": [62]	//기존 사이트차단여부
+					"targets": [62]	//기존 민감패턴차단코드
 					,"visible" : false
 				}, {
-					"targets": [63]	//기존 사이트차단코드
+					"targets": [63]	//기존 사이트차단여부
 					,"visible" : false
 				}, {
-					"targets": [64]	//기존 메신저차단여부
+					"targets": [64]	//기존 사이트차단코드
 					,"visible" : false
 				}, {
-					"targets": [65]	//기존 메신저차단코드
+					"targets": [65]	//기존 메신저차단여부
 					,"visible" : false
 				}, {
-					"targets": [66]	//기존 워터마크
+					"targets": [66]	//기존 메신저차단코드
 					,"visible" : false
 				}, {
-					"targets": [67]	//기존 워터적용코드
+					"targets": [67]	//기존 워터마크
 					,"visible" : false
 				}, {
-					"targets": [68]	//기존 워터마크적용일시
+					"targets": [68]	//기존 워터적용코드
 					,"visible" : false
 				}, {
-					"targets": [69]	//기존 프린터인쇄로그설정
+					"targets": [69]	//기존 워터마크적용일시
 					,"visible" : false
 				}, {
-					"targets": [70]	//요청사유
+					"targets": [70]	//기존 프린터인쇄로그설정
+					,"visible" : false
+				}, {
+					"targets": [71]	//요청사유
 					,"visible" : false
 				}],						
 				"initComplete": function( settings, json ) {

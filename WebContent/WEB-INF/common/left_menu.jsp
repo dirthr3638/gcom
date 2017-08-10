@@ -37,6 +37,7 @@
 					<li ${menu_sub_first == 3400 ? 'class="active"' : ''}><a href="${context}/admin/policy/network">네트워크포트</a></li>
 					<li ${menu_sub_first == 3500 ? 'class="active"' : ''}><a href="${context}/admin/policy/serial">시리얼포트</a></li>
 					<li ${menu_sub_first == 3600 ? 'class="active"' : ''}><a href="${context}/admin/policy/website">웹사이트차단</a></li>
+					<li ${menu_sub_first == 3700 ? 'class="active"' : ''}><a href="${context}/admin/policy/water">워터마크</a></li>
 				</ul>
 
 			</li>

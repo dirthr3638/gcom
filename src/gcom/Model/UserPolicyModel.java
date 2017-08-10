@@ -17,6 +17,7 @@ public class UserPolicyModel {
 	private String macAddr = "";
 	private String pcName = "";
 	private String deptName = "";
+	private int userNumber;
 	
 	// Enabled 정책 데이터
 	private Boolean isUninstall = false;

@@ -8,4 +8,5 @@
     <filter-name>loginCheck</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+ 
 </web-app>
