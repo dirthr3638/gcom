@@ -43,7 +43,7 @@ public class axAdminRequestPolicyReject extends HttpServlet {
 			model.setAdminId((String)session.getAttribute("user_id"));
 			model.setActionId(1203);
 			model.setWorkIp(httpReq.getRemoteAddr());
-			model.setDescription("사용자 정책 할당");
+			model.setDescription("사용자 정책 반려");
 	   		model.setStatus("성공");
 			model.setParameter(param.toString());
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
