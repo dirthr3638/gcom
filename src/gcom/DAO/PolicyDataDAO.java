@@ -174,7 +174,7 @@ sql += whereSql;
 + "policy.print_log_descriptor AS print_log_descriptor, "
 + "policy.quarantine_path_access_code AS quarantine_path_access_code, "
 + "policy.pattern_file_control AS pattern_file_control, "
-+ "ur.no AS user_no, "
++ "ur.number AS user_no, "
 + "ur.id AS user_id, "
 + "ifnull(ur.name , '' ) AS user_name, "
 + "ur.dept_no, ur.duty, "
@@ -211,8 +211,8 @@ sql += whereSql;
 			
 			while(rs.next()){
 				UserPolicyLogModel model = new UserPolicyLogModel();
-				model.setUserNo(rs.getInt("policy_no"));
-				model.setUserNo(rs.getInt("user_no"));
+				model.setPolicyNo(rs.getInt("policy_no"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setRequestServerTime(rs.getString("request_server_time"));
 				model.setRequestClientTime(rs.getString("request_client_time"));
 				model.setApplyTime(rs.getString("apply_time"));				
@@ -749,7 +749,7 @@ sql += whereSql;
 		String sql= 
 			"SELECT "
 				+ "ai.no as agentNo, "
-			    + "ui.no as userNo, "
+			    + "ui.number as userNo, "
 			    + "ai.policy_no as policyNo, "
 			    + "ai.dept_no as deptId, "
 			    + "ui.id as userId, "
@@ -821,7 +821,7 @@ sql += whereSql;
 			while(rs.next()){
 				UserPolicyModel model = new UserPolicyModel();
 				model.setAgentNo(rs.getInt("agentNo"));
-				model.setUserNo(rs.getInt("userNo"));
+				model.setUserNo(rs.getString("userNo"));
 				model.setPolicyNo(rs.getInt("policyNo"));
 				model.setDeptId(rs.getInt("deptId"));
 				model.setUserId(rs.getString("userId"));
@@ -832,7 +832,7 @@ sql += whereSql;
 				model.setMacAddr(rs.getString("macAddr"));
 				model.setPcName(rs.getString("pcName"));
 				model.setDeptName(rs.getString("deptName"));
-				model.setUserNumber(rs.getInt("number"));
+				model.setUserNumber(rs.getString("number"));
 				model.setIsUninstall(rs.getInt("isUninstall"));
 				model.setIsFileEncryption(rs.getInt("isFileEncryption"));
 				model.setIsCdEncryption(rs.getInt("isCdEncryption"));
@@ -1153,14 +1153,14 @@ sql += whereSql;
 + "policy.print_log_descriptor, "
 + "policy.quarantine_path_access_code, "
 + "policy.pattern_file_control, "
-+ "ur.no AS user_no, "
++ "ur.number AS user_no, "
 + "ur.id AS user_id, "
 + "ur.name AS user_name, "
 + "ur.dept_no, "
 + "ur.duty, "
 + "ur.rank, "
 + "ur.phone, "
-+ "ur.number, "
++ "ur.number AS user_no, "
 + "agent.no as agent_no, "
 + "agent.ip_addr, "
 + "agent.mac_addr, "
@@ -1204,7 +1204,7 @@ sql += whereSql;
 				UserPolicyModel p_model = new UserPolicyModel();
 
 				model.setRequestNo(rs.getInt("request_no"));
-				model.setUserNo(rs.getInt("request_no"));
+				model.setUserNo(rs.getString("user_no"));
 				
 				model.setIpAddr(rs.getString("ip_addr"));
 				model.setUserName(rs.getString("user_name"));
@@ -1212,10 +1212,11 @@ sql += whereSql;
 				model.setDuty(rs.getString("duty"));
 				model.setRank(rs.getString("rank"));
 				model.setMacAddr(rs.getString("mac_addr"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setPcName(rs.getString("pc_name"));
 				model.setDeptName(rs.getString("dept_name"));
 				model.setPhone(rs.getString("phone"));
-				model.setUserNumber(rs.getInt("number"));
+				model.setUserNumber(rs.getString("user_no"));
 				model.setReqNotice(rs.getString("notice"));
 				model.setPermitState(rs.getString("permit"));
 				model.setPermitDate(rs.getString("permit_date"));

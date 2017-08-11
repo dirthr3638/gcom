@@ -379,7 +379,7 @@
 					data: "name",
 					"orderable": false	//이름
 				}, {
-					data: "uid",
+					data: "number",
 					"orderable": false	//번호
 				}, {
 					data: "duty",

@@ -187,7 +187,7 @@ sql += whereSql;
 + "print.file_name AS file_name, print.watermark, "
 + "print.page_count, "
 + "print.print_copies, "
-+ "ur.no AS user_no, "
++ "ur.number AS user_no, "
 + "ur.id AS user_id, "
 + "ur.name AS user_name, "
 + "ur.dept_no, "
@@ -236,8 +236,8 @@ sql += whereSql;
 			
 			while(rs.next()){
 				PrintFileModel model = new PrintFileModel();
-				model.setUserNo(rs.getInt("print_no"));
-				model.setUserNo(rs.getInt("user_no"));
+				model.setPrintNo(rs.getInt("print_no"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setUserName(rs.getString("user_name"));
 				model.setUserId(rs.getString("user_id"));
 				model.setDeptId(rs.getInt("dept_no"));

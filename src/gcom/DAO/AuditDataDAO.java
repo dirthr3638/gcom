@@ -199,7 +199,7 @@ sql += whereSql;
 + "ifnull(audit.audit_server_time, '') AS audit_server_time, "
 + "ifnull(audit.audit_client_time, '') AS audit_client_time, "
 + "ifnull(audit.status, '') AS status, "
-+ "ur.no AS user_no,  "
++ "ur.number AS user_no,  "
 + "ur.id AS user_id, "
 + "ur.name AS user_name, "
 + "ur.dept_no, "
@@ -254,7 +254,7 @@ sql += whereSql;
 				model.setServerTime(rs.getString("audit_server_time"));
 				model.setClientTime(rs.getString("audit_client_time"));
 				model.setStatus(rs.getString("status"));
-				model.setUserNo(rs.getInt("user_no"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setUserName(rs.getString("user_name"));
 				model.setUserId(rs.getString("user_id"));
 				model.setDeptId(rs.getInt("dept_no"));

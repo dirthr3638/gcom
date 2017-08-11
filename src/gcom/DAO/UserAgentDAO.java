@@ -409,7 +409,7 @@ sql += whereSql;
 + "policy.print_log_descriptor,"
 + "policy.quarantine_path_access_code,"
 + "policy.pattern_file_control,"
-+ "ur.no AS user_no, "
++ "ur.number AS user_no, "
 + "ur.id AS user_id, "
 + "ur.name AS user_name, "
 + "ur.dept_no, "
@@ -447,8 +447,8 @@ sql += whereSql;
 			
 			while(rs.next()){
 				UserPolicyModel model = new UserPolicyModel();
-				model.setUserNo(rs.getInt("policy_no"));
-				model.setUserNo(rs.getInt("user_no"));
+				model.setPolicyNo(rs.getInt("policy_no"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setUserName(rs.getString("user_name"));
 				model.setUserId(rs.getString("user_id"));
 				model.setDeptId(rs.getInt("dept_no"));
@@ -615,7 +615,7 @@ sql += whereSql;
 		
 		String sql= 
 "SELECT "
-+ "userinfo.no AS user_no, "
++ "userinfo.number AS user_no, "
 + "userinfo.dept_no,"
 + "userinfo.duty,"
 + "userinfo.rank,"
@@ -653,7 +653,7 @@ sql += whereSql;
 			
 			while(rs.next()){
 				UserInfoModel model = new UserInfoModel();
-				model.setUserNo(rs.getInt("user_no"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setDuty(rs.getString("duty"));
 				model.setRank(rs.getString("rank"));
 				model.setUserName(rs.getString("name"));
@@ -708,7 +708,7 @@ sql += whereSql;
 			
 			if(rs.next()){
 				
-				data.setUserNo(rs.getInt("no"));				
+				data.setUserNo(rs.getString("no"));				
 				data.setDeptId(rs.getInt("dept_no"));				
 				data.setDuty(rs.getString("duty"));
 				data.setRank(rs.getString("rank"));

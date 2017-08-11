@@ -5,6 +5,7 @@ import lombok.Data;
 public class LoginLogModel {
 	private int login_no;
 	private int uid;
+	private String userNo;
 	private int deptNo;
 	private String duty  = "";
 	private String rank  = "";

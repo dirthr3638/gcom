@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UsbConnectModel {
 	private int usbNo;
-	private int userNo;
+	private String userNo;
 	private String userName = "";
 	private String userId = "";
 	private int deptId ;

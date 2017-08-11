@@ -6,7 +6,7 @@ import lombok.Data;
 public class PolicyRequestInfo {
 	
 	private int requestNo;
-	private int userNo;
+	private String userNo;
 	private String userName = "";
 	private String userId = "";
 	private String duty = "";
@@ -20,7 +20,7 @@ public class PolicyRequestInfo {
 	private String permitState = "";
 	private String permitDate = "";
 	private String permitStaf = "";
-	private int userNumber;
+	private String userNumber;
 
 	private Boolean isUninstall;
 	private Boolean isFileEncryption;

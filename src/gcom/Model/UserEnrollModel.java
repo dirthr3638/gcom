@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UserEnrollModel {
 	private int requestId;
-	private String memberNumber;
+	private String userNumber;
 	private String userId = "";
 	private String password = "";
 	private String memberName = "";

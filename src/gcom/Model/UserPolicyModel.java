@@ -6,7 +6,7 @@ import lombok.Data;
 public class UserPolicyModel {
 	// 기본 사용자 정보
 	private int agentNo;
-	private int userNo;
+	private String userNo;
 	private int policyNo;
 	private String userName = "";
 	private String userId = "";
@@ -17,7 +17,7 @@ public class UserPolicyModel {
 	private String macAddr = "";
 	private String pcName = "";
 	private String deptName = "";
-	private int userNumber;
+	private String userNumber;
 	
 	// Enabled 정책 데이터
 	private Boolean isUninstall = false;

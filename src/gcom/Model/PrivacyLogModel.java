@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class PrivacyLogModel {
 	private int ptnNo;
-	private int userNo;
+	private String userNo;
 	private String userName = "";
 	private String userId = "";
 	private int deptId ;

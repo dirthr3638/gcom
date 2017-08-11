@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class DiskConnectLogModel {
 	private int connectNo;
-	private int userNo;
+	private String userNo;
 	private String userName = "";
 	private String userId = "";
 	private int deptId ;

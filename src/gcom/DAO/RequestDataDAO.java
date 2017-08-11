@@ -226,7 +226,7 @@ public class RequestDataDAO {
 			while(rs.next()){
 				UserEnrollModel model = new UserEnrollModel();
 				model.setRequestId(rs.getInt("req_id"));
-				model.setMemberNumber(rs.getString("mem_number"));
+				model.setUserNumber(rs.getString("mem_number"));
 				model.setUserId(rs.getString("account_id"));
 				model.setPassword(rs.getString("mem_password"));
 				model.setMemberName(rs.getString("mem_name"));

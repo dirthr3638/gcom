@@ -214,7 +214,7 @@ sql += whereSql;
 + "mail.file_list, "
 + "mail.file_id, "
 + "dept.name AS dept_name, "
-+ "ur.no AS user_no,  "
++ "ur.number AS user_no,  "
 + "ur.id AS user_id,  "
 + "ur.name AS user_name,  "
 + "ur.dept_no, ur.duty, "
@@ -266,6 +266,7 @@ sql += whereSql;
 				model.setDuty(rs.getString("duty"));
 				model.setRank(rs.getString("rank"));
 				model.setUserName(rs.getString("user_name"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setUserId(rs.getString("user_id"));
 				model.setDeptName(rs.getString("dept_name"));
 				model.setPcName(rs.getString("pc_name"));
@@ -507,7 +508,7 @@ sql += whereSql;
 + "msg.msg_txt,"
 + "ifnull(msg.send_server_time, '') AS send_server_time, "
 + "ifnull(msg.send_client_time, '') AS send_client_time, "
-+ "ur.no AS user_no, "
++ "ur.number AS user_no, "
 + "ur.id AS user_id, "
 + "ur.name AS user_name, "
 + "ur.dept_no, "
@@ -559,6 +560,7 @@ sql += whereSql;
 				model.setDuty(rs.getString("duty"));
 				model.setRank(rs.getString("rank"));
 				model.setUserName(rs.getString("user_name"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setUserId(rs.getString("user_id"));
 				model.setDeptName(rs.getString("dept_name"));
 				model.setPcName(rs.getString("pc_name"));
@@ -747,7 +749,7 @@ sql += whereSql;
 + "msg.file_id AS file_id, "
 + "msg.send_server_time AS send_server_time, "
 + "msg.send_client_time AS send_client_time, "
-+ "ur.no AS user_no,  "
++ "ur.number AS user_no,  "
 + "ur.id AS user_id,  "
 + "ur.name AS user_name,  "
 + "ur.dept_no,  "
@@ -801,6 +803,7 @@ sql += whereSql;
 				model.setDuty(rs.getString("duty"));
 				model.setRank(rs.getString("rank"));
 				model.setUserName(rs.getString("user_name"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setUserId(rs.getString("user_id"));
 				model.setDeptName(rs.getString("dept_name"));
 				model.setPcName(rs.getString("pc_name"));
@@ -1003,7 +1006,7 @@ sql += whereSql;
 + "ptn.matched_data AS matched_data, "
 + "ifnull(ptn.found_server_time, '') AS found_server_time, "
 + "ifnull(ptn.found_client_time, '') AS found_client_time, "
-+ "ur.no AS user_no, "
++ "ur.number AS user_no, "
 + "ur.id AS user_id, "
 + "ur.name AS user_name, "
 + "ur.dept_no,  "
@@ -1057,6 +1060,7 @@ sql += whereSql;
 				model.setPtnNo(rs.getInt("ptn_no"));
 				model.setDuty(rs.getString("duty"));
 				model.setRank(rs.getString("rank"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setUserName(rs.getString("user_name"));
 				model.setUserId(rs.getString("user_id"));
 				model.setDeptName(rs.getString("dept_name"));

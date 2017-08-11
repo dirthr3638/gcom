@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class PrintFileModel {
 	private int printNo;
-	private int userNo;
+	private String userNo;
 	private String userName = "";
 	private String userId = "";
 	private int deptId ;

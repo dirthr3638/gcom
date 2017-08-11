@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class DiskExportModel {
 	private int exportNo;
-	private int userNo;
+	private String userNo;
 	private String userName = "";
 	private String exportServerTime  = "";
 	private String exportClientTime  = "";

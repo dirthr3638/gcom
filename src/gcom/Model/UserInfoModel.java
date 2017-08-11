@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UserInfoModel {
 	private int uno;
-	private int userNo;
+	private String userNo;
 	private String userName = "";
 	private String userId = "";
 	private int deptId ;

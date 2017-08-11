@@ -153,7 +153,7 @@ sql += whereSql;
 		String sql= 
 "SELECT "
 + "de.no AS export_no, "
-+ "de.user_no, "
++ "ur.number AS user_no, "
 + "ifnull(de.export_server_time, '') AS export_server_time, "
 + "ifnull(de.export_client_time, '') AS export_client_time, "
 + "de.grade, "
@@ -204,7 +204,7 @@ sql += whereSql;
 			while(rs.next()){
 				DiskExportModel model = new DiskExportModel();
 				model.setExportNo(rs.getInt("export_no"));
-				model.setUserNo(rs.getInt("user_no"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setUserName(rs.getString("name"));
 				model.setExportServerTime(rs.getString("export_server_time"));
 				model.setExportClientTime(rs.getString("export_client_time"));
@@ -391,7 +391,7 @@ sql += whereSql;
 + "ur.id AS user_id, "
 + "ur.dept_no, ur.duty, "
 + "ur.rank, "
-+ "ur.no AS user_no, "
++ "ur.number AS user_no, "
 + "ur.name AS user_name, "
 + "agent.ip_addr, "
 + "agent.mac_addr, "
@@ -433,7 +433,7 @@ sql += whereSql;
 			while(rs.next()){
 				UsbConnectModel model = new UsbConnectModel();
 				model.setUsbNo(rs.getInt("usb_no"));
-				model.setUserNo(rs.getInt("user_no"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setUserName(rs.getString("user_name"));
 				model.setUserId(rs.getString("user_id"));
 				model.setDeptId(rs.getInt("dept_no"));
@@ -643,7 +643,7 @@ sql += whereSql;
 		String sql= 
 "SELECT "
 + "disk.no AS connect_no, "
-+ "disk.user_no, "
++ "ur.number AS user_no, "
 + "disk.status, "
 + "ifnull(disk.connect_server_time, '') AS connect_server_time, "
 + "ifnull(disk.connect_client_time, '') AS connect_client_time, "
@@ -691,7 +691,7 @@ sql += whereSql;
 			while(rs.next()){
 				DiskConnectLogModel model = new DiskConnectLogModel();
 				model.setConnectNo(rs.getInt("connect_no"));
-				model.setUserNo(rs.getInt("user_no"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setUserName(rs.getString("user_name"));
 				model.setUserId(rs.getString("user_id"));
 				model.setDeptId(rs.getInt("dept_no"));
@@ -775,7 +775,7 @@ sql += whereSql;
 		String sql= 
 "SELECT "
 + "connect.no AS connect_no, "
-+ "connect.user_no, "
++ "ur.number AS user_no, "
 + "ifnull(connect.connect_server_time, '') AS connect_server_time, "
 + "ifnull(connect.connect_client_time, '') AS connect_client_time, "
 + "pl.guid, "
@@ -830,7 +830,7 @@ sql += whereSql;
 			while(rs.next()){
 				PartitionConnectLogModel model = new PartitionConnectLogModel();
 				model.setConnectNo(rs.getInt("connect_no"));
-				model.setUserNo(rs.getInt("user_no"));
+				model.setUserNo(rs.getString("user_no"));
 				model.setUserName(rs.getString("user_name"));
 				model.setUserId(rs.getString("user_id"));
 				model.setDeptId(rs.getInt("dept_no"));

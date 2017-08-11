@@ -160,68 +160,7 @@
 														<th>계급</th>
 														<th>연락처</th>
 														<th>승인여부</th>
-														<!-- <th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th></th> -->
+														
 													</tr>
 												</thead>
 				
