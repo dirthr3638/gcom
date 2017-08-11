@@ -315,6 +315,10 @@
 			})
 			return false;
 		}
+		
+		if(!isValid(policy_data)){
+			return false;
+		}
 
 		if(apply_list.length > 1) {
 			vex.defaultOptions.className = 'vex-theme-os'
@@ -397,6 +401,23 @@
 		
 	}
 	
+	function getApplyPolicyUserData(){
+		var arr = new Array();
+		
+		<% for(int i = 0; i < apply_list.size(); i++) { %>
+			var map = new Object();
+			map['agent_no'] = <%= apply_list.get(i).get("agentNo") %>
+			map['user_no'] = <%= apply_list.get(i).get("userNo") %>
+			map['policy_no'] = <%= apply_list.get(i).get("policyNo") %>
+			
+			arr.push(map);
+		<% } %>
+		
+		console.log(arr);
+		
+		return arr;
+	}
+	
 	function isChangeValueCheck(change_policy_data) {
 		var cnt = 0;
 		
@@ -426,23 +447,25 @@
 		return cnt == 0 ? false : true;
 	}
 	
-	function getApplyPolicyUserData(){
-		var arr = new Array();
+	function isValid(policy_data) {
+		vex.defaultOptions.className = 'vex-theme-os'
 		
-		<% for(int i = 0; i < apply_list.size(); i++) { %>
-			var map = new Object();
-			map['agent_no'] = <%= apply_list.get(i).get("agentNo") %>
-			map['user_no'] = <%= apply_list.get(i).get("userNo") %>
-			map['policy_no'] = <%= apply_list.get(i).get("policyNo") %>
-			
-			arr.push(map);
-		<% } %>
+		if(policy_data.isWaterMarkPrint != -1 && policy_data.waterMark != '' && policy_data.waterPolicyValue != 'N') {
+			if(policy_data.waterMarkDate == '' || policy_data.waterMaekTime == '') {
+				vex.dialog.open({
+					message: '워터마크 정책 출력 허용 시 날짜와 시간 입력은 필수 입니다. 확인해주세요.',
+					  buttons: [
+					    $.extend({}, vex.dialog.buttons.YES, {
+					      text: '확인'
+					  	})
+					  ]
+				})
+				return false;
+			} 
+		}
 		
-		console.log(arr);
-		
-		return arr;
+		return true;
 	}
-	
 	
 	
 </script>

@@ -46,7 +46,7 @@ public class axAdminPolicyUsbSave extends HttpServlet {
 			model.setAdminId((String)session.getAttribute("user_id"));
 			model.setActionId(2050);
 			model.setWorkIp(httpReq.getRemoteAddr());
-			model.setDescription("USB 정책 추가");
+			model.setDescription("USB 정책 생성");
 			model.setParameter(param.toString());
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 

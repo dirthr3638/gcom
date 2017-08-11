@@ -47,7 +47,7 @@ public class axAdminPolicyWebsiteSave extends HttpServlet {
 			model.setAdminId((String)session.getAttribute("user_id"));
 			model.setActionId(2030);
 			model.setWorkIp(httpReq.getRemoteAddr());
-			model.setDescription("웹사이드 정책 추가");
+			model.setDescription("웹사이트 정책 생성");
 			model.setParameter(param.toString());
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 

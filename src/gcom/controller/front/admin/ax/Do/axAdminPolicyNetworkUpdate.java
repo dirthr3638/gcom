@@ -47,7 +47,7 @@ public class axAdminPolicyNetworkUpdate extends HttpServlet {
 			model.setAdminId((String)session.getAttribute("user_id"));
 			model.setActionId(2012);
 			model.setWorkIp(httpReq.getRemoteAddr());
-			model.setDescription("네트워크포트 수정");
+			model.setDescription("네트워크포트 정책 수정");
 			model.setParameter(param.toString());
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");		
 			

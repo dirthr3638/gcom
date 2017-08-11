@@ -14,42 +14,47 @@ import com.google.gson.Gson;
 
 import gcom.Model.ServerAuditModel;
 import gcom.common.util.ConfigInfo;
+import gcom.controller.action.admin.deleteAdminAction;
 import gcom.controller.action.admin.insertAdminAction;
-import gcom.controller.action.admin.updateAdminAction;
 
-/**
- * Servlet implementation class axCommonUI
- */
-@WebServlet("/admin/user/req/reject")
-public class axAdminRequestPolicyReject extends HttpServlet {
+@WebServlet("/admin/policy/msg/delete")
+public class axAdminPolicyMessengerDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public axAdminPolicyMessengerDelete() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+    @Override  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpServletRequest httpReq = (HttpServletRequest)request;
     	HttpSession session = httpReq.getSession(false);
-
-		HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("request_no", request.getParameter("request_no"));
-		param.put("admin_id", (String)session.getAttribute("user_id"));
-		
-		updateAdminAction action = new updateAdminAction();
-		
+    	
+    	String msgNo = request.getParameter("code").toString();
+    	
+    	HashMap<String, Object> param = new HashMap<String, Object>();
+    	param.put("msg_no", msgNo);
+    	
+    	deleteAdminAction action = new deleteAdminAction();
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		try {
-			
-			data = action.updateRejectRequestPolicy(param);
-			
-			ServerAuditModel model = new ServerAuditModel();
+			data = action.daletePolicyMsgData(param);
+            ServerAuditModel model = new ServerAuditModel();
 			model.setAdminId((String)session.getAttribute("user_id"));
-			model.setActionId(1203);
+			model.setActionId(2000);
 			model.setWorkIp(httpReq.getRemoteAddr());
-			model.setDescription("사용자 정책 반려");
-	   		model.setStatus("성공");
+			model.setDescription("메신저 정책 삭제");
 			model.setParameter(param.toString());
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
-	 		insertAdminAction aud = new insertAdminAction();
-   			aud.insertServeriAudit(model);
-			
+			insertAdminAction aud = new insertAdminAction();
+			aud.insertServeriAudit(model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -2711,5 +2711,243 @@ sql += whereSql;
 		
 		return result;
 	}
+
+
+	public HashMap<String, Object> daletePolicyMsgData(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int msg_no = Integer.parseInt(map.get("msg_no").toString());
+		
+		String sql = "DELETE FROM msg_info WHERE no = ?";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, msg_no);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+
+	public HashMap<String, Object> daletePolicyProcessData(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int pro_no = Integer.parseInt(map.get("pro_no").toString());
+		
+		String sql = "DELETE FROM process_info WHERE no = ?";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, pro_no);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+
+	public HashMap<String, Object> daletePolicyPatternData(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int pat_no = Integer.parseInt(map.get("pat_no").toString());
+		
+		String sql = "DELETE FROM pattern_info WHERE no = ?";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, pat_no);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+
+	public HashMap<String, Object> daletePolicyNetworkData(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int net_no = Integer.parseInt(map.get("net_no").toString());
+		
+		String sql = "DELETE FROM net_port_info WHERE no = ?";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, net_no);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+
+	public HashMap<String, Object> daletePolicySerialData(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int serial_no = Integer.parseInt(map.get("serial_no").toString());
+		
+		String sql = "DELETE FROM com_port_info WHERE no = ?";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, serial_no);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+
+	public HashMap<String, Object> daletePolicyWebsiteData(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int site_no = Integer.parseInt(map.get("site_no").toString());
+		
+		String sql = "DELETE FROM web_addr_info WHERE no = ?";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, site_no);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+
+	public HashMap<String, Object> daletePolicyUsbData(HashMap<String, Object> map) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int usb_no = Integer.parseInt(map.get("usb_no").toString());
+		
+		String sql = "DELETE FROM usb_dev_info WHERE no = ?";
+		
+		try{
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, usb_no);
+			pstmt.executeUpdate();
+			
+			con.commit();
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
+			
+		}catch(SQLException ex){
+			result.put("returnCode", ConfigInfo.RETURN_CODE_ERROR);
+			if(con!=null) try{con.rollback();}catch(SQLException sqle){sqle.printStackTrace();}
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 	
 }

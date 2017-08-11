@@ -6,6 +6,13 @@
 <script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
 <script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 
+<!-- Alert -->
+<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
+
 <div id="usb_policy" class="tab-pane fade in active">
 	<!-- panel content -->
 	<div class="panel-body">
@@ -59,13 +66,14 @@
 				<table class="table table-bordered table-hover x-scroll-table" id="table_usb_policy" style="width:100%; min-width: 500px;">
 					<thead>
 						<tr>
-							<th>번호</th>
+							<th>No</th>
 							<th>장치이름</th>
 							<th>vid</th>
 							<th>pid</th>
 							<th>시리얼번호</th>
-							<th>허용여부</th>
 							<th>비고</th>
+							<th>사용여부</th>
+							<th>정책삭제</th>
 						</tr>
 					</thead>				
 					<tbody>
@@ -124,6 +132,68 @@
 		    }  
 		});
  	}
+ 	
+ 	function fn_delete_usb_policy_item(code) {
+		vex.defaultOptions.className = 'vex-theme-os';
+		
+		vex.dialog.open({
+			message: '해당 정책을 삭제 하시겠습니까?',
+			buttons: [
+		    	$.extend({}, vex.dialog.buttons.YES, {
+		     	text: '삭제'
+		  	}),
+		  	$.extend({}, vex.dialog.buttons.NO, {
+		    	text: '취소'
+		  	})],
+		  	callback: function(data) {
+	 	  		if (data) {
+	 	  			delete_data(code);
+	 	    	} else {
+	 	  			return false;
+	 	    	}
+	 	  	}
+		})
+	}
+	
+	function delete_data(code){
+		
+		$.ajax({      
+		    type:"POST",  
+		    url:'${context}/admin/policy/usb/delete',
+		    async: false,
+		    data:{ 
+		    	code : code,
+		    	_ : $.now()
+		    },
+		    success:function(data){
+		    	
+		    	if (data.returnCode == 'S') {
+		    		var datatable = $('#table_usb_policy').dataTable().api();
+		    		datatable.ajax.reload();
+		    		
+		    		vex.dialog.open({
+		    			message: '정책 삭제가 완료되었습니다.',
+		    			  buttons: [
+		    			    $.extend({}, vex.dialog.buttons.YES, {
+		    			      text: '확인'
+		    			  })]
+		    		})
+		    		
+		    	} else {
+	    			vex.dialog.open({
+	    				message: '정책 삭제중 예기치 못한 오류가 발생하여 삭제에 실패하였습니다.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })]
+	    			});
+		    	}
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+	}
  	
 	$(document).ready(function(){
 		
@@ -190,26 +260,38 @@
 		 	    "ordering": true,
 				"columns": [{
 					data: "usbId",							
-					"orderable": false	//추가정보
+					"orderable": false	// ID
+					,render : function(data, type, row, a){
+						var paging = a.settings._iDisplayStart;
+						return paging + a.row + 1;
+						
+					}
 				}, {
 					data: "name",
 					"orderable": false	//장치이름
 				}, {
 					data: "vid",
-					"orderable": false	//아이디
+					"orderable": false	//vid
 				}, {
 					data: "pid",
-					"orderable": false	//이름
+					"orderable": false	//pid
 				}, {
 					data: "serialNumber",
-					"orderable": false	//번호
-				}, {
-					data: "allow",
-					"orderable": false	//직책
-					
+					"orderable": false	//시리얼번호
 				}, {
 					data: "description",
-					"orderable": false	//직책
+					"orderable": false	//설명
+				}, {
+					data: "allow",
+					"orderable": false	//사용여부
+					,render : function(data,type,row) {
+						return data == 1? '사용' : '사용안함';
+					}
+				}, {                                   
+					data: "usbId"	//삭제
+					,render : function(data,type,row) {
+						return '<button type="button" id="btnDeletePolicy" class="btn btn-xs btn-danger" onclick="javascript:fn_delete_usb_policy_item('+ data +');"><i class="fa fa-trash" aria-hidden="true"></i>정책삭제</button>';
+					}
 				}],
 				// set the initial value
 				"pageLength": 20,
@@ -246,17 +328,15 @@
 					"targets": [4],	//시리얼
 					"class":"center-cell"
 				}, {	
-					"targets": [5]	//허용여부
+					"targets": [5]	//비고
 					,"class" : "center-cell"
-					,"visible" : false
-					,"render":function(data,type,row){
-						return data == 'true' ? '허용' : '미허용';
-					}
-
 				}, {	
-					"targets": [6]	//비고
-				,"class" : "center-cell"
-			}],						
+					"targets": [6]	//사용여부
+					,"class" : "center-cell"
+				}, {	
+					"targets": [7]	//삭제
+					,"class" : "center-cell"
+				}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
 				}
@@ -265,7 +345,11 @@
 			var ctbl = $('#table_usb_policy').DataTable();
 			ctbl.on( 'click', 'td', function () {
 				var data = ctbl.row( $(this).parent() ).data();
-				fn_open_reg_usb_popup(data.usbId);
+				
+				if($(this).index() != 7) {
+					fn_open_reg_usb_popup(data.usbId);
+				}
+				
 			});
 			
 		}

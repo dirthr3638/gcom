@@ -63,6 +63,11 @@ function getPolicyApplyData(flag){
 	var waterMarkDate		= $('#att_waterMark_end_date').val();
 	var waterMaekTime		= $('#att_waterMark_end_time').val();
 	
+	// 워터마크 검증을 위한 데이터
+	map['waterPolicyValue'] = isWaterMarkPrint;
+	map['waterMarkDate'] = waterMarkDate;
+	map['waterMaekTime'] = waterMaekTime;
+	
 	if (waterMaekTime != "") {
 		waterMaekTime = getFormatTime(waterMaekTime);
 	}
