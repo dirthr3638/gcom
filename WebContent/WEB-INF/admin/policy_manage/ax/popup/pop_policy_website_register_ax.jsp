@@ -9,12 +9,14 @@
 	
 	String address ="";
 	String description = "";
+	int allow = 1;
 	
 	if(modifyCheck) {
 		popTitle = "정책정보수정";
 		PolicyWebSiteBlocklModel data = (PolicyWebSiteBlocklModel)request.getAttribute("data");
 		address = data.getAddress();
 		description = data.getDescription();
+		allow = data.getAllow();
 	}
 %>
 
@@ -65,6 +67,17 @@
 														<input type="text" id="att_website_descript" name="att_website_descript" class="form-control" value="<%= description %>" />
 													</td>
 												</tr>
+												<tr>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >사용여부</td>
+													<td>
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_use_type" value="1" <% if (allow == 1){ %> checked <%}%> /><i></i>사용
+														</label>
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_use_type" value="0" <% if (allow == 0){ %> checked <%}%>/><i></i>사용안함
+														</label>
+													</td>
+												</tr>
 											</tbody>
 										</table>
 										
@@ -108,6 +121,7 @@ function get_policy_website_setting_data(){
 	map['site_no'] = $('#key').val();
 	map['site_address'] = $('#att_website_name').val();
 	map['descript'] = $('#att_website_descript').val();
+	map['use_type'] = $(':radio[name="radio_use_type"]:checked').val();
 	
 	return map;
 }

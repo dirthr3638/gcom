@@ -1654,7 +1654,7 @@ sql += whereSql;
 		String proPath = map.get("pro_path").toString();
 		String hash = map.get("hash").toString();
 		String notice = map.get("notice").toString();
-		int valid = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
+		int valid = Integer.parseInt(map.get("use_type").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
@@ -1700,7 +1700,7 @@ sql += whereSql;
 		String proPath = map.get("pro_path").toString();
 		String hash = map.get("hash").toString();
 		String notice = map.get("notice").toString();
-		int valid = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
+		int valid = Integer.parseInt(map.get("use_type").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
@@ -1791,7 +1791,7 @@ sql += whereSql;
 		String patName = map.get("pat_name").toString();
 		String patData = map.get("pat_data").toString();
 		String notice = map.get("notice").toString();
-		int valid = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
+		int valid = Integer.parseInt(map.get("use_type").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
@@ -1835,7 +1835,7 @@ sql += whereSql;
 		String patName = map.get("pat_name").toString();
 		String patData = map.get("pat_data").toString();
 		String notice = map.get("notice").toString();
-		int valid = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
+		int valid = Integer.parseInt(map.get("use_type").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
@@ -1927,7 +1927,7 @@ sql += whereSql;
 		String netName = map.get("net_name").toString();
 		String netPort = map.get("net_port").toString();
 		String descript = map.get("descript").toString();
-		int valid = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
+		int valid = Integer.parseInt(map.get("use_type").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
@@ -1971,7 +1971,7 @@ sql += whereSql;
 		String netName = map.get("net_name").toString();
 		String netPort = map.get("net_port").toString();
 		String descript = map.get("descript").toString();
-		int valid = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
+		int valid = Integer.parseInt(map.get("use_type").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
@@ -2059,7 +2059,7 @@ sql += whereSql;
 		
 		String serialName = map.get("serial_name").toString();
 		String descript = map.get("descript").toString();
-		int allow = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
+		int allow = Integer.parseInt(map.get("use_type").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
@@ -2101,7 +2101,7 @@ sql += whereSql;
 		int serialNo = Integer.parseInt(map.get("serial_no").toString());
 		String serialName = map.get("serial_name").toString();
 		String descript = map.get("descript").toString();
-		int allow = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
+		int allow = Integer.parseInt(map.get("use_type").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
@@ -2188,7 +2188,7 @@ sql += whereSql;
 		
 		String siteAddress = map.get("site_address").toString();
 		String descript = map.get("descript").toString();
-		int allow = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
+		int allow = Integer.parseInt(map.get("use_type").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
@@ -2230,7 +2230,7 @@ sql += whereSql;
 		int siteNo = Integer.parseInt(map.get("site_no").toString());
 		String siteAddress = map.get("site_address").toString();
 		String descript = map.get("descript").toString();
-		int allow = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
+		int allow = Integer.parseInt(map.get("use_type").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		

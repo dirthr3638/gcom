@@ -9,12 +9,14 @@
 	
 	String serialName ="";
 	String description = "";
+	int allow = 1;
 	
 	if(modifyCheck) {
 		popTitle = "정책정보수정";
 		PolicySerialModel data = (PolicySerialModel)request.getAttribute("data");
 		serialName = data.getSerialName();
 		description = data.getDescription();
+		allow = data.getAllow();
 	}
 %>
 
@@ -65,6 +67,17 @@
 														<input type="text" id="att_serial_descript" name="att_serial_descript" class="form-control" value="<%= description %>" />
 													</td>
 												</tr>
+												<tr>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >사용여부</td>
+													<td>
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_use_type" value="1" <% if (allow == 1){ %> checked <%}%> /><i></i>사용
+														</label>
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_use_type" value="0" <% if (allow == 0){ %> checked <%}%>/><i></i>사용안함
+														</label>
+													</td>
+												</tr>
 											</tbody>
 										</table>
 										
@@ -108,6 +121,7 @@ function get_policy_serial_setting_data(){
 	map['serial_no'] = $('#key').val();
 	map['serial_name'] = $('#att_serial_name').val();
 	map['descript'] = $('#att_serial_descript').val();
+	map['use_type'] = $(':radio[name="radio_use_type"]:checked').val();
 	
 	return map;
 }

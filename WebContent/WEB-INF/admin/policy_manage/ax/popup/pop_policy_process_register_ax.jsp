@@ -11,6 +11,7 @@
 	String processPath = "";
 	String hash = "";
 	String notice = "";
+	int valid = 1;
 	
 	if(modifyCheck) {
 		popTitle = "정책정보수정";
@@ -19,6 +20,7 @@
 		processPath = data.getProcessPath();
 		hash = data.getHash();
 		notice = data.getNotice();
+		valid = data.getValid();
 	}
 %>
 
@@ -80,6 +82,17 @@
 													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >설명</td>
 													<td>
 														<input type="text" id="att_process_notice" name="att_process_notice" class="form-control" value="<%= notice %>" />
+													</td>
+												</tr>
+												<tr>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >사용여부</td>
+													<td>
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_use_type" value="1" <% if (valid == 1){ %> checked <%}%> /><i></i>사용
+														</label>
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_use_type" value="0" <% if (valid == 0){ %> checked <%}%>/><i></i>사용안함
+														</label>
 													</td>
 												</tr>
 											</tbody>
@@ -156,6 +169,7 @@ function get_policy_process_setting_data(){
 	map['pro_path'] = $('#att_process_path').val();
 	map['hash'] = $('#att_process_hash').val();
 	map['notice'] = $('#att_process_notice').val();
+	map['use_type'] = $(':radio[name="radio_use_type"]:checked').val();
 	
 	return map;
 }
