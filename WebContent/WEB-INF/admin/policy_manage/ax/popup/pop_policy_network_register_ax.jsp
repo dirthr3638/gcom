@@ -10,6 +10,7 @@
 	String netName ="";
 	String port = "";
 	String descriptor = "";
+	int allow = 1;
 	
 	if(modifyCheck) {
 		popTitle = "정책정보수정";
@@ -17,6 +18,7 @@
 		netName = data.getNetName();
 		port = data.getPort();
 		descriptor = data.getDescriptor();
+		allow = data.getAllow();
 	}
 %>
 
@@ -73,6 +75,17 @@
 														<input type="text" id="att_net_work_descript" name="att_net_work_descript" class="form-control" value="<%= descriptor %>" />
 													</td>
 												</tr>
+												<tr>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >사용여부</td>
+													<td>
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_use_type" value="1" <% if (allow == 1){ %> checked <%}%> /><i></i>사용
+														</label>
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_use_type" value="0" <% if (allow == 0){ %> checked <%}%>/><i></i>사용안함
+														</label>
+													</td>
+												</tr>
 											</tbody>
 										</table>
 										
@@ -117,6 +130,7 @@ function get_policy_network_setting_data(){
 	map['net_name'] = $('#att_net_work_name').val();
 	map['net_port'] = $('#att_net_work_port').val();
 	map['descript'] = $('#att_net_work_descript').val();
+	map['use_type'] = $(':radio[name="radio_use_type"]:checked').val();
 	
 	return map;
 }
