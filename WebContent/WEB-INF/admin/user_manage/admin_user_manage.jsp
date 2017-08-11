@@ -526,7 +526,7 @@
 		 		"processing": true,
 		 	    "ordering": true,
 				"columns": [{
-					data: "userNo",							
+					data: "uno",							
 					"orderable": false		
 				}, {
 					data: "deptName",
@@ -599,8 +599,8 @@
 					"targets": [7]	//
 					,"class" : "center-cell",
 					"render":function(data,type,row){
-							var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:onClickModifyUser(' +row.userNo+ ')"><i class="fa fa-gear" aria-hidden="true">&nbsp;수정</i></button>';
-							ret += '<button type="button" class="btn btn-danger btn-xs" onclick="javascript:onClickRemoveUser(' +row.userNo+ ')"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>';
+							var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:onClickModifyUser(' +row.uno+ ')"><i class="fa fa-gear" aria-hidden="true">&nbsp;수정</i></button>';
+							ret += '<button type="button" class="btn btn-danger btn-xs" onclick="javascript:onClickRemoveUser(' +row.uno+ ')"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>';
 
 							return ret;
 					}

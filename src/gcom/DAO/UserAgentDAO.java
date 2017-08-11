@@ -615,6 +615,7 @@ sql += whereSql;
 		
 		String sql= 
 "SELECT "
++ "userinfo.no,"
 + "userinfo.number AS user_no, "
 + "userinfo.dept_no,"
 + "userinfo.duty,"
@@ -653,6 +654,7 @@ sql += whereSql;
 			
 			while(rs.next()){
 				UserInfoModel model = new UserInfoModel();
+				model.setUno(rs.getInt("no"));
 				model.setUserNo(rs.getString("user_no"));
 				model.setDuty(rs.getString("duty"));
 				model.setRank(rs.getString("rank"));
