@@ -927,6 +927,7 @@ sql += whereSql;
 + "ifnull(agent.pc_name, '') AS pc_name, "
 + "dept.name AS dept_name, "
 + "ifnull(fevent.file_id, '') AS file_id, "
++ "ifnull(fevent.file_list, '') AS file_list, "
 + "ifnull(fevent.send_server_time, '') AS send_server_time, "
 + "ifnull(fevent.send_client_time, '') AS send_client_time, "
 + "ifnull(fevent.description, '') AS description "
@@ -976,6 +977,7 @@ sql += whereSql;
 				model.setDeptName(rs.getString("dept_name"));
 
 				model.setFileId(rs.getString("file_id"));
+				model.setFileList(rs.getString("file_list"));
 				model.setDescription(rs.getString("description"));
 				model.setServerTime(rs.getString("send_server_time"));
 				model.setClientTime(rs.getString("send_client_time"));

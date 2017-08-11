@@ -342,6 +342,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
+						                columns: [1,2,3,4,6,10,12,13],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -352,6 +353,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
+					                columns: [1,2,3,4,6,10,12,13],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'

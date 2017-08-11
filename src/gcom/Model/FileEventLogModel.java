@@ -18,6 +18,7 @@ public class FileEventLogModel {
 	
 	private String fileId = "";
 	private String description = "";
+	private String fileList = "";
 
 	private String serverTime = "";
 	private String clientTime = "";

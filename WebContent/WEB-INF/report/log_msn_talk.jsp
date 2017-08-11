@@ -91,8 +91,8 @@
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
-											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
-											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
+<!-- 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
+ -->											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
@@ -177,6 +177,7 @@
 														<th >메시지타입</th>
 														<th >발송시간(서버)</th>
 														<th >발송시간</th>
+														<th >내역</th>
 														<th >내역</th>
 													</tr>
 												</thead>				
@@ -299,11 +300,12 @@
  	
  	function msgTxtDetail(data){
  		
- 		$('#detail-modal-data').html(data)
+ 		$('#detail-modal-data').html(decodeURI(data))
  		$('#detail-talk-modal').modal('show')
  		
  	}
- 	
+ 	//return '<i title="상세보기" class="fa fa-commenting" aria-hidden="true" onclick="javascript:msgTxtDetail(\''+ data + ' \')">'
+
  	function setDataTable(){
  		if (jQuery().dataTable) {
 
@@ -362,6 +364,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
+				                	columns: [1,2,3,4,5,6,7,9,12,14],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
@@ -414,6 +417,9 @@
 				}, {
 					data: "msgText",
 					"orderable": false	//내역
+				}, {
+					data: "msgText",
+					"orderable": false	//내역
 				}],
 				// set the initial value
 				"pageLength": 20,
@@ -455,9 +461,11 @@
 				}, {	
 					"targets": [5]	//직책
 					,"class" : "center-cell"
+						,"visible" : false
 				}, {	
 					"targets": [6]	//계급
 					,"class" : "center-cell"
+						,"visible" : false
 				}, 
 				{	
 					"targets": [7]	//IP
@@ -503,11 +511,17 @@
 					,"class" : "center-cell"
 				}	, {	
 					"targets": [13]	
-					,"class" : "center-cell"
+					,"class" : "center-left"
 					,"render": function(data,type,row){
-						return '<i title="상세보기" class="fa fa-commenting" aria-hidden="true" onclick="javascript:msgTxtDetail(\''+ data + ' \')">'
+						if(data.length > 25){
+							data = data.substring(0,25) + '..' + '<i title="상세보기" class="fa fa-commenting" aria-hidden="true" onclick="javascript:msgTxtDetail(\''+ encodeURI(data) + ' \')">'
+						}
+						return data;
 					}
-				}		
+				}, {	
+					"targets": [14]	//내역
+					,"visible" : false
+				}	
 			],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
