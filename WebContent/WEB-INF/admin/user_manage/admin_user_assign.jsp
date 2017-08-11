@@ -384,9 +384,8 @@
 				});
 		 	}
 		 	
-		 	function setDataTable(){
+			function setDataTable(){
 				if (jQuery().dataTable) {
-
 					var export_filename = 'Filename';
 					
 					apTable = jQuery('#table_apply_policy');
@@ -418,30 +417,72 @@
 				            }   
 						},
 						"buttons": [
-						          {
-					                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
-					                  extend: 'csvHtml5',
-					                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
-					                  bom: true,
-					                  exportOptions: {
-						                    modifier: {
-						                        search: 'applied',
-						                        order: 'applied'
-						                    },
-					                  		columns: [2,3,4,5,6,7,8,9,10,11]
-					                  }
-					              },
-					            {
-				                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-				                  extend: 'print',
-				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-				                  exportOptions: {
-				                      modifier: {
-				                          search: 'applied',
-				                          order: 'applied'
-				                      },
-				                  	  columns: [2,3,4,5,6,7,8,9,10,11]
-				                  }
+							{
+					        	text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+					            extend: 'csvHtml5',
+					            className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+					            bom: true,
+					            exportOptions: {
+						        	modifier: {
+						            	search: 'applied',
+						                order: 'applied'
+						        	},
+					                columns: [2,3,4,5,6,7,8,9,10,11],
+									format: {
+										body: function ( data, row, column, node) {
+											if (column === 9) {
+												var i_tag = $('i', node);
+												var i_text = '';
+												
+												for (var idx = 0;  idx < i_tag.length ; idx ++ ){
+													if (idx == i_tag.length - 1) {
+														i_text += i_tag[idx].title
+													} else {												
+														i_text += i_tag[idx].title + ", ";
+													}
+												}
+											
+												return i_text;
+											
+											} else {
+												return data;	
+											}
+										}
+					             	}
+				             	 }
+					     	},
+					        {
+				            	text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+				                extend: 'print',
+				                className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+				                exportOptions: {
+				                	modifier: {
+				                		search: 'applied',
+				                    	order: 'applied'
+				                	},
+				                	columns: [2,3,4,5,6,7,8,9,10,11],
+									format: {
+										body: function ( data, row, column, node) {
+											if (column === 9) {
+												var i_tag = $('i', node);
+												var i_text = '';
+												
+												for (var idx = 0;  idx < i_tag.length ; idx ++ ){
+													if (idx == i_tag.length - 1) {
+														i_text += i_tag[idx].title
+													} else {												
+														i_text += i_tag[idx].title + ", ";
+													}
+												}
+											
+												return i_text;
+											
+											} else {
+												return data;	
+											}
+										}
+					             	}
+				             	 }
 				              },
 				     	],
 				 		"serverSide" : true,
