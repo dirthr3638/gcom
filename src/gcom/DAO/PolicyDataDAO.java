@@ -78,7 +78,7 @@ public class PolicyDataDAO {
 				"SELECT "
 						+ "COUNT(*) AS cnt "
 						+ "FROM policy_log AS policy "
-						+ "INNER JOIN agent_info AS agent ON agent.policy_no = policy.no "
+						 + "INNER JOIN agent_log AS agent ON agent.no = policy.agent_log_no "
 						+ "INNER JOIN user_info AS ur ON ur.no = agent.own_user_no "
 						+ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 
@@ -176,15 +176,15 @@ sql += whereSql;
 + "policy.pattern_file_control AS pattern_file_control, "
 + "ur.no AS user_no, "
 + "ur.id AS user_id, "
-+ "ur.name AS user_name, "
++ "ifnull(ur.name , '' ) AS user_name, "
 + "ur.dept_no, ur.duty, "
-+ "ur.rank, "
-+ "agent.ip_addr, "
-+ "agent.mac_addr, "
-+ "agent.pc_name, "
++ "ifnull(ur.rank, '' ) AS rank, "
++ "ifnull(agent.ip_addr, '' ) AS ip_addr, "
++ "ifnull(agent.mac_addr, '' ) AS mac_addr, "
++ "ifnull(agent.pc_name, '' ) AS pc_name,  " 
 + "dept.name AS dept_name "
 + "FROM policy_log AS policy "
-+ "INNER JOIN agent_info AS agent ON agent.policy_no = policy.no "
++ "INNER JOIN agent_log AS agent ON agent.no = policy.agent_log_no "
 + "INNER JOIN user_info AS ur ON ur.no = agent.own_user_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 

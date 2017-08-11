@@ -145,7 +145,7 @@ public class LoginCheckInterceptor implements Filter {
 		}
 
 		if (loginFlag) {
-			if (uri.equals(context + "/") || uri.equals("")) {
+			if (uri.equals(context + "/") || uri.equals(context)) {
 				// 로그인 상태에서 루트 실행시 메인 페이지로 넘김
 				String url = (String) session.getAttribute("login_root");
 				httpRes.sendRedirect(url);
@@ -159,7 +159,8 @@ public class LoginCheckInterceptor implements Filter {
 
 			// ajax일경우
 			if (uri.equals(context + "/logout")) {
-				chain.doFilter(request, response);
+				//chain.doFilter(request, response);
+				httpRes.sendRedirect(context);
 			} else if ("XMLHttpRequest".equals(httpReq.getHeader("X-Requested-With"))) {
 				httpRes.sendRedirect(context + "/logout");
 			} else {

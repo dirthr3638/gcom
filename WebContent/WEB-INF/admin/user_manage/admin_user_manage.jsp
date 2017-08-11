@@ -418,6 +418,7 @@
 		        	if(args.returnCode == 'S'){
 		        		reloadTablePreventPage();
 		    			infoAlert('사용자추가가 완료되었습니다.')
+		    			$('#modalUserInfo').modal('hide');		    			
 		        	}else if(args.returnCode == 'EUN'){
 		    			infoAlert('사번이 이미 존재합니다.')
 		        	}else if(args.returnCode == 'DUI'){
