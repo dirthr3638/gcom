@@ -96,7 +96,7 @@ public class PersonalDataDAO {
 + "COUNT(*) AS cnt "  
 + "FROM mail_log AS mail "
 + "INNER JOIN user_info AS ur ON ur.no = mail.user_no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN agent_log AS agent ON agent.no = mail.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 sql += whereSql;	
 		try{
@@ -224,7 +224,7 @@ sql += whereSql;
 + "agent.pc_name "
 + "FROM mail_log AS mail "
 + "INNER JOIN user_info AS ur ON ur.no = mail.user_no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN agent_log AS agent ON agent.no = mail.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 sql += whereSql;			
 			
@@ -402,7 +402,7 @@ sql += whereSql;
 	+ "COUNT(*) AS cnt "
 	+ "FROM msg_txt_log AS msg "
 	+ "INNER JOIN user_info AS ur ON ur.no = msg.user_no "
-	+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
+	 + "INNER JOIN agent_log AS agent ON agent.no = msg.agent_log_no "
 	+ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 sql += whereSql;			
 			
@@ -519,7 +519,7 @@ sql += whereSql;
 + "dept.name AS dept_name "
 + "FROM msg_txt_log AS msg "
 + "INNER JOIN user_info AS ur ON ur.no = msg.user_no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN agent_log AS agent ON agent.no = msg.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 sql += whereSql;			
 			
@@ -639,7 +639,7 @@ sql += whereSql;
 + "COUNT(*) AS cnt "
 + "FROM msg_file_log AS msg "
 + "INNER JOIN user_info AS ur ON ur.no = msg.user_no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN agent_log AS agent ON agent.no = msg.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 sql += whereSql;			
 			
@@ -759,7 +759,7 @@ sql += whereSql;
 + "dept.name AS dept_name "
 + "FROM msg_file_log AS msg "
 + "INNER JOIN user_info AS ur ON ur.no = msg.user_no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN agent_log AS agent ON agent.no = msg.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 
 sql += whereSql;			
@@ -888,7 +888,7 @@ sql += whereSql;
 		+ "COUNT(*) AS cnt "
 		+ "FROM pattern_log AS ptn "
 		+ "INNER JOIN user_info AS ur ON ur.no = ptn.user_no "
-		+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no  "
+		 + "INNER JOIN agent_log AS agent ON agent.no = ptn.agent_log_no "
 		+ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no "
 		+ "INNER JOIN pattern_info AS ptn_info ON ptn.pattern_id = ptn_info.id  ";
 sql += whereSql;			
@@ -1015,7 +1015,7 @@ sql += whereSql;
 + "dept.name AS dept_name "
 + "FROM pattern_log AS ptn "
 + "INNER JOIN user_info AS ur ON ur.no = ptn.user_no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no  "
++ "INNER JOIN agent_log AS agent ON agent.no = ptn.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no "
 + "INNER JOIN pattern_info AS ptn_info ON ptn.pattern_id = ptn_info.id  ";
 sql += whereSql;			

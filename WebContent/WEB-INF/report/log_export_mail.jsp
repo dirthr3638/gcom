@@ -3,6 +3,12 @@
 <!doctype html>
 <html lang="utf-8">
 	<head>
+
+<style type="text/css">
+.text-wrap{
+    white-space:normal;
+}
+</style>
 	
 		<meta charset="utf-8" />
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -187,6 +193,7 @@
 														<th >MAC</th>
 														<th >PC이름</th>
 														<th >수신주소</th>
+														<th >발신주소</th>
 														<th >제목</th>
 														<th >발송시간(서버)</th>
 														<th >발송시간</th>
@@ -423,6 +430,9 @@
 					data: "dstAddr",
 					"orderable": false	//이메일주소
 				}, {
+					data: "srcAddr",
+					"orderable": false	//발신주소
+				},{
 					data: "subject",
 					"orderable": false	//제목
 				}, {
@@ -515,21 +525,27 @@
 				}, {	
 					"targets": [10]	//메일주소
 					,"class" : "center-cell"
+				},{	
+					"targets": [11]	//발신
+				,"class" : "center-cell"
 				}, {	
-					"targets": [11]	//제목
-					,"render":function(data,type,row){									
+					"targets": [12]	//제목
+					,"render":function(data,type,row){		
+						if(data.length > 30){
+							data = data.substring(0,30) + '....'
+						}
 						return '<i title="자세히보기" class="fa fa-search" aria-hidden="true" onclick="javascript:viewMailFile('+ row.mailNo +')">&nbsp;&nbsp;' + data;
 
 					}					
 				}, {	
-					"targets": [12]	//발송시간(서버)
+					"targets": [13]	//발송시간(서버)
 					,"class" : "center-cell"
 						,"visible" : false
 				}, {	
-					"targets": [13]	//발송시간(PC)
+					"targets": [14]	//발송시간(PC)
 					,"class" : "center-cell"
 	            },{    
-            	    "targets": [14]    //첨부파일다운로드
+            	    "targets": [15]    //첨부파일다운로드
                		,"class" : "center-cell"
                     ,"render":function(data,type,row){
                     	if(data == null || data == ''){
@@ -551,9 +567,7 @@
 				var sOut = '<table class="table fixed"  style="width:100%;overflow:auto">';
 				sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
 				sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-				sOut += '<tr><td class="center-cell">PC명:</td><td>' + aData.serverTime + '</td><td></td><td></td></tr>';
-				
-				sOut += '<td class="center-cell"></td><td></td></tr>';
+				sOut += '<tr><td class="center-cell">발송시간(PC):</td><td>' + aData.sendClientTime + '</td><td></td><td></td></tr>';
 										
 				sOut += '</table>';
 

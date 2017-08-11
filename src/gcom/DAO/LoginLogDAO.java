@@ -85,7 +85,7 @@ public class LoginLogDAO {
 + "COUNT(*) AS cnt " 
 + "FROM login_log AS login "
 + "INNER JOIN user_info AS userinfo ON login.user_no = userinfo.no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = userinfo.no "
++ "INNER JOIN agent_log AS agent ON agent.no = login.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = userinfo.dept_no ";
 sql += whereSql;			
 			
@@ -207,7 +207,7 @@ sql += whereSql;
 + "ifnull(agent.mac_addr,'') AS mac_addr "
 + "FROM login_log AS login "
 + "INNER JOIN user_info AS userinfo ON login.user_no = userinfo.no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = userinfo.no "
++ "INNER JOIN agent_log AS agent ON agent.no = login.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = userinfo.dept_no ";
 sql += whereSql;			
 			

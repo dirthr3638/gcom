@@ -72,7 +72,7 @@ public class DiskDataDAO {
 				+ "COUNT(*) AS cnt "
 				+ "FROM disk_export_log AS de "
 				+ "INNER JOIN user_info AS ur ON ur.no = de.user_no "
-				+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
+				+ "INNER JOIN agent_log AS agent ON agent.no = de.agent_log_no "
 				+ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no "
 				+ "LEFT JOIN partition_log AS ptn ON de.partition_log_no = ptn.no ";
 
@@ -174,7 +174,7 @@ sql += whereSql;
 + "ifnull(ptn.label, '') AS partition_label "
 + "FROM disk_export_log AS de "
 + "INNER JOIN user_info AS ur ON ur.no = de.user_no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN agent_log AS agent ON agent.no = de.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no "
 + "LEFT JOIN partition_log AS ptn ON de.partition_log_no = ptn.no ";
 
@@ -288,7 +288,7 @@ sql += whereSql;
 + "COUNT(*) AS cnt "
 + "FROM usb_connect_log AS usb "
 + "INNER JOIN user_info AS ur ON ur.no = usb.user_no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN agent_log AS agent ON agent.no = usb.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 
 sql += whereSql;			
@@ -399,7 +399,7 @@ sql += whereSql;
 + "dept.name AS dept_name "
 + "FROM usb_connect_log AS usb "
 + "INNER JOIN user_info AS ur ON ur.no = usb.user_no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN agent_log AS agent ON agent.no = usb.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 
 sql += whereSql;			
@@ -657,7 +657,7 @@ sql += whereSql;
 + "dept.name AS dept_name "
 + "FROM disk_connect_log AS disk "
 + "INNER JOIN user_info AS ur ON ur.no = disk.user_no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN agent_log AS agent ON agent.no = disk.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 sql += whereSql;			
 			

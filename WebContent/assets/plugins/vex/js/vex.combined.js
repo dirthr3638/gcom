@@ -1586,7 +1586,7 @@ vex.defaultOptions = {
   content: '',
   showCloseButton: true,
   escapeButtonCloses: true,
-  overlayClosesOnClick: true,
+  overlayClosesOnClick: false,
   appendLocation: 'body',
   className: '',
   overlayClassName: '',

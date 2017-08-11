@@ -199,13 +199,23 @@
        });
 	}
 	
+	function vexAlert(text){
+ 		vex.dialog.open({
+ 			message: text,
+ 			  buttons: [
+ 			    $.extend({}, vex.dialog.buttons.YES, {
+ 			      text: '확인'
+ 			  })] 		    				
+ 		})
+	}
+	
 	function commonSystemPopup(description, id, value, name){
 		vex.dialog.open({
             input: [
                      '<label>시스템정보</label>',                   
                      '<input name="description" type="text" readonly value=" '+ description +' " />',
                      '<label>적용값</label>',                     
-                     '<input name="value" type="text" value="'+ value +'" />'
+                     '<input name="value" type="text" id="system_value" value="'+ value +'" />'
                  ].join(''),
      			buttons: [
   					    $.extend({}, vex.dialog.buttons.YES, {
@@ -215,15 +225,96 @@
   					      text: '취소'
   					    })
   					],
- 		    callback: function (data) {
- 		        if (!data) {
- 		        	return;
- 		        }else{
- 		        	updateSystemInfo(id, data.value);
- 		        }
- 		    }
-       });
-		
+  			onSubmit : function(e){
+	  			e.preventDefault()
+				value = $('#system_value').val();
+	  			if ((name == 'console_time_out') || (name == 'session_time_out')){
+				    var time = parseInt( value, 10 );
+				    
+				    value = time.toString();
+				    
+					if (value > 600) {
+						vexAlert('타임아웃 시간은 10분이하로 설정하시기바랍니다.')
+						return false; 
+					}
+						
+					if ((value <= 0) && (value != 1)) {
+						vexAlert('타임아웃 시간은 0이상 입력하시기 바랍니다.')
+						return false; 
+					}											
+						
+					for(i=0;i<value.length;i++){
+					
+						if (value[i] >"9" || value[i] < "0") {
+							vexAlert('숫자만 입력 가능합니다.')
+							return false; 
+						
+						}							
+					}
+				}else if (name == 'export_file_limit_size') {
+					var time = parseInt( value, 10 );
+				    
+				    value = time.toString();
+				    						
+					for(i=0;i<value.length;i++){
+					
+						if (value[i] >"9" || value[i] < "0") {
+							
+							vexAlert('숫자만 입력 가능합니다.')
+							return false; 
+						
+						}
+					}
+				
+					if ((value <= 0) && (value != 1)) {
+						vexAlert('반출 파일의 크기는 0MB이상으로 입력바랍니다.')
+						return false; 
+					}
+					
+					if (value > 4000) {
+						vexAlert('반출 파일의 최대 크기는 4000MB이하으로 입력바랍니다.')
+						return false; 
+					}
+				}else if (name == 'sensitive_info_found') {
+					if ((value != 0) && (value != 1)) {
+						vexAlert('0혹은 1를 입력해주시기 바랍니다')
+						return false; 
+					}
+				}else if ((name == 'fsflt_enable') ||
+						(name == 'wmlib_enable') ||
+						(name == 'diskflt_enable') ||
+						(name == 'usbflt_enable') ||
+						(name == 'scrsvr_enable') ||
+						(name == 'netflt_enable') ||
+						(name == 'portflt_enable') ||
+						(name == 'filescan_enable')
+						) {
+					if ((value != 0) && (value != 1)) {
+						vexAlert('0혹은 1를 입력해주시기 바랍니다')
+						return false; 
+					}
+					
+				}else if (name == 'usb_descriptor' || name == 'port_descriptor') {
+					if (value.length > 150) {
+						vexAlert('150자 이내로 입력해주시기 바랍니다')
+						return false; 
+					}					
+				} else {
+					
+					if (value.length > 30) {
+						vexAlert('30자 이내로 입력해주시기 바랍니다')
+						return false; 
+					}
+					
+				}
+             	updateSystemInfo(id, value);
+		        	
+  		     	return this.close()
+ 		      
+  			},
+  			callback : function(data){
+  			}
+		});		
 	}
 	
 	function updateSystemInfo(system_no, value){

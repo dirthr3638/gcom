@@ -82,7 +82,7 @@ public class DeviceDataDAO {
 + "COUNT(*) AS cnt "
 + "FROM print_log AS print "
 + "INNER JOIN user_info AS ur ON ur.no = print.user_no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN agent_log AS agent ON agent.no = print.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 sql += whereSql;			
 			
@@ -199,7 +199,7 @@ sql += whereSql;
 + "dept.name AS dept_name "
 + "FROM print_log AS print "
 + "INNER JOIN user_info AS ur ON ur.no = print.user_no "
-+ "INNER JOIN agent_info AS agent ON agent.own_user_no = ur.no "
++ "INNER JOIN agent_log AS agent ON agent.no = print.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
 
 sql += whereSql;			

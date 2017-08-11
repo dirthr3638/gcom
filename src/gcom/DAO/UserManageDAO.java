@@ -55,9 +55,9 @@ public class UserManageDAO {
 		
 		
 		String insertSql= "INSERT INTO user_info "
-				+ "(dept_no, duty, rank, number, name, phone, id, valid, salt, pshash, ekek, session_id, public_key, private_key, password) "
+				+ "(dept_no, duty, rank, number, name, phone, id, valid, salt, pshash, ekek, session_id, public_key, private_key, password, notice) "
 				+ "VALUES "
-				+ "(?, ?, ?, ?, ?, ?, ?, 1, null, null, null, null, null, null, ?) ";
+				+ "(?, ?, ?, ?, ?, ?, ?, 1, null, null, null, null, null, null, ?, '') ";
 		
 		try{
 			con = ds.getConnection();
