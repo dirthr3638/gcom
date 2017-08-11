@@ -530,11 +530,11 @@
 			function fnFormatDetails(oTable, nTr) {
 				var aData = oTable.fnGetData(nTr);
 				var sOut = '<table class="table table-bordered" style="width:100%; min-width: 500px;">';
-				sOut += '<tr><td class="center-cell th-cell-gray">MAC:</td><td>' + aData.macAddr + '</td>';
-				sOut += '<td class="center-cell th-cell-gray">PC명:</td><td>' + aData.pcName + '</td>';
-				sOut += '<td class="center-cell th-cell-gray">서버연결시간:</td><td>' + aData.connectServerTime ;
+				sOut += '<tr><td class="center-cell th-cell-gray">MAC</td><td>' + aData.macAddr + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">PC명</td><td>' + aData.pcName + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">서버연결시간</td><td>' + aData.connectServerTime ;
 				sOut += '<button type="button" class="btn btn-xs btn-blue pull-right" onclick="fn_select_device_save(\'' + aData.usbNo +'\')" style="margin:0;"><i class="fa fa-check" aria-hidden="true"></i> 해당장치허용</button></td></tr>';
-				sOut += '<tr><td class="center-cell th-cell-gray">장치속성:</td><td colspan="5">' + aData.deviceProperty + '</td></tr>';
+				sOut += '<tr><td class="center-cell th-cell-gray">장치<br/>속성</td><td colspan="5">' + aData.deviceProperty + '</td></tr>';
 										
 				sOut += '</table>';
 
