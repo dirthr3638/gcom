@@ -199,6 +199,9 @@
 														<th >발송시간</th>
                                                         <th >첨부파일</th>
 
+														<th >발신주소</th>
+														<th >제목</th>
+
 													</tr>
 												</thead>				
 												<tbody>
@@ -376,6 +379,8 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
+						                columns: [1,2,3,4,6,10,11,13,16,17],
+
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -386,6 +391,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
+					                columns: [1,2,3,4,6,10,11,13],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
@@ -444,6 +450,12 @@
 				},{
                     data: "fileId",
                     "orderable": false    //파일명
+                }, {
+					data: "subject",
+					"orderable": false	//제목 출력용
+				},{
+                    data: "srcAddr",
+                    "orderable": false    //발신주소 출력용
                 }],
 				// set the initial value
 				"pageLength": 20,
@@ -527,12 +539,19 @@
 					,"class" : "center-cell"
 				},{	
 					"targets": [11]	//발신
-				,"class" : "center-cell"
+					,"class" : "center-cell"
+					,"render":function(data,type,row){
+						if(data.length > 20){
+							data = data.substring(0,20) + '....'
+						}
+						return data;
+					}								
+
 				}, {	
 					"targets": [12]	//제목
 					,"render":function(data,type,row){		
-						if(data.length > 30){
-							data = data.substring(0,30) + '....'
+						if(data.length > 20){
+							data = data.substring(0,20) + '....'
 						}
 						return '<i title="자세히보기" class="fa fa-search" aria-hidden="true" onclick="javascript:viewMailFile('+ row.mailNo +')">&nbsp;&nbsp;' + data;
 
@@ -555,8 +574,16 @@
                     	}
 
                     }                    
-     		   }],                        
-						
+     		   },{	
+					"targets": [16]	//제목
+					,"class" : "center-cell"
+					,"visible" : false
+			   }, {	
+					"targets": [17]	//발송주소
+					,"class" : "center-cell"
+					,"visible" : false
+	           }],                        
+							
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
 				}

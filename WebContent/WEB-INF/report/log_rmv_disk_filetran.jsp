@@ -181,6 +181,7 @@
 														<th >반출시간(PC)</th>
 														<th >설명</th>
 														<th >파일목록</th>
+														<th >파일목록</th>
 													</tr>
 												</thead>
 				
@@ -338,6 +339,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
+					                columns: [1,2,3,4,7,10,14],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -348,6 +350,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
+					                columns: [1,2,3,4,7,10],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
@@ -399,6 +402,9 @@
 					"orderable": false	//파일목록
 				}, {
 					data: "fileId",
+					"orderable": false	//메모
+				}, {
+					data: "fileList",
 					"orderable": false	//메모
 				}],
 				// set the initial value
@@ -495,8 +501,11 @@
 						return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:FileDetail('+ row.fileNo + ', \'file_event_log\',\''+ encodeURI(row.fileId) +'\')">';
 
 					}
-
-				}],						
+				}, {	
+					"targets": [14]	//파일목록
+					,"class" : "center-cell"
+					,"visible" : false
+				},],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
 				}
