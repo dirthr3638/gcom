@@ -30,16 +30,22 @@
 		
 									<!-- panel content -->
 									<div class="panel-body">
-											<table class="table table-bordered" id="usb_info_table" style="width:100%;">
+											<table class="table table-bordered table-td-middle" id="usb_info_table" style="width:100%;">
+												<col width="60px">
+												<col>
+												<col width="90px">
+												<col width="90px">
+												<col width="140px">
+												<col width="160px">
 												<thead>
 													<tr>
 														<th>선택</th>
-														<th>장치ID</th>
-														<th>장치명</th>
-														<th>벤더식별자(VID)</th>
-														<th>제품식별자(PID)</th>
-														<th>일련번호(SerialNumber)</th>
-														<th>설명</th>
+														<th class="center-cell vertical-middle">장치ID</th>
+														<th class="center-cell vertical-middle">장치명</th>
+														<th class="center-cell vertical-middle">벤더식별자<br />(VID)</th>
+														<th class="center-cell vertical-middle">제품식별자<br />(PID)</th>
+														<th class="center-cell vertical-middle">일련번호<br />(SerialNumber)</th>
+														<th class="center-cell vertical-middle">설명</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -50,7 +56,6 @@
 										        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 										    </div>
 										</div>
-										
 									</div>
 									<!-- /panel content -->
 								</div>
@@ -154,7 +159,7 @@
 						"class":"center-cell"
 					}, {	
 						"targets": [6]	// 설명
-						,"class" : "center-cell"
+						,"class" : "left-cell"
 					}],
 					"initComplete": function( settings, json ) {
 					}

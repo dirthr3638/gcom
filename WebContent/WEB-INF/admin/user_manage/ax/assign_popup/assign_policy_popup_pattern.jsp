@@ -30,14 +30,18 @@
 		
 									<!-- panel content -->
 									<div class="panel-body">
-										<table class="table table-bordered" id="pattern_info_table" style="width: 100%">
+										<table class="table table-bordered table-td-middle" id="pattern_info_table" style="width: 100%">
+											<col width="90px">
+											<col width="120px">
+											<col width="">
+											<col width="180px">
 											<thead>
 												<tr>
-													<td>선택</td>
-													<td>패턴ID</td>
-													<td>패턴이름</td>
-													<td>패턴데이터</td>
-													<td>설명</td>
+													<th>선택</th>
+													<th class="center-cell vertical-middle">패턴ID</th>
+													<th class="center-cell vertical-middle">패턴이름</th>
+													<th class="center-cell vertical-middle">패턴데이터</th>
+													<th class="center-cell vertical-middle">설명</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -139,10 +143,10 @@ function pattern_info_table() {
 					,"class":"center-cell"
 				}, {	
 					"targets": [3]	// 패턴 데이터
-					,"class":"center-cell"
+					,"class":"left-cell"
 				}, {	
 					"targets": [4]	// 설명
-				,"class":"center-cell"
+					,"class":"left-cell"
 				}],
 				"initComplete": function( settings, json ) {
 				}

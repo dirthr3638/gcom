@@ -29,13 +29,16 @@
 		
 									<!-- panel content -->
 									<div class="panel-body">
-										<table class="table table-bordered" id="web_site_info_table" style="width:100%;">
+										<table class="table table-bordered table-td-middle" id="web_site_info_table" style="width:100%;">
+											<col width="100px">
+											<col>
+											<col width="250px">
 											<thead>
 												<tr>
-													<td>선택</td>
-													<td>사이트ID</td>
-													<td>사이트주소</td>
-													<td>설명</td>
+													<th>선택</th>
+													<th class="center-cell vertical-middle">사이트ID</th>
+													<th class="center-cell vertical-middle">사이트주소</th>
+													<th class="center-cell vertical-middle">설명</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -135,7 +138,7 @@
 						,"class":"center-cell"
 					}, {	
 						"targets": [3]	// 설명
-						,"class":"center-cell"
+						,"class":"left-cell"
 					}],
 					"initComplete": function( settings, json ) {
 					}

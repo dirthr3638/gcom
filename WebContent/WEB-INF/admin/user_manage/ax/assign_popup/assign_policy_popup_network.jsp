@@ -29,14 +29,18 @@
 		
 									<!-- panel content -->
 									<div class="panel-body">
-										<table class="table table-bordered" id="net_port_info_table" style="width: 100%">
+										<table class="table table-bordered table-td-middle" id="net_port_info_table" style="width: 100%">
+											<col width="10%">
+											<col width="30%">
+											<col width="20%">
+											<col width="40%">
 											<thead>
 												<tr>
 													<th>선택</th>
-													<th>포트ID</th>
-													<th>포트이름</th>
-													<th>포트</th>
-													<th>설명</th>
+													<th class="center-cell vertical-middle">포트ID</th>
+													<th class="center-cell vertical-middle">포트이름</th>
+													<th class="center-cell vertical-middle">포트</th>
+													<th class="center-cell vertical-middle">설명</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -140,7 +144,7 @@
 						,"class":"center-cell"
 					}, {	
 						"targets": [4]	// 설명
-						,"class":"center-cell"
+						,"class":"left-cell"
 					}],
 					"initComplete": function( settings, json ) {
 					}

@@ -2620,6 +2620,14 @@ ul.easypiecharts li span.stat-title {
     }
 
 
+.vertical-middle{
+	vertical-align: middle !important;
+}
+
+.table-td-middle td{
+	vertical-align: middle !important;
+}
+
 
 /** Preloader
  **************************************************************** **/

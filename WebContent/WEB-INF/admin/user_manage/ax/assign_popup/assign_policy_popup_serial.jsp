@@ -29,13 +29,16 @@
 		
 									<!-- panel content -->
 									<div class="panel-body">
-										<table class="table table-bordered" id="com_port_info_table" style="width:100%;">
+										<table class="table table-bordered table-td-middle" id="com_port_info_table" style="width:100%;">
+											<col width="10%">
+											<col width="45%">
+											<col width="45%">
 											<thead>
 												<tr>
-													<th>선택</th>
-													<th>포트ID</th>
-													<th>포트이름</th>
-													<th>설명</th>
+													<th class="center-cell vertical-middle">선택</th>
+													<th class="center-cell vertical-middle">포트ID</th>
+													<th class="center-cell vertical-middle">포트이름</th>
+													<th class="center-cell vertical-middle">설명</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -137,7 +140,7 @@
 						,"class":"center-cell"
 					}, {	
 						"targets": [3]	// 설명
-						,"class":"center-cell"
+						,"class":"left-cell"
 					}, {	
 						"targets": [4]	// 사용여부
 						,"class":"center-cell"

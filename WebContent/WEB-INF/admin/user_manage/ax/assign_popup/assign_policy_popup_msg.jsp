@@ -31,17 +31,24 @@
 		
 									<!-- panel content -->
 									<div class="panel-body">
-										<table class="table table-bordered" id="msg_block_info_table" style="width:100%;">
+										<table class="table table-bordered table-td-middle" id="msg_block_info_table" style="width:100%;">
+											<col width="80px">
+											<col width="140px">
+											<col>
+											<col width="80px">
+											<col width="80px">
+											<col width="80px">
+											<col width="80px">
 											<thead>
 												<tr>
-													<td>선택</td>
-													<td>메신저ID</td>
-													<td>메신저명</td>
-													<td>파일명</td>
-													<td>Message로깅</td>
-													<td>Message차단</td>
-													<td>File전송로깅</td>
-													<td>File전송차단</td>
+													<th>선택</td>
+													<th class="center-cell vertical-middle">메신저ID</th>
+													<th class="center-cell vertical-middle">메신저명</th>
+													<th class="center-cell vertical-middle">파일명</th>
+													<th class="center-cell vertical-middle">Message<br />로깅</th>
+													<th class="center-cell vertical-middle">Message<br />차단</th>
+													<th class="center-cell vertical-middle">File전송<br />로깅</th>
+													<th class="center-cell vertical-middle">File전송<br />차단</th>
 												</tr>
 											</thead>
 											<tbody>

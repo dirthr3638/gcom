@@ -29,15 +29,20 @@
 		
 									<!-- panel content -->
 									<div class="panel-body">
-										<table class="table table-bordered" id="process_info_table" style="width: 100%">
+										<table class="table table-bordered table-td-middle" id="process_info_table" style="width: 100%">
+											<col width="90px">
+											<col width="140px">
+											<col width="200px">
+											<col >
+											<col width="170px">
 											<thead>
 												<tr>
-													<td>선택</td>
-													<td>프로세스ID</td>
-													<td>프로세스이름</td>
-													<td>프로세스경로</td>
-													<td>해시데이터</td>
-													<td>설명</td>
+													<th> 선택</th>
+													<th class="center-cell vertical-middle">프로세스ID</th>
+													<th class="center-cell vertical-middle">프로세스이름</th>
+													<th class="center-cell vertical-middle">프로세스경로</th>
+													<th class="center-cell vertical-middle">해시데이터</th>
+													<th class="center-cell vertical-middle">설명</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -148,8 +153,8 @@ function process_info_table() {
 					,"class":"center-cell"
 				}, {	
 					"targets": [5]	// 설명
-				,"class":"center-cell"
-			}],
+					,"class":"left-cell"
+				}],
 				"initComplete": function( settings, json ) {
 				}
 			});
