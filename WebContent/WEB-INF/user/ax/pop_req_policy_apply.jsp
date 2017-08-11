@@ -6,11 +6,11 @@
 %>
 
 <!-- Alert -->
-<link href="/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
-<link href="/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
 
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.min.js"></script>
-<script type="text/javascript" src="/assets/plugins/vex/js/vex.combined.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 
 <div id="modalApplyPolicy" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
 	<div class="modal-dialog" style="width:940px;">
@@ -192,7 +192,7 @@
 										
 										<div class="ld_modal hidden" >
 										    <div class="ld_center" >
-										        <img alt="" src="/assets/images/loaders/loading.gif" />
+										        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
 										    </div>
 										</div>
 										
@@ -215,8 +215,8 @@
 		</div>
 	</div>
 </div>
-	<script type="text/javascript" src="/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
 
 <script type="text/javascript">
 

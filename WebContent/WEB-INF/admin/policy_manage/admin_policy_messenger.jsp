@@ -318,15 +318,19 @@
 						}, {	
 							"targets": [3]	//Message 로깅
 							,"class":"center-cell"
+							,"visible" : false
 						}, {	
 							"targets": [4],	//Message 차단
 							"class":"center-cell"
+							,"visible" : false
 						}, {	
 							"targets": [5]	//File 로깅
 							,"class" : "center-cell"
+							,"visible" : false
 						}, {	
 							"targets": [6]	//File 차단
 							,"class" : "center-cell"
+							,"visible" : false
 						}, {	
 							"targets": [7]	//삭제
 							,"class" : "center-cell"

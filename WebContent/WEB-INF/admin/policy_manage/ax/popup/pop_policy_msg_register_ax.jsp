@@ -73,7 +73,7 @@
 														<input type="text" id="att_msg_pro_name" name="att_msg_pro_name" class="form-control" value="<%= msgProName %>" />
 													</td>
 												</tr>
-												<tr>
+												<tr class="hidden">
 													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >텍스트로그사용여부</td>
 													<td>
 														<label class="radio nomargin-top nomargin-bottom">
@@ -84,7 +84,7 @@
 														</label>
 													</td>
 												</tr>
-												<tr>
+												<tr class="hidden">
 													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >텍스트차단사용여부</td>
 													<td>
 														<label class="radio nomargin-top nomargin-bottom">
@@ -95,7 +95,7 @@
 														</label>
 													</td>
 												</tr>
-												<tr>
+												<tr class="hidden">
 													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >파일로그사용여부</td>
 													<td>
 														<label class="radio nomargin-top nomargin-bottom">
@@ -106,7 +106,7 @@
 														</label>
 													</td>
 												</tr>
-												<tr>
+												<tr class="hidden">
 													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >파일차단사용여부</td>
 													<td>
 														<label class="radio nomargin-top nomargin-bottom">

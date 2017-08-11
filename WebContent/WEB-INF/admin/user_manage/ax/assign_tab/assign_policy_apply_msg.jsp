@@ -228,15 +228,19 @@
 					}, {	
 						"targets": [4]	// 텍스트 로그
 						,"class":"center-cell"
+						,"visible" : false
 					}, {	
 						"targets": [5]	// 텍스트 차단
 						,"class":"center-cell"
+						,"visible" : false
 					}, {	
 						"targets": [6]	// 파일 로그
 						,"class":"center-cell"
+						,"visible" : false
 					}, {	
 						"targets": [7]	// 파일 차단
 						,"class":"center-cell"
+						,"visible" : false
 					}],
 					"initComplete": function( settings, json ) {
 					}
