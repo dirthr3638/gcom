@@ -155,7 +155,7 @@
 														<th>부서</th>
 														<th>아이디</th>
 														<th>이름</th>
-														<th>번호</th>
+														<th>사번</th>
 														<th>직책</th>
 														<th>계급</th>														
 														<th>IP</th>
@@ -427,10 +427,10 @@
 						            	search: 'applied',
 						                order: 'applied'
 						        	},
-					                columns: [2,3,4,5,6,7,8,9,10,11],
+					                columns: [2,3,4,11],
 									format: {
 										body: function ( data, row, column, node) {
-											if (column === 9) {
+											if (column === 3) {
 												var i_tag = $('i', node);
 												var i_text = '';
 												
@@ -460,10 +460,10 @@
 				                		search: 'applied',
 				                    	order: 'applied'
 				                	},
-				                	columns: [2,3,4,5,6,7,8,9,10,11],
+				                	columns: [2,3,4,11],
 									format: {
 										body: function ( data, row, column, node) {
-											if (column === 9) {
+											if (column === 3) {
 												var i_tag = $('i', node);
 												var i_text = '';
 												
@@ -482,7 +482,15 @@
 											}
 										}
 					             	}
-				             	 }
+				             	 },
+				             	 customize: function ( win ) {
+				                    $(win.document.body)
+				                        .css( 'font-size', '10px' )
+				 
+				                    $(win.document.body).find( 'table' )
+				                        .addClass( 'compact' )
+				                        .css( 'font-size', 'inherit' );
+				                 }
 				              },
 				     	],
 				 		"serverSide" : true,
