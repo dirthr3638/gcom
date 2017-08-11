@@ -1,73 +1,73 @@
 function getPolicyDetailTable(data){
-	var sOut = '<table class="table ">';
-
-	sOut += '<tr><td class="center-cell">요청시간:</td><td>' + data.requestServerTime +'</td>';
-	sOut += '<td style="padding-left:100px;" class="center-cell">요청시간(PC):</td><td>' + data.requestClientTime +'</td></tr>';	
+	var sOut = '<table class="table table-bordered">';
+	sOut += '<col width="25%"><col width="25%"><col width="25%"><col width="25%">'
+	sOut += '<tr><td class="center-cell th-cell-gray">요청시간</td><td>' + data.requestServerTime +'</td>';
+	sOut += '<td class="center-cell th-cell-gray">요청시간(PC)</td><td>' + data.requestClientTime +'</td></tr>';	
 
 	if(data.uninstall_enabled == true){
-		sOut += '<tr><td class="center-cell">에이전트삭제가능:</td><td>허용</td>';
+		sOut += '<tr><td class="center-cell th-cell-gray">에이전트삭제가능</td><td>허용</td>';
 	}else{
-		sOut += '<tr><td class="center-cell">에이전트삭제가능:</td><td>불허</td>';		
+		sOut += '<tr><td class="center-cell th-cell-gray">에이전트삭제가능</td><td>불허</td>';		
 	}
 
 	if(data.isPrint == true){
-		sOut += '<td style="padding-left:100px;" class="center-cell">프린트사용가능:</td><td>허용</td></tr>';	
+		sOut += '<td class="center-cell th-cell-gray">프린트사용가능</td><td>허용</td></tr>';	
 	}else{
-		sOut += '<td style="padding-left:100px;" class="center-cell">프린트사용가능:</td><td>불허</td></tr>';			
+		sOut += '<td class="center-cell th-cell-gray">프린트사용가능</td><td>불허</td></tr>';			
 	}
 
 	if(data.isWaterMark == true){
-		sOut += '<tr><td class="center-cell">워터마크:</td><td>출력</td>';
+		sOut += '<tr><td class="center-cell th-cell-gray">워터마크:</td><td>출력</td>';
 	}else{
-		sOut += '<tr><td class="center-cell">워터마크:</td><td>미출력</td>';		
+		sOut += '<tr><td class="center-cell th-cell-gray">워터마크:</td><td>미출력</td>';		
 	}
 	
 	if(data.isFileEncryption == true){
-		sOut += '<td style="padding-left:100px;" class="center-cell">실시간파일암호화:</td><td>암호화</td></tr>';	
+		sOut += '<td class="center-cell th-cell-gray">실시간파일암호화:</td><td>암호화</td></tr>';	
 	}else{
-		sOut += '<td style="padding-left:100px;" class="center-cell">실시간파일암호화:</td><td>비암호화</td></tr>';			
+		sOut += '<td class="center-cell th-cell-gray">실시간파일암호화:</td><td>비암호화</td></tr>';			
 	}
 	
 	if(data.isUsbBlock == true){
-		sOut += '<tr><td class="center-cell">USB차단:</td><td>차단</td>';	
+		sOut += '<tr><td class="center-cell th-cell-gray">USB차단:</td><td>차단</td>';	
 	}else{
-		sOut += '<tr><td class="center-cell">USB차단:</td><td>허용</td>';			
+		sOut += '<tr><td class="center-cell th-cell-gray">USB차단:</td><td>허용</td>';			
 	}
 	
 	if(data.isComPortBlock == true){
-		sOut += '<td style="padding-left:100px;" class="center-cell">시리얼차단:</td><td>차단</td></tr>';	
+		sOut += '<td class="center-cell th-cell-gray">시리얼차단:</td><td>차단</td></tr>';	
 	}else{
-		sOut += '<td style="padding-left:100px;" class="center-cell">시리얼차단:</td><td>허용</td></tr>';			
+		sOut += '<td class="center-cell th-cell-gray">시리얼차단:</td><td>허용</td></tr>';			
 	}
 	
 	if(data.isWlan == true){	//무선랜
-		sOut += '<tr><td class="center-cell">무선랜:</td><td>차단</td>';	
+		sOut += '<tr><td class="center-cell th-cell-gray">무선랜:</td><td>차단</td>';	
 	}else{
-		sOut += '<tr><td class="center-cell">무선랜:</td><td>허용</td>';			
+		sOut += '<tr><td class="center-cell th-cell-gray">무선랜:</td><td>허용</td>';			
 	}
 	
 	if(data.isFilePattern == true){	//메일반출
-		sOut += '<td style="padding-left:100px;" class="center-cell">메일반출:</td><td>허용</td></tr>';	
+		sOut += '<td class="center-cell th-cell-gray">메일반출:</td><td>허용</td></tr>';	
 	}else{
-		sOut += '<td style="padding-left:100px;" class="center-cell">메일반출:</td><td>불허</td></tr>';			
+		sOut += '<td class="center-cell th-cell-gray">메일반출:</td><td>불허</td></tr>';			
 	}
 	
 	if(data.isFilePattern == true){
-		sOut += '<tr><td class="center-cell">민감정보파일접근:</td><td>차단</td>';	
+		sOut += '<tr><td class="center-cell th-cell-gray">민감정보파일접근:</td><td>차단</td>';	
 	}else{
-		sOut += '<tr><td class="center-cell">민감정보파일접근:</td><td>허용</td>';			
+		sOut += '<tr><td class="center-cell th-cell-gray">민감정보파일접근:</td><td>허용</td>';			
 	}
 	
 	if(data.isNetShare == true){	//공유폴더
-		sOut += '<td style="padding-left:100px;" class="center-cell">공유폴더:</td><td>차단</td></tr>';	
+		sOut += '<td class="center-cell th-cell-gray">공유폴더:</td><td>차단</td></tr>';	
 	}else{
-		sOut += '<td style="padding-left:100px;" class="center-cell">공유폴더:</td><td>허용</td></tr>';			
+		sOut += '<td class="center-cell th-cell-gray">공유폴더:</td><td>허용</td></tr>';			
 	}
 	
 	if(data.isCdEnabled == true){
-		sOut += '<tr><td class="center-cell">USB차단:</td><td>차단</td></tr>';	
+		sOut += '<tr><td class="center-cell th-cell-gray">USB차단:</td><td>차단</td></tr>';	
 	}else{
-		sOut += '<tr><td class="center-cell">USB차단:</td><td>허용</td></tr>';			
+		sOut += '<tr><td class="center-cell th-cell-gray">USB차단:</td><td>허용</td></tr>';			
 	}
 	
 	sOut += '</table>';

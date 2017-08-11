@@ -504,10 +504,10 @@
 				var aData = oTable.fnGetData(nTr);
 				var sOut = '<table class="table table-bordered">';
 				sOut += '<col width="25%"><col width="25%"><col width="25%"><col width="25%">';
-				sOut += '<tr><td class="center-cell th-cell-gray">PC접속시간:</td><td>' + aData.login_clienttime + '</td>';
-				sOut += '<td class="center-cell th-cell-gray">PC명:</td><td>' + aData.pcName + '</td></tr>';
-				sOut += '<tr><td class="center-cell th-cell-gray">MAC:</td><td>' + aData.macAddr + '</td>';
-				sOut += '<td class="center-cell th-cell-gray">연락처:</td><td>' + aData.phone + '</td></tr>';												
+				sOut += '<tr><td class="center-cell th-cell-gray">PC접속시간</td><td>' + aData.login_clienttime + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">PC명</td><td>' + aData.pcName + '</td></tr>';
+				sOut += '<tr><td class="center-cell th-cell-gray">MAC</td><td>' + aData.macAddr + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">연락처</td><td>' + aData.phone + '</td></tr>';												
 				sOut += '</table>';
 
 				return sOut;

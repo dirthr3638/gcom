@@ -575,13 +575,14 @@
 			
 			function fnFormatDetails(oTable, nTr) {
 				var aData = oTable.fnGetData(nTr);
-				var sOut = '<table class="table fixed">';
-				sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
-				sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-				sOut += '<tr><td class="center-cell">서버반출시간:</td><td>' + aData.exportServerTime + '</td>';
-				sOut += '<td class="center-cell">파티션식별자:</td><td>' + aData.partitionGuid + '</td></tr>';
-				sOut += '<tr><td class="center-cell">파티션이름:</td><td>' + aData.partitionLabel + '</td>';
-				sOut += '<td class="center-cell">메모:</td><td>' + aData.notice + '</td></tr>';
+				var sOut = '<table class="table table-bordered">';
+				sOut += '<col width="25%"><col width="25%"><col width="25%"><col width="25%">';
+				sOut += '<tr><td class="center-cell th-cell-gray">MAC</td><td>' + aData.macAddr + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">PC명</td><td>' + aData.pcName + '</td></tr>';
+				sOut += '<tr><td class="center-cell th-cell-gray">서버반출시간</td><td>' + aData.exportServerTime + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">파티션식별자</td><td>' + aData.partitionGuid + '</td></tr>';
+				sOut += '<tr><td class="center-cell th-cell-gray">파티션이름</td><td>' + aData.partitionLabel + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">메모</td><td>' + aData.notice + '</td></tr>';
 										
 				sOut += '</table>';
 
