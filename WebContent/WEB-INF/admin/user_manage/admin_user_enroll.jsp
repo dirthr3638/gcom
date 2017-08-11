@@ -498,30 +498,82 @@
 			          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
 			        },
 			    "buttons": [
-					              {
-				                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
-				                  extend: 'csvHtml5',
-				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
-				                  bom: true,
-				                  exportOptions: {
-				                      modifier: {
-				                          search: 'applied',
-				                          order: 'applied'
-				                      }
-				                  }
-				              },  					              {
-			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-			                  extend: 'print',
-			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-			                  exportOptions: {
-			                      modifier: {
-			                          search: 'applied',
-			                          order: 'applied'
-			                      }
-			                  }
-			              }, 
-
-			     ],
+					{
+						text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+						extend: 'csvHtml5',
+						className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+						bom: true,
+						exportOptions: {
+						    modifier: {
+						        search: 'applied',
+						        order: 'applied'
+						    },
+							columns: [0,3,4,5,6,7],
+							format: {
+								body: function ( data, row, column, node) {
+									if (column === 5) {
+										var status = data.trim();
+										var strStatus = '';
+										
+										if(status == 'W'){
+											strStatus = '대기';
+										}else if(status == 'P'){
+											strStatus = '승인완료';
+										}else if(status == 'R'){
+											strStatus = '반려처리';
+										}
+									
+										return strStatus;
+									
+									} else {
+										return data;	
+									}
+								}
+			             	}
+						}
+					},  					              
+					{
+						text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+						extend: 'print',
+						className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+						exportOptions: {
+						    modifier: {
+						        search: 'applied',
+						        order: 'applied'
+						    },
+							columns: [0,3,4,5,6,7],
+							format: {
+								body: function ( data, row, column, node) {
+									if (column === 5) {
+										var status = data.trim();
+										var strStatus = '';
+										
+										if(status == 'W'){
+											strStatus = '대기';
+										}else if(status == 'P'){
+											strStatus = '승인완료';
+										}else if(status == 'R'){
+											strStatus = '반려처리';
+										}
+									
+										return strStatus;
+									
+									} else {
+										return data;	
+									}
+								}
+			             	}
+						},
+						customize: function ( win ) {
+		                    $(win.document.body)
+		                        .css( 'font-size', '15px' )
+		 
+		                    $(win.document.body).find( 'table' )
+		                        .addClass( 'compact' )
+		                        .css( 'font-size', 'inherit' );
+		                }
+					}, 
+			    ],
 		 		"serverSide" : true,
 		 	    "ordering": true,
 				"columns": [{

@@ -488,31 +488,40 @@
 			          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
 			        },
 			    "buttons": [
-					              {
-				                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
-				                  extend: 'csvHtml5',
-				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
-				                  bom: true,
-				                  exportOptions: {
-				                      modifier: {
-				                          search: 'applied',
-				                          order: 'applied'
-				                      }
-				                  }
-				              },  					              {
-			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
-			                  extend: 'print',
-			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
-			                  exportOptions: {
-			                      modifier: {
-			                          search: 'applied',
-			                          order: 'applied'
-			                      }
-			                  }
-			              }, 
-
-			     ],
-				
+					{
+						text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+						extend: 'csvHtml5',
+						className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+						bom: true,
+						exportOptions: {
+						    modifier: {
+						        search: 'applied',
+						        order: 'applied'
+						    },
+							columns: [1,2,3,4,5,6]
+						}
+					},  					              
+					{
+						text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+						extend: 'print',
+						className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+						exportOptions: {
+						    modifier: {
+						        search: 'applied',
+						        order: 'applied'
+						    },
+							columns: [1,2,3,4,5,6]
+						},
+						customize: function ( win ) {
+		                    $(win.document.body)
+		                        .css( 'font-size', '15px' )
+		 
+		                    $(win.document.body).find( 'table' )
+		                        .addClass( 'compact' )
+		                        .css( 'font-size', 'inherit' );
+		                }
+					}
+			    ],
 		 		"serverSide" : true,
 		 		"processing": true,
 		 	    "ordering": true,
