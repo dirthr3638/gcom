@@ -219,7 +219,7 @@ public class UserDAO {
 			if("1".equals(search_type)) {
 				sql += "AND bbs.bbs_title like ? ";
 			} else if ("2".equals(search_type)) {
-				sql += "AND user_info.name like ? ";
+				sql += "AND admin.id like ? ";
 			}
 		}
 		
@@ -1478,14 +1478,9 @@ public class UserDAO {
 		int userNo = Integer.parseInt(map.get("user_no").toString());
 		String password = hashEncrypto.HashEncrypt(map.get("password").toString());
 		String changePasswordYn = map.get("changePasswordYn").toString();
-		String saveFileName = map.get("saveFileName").toString();
-		String viewFileName = map.get("viewFileName").toString();
-		String filepath = map.get("filepath").toString();
-		String fileYn = map.get("fileYn").toString();
-		int attFileId = Integer.parseInt(map.get("attFileId").toString());
 		
-		// 첨부파일이 없고 비밀번호 변경도 아닐 경우
-		if ("N".equals(changePasswordYn) && "N".equals(fileYn)) {
+		// 비밀번호 변경이 경우
+		if ("N".equals(changePasswordYn)) {
 			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
 			return result;
 		}
@@ -1495,47 +1490,6 @@ public class UserDAO {
 		try{
 			con = ds.getConnection();
 			con.setAutoCommit(false);
-			
-			if (fileYn.equals("Y")) {
-				
-				if (attFileId == 0) {
-					sql = "INSERT INTO services_file_upload_info (att_file_path, view_file_nm, save_file_nm) "
-						+ "VALUES (?, ?, ?) ";
-					
-					pstmt=con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
-					pstmt.setString(1, filepath);
-					pstmt.setString(2, viewFileName);
-					pstmt.setString(3, saveFileName);
-					pstmt.executeUpdate();
-					
-					rs = pstmt.getGeneratedKeys();
-					
-					if (rs.next()) {
-						int file_id = rs.getInt(1);
-						
-						sql = "UPDATE user_info SET attfile_id = ? WHERE no = ?";
-						
-						pstmt=con.prepareStatement(sql);
-						pstmt.setInt(1, file_id);
-						pstmt.setInt(2, userNo);
-						pstmt.executeUpdate();
-					}
-					
-				} else {
-					sql = "UPDATE services_file_upload_info "
-						+ "SET att_file_path = ? , "
-						+ "view_file_nm = ? , "
-						+ "save_file_nm = ? "
-						+ "WHERE attfile_id = ? ";
-					
-					pstmt=con.prepareStatement(sql);
-					pstmt.setString(1, filepath);
-					pstmt.setString(2, viewFileName);
-					pstmt.setString(3, saveFileName);
-					pstmt.setInt(4, attFileId);
-					pstmt.executeUpdate();
-				}
-			} 
 				
 			if ("Y".equals(changePasswordYn)) {
 				sql = "UPDATE user_info SET password = ? WHERE no = ?";

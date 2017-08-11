@@ -30,16 +30,6 @@ public class axUserInfoSave extends HttpServlet {
 		String changePasswordCheck = request.getParameter("change_password_check");
 		String changePasswordYn = "N";
 		
-		String saveFileName = request.getParameter("att_upload_save_filename");
-		String viewFileName = request.getParameter("att_upload_view_filename");
-		String filepath = request.getParameter("att_upload_filepath");
-		String fileYn = "N";
-		String attFileId = request.getParameter("att_File_id");
-		
-		if (!"".equals(saveFileName)) {
-			fileYn = "Y";
-		}
-		
 		HashMap<String, Object> data =  new HashMap<String, Object>();
 		
 		if (!changePassword.equals(changePasswordCheck)) {
@@ -53,11 +43,6 @@ public class axUserInfoSave extends HttpServlet {
 			param.put("user_no", userNo);
 			param.put("password", changePassword);
 			param.put("changePasswordYn", changePasswordYn);
-			param.put("saveFileName", saveFileName);
-			param.put("viewFileName", viewFileName);
-			param.put("filepath", filepath);
-			param.put("fileYn", fileYn);
-			param.put("attFileId", attFileId);
 			
 			updateAction action = new updateAction();
 			
