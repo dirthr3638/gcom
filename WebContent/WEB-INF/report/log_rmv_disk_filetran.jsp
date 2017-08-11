@@ -513,10 +513,11 @@
 			
 			function fnFormatDetails(oTable, nTr) {
 				var aData = oTable.fnGetData(nTr);
-				var sOut = '<table class="table fixed">';
-				sOut += '<tr><td class="center-cell">MAC:</td><td>' + aData.macAddr + '</td>';
-				sOut += '<td class="center-cell">PC명:</td><td>' + aData.pcName + '</td></tr>';
-				sOut += '<tr><td class="center-cell">PC반출시간:</td><td>' + aData.clientTime + '</td><td></td><td></td></tr>';
+				var sOut = '<table class="table table-bordered">';
+				sOut += '<col width="25%"><col width="25%"><col width="25%"><col width="25%">';
+				sOut += '<tr><td class="center-cell th-cell-gray">MAC</td><td>' + aData.macAddr + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">PC명</td><td>' + aData.pcName + '</td></tr>';
+				sOut += '<tr><td class="center-cell th-cell-gray">PC반출시간</td><td colspan="3">' + aData.clientTime + '</td></tr>';
 										
 				sOut += '</table>';
 
