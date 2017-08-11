@@ -181,6 +181,7 @@
 														<th >발송시간(서버)</th>
 														<th >발송시간</th>
 														<th >파일아이디</th>
+														<th >파일리스트</th>
 													</tr>
 												</thead>				
 												<tbody>
@@ -373,6 +374,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
+					                	columns: [1,2,3,4,7,10,15,12],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -383,6 +385,8 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
+				                	columns: [1,2,3,4,7,10,12],
+
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
@@ -437,6 +441,9 @@
 					"orderable": false	//클라시간
 				}, {
 					data: "fileId",
+					"orderable": false	//파일아이디
+				}, {
+					data: "fileList",
 					"orderable": false	//파일아이디
 				}],
 				// set the initial value
@@ -533,10 +540,14 @@
 					"targets": [13]	//발송시간(PC)
 					,"class" : "center-cell"
 				}, {	
-					"targets": [14]	//
+					"targets": [14]	//파일아이디
 					,"class" : "center-cell"
 					,"visible" : false
-			}],						
+				}, {	
+					"targets": [15]	//파일리스트
+					,"class" : "center-cell"
+					,"visible" : false
+				}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
 				}

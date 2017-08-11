@@ -212,6 +212,7 @@
 														<th >패턴</th>
 														<th >검출시간(서버)</th>
 														<th >검출시간</th>
+														<th >파일명</th>
 													</tr>
 												</thead>				
 												<tbody>
@@ -388,6 +389,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
+					                	columns: [1,2,3,4,7,17,12,14,15],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -398,6 +400,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
+				                	columns: [1,2,3,4,7,17,12,14,15],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
@@ -458,6 +461,9 @@
 					"orderable": false	//검출시간(서버)
 				}, {
 					data: "foundClientTime",
+					"orderable": false	//검출시간
+				}, {
+					data: "fileName",
 					"orderable": false	//검출시간
 				}],
 				// set the initial value
@@ -571,7 +577,11 @@
 				}, {	
 					"targets": [16]	//발송시간(PC)
 					,"class" : "center-cell"
-				}		
+				}, {	
+					"targets": [17]	//파일명
+					,"class" : "center-cell"
+					,"visible" : false
+				}				
 			],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
