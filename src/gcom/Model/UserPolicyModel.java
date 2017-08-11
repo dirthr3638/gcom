@@ -6,6 +6,7 @@ import lombok.Data;
 public class UserPolicyModel {
 	// 기본 사용자 정보
 	private int agentNo;
+	private int uno;
 	private String userNo;
 	private int policyNo;
 	private String userName = "";

@@ -407,7 +407,7 @@
 		<% for(int i = 0; i < apply_list.size(); i++) { %>
 			var map = new Object();
 			map['agent_no'] = <%= apply_list.get(i).get("agentNo") %>
-			map['user_no'] = <%= apply_list.get(i).get("userNo") %>
+			map['user_no'] = <%= apply_list.get(i).get("uno") %>
 			map['policy_no'] = <%= apply_list.get(i).get("policyNo") %>
 			
 			arr.push(map);

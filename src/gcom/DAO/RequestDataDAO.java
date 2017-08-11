@@ -356,8 +356,8 @@ public class RequestDataDAO {
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
 		String insertSql= "INSERT INTO user_info "
-				+ "(dept_no, duty, rank, number, name, phone, id, valid, salt, pshash, ekek, session_id, public_key, private_key, password) "
-				+ "SELECT dept_no, mem_duty, mem_rank, mem_number, mem_name, mem_phone, account_id, 1, null, null, null, null, null, null, mem_password  FROM user_account_request WHERE req_id = ? ";
+				+ "(dept_no, duty, rank, number, name, phone, id, valid, salt, pshash, ekek, session_id, public_key, private_key, password, notice) "
+				+ "SELECT dept_no, mem_duty, mem_rank, mem_number, mem_name, mem_phone, account_id, 1, null, null, null, null, null, null, mem_password, ''  FROM user_account_request WHERE req_id = ? ";
 
 		String updateSql= "UPDATE user_account_request SET permit = 'P', permit_date = NOW(), permit_admin_id = ? WHERE req_id = ? ";
 

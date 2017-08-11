@@ -750,6 +750,8 @@ sql += whereSql;
 			"SELECT "
 				+ "ai.no as agentNo, "
 			    + "ui.number as userNo, "
+			    + "ui.no as uno, "
+				
 			    + "ai.policy_no as policyNo, "
 			    + "ai.dept_no as deptId, "
 			    + "ui.id as userId, "
@@ -822,6 +824,7 @@ sql += whereSql;
 				UserPolicyModel model = new UserPolicyModel();
 				model.setAgentNo(rs.getInt("agentNo"));
 				model.setUserNo(rs.getString("userNo"));
+				model.setUno(rs.getInt("uno"));
 				model.setPolicyNo(rs.getInt("policyNo"));
 				model.setDeptId(rs.getInt("deptId"));
 				model.setUserId(rs.getString("userId"));
