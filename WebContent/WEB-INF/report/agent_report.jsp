@@ -573,7 +573,7 @@
 				var sOut = '<table class="table table-bordered">';
 				sOut += '<col width="25%"><col width="25%"><col width="25%"><col width="25%">';
 				sOut += '<tr><td class="center-cell th-cell-gray">설치시간:</td><td>' + aData.install_server_time + '</td>';
-				sOut += '<td class="center-cell th-cell-gray">접속시간:</td><td>' + aData.server_client_time + '</td></tr>';
+				sOut += '<td class="center-cell th-cell-gray">접속시간:</td><td>' + aData.connect_server_time + '</td></tr>';
 				sOut += '</table>';
 
 				return sOut;
