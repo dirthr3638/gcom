@@ -53,6 +53,20 @@ public class getAction {
 		
 		return result;
 	}
+
+	public HashMap<String, Object> getAgentList(HashMap<String, Object> map){
+		
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		IUserAgentService as = new UserAgentServiceImpl();
+		List<UserAgentModel> data = as.getAgentList(map);
+		result.put("data", data);
+		int total = as.getAgentListCount(map);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+		
+		return result;
+	}
+
 	
 	public HashMap<String, Object> getLoginLogList(HashMap<String, Object> map){
 		HashMap<String, Object> result = new HashMap<String, Object>();

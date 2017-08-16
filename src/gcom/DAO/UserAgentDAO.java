@@ -44,6 +44,253 @@ public class UserAgentDAO {
 		
 		String user_duty = map.get("user_duty").toString();
 		String user_rank = map.get("user_rank").toString();
+//		int user_connected = Integer.parseInt(map.get("user_connected").toString());
+		String user_number = map.get("user_number").toString();
+/*		String user_pc = map.get("user_pc").toString();
+		String user_ip = map.get("user_ip").toString();
+*/		int user_installed = Integer.parseInt(map.get("user_installed").toString());
+
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}else{
+			return result;
+		}
+			
+		
+		if(!user_id.equals("")) 	whereSql += "AND userinfo.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND userinfo.name LIKE ? ";
+		if(!user_phone.equals("")) 	whereSql += "AND userinfo.phone LIKE ? ";
+		if(user_installed == 1) 	whereSql += "AND agent.ip_addr is not null ";	//설치 선택
+		else if(user_installed == 2) 	whereSql += "AND agent.ip_addr is null ";	//미설치 선택
+
+		if(!user_duty.equals("")) 	whereSql += "AND userinfo.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND userinfo.rank LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND userinfo.number LIKE ? ";
+/*		if(!user_pc.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(!user_ip.equals("")) 	whereSql += "AND agent.ip_addr LIKE ? ";
+
+		if(user_connected == 2) 	whereSql += "AND agent.connect_server_time < now() - interval 30 minute ";	//접속 선택
+		else if(user_connected == 1) 	whereSql += "AND agent.connect_server_time >= now() -  interval 30 minute ";	//미접속 선택
+*/
+		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";
+		
+		String sql= 
+"SELECT "
++ "COUNT(*) AS cnt " 
++ "FROM user_info AS userinfo "
++ "LEFT JOIN agent_info AS agent ON agent.own_user_no=userinfo.no "
++ "INNER JOIN dept_info AS dept ON userinfo.dept_no = dept.no ";
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+
+
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");;
+/*			if(!user_pc.equals("")) 	pstmt.setString(i++, "%" + user_pc + "%");
+			if(!user_ip.equals("")) 	pstmt.setString(i++, "%" + user_ip + "%");
+
+*/			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	
+	public List<UserAgentModel> getUserAgentList(HashMap<String, Object> map){
+		List<UserAgentModel> data = new ArrayList<UserAgentModel>();
+		
+		String whereSql = "WHERE userinfo.valid=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		
+		String user_phone = map.get("user_phone").toString();
+		
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+//		int user_connected = Integer.parseInt(map.get("user_connected").toString());
+		String user_number = map.get("user_number").toString();
+//		String user_pc = map.get("user_pc").toString();
+//		String user_ip = map.get("user_ip").toString();
+		int user_installed = Integer.parseInt(map.get("user_installed").toString());
+
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}else{
+			return data;
+		}
+
+		if(!user_id.equals("")) 	whereSql += "AND userinfo.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND userinfo.name LIKE ? ";
+		if(!user_phone.equals("")) 	whereSql += "AND userinfo.phone LIKE ? ";
+		if(user_installed == 1) 	whereSql += "AND agent.ip_addr is not null ";	//설치 선택
+		else if(user_installed == 2) 	whereSql += "AND agent.ip_addr is null ";	//미설치 선택
+
+		if(!user_duty.equals("")) 	whereSql += "AND userinfo.duty LIKE ? ";
+		if(!user_rank.equals("")) 	whereSql += "AND userinfo.rank LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND userinfo.number LIKE ? ";
+/*		if(!user_pc.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+		if(!user_ip.equals("")) 	whereSql += "AND agent.ip_addr LIKE ? ";
+
+		if(user_connected == 2) 	whereSql += "AND agent.connect_server_time < now() - interval 30 minute ";	//접속 선택
+		else if(user_connected == 1) 	whereSql += "AND agent.connect_server_time >= now() -  interval 30 minute ";	//미접속 선택
+*/
+		
+		if(oDept != null)			whereSql += "AND userinfo.dept_no in ("+idList+") ";
+		
+		whereSql += "ORDER BY userinfo.no desc LIMIT ?, ? ";	
+		
+		String sql= 
+"SELECT "
++ "userinfo.no AS uid, "
++ "userinfo.dept_no,"
++ "userinfo.duty,"
++ "userinfo.rank,"
++ "userinfo.name, "
++ "userinfo.phone, "
++ "userinfo.id,"
++ "userinfo.valid,"
++ "userinfo.number, "
++ "dept.short_name AS dept_name,"
++ "ifnull(agent.pc_name, '') AS pc_name,"
++ "ifnull(agent.ip_addr,'') AS ip_addr, "
++ "ifnull(agent.mac_addr,'') AS mac_addr, "
++ "ifnull(agent.connect_server_time,'') AS connect_server_time, "
++ "ifnull(agent.install_server_time,'') AS install_server_time, "
++ "ifnull(agent.connect_server_time,'') AS connect_client_time, "
++ "ifnull(agent.install_server_time,'') AS install_client_time, "
++ "ifnull(agent.version, '') AS version, "
++ "if(agent.connect_server_time >= now() - interval 30 minute, 1, 0 ) AS isConnected "
++ "FROM user_info AS userinfo "
++ "LEFT JOIN agent_info AS agent ON agent.own_user_no=userinfo.no "
++ "INNER JOIN dept_info AS dept ON userinfo.dept_no = dept.no ";
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+
+
+			if(!user_duty.equals("")) 	pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) 	pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_number.equals("")) 	pstmt.setString(i++, "%" + user_number + "%");;
+/*			if(!user_pc.equals("")) 	pstmt.setString(i++, "%" + user_pc + "%");
+			if(!user_ip.equals("")) 	pstmt.setString(i++, "%" + user_ip + "%");
+*/
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+
+			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
+			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				UserAgentModel model = new UserAgentModel();
+				model.setUid(rs.getInt("uid"));
+				model.setDeptNo(rs.getInt("dept_no"));
+				model.setDuty(rs.getString("duty"));
+				model.setRank(rs.getString("rank"));
+				model.setName(rs.getString("name"));
+				model.setNumber(rs.getString("number"));				
+				model.setPhone(rs.getString("phone"));
+				model.setId(rs.getString("id"));
+				model.setDeptName(rs.getString("dept_name"));
+				model.setValid(rs.getInt("valid"));
+				model.setVersion(rs.getString("version"));
+				model.setPcName(rs.getString("pc_name"));
+				model.setIpAddr(rs.getString("ip_addr"));
+				model.setMacAddr(rs.getString("mac_addr"));
+				model.setConnect_server_time(rs.getString("connect_server_time"));
+				model.setConnect_client_time(rs.getString("connect_client_time"));
+				model.setInstall_server_time(rs.getString("install_server_time"));
+				model.setInstall_client_time(rs.getString("install_client_time"));
+
+				data.add(model);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
+	
+	
+	public int getAgentListCount(HashMap<String, Object> map){
+		int result = 0;
+		
+		String whereSql = "WHERE userinfo.valid=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		
+		String user_phone = map.get("user_phone").toString();
+		
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
 		int user_connected = Integer.parseInt(map.get("user_connected").toString());
 		String user_number = map.get("user_number").toString();
 		String user_pc = map.get("user_pc").toString();
@@ -86,8 +333,8 @@ public class UserAgentDAO {
 		String sql= 
 "SELECT "
 + "COUNT(*) AS cnt " 
-+ "FROM user_info AS userinfo "
-+ "LEFT JOIN agent_info AS agent ON agent.own_user_no=userinfo.no "
++ "FROM agent_info AS agent "
++ "LEFT JOIN user_info AS userinfo ON agent.own_user_no=userinfo.no "
 + "INNER JOIN dept_info AS dept ON userinfo.dept_no = dept.no ";
 sql += whereSql;			
 			
@@ -135,7 +382,7 @@ sql += whereSql;
 	}
 	
 	
-	public List<UserAgentModel> getUserAgentList(HashMap<String, Object> map){
+	public List<UserAgentModel> getAgentList(HashMap<String, Object> map){
 		List<UserAgentModel> data = new ArrayList<UserAgentModel>();
 		
 		String whereSql = "WHERE userinfo.valid=1 ";
@@ -208,8 +455,8 @@ sql += whereSql;
 + "ifnull(agent.install_server_time,'') AS install_client_time, "
 + "ifnull(agent.version, '') AS version, "
 + "if(agent.connect_server_time >= now() - interval 30 minute, 1, 0 ) AS isConnected "
-+ "FROM user_info AS userinfo "
-+ "LEFT JOIN agent_info AS agent ON agent.own_user_no=userinfo.no "
++ "FROM agent_info AS agent "
++ "LEFT JOIN user_info AS userinfo ON agent.own_user_no=userinfo.no "
 + "INNER JOIN dept_info AS dept ON userinfo.dept_no = dept.no ";
 sql += whereSql;			
 			
@@ -278,9 +525,6 @@ sql += whereSql;
 		
 		return data;
 	}
-	
-	
-
 
 	public int getUserPolicyListCount(HashMap<String, Object> map){
 		int result = 0;

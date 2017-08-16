@@ -140,7 +140,6 @@
 		</div>
 	</div>
 </div>
-		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
 
 <script type="text/javascript">
 

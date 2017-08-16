@@ -12,6 +12,8 @@ public interface IUserAgentService {
 
 	public List<UserAgentModel> getUserAgentList(HashMap<String, Object> map);
 	public int getUserAgentListCount(HashMap<String, Object> map);	
+	public List<UserAgentModel> getAgentList(HashMap<String, Object> map);
+	public int getAgentListCount(HashMap<String, Object> map);	
 	public List<LoginLogModel> getLoginlogList(HashMap<String, Object> map);	
 	public int getLoginlogListCount(HashMap<String, Object> map);
 
