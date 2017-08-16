@@ -90,6 +90,8 @@
 											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
 											<!-- search button -->
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
+											<!-- export button -->
+											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											
 											<!-- search text content -->
 											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
@@ -142,6 +144,7 @@
 														<th>문의코드</th>
 														<th>문의구분</th>
 														<th>제목</th>
+														<th>문의내용</th>
 														<th>등록일</th>
 														<th>등록자</th>
 														<th>답변여부</th>
@@ -211,6 +214,14 @@
 	        }  
 	    }); 
 	}
+	
+ 	// 내보내기 버튼 클릭 시 
+ 	function onClickExcelButton(){
+		console.log('excel')
+ 		var $buttons = $('.export-csv');
+ 		$buttons.click();
+ 		
+ 	}
  	
  	function searchUserLog(){
  		var datatable = $('#table_contact').dataTable().api();
@@ -303,7 +314,7 @@
 			
 			var table = jQuery('#table_contact');
 			table.dataTable({
-				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" i><"pull-right" ><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" Bi><"pull-right" ><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 				//dom: 'Bfrtip',
 				"ajax" : {
 					"url":'${context}/ax/admin/contact/list',
@@ -324,6 +335,20 @@
 		                return json.data;
 		            }   
 				},
+				"buttons": [
+					{
+			        	text: '<i class="fa fa-lg fa-clipboard">csv</i>',
+			            extend: 'csvHtml5',
+			            className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
+			            bom: true,
+			            exportOptions: {
+				        	modifier: {
+				            	search: 'applied',
+				                order: 'applied'
+				        	},
+			                columns: [2,3,4,5,6]
+		             	}
+		     	}],
 		 		"serverSide" : true,
 		 		"columns": [{
 						data: "contactId"			//추가정보
@@ -333,6 +358,8 @@
 						data: "contactTypeName"		//문의구분
 					}, {
 						data: "contactTitle"		//제목
+					}, {
+						data : "contactBody"
 					}, {
 						data: "regDt"				//등록일
 					}, {
@@ -384,28 +411,32 @@
 						}	
 					
 					}, {	
-						"targets": [4],	//등록일
+						"targets": [4],	//문의내용
+						"class":"center-cell"
+						,"visible":false
+					}, {	
+						"targets": [5],	//등록일
 						"class":"center-cell"
 					}, {	
-						"targets": [5],	//등록자
+						"targets": [6],	//등록자
 						"class":"center-cell"
 					}, {	
-						"targets": [6]	//답변여부
+						"targets": [7]	//답변여부
 						,"class" : "center-cell"
 						,"render":function(data,type,row){
 							return data=="Y"?'<i class="fa fa-pencil">':'' ;
 						}
 					}, {	
-						"targets": [7]	//답변ID
+						"targets": [8]	//답변ID
 						,"visible":false
 					}, {	
-						"targets": [8]	//답변등록자
+						"targets": [9]	//답변등록자
 						,"visible":false
 					}, {	
-						"targets": [9]	//답변등록일
+						"targets": [10]	//답변등록일
 						,"visible":false
 					}, {	
-						"targets": [10]	//답변내용
+						"targets": [11]	//답변내용
 						,"visible":false
 				}],						
 				"initComplete": function( settings, json ) {
