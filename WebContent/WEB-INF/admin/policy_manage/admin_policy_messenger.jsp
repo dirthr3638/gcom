@@ -318,7 +318,6 @@
 						}, {	
 							"targets": [3]	//Message 로깅
 							,"class":"center-cell"
-							,"visible" : false
 						}, {	
 							"targets": [4],	//Message 차단
 							"class":"center-cell"
@@ -326,7 +325,6 @@
 						}, {	
 							"targets": [5]	//File 로깅
 							,"class" : "center-cell"
-							,"visible" : false
 						}, {	
 							"targets": [6]	//File 차단
 							,"class" : "center-cell"
@@ -343,7 +341,7 @@
 					con.on( 'click', 'td', function () {
 						var data = con.row( $(this).parent() ).data();
 						
-						if($(this).index() != 7) {
+						if($(this).index() != 5) {
 							fn_open_reg_msg_popup(data.msgNo);	
 						}
 					});
