@@ -15,12 +15,22 @@ public class CDExportLogModel {
 	private String macAddr = "";
 	private String pcName = "";
 	private String deptName = "";
-
-	private String grade = "";
-	private String notice = "";
-	private String exportStatus = "";
 	
 	private int fileId;
+	private String fileList;
+	private String notice;
+	private int exportStatus;
+	private String guid;
+	private int status;
+	private String label;
+	
+	private boolean valid;
+	
+	private String createdServerTime;
+	private String createdClientTime;
+	private String updateServerTime;
+	private String updateClientTime;
+
 	private String serverTime = "";
 	private String clientTime = "";
 }
