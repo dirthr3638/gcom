@@ -22,6 +22,13 @@ public class UserAgentServiceImpl implements IUserAgentService {
 	public int getUserAgentListCount(HashMap<String, Object> map){		
 		return uaDao.getUserAgentListCount(map);		
 	}
+	//사용자에이전트 정보
+	public List<UserAgentModel> getAgentList(HashMap<String, Object> map){		
+		return uaDao.getAgentList(map);
+	}
+	public int getAgentListCount(HashMap<String, Object> map){		
+		return uaDao.getAgentListCount(map);		
+	}
 	
 	//로그인로그
 	public List<LoginLogModel> getLoginlogList(HashMap<String, Object> map){		

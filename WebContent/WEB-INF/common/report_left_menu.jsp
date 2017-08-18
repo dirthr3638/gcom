@@ -13,7 +13,8 @@
 			<li ${menu_parent == 1000 ? 'class="active"' : ''}><a href="#"> <i class="main-icon fa fa-users"></i> <span>사용자정보 </span>
 			</a>
 				<ul>
-					<li ${menu_sub_first == 1100 ? 'class="active"' : ''}><a href="${context}/report/users">사용자/에이전트정보</a></li>
+					<li ${menu_sub_first == 1100 ? 'class="active"' : ''}><a href="${context}/report/users">사용자</a></li>
+					<li ${menu_sub_first == 1300 ? 'class="active"' : ''}><a href="${context}/report/agents">에이전트정보</a></li>
 					<li ${menu_sub_first == 1200 ? 'class="active"' : ''}><a href="${context}/report/login">로그인로그</a></li>
 				</ul>
 			</li>

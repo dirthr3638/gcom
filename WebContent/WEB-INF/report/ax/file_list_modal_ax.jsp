@@ -46,11 +46,6 @@
 
 function fn_download(size, offset, fileName){
 	
-	console.log(size)
-	console.log(offset)
-	console.log('${file_id}')
-	console.log(encodeURI(fileName))
-	
 	var formData = new FormData();
 	formData.append('file_id', '${file_id}');
 	formData.append('file_name', encodeURI(fileName));
@@ -155,7 +150,13 @@ if (jQuery().dataTable) {
 			'targets': [4]	//다운로드
 			,"class":"center-cell"
 			,"render": function(data,type,row){
-				return '<i title="다운로드" class="fa fa-download" aria-hidden="true" onclick="fn_download('+ row.fileSize +','+ row.fileOffset +',\''+ encodeURI(row.fileName) +'\')">'
+				if('${file_id}' == ''){
+					return '<i title="파일없음" class="fa fa-ban" aria-hidden="true" onclick="">'
+					
+				}else{
+					return '<i title="다운로드" class="fa fa-download" aria-hidden="true" onclick="fn_download('+ row.fileSize +','+ row.fileOffset +',\''+ encodeURI(row.fileName) +'\')">'
+					
+				}
 			}
 
 		}

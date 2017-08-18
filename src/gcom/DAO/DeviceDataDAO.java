@@ -187,6 +187,8 @@ sql += whereSql;
 + "print.file_name AS file_name, print.watermark, "
 + "print.page_count, "
 + "print.print_copies, "
++ "print.file_list, "
++ "ifnull(print.file_id, '') AS file_id, "
 + "ur.number AS user_no, "
 + "ur.id AS user_id, "
 + "ur.name AS user_name, "
@@ -253,6 +255,8 @@ sql += whereSql;
 				model.setWatermark(rs.getInt("watermark") == 0 ? false : true);			
 				model.setPageCount(rs.getInt("page_count"));
 				model.setPrintCopies(rs.getInt("print_copies"));
+				model.setFileId(rs.getString("file_id"));
+				model.setFileList(rs.getString("file_list"));
 				data.add(model);
 			}
 			

@@ -18,6 +18,9 @@ public class PrintFileModel {
 	private String printServerTime  = "";
 	private String printClientTime  = "";
 	private String fileName = "";
+	private String fileId = "";
+	private String fileList = "";
+	
 	private Boolean watermark = false;
 	private int pageCount = 0;
 	private int printCopies;

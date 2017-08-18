@@ -3,7 +3,6 @@
 <!doctype html>
 <html lang="utf-8">
 	<head>
-	
 		<meta charset="utf-8" />
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 		<title>GuardCom Report</title>
@@ -30,8 +29,8 @@
 				ASIDE 
 				Keep it outside of #wrapper (responsive purpose)
 			-->
-			<% request.setAttribute("menu_parent", 2000); %> 
-			<% request.setAttribute("menu_sub_first", 2400); %> 
+			<% request.setAttribute("menu_parent", 1000); %> 
+			<% request.setAttribute("menu_sub_first", 1300); %> 
 			<jsp:include page="/WEB-INF/common/report_left_menu.jsp" flush="false" />
 			
 			<!-- /ASIDE -->
@@ -46,7 +45,7 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>프린트로그</h1>
+					<h1>에이전트로그</h1>
 				</header>
 				<!-- /page title -->
 			
@@ -76,7 +75,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>프린트로그</strong> <!-- panel title -->
+										<strong>에이전트로그</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -92,6 +91,16 @@
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
 											
 											
+<!-- 											<label class="radio" style="margin-left: 10px">
+												<input type="radio" name="table-type" value="1" checked="checked" onclick="onTypeCheck(this)">
+												<i></i> 사용자정보
+											</label>
+											<label class="radio">
+												<input type="radio" name="table-type" value="2" onclick="onTypeCheck(this)">
+												<i></i> 에이전트정보
+											</label>
+											 -->
+											
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
@@ -100,61 +109,72 @@
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
-															<td width="20">아이디</td>
+															<td width="15%">설치여부</td>
 															<td>
-																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control required">
+																<select class="select2theme" id="filterUserIsInstalled">
+																  <option value="0">전체</option>
+																  <option value="1">설치</option>
+																  <option value="2">미설치</option>
+																</select>
 															</td>
-															<td width="20">이름</td>
+															<td width="15%">접속여부</td>
 															<td>
-																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control required">
-															</td>
-														</tr>
+																<select class="select2theme" id="filterUserIsConnected">
+																  <option value="0">전체</option>
+																  <option value="1">접속</option>
+																  <option value="2">미접속</option>
+																</select>
+															</td>															
+														</tr>	
+														<tr>         
 
+														</tr>
 														<tr>         
-															<td >번호</td>
+															<td width="15%">아이디</td>
 															<td>
-																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control required">
+																<input type="text" name="filterUserId" id="filterUserId" value="" class="form-control ">
 															</td>
-															<td >PC명</td>
+															<td width="15%">이름</td>
 															<td>
-																<input type="text" name="filterUserPCName" id="filterUserPCName" value="" class="form-control required">
+																<input type="text" name="filterUserName" id="filterUserName" value="" class="form-control ">
 															</td>
 														</tr>
 														<tr>         
-															<td >직책</td>
+															<td width="15%">번호</td>
 															<td>
-																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control required">
+																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control ">
 															</td>
-															<td >계급</td>
-															<td>
-																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
-															</td>
-														</tr>
-														<tr>         
-															<td >출력파일</td>
-															<td>
-																<input type="text" name="filterFileName" id="filterFileName" value="" class="form-control required">
-															</td>
-															<td >워터마크</td>
-															<td>
-																<select class="select2theme" id="filterWaterMark">
-																  <option value="-1">전체</option>
-																  <option value="0">미출력</option>
-																  <option value="1">출력</option>
-																</select>															</td>
-														</tr>
-														<tr >         
-															<td width="15%">검색시작일</td>
-															<td>
-							<input type="text" class="form-control datepicker" id="filterStartDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-															</td>
-		
-															<td width="15%">검색종료일</td>
-															<td>
-							<input type="text" class="form-control datepicker" id="filterEndDate" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
-															</td>
-														</tr>																															
 
+															<td width="15%">연락처</td>
+															<td>
+																<input type="text" name="filterUserPhone" id="filterUserPhone" value="" class="form-control ">
+															</td>
+														</tr>	
+														<tr>         
+															<td width="15%">직책</td>
+															<td>
+																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control ">
+															</td>
+
+															<td width="15%">계급</td>
+															<td>
+																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control ">
+															</td>
+
+														</tr>																																
+														<tr>         
+
+															<td width="15%">PC명</td>
+															<td>
+																<input type="text" name="filterUserPCName" id="filterUserPCName" value="" class="form-control ">
+															</td>
+															<td width="15%">IP</td>
+															<td>
+																<input type="text" name="filterUserIPAddr" id="filterUserIPAddr" value="" class="form-control ">
+															</td>
+
+
+														</tr>																																
 														
 													</tbody>
 												</table>	
@@ -178,35 +198,29 @@
 														<th>부서</th>
 														<th>아이디</th>
 														<th>이름</th>
-														<th>번호</th>
-														<th >직책</th>
-														<th >계급</th>														
-														<th >IP</th>
-														<th >MAC</th>
-														<th >PC이름</th>
-														<th >프린트시간(서버)</th>
-														<th >프린트시간(PC)</th>
-														<th >출력파일</th>
-														<th >워터마크</th>
-														<th >페이지</th>
-														<th >매수</th>
-														<th >파일아이디</th>
-														<th >파일목록</th>
+														<th>사번</th>
+														<th class="userinfo">직책</th>
+														<th class="userinfo">계급</th>
+														<th class="userinfo">연락처</th>
+														<th>설치</th>
+														
+														<th class="agentinfo">IP</th>
+														<th class="agentinfo">MAC</th>
+														<th class="agentinfo">PC이름</th>
+														<th class="agentinfo">버전</th>
+														<th class="agentinfo">접속</th>
+														<th >설치시간</th>
+														<th >접속시간 </th>  
+														<th >접속시간(PC)</th> 
 													</tr>
-												</thead>				
+												</thead>
+				
 												<tbody>
 												</tbody>
-											</table>									
+											</table>
+										
 										</div>
 									</div>
-									
-									
-									<div class="ld_modal hidden" >
-									    <div class="ld_center" >
-									        <img alt="" src="${context}/assets/images/loaders/loading.gif" />
-									    </div>
-									</div>
-									
 								</div>
 								<!-- /panel content -->
 							</div>
@@ -215,8 +229,7 @@
 				</div>
 			</section>
 		</div>
-			<div id="file_list_area">
-		</div>
+	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
 		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
@@ -232,9 +245,18 @@
 		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 
-			
+
 <script>
 
+	//사용자정보/에이전트정보 뷰타입변경
+	var currentType=2;
+	function onTypeCheck(radioType){
+		if(currentType != radioType.value){
+			currentType = radioType.value;
+			setColumnType(currentType);
+		}
+	}
+	
 	//라디오타입에 따라 컬럼 hide/show
 	var setColumnType = function(cType){
 		
@@ -261,7 +283,8 @@
 			nsTr.addClass("datatables-close").removeClass("datatables-open");
 		}		
 	}
-
+	
+	
  	function setTree(){
 		$.ajax({      
 	        type:"POST",  
@@ -295,65 +318,43 @@
  		$buttons.click();
  		
  	}
- 	function FileDetail(no, type, file_id){
-		$.ajax({      
-	        type:"POST",  
-	        url:'${context}/ax/report/filelist/detail',
-	        async: false,
-	        data:{
-	        	no : no,
-	        	type : type,
-	        	file_id : decodeURI(file_id)
-	        },
-	        success:function(args){   
-	            $("#file_list_area").html(args);      
-	            $("#fileListModal").modal('show');
-	        },   
-	        //beforeSend:showRequest,  
-	        error:function(e){  
-	            console.log(e.responseText);  
-	        }  
-	    }); 
- 	}
+ 	
  	function setDataTable(){
-
-		if (jQuery().dataTable) {
+ 		if (jQuery().dataTable) {
 
 			var export_filename = 'Filename';
 			
 			var table = jQuery('#table_userinfo');
 			table.dataTable({
-				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>tr<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
+				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 				//dom: 'Bfrtip',
 				"ajax" : {
-					"url":'${context}/ax/print/list',
+					"url":'${context}/ax/agent/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
-				   	"data" :  function(param) {
+				   	"data" :  function(param){
 						param.user_id = $('#filterUserId').val();
 						param.user_name = $('#filterUserName').val();
-
-						param.user_rank = $('#filterUserRank').val();
-						param.user_duty = $('#filterUserDuty').val();
+						param.user_installed = $('#filterUserIsInstalled option:selected').val();
+						param.user_connected = $('#filterUserIsConnected option:selected').val()
 						param.user_number = $('#filterUserNumber').val();
-						param.pc_name = $('#filterUserPCName').val();
-						param.file_name = $('#filterFileName').val();
-						param.water_mark = $('#filterWaterMark').val();
-						
-						param.start_date = $('#filterStartDate').val();
-						param.end_date = $('#filterEndDate').val();
-						
+						param.user_duty = $('#filterUserDuty').val();
+						param.user_rank = $('#filterUserRank').val();
+						param.user_pc = $('#filterUserPCName').val();
+						param.user_ip = $('#filterUserIPAddr').val();
+						param.user_phone = $('#filterUserPhone').val();
 						param.dept = getCheckedDept();
-			        },
+				   		
+				   	},
 				        "beforeSend" : function(){
 						jQuery('#preloader').show();
 				        },
 			        "dataSrc": function ( json ) {
 						jQuery('#preloader').hide();
 		                return json.data;
-		            }   
+		            }
 				},
-				lengthMenu: [[20, 100, 1000], [20, 100, 1000]],
+				lengthMenu: [[20, 100, 99999], [20, 100, "전체"]],
 				tableTools: {
 			          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
 			        },
@@ -364,18 +365,16 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
-						                columns: [1,2,3,4,6,10,12,13],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
 				                      }
 				                  }
-				              },  					              {
+				              },{
 			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
-					                columns: [1,2,3,4,6,10,12,13],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
@@ -384,22 +383,24 @@
 			              }, 
 
 			     ],
+				
 		 		"serverSide" : true,
+		 		"processing": true,
 		 	    "ordering": true,
 				"columns": [{
-					data: "printNo",							
-					"orderable": false	//추가정보
+					data: "deptNo",							
+					"orderable": false		//추가정보
 				}, {
 					data: "deptName",
 					"orderable": false	//부서
 				}, {
-					data: "userId",
+					data: "id",
 					"orderable": false	//아이디
 				}, {
-					data: "userName",
+					data: "name",
 					"orderable": false	//이름
 				}, {
-					data: "userNo",
+					data: "number",
 					"orderable": false	//번호
 				}, {
 					data: "duty",
@@ -407,6 +408,12 @@
 				}, {
 					data: "rank",
 					"orderable": false	//계급
+				}, {
+					data: "phone",
+					"orderable": false	//연락
+				}, {
+					data: "ipAddr",
+					"orderable": false	//설치유무
 				}, {
 					data: "ipAddr",
 					"orderable": false	//IP
@@ -417,36 +424,27 @@
 					data: "pcName",
 					"orderable": false	//PC이름
 				}, {
-					data: "printServerTime",
-					"orderable": false	//프린트시간(서버)
+					data: "version",
+					"orderable": false	//버전
 				}, {
-					data: "printClientTime",
-					"orderable": false	//프린트시간(PC)
+					data: "isConnection",
+					"orderable": false	//접속여부
 				}, {
-					data: "fileName",
-					"orderable": false	//파일
+					data: "install_server_time",
+					"orderable": false,	//설치시간
 				}, {
-					data: "watermark",
-					"orderable": false	//워터마크
+					data: "connect_client_time",
+					"orderable": false	//PC접속시간
 				}, {
-					data: "pageCount",
-					"orderable": false	//페이지
-				}, {
-					data: "printCopies",
-					"orderable": false	//매수
-				}, {
-					data: "fileId",
-					"orderable": false	//파일아이디
-				}, {
-					data: "fileList",
-					"orderable": false	//파일목록
+					data: "connect_server_time",
+					"orderable": false	//서버접속시간
 				}],
 				// set the initial value
 				"pageLength": 20,
 				"iDisplayLength": 20,
 				"pagingType": "bootstrap_full_number",
 				"language": {
-					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 개 로그",
+					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
 					"infoEmpty": "검색된 데이터가 없습니다.",
 					"zeroRecords" :"검색된 데이터가 없습니다.",
 					"lengthMenu": "  _MENU_ 개",
@@ -461,7 +459,7 @@
 				"columnDefs": [
 				{	
 					"targets": [0],	//추가정보
-					"class":"center-cell add_detail_info",
+					"class":"agentinfo center-cell add_detail_info",
 					"render":function(data,type,row){
 						return '<span class="datables-td-detail datatables-close"></span>';
 					}
@@ -480,99 +478,102 @@
 					"class":"center-cell"
 				}, {	
 					"targets": [5]	//직책
-					,"class" : "center-cell"
+					,"class" : "userinfo center-cell"
 				}, {	
 					"targets": [6]	//계급
-					,"class" : "center-cell"
-				}, 
-				{	
-					"targets": [7]	//IP
-					,"class" : "center-cell"
-					,"visible" : false
-					,"render":function(data,type,row){
-							if(data == ''){
-								return '-'
-							}else{
-								return data;
-							}
-						}								
+					,"class" : "userinfo center-cell"
 				}, {	
-					"targets": [8]	//MAC
-					,"class" : "center-cell"
-					,"visible" : false
+					"targets": [7]	//연락처
+					,"class" : "userinfo center-cell"
+				}, {	
+					"targets": [8]	//설치유무
+					,"class":"userinfo center-cell" 
 						,"render":function(data,type,row){
-							if(data == ''){
-								return '-'
-							}else{
-								return data;
-							}
-						}								
-				}, {	
-					"targets": [9]	//PC이름
-					,"class" : "center-cell"
-					,"visible" : false
-						,"render":function(data,type,row){
-							if(data == ''){
-								return '-'
-							}else{
-								return data;
-							}
-						}								
-				}, {	
-					"targets": [10]	//서버프린트시간
-					,"class" : "center-cell"
-					,"visible" : false
-				}, {	
-					"targets": [11]	//PC프린트시간
-					,"class" : "center-cell"
-				}, {	
-					"targets": [12]	//파일이름
-				}, {	
-					"targets": [13]	//워터마크
-					,"class" : "center-cell"
-					,"render":function(data,type,row){
-						if(data == true){
-							return '출력';
+						if(data == ''){
+							return '<i style="color:red" class="fa fa-times" aria-hidden="true"></i><div class="hidden">미설치</div>'
 						}else{
-							return '미출력';
+							return '<i style="color:green" class="fa fa-check" aria-hidden="true"></i><div class="hidden">설치</div>';
 						}
 					}
 				}, {	
-					"targets": [14]	//페이지
-					,"class" : "center-cell"
-						,"visible" : false	
+					"targets": [9]	//IP
+					,"class" : "agentinfo center-cell"
+						,"render":function(data,type,row){
+							if(data == ''){
+								return '-'
+							}else{
+								return data;
+							}
+						}								
+
 				}, {	
-					"targets": [15]	//매수
-					,"class" : "center-cell"
-						,"visible" : false	
+					"targets": [10]	//MAC
+					,"class" : "agentinfo center-cell"
+						,"render":function(data,type,row){
+							if(data == ''){
+								return '-'
+							}else{
+								return data;
+							}
+						}								
 				}, {	
-					"targets": [16]	//파일아이디
-					,"class" : "center-cell"
-					,"visible" : false	
+					"targets": [11]	//PC이름
+					,"class" : "agentinfo center-cell"
+						,"render":function(data,type,row){
+							if(data == ''){
+								return '-'
+							}else{
+								return data;
+							}
+						}
 				}, {	
-					"targets": [17]	//파일목록
+					"targets": [12]	//버전
+					,"class" : "agentinfo center-cell"
+						,"render":function(data,type,row){
+							if(data == ''){
+								return '-'
+							}else{
+								return data;
+							}
+						}								
+				}, {	
+					"targets": [13]	//접속여부
+					,"class" : "agentinfo center-cell"
+						,"render":function(data,type,row){								
+						if(data == "true"){
+							return '<i style="color:green" class="fa fa-power-off" aria-hidden="true"></i><div class="hidden">접속</div>';
+						}else{
+							return '<i style="color:red" class="fa fa-power-off" aria-hidden="true"></i><div class="hidden">미접속</div>';
+						}
+					}	 														
+				}, {	
+					"targets": [14]	//설치시간
 					,"class" : "center-cell"
-					,"render": function(data,type,row){
-						return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:FileDetail('+ row.printNo + ', \'print_log\',\''+ encodeURI(row.fileId) +'\')">';
-	
-					}
+					,"visible":false
+
+				}, {	
+					"targets": [15]	//PC접속시간
+					,"class" : "center-cell"
+					,"visible":false
+
+				}, {	
+					"targets": [16]	//접속시간
+					,"class" : "center-cell"
+					,"visible":false
+
 				}],						
 				"initComplete": function( settings, json ) {
+					setColumnType(2);
 					$('.export-print').hide();
 				}
 			});
 			
 			function fnFormatDetails(oTable, nTr) {
 				var aData = oTable.fnGetData(nTr);
-				var sOut = '<table class="table table-bordered"  style="width:100%;overflow:auto">';
+				var sOut = '<table class="table table-bordered">';
 				sOut += '<col width="25%"><col width="25%"><col width="25%"><col width="25%">';
-				sOut += '<tr><td class="center-cell th-cell-gray">MAC</td><td>' + aData.macAddr + '</td>';
-				sOut += '<td class="center-cell th-cell-gray">PC명</td><td>' + aData.pcName + '</td></tr>';
-				sOut += '<tr><td class="center-cell th-cell-gray">서버연결시간</td><td>' + aData.printServerTime + '</td>';
-				sOut += '<td class="center-cell th-cell-gray">페이지</td><td>' + aData.pageCount + '장</td></tr>';
-				sOut += '<tr><td class="center-cell th-cell-gray">매수</td><td colspan="3">' + aData.printCopies + '매</td>';
-				sOut += '</tr>';
-										
+				sOut += '<tr><td class="center-cell th-cell-gray">설치시간:</td><td>' + aData.install_server_time + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">접속시간:</td><td>' + aData.connect_server_time + '</td></tr>';
 				sOut += '</table>';
 
 				return sOut;
@@ -595,23 +596,24 @@
  	}
  	
 	$(document).ready(function(){
-		
 		$(".select2theme").select2({
    			  minimumResultsForSearch: -1,
    			  dropdownAutoWidth : true,
    			  width: 'auto'
    		});
-
 		
      	setTree();
+
 		$('#org_tree')
 		.bind('ready.jstree', function(e, data) {
 			setDataTable();
-		})
- 
- 		jQuery('#preloader').hide();
-        
+		})	
+
+		jQuery('#preloader').hide();
+       
     });
 </script>
+		
+		
 	</body>
 </html>

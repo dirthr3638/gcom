@@ -91,7 +91,7 @@
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
 											
 											
-											<label class="radio" style="margin-left: 10px">
+<!-- 											<label class="radio" style="margin-left: 10px">
 												<input type="radio" name="table-type" value="1" checked="checked" onclick="onTypeCheck(this)">
 												<i></i> 사용자정보
 											</label>
@@ -99,7 +99,7 @@
 												<input type="radio" name="table-type" value="2" onclick="onTypeCheck(this)">
 												<i></i> 에이전트정보
 											</label>
-											
+ -->											
 											
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
@@ -108,27 +108,6 @@
 											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
-														<tr>         
-															<td width="15%">설치여부</td>
-															<td>
-																<select class="select2theme" id="filterUserIsInstalled">
-																  <option value="0">전체</option>
-																  <option value="1">설치</option>
-																  <option value="2">미설치</option>
-																</select>
-															</td>
-															<td width="15%">접속여부</td>
-															<td>
-																<select class="select2theme" id="filterUserIsConnected">
-																  <option value="0">전체</option>
-																  <option value="1">접속</option>
-																  <option value="2">미접속</option>
-																</select>
-															</td>															
-														</tr>	
-														<tr>         
-
-														</tr>
 														<tr>         
 															<td width="15%">아이디</td>
 															<td>
@@ -163,6 +142,26 @@
 
 														</tr>																																
 														<tr>         
+															<td width="15%">설치여부</td>
+															<td>
+																<select class="select2theme" id="filterUserIsInstalled">
+																  <option value="0">전체</option>
+																  <option value="1">설치</option>
+																  <option value="2">미설치</option>
+																</select>
+															</td>
+<!-- 															<td width="15%">접속여부</td>
+ 															<td>
+																<select class="select2theme" id="filterUserIsConnected">
+																  <option value="0">전체</option>
+																  <option value="1">접속</option>
+																  <option value="2">미접속</option>
+																</select>
+															</td>															
+ -->		
+ 														</tr>	
+
+<!-- 														<tr>         
 
 															<td width="15%">PC명</td>
 															<td>
@@ -174,7 +173,7 @@
 															</td>
 
 
-														</tr>																																
+														</tr>	 -->																															
 														
 													</tbody>
 												</table>	
@@ -336,13 +335,13 @@
 						param.user_id = $('#filterUserId').val();
 						param.user_name = $('#filterUserName').val();
 						param.user_installed = $('#filterUserIsInstalled option:selected').val();
-						param.user_connected = $('#filterUserIsConnected option:selected').val()
-						param.user_number = $('#filterUserNumber').val();
+/* 						param.user_connected = $('#filterUserIsConnected option:selected').val()
+ */						param.user_number = $('#filterUserNumber').val();
 						param.user_duty = $('#filterUserDuty').val();
 						param.user_rank = $('#filterUserRank').val();
-						param.user_pc = $('#filterUserPCName').val();
+/* 						param.user_pc = $('#filterUserPCName').val();
 						param.user_ip = $('#filterUserIPAddr').val();
-						param.user_phone = $('#filterUserPhone').val();
+ */						param.user_phone = $('#filterUserPhone').val();
 						param.dept = getCheckedDept();
 				   		
 				   	},
