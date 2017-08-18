@@ -73,5 +73,6 @@ public interface UserService {
 
 	public HashMap<String, Object> updateUserInfoData(HashMap<String, Object> map);
 
+	public HashMap<String, Object> getLatestListData();
 
 }

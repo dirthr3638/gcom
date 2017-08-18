@@ -94,19 +94,16 @@ function fn_comment_save () {
 	    	vex.defaultOptions.className = 'vex-theme-os';
 	    	
 	    	if (data.returnCode == 'S') {
+	    		$('#modalCommentWrite').modal('hide');
+	 	  		var datatable = $('#table_contact').dataTable().api();
+	    		datatable.ajax.reload();
+	    		
 	    		vex.dialog.open({
 	    			message: '문의 답변 등록이 완료되었습니다.',
 	    			  buttons: [
 	    			    $.extend({}, vex.dialog.buttons.YES, {
 	    			      text: '확인'
-	    			  })],
-	    			  callback: function(data) {
-  				 	  	if (data) {
-  				 	  		$('#modalCommentWrite').modal('hide');
-  				 	  		location.href = '${context}/admin/user/contact';
-  				 	    }
-  				 	  }
-	    				
+	    			  })]
 	    		})
 	    		
 	    	} else {

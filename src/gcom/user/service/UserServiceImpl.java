@@ -141,4 +141,12 @@ public class UserServiceImpl implements UserService {
 	public HashMap<String, Object> updateUserInfoData(HashMap<String, Object> map) {
 		return userDAO.updateUserInfoData(map);
 	}
+	
+	public HashMap<String, Object> getLatestListData() {
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		List<HashMap<String, Object>> list = userDAO.getLatestListData();
+		data.put("items", list);
+		
+		return data;
+	}
 }

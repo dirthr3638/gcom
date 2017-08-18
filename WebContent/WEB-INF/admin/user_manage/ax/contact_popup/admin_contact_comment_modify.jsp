@@ -40,7 +40,7 @@
 									<!-- panel content -->
 									<div class="panel-body">
 									
-										<textarea name="ir1" id="ir1" rows="10" cols="100" style="width:100%; min-height: 300px;"><%= comment_info.get("reply_content") %></textarea>
+										<textarea name="ir2" id="ir2" rows="10" cols="100" style="width:100%; min-height: 300px;"><%= comment_info.get("reply_content") %></textarea>
 
 										<div class="ld_modal hidden" >
 										    <div class="ld_center" >
@@ -72,15 +72,15 @@ var oEditors = [];
 
 nhn.husky.EZCreator.createInIFrame({
     oAppRef: oEditors,
-    elPlaceHolder: "ir1",
+    elPlaceHolder: "ir2",
     sSkinURI: "${context}/se2/SmartEditor2Skin_ko_KR.html",
     fCreator: "createSEditor2"
 });
 
 function fn_comment_modify () {
 	var commentId = '<%= commentId%>';
-	oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
-	var reply_content = $('#ir1').val();
+	oEditors.getById["ir2"].exec("UPDATE_CONTENTS_FIELD", []);
+	var reply_content = $('#ir2').val();
 	
 	$.ajax({      
 	    type:"POST",  
@@ -95,19 +95,16 @@ function fn_comment_modify () {
 	    	vex.defaultOptions.className = 'vex-theme-os';
 	    	
 	    	if (data.returnCode == 'S') {
+	    		$('#modalCommentModify').modal('hide');
+	 	  		var datatable = $('#table_contact').dataTable().api();
+	    		datatable.ajax.reload();
+	    		
 	    		vex.dialog.open({
 	    			message: '문의 답변 수정이 완료되었습니다.',
 	    			  buttons: [
 	    			    $.extend({}, vex.dialog.buttons.YES, {
 	    			      text: '확인'
-	    			  })],
-	    			  callback: function(data) {
-  				 	  	if (data) {
-  				 	  		$('#modalCommentModify').modal('hide');
-  				 	  		location.href = '${context}/admin/user/contact';
-  				 	    }
-  				 	  }
-	    				
+	    			  })]
 	    		})
 	    		
 	    	} else {

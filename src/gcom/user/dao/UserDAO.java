@@ -1520,4 +1520,58 @@ public class UserDAO {
 		
 		return result;
 	}
+
+	public List<HashMap<String, Object>> getLatestListData() {
+		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		int startRow = 0;
+		int endRow = 3;
+		
+		String sql= 
+				"SELECT bbs.bbs_id, "
+			    + "bbs.bbs_title, "
+			    + "bbs.special_type, "
+			    + "IFNULL(admin.id, '') AS id, "
+			    + "DATE(bbs.reg_dt) AS reg_dt, "
+			    + "bbs_hit.hit_cnt, "
+			    + "bbs.attfile_yn, "
+			    + "bbs.attfile_id "
+				+ "FROM user_notice_bbs AS bbs "
+				+ "LEFT JOIN admin_info AS admin ON bbs.reg_staf_no = admin.no "
+				+ "INNER JOIN user_notice_bbs_hit AS bbs_hit ON bbs.bbs_id = bbs_hit.bbs_id "
+				+ "WHERE bbs.del_yn = 'N' "
+				+ "ORDER BY bbs.bbs_id DESC, bbs.reg_dt DESC LIMIT ?, ? ";
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("bbs_id", rs.getInt("bbs_id"));
+				map.put("bbs_title", rs.getString("bbs_title"));
+				map.put("reg_dt", rs.getString("reg_dt"));
+				map.put("attfile_yn", rs.getString("attfile_yn"));
+				map.put("attfile_id", rs.getString("attfile_id"));
+				
+				list.add(map);
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+
 }
