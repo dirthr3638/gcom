@@ -92,6 +92,8 @@
 											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
 											<!-- export button -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
+
+											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
 											
 											<!-- search text content -->
 											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:400px;">
@@ -152,6 +154,7 @@
 														<th>답변등록자</th>
 														<th>답변등록일</th>
 														<th>답변내용</th>
+														<th>문의제목</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -214,6 +217,12 @@
 	        }  
 	    }); 
 	}
+	
+ 	function onClickPrintButton(){
+ 		var $buttons = $('.export-print');
+ 		$buttons.click();
+ 	}
+
 	
  	// 내보내기 버튼 클릭 시 
  	function onClickExcelButton(){
@@ -348,7 +357,19 @@
 				        	},
 			                columns: [2,3,4,5,6]
 		             	}
-		     	}],
+		     	},  					              {
+	                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
+	                  extend: 'print',
+	                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
+	                  exportOptions: {
+	                      modifier: {
+	                          search: 'applied',
+	                          order: 'applied'
+	                      },
+		                columns: [2,12,5,6]
+	                  }
+	              }, 
+				],
 		 		"serverSide" : true,
 		 		"columns": [{
 						data: "contactId"			//추가정보
@@ -374,7 +395,9 @@
 						data: "commentRegDt"		//답변등록일
 					}, {
 						data: "replyContent"		//답변내용
-				}],
+					},{
+						data: "contactTitle"		//제목
+					}],
 				"pageLength": 20,
 				"iDisplayLength": 20,
 				"language": {
@@ -438,6 +461,17 @@
 					}, {	
 						"targets": [11]	//답변내용
 						,"visible":false
+				}, {	
+					"targets": [12],	//제목
+					"visible":false,
+					"render":function(data,type,row){
+							if(data.length > 25){
+								data = data.substring(0,25) + '..' + '<i title="상세보기" class="fa fa-commenting" aria-hidden="true" onclick="javascript:msgTxtDetail(\''+ encodeURI(data) + ' \')">'
+							}
+							return data;
+						}
+					
+				
 				}],						
 				"initComplete": function( settings, json ) {
 				}

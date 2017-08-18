@@ -188,7 +188,7 @@ sql += whereSql;
 + "print.page_count, "
 + "print.print_copies, "
 + "print.file_list, "
-+ "print.file_id, "
++ "ifnull(print.file_id, '') AS file_id, "
 + "ur.number AS user_no, "
 + "ur.id AS user_id, "
 + "ur.name AS user_name, "

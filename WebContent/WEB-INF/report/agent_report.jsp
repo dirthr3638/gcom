@@ -370,7 +370,7 @@
 				                          order: 'applied'
 				                      }
 				                  }
-				              },  					              {
+				              },{
 			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',

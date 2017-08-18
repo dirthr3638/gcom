@@ -160,7 +160,7 @@ sql += whereSql;
 + "de.file_list, "
 + "de.notice, "
 + "de.export_status, "
-+ "de.file_id, "
++ "ifnull(de.file_id, '') AS file_id, "
 + "ur.id AS user_id, "
 + "ur.dept_no, "
 + "ur.name, "
