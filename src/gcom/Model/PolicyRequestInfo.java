@@ -21,7 +21,8 @@ public class PolicyRequestInfo {
 	private String permitDate = "";
 	private String permitStaf = "";
 	private String userNumber;
-
+	private String reqClientTime = "";
+	
 	private Boolean isUninstall;
 	private Boolean isFileEncryption;
 	private Boolean isCdEncryption;

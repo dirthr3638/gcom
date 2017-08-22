@@ -22,6 +22,7 @@
 		<link href="${context}/assets/plugins/datatables/extensions/Buttons/css/buttons.jqueryui.min.css" rel="stylesheet" type="text/css"  />
 		
 		<script type="text/javascript" src="${context}/assets/js/admin_function.js"></script>
+		<script type="text/javascript" src="${context}/assets/js/date.js"></script>
 		
 		<!-- Alert -->
 		<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
@@ -159,8 +160,8 @@
 														<th>직책</th>
 														<th>계급</th>
 														<th>연락처</th>
+														<th>요청시간</th>
 														<th>승인여부</th>
-														
 													</tr>
 												</thead>
 				
@@ -539,6 +540,16 @@
 					data: "phone",
 					"orderable": false	//연락
 				}, {
+					data: "reqClientTime",
+					"orderable": false	//요청시간
+					,render : function (data,type,row) {
+						var time = '';
+						if (data != '') {
+							time = new Date(data).format('yyyy-mm-dd hh:mm:ss');
+						} 
+						return data;
+					}
+				}, {
 					data: "permitState",
 					"orderable": false	//승인여부
 					,render : function (data,type,row) {
@@ -790,194 +801,197 @@
 					"targets": [8]	//연락처
 					,"class" : "center-cell"
 				}, {
-					"targets": [9]	//승인여부
+					"targets": [9]	//요청시간
+					,"class" : "center-cell"
+				},{
+					"targets": [10]	//승인여부
 					,"class" : "center-cell"
 				}, {
-					"targets": [10]	//승인일시
+					"targets": [11]	//승인일시
 					,"visible" : false	
 				}, {
-					"targets": [11]	//승인자
+					"targets": [12]	//승인자
 					,"visible" : false
 				}, {
-					"targets": [12]	//요청 에이전트삭제가능
+					"targets": [13]	//요청 에이전트삭제가능
 					,"visible" : false
 				}, {
-					"targets": [13]	//요청 파일실시간암호화
+					"targets": [14]	//요청 파일실시간암호화
 					,"visible" : false
 				}, {
-					"targets": [14]	//요청 CD실시간암호화
+					"targets": [15]	//요청 CD실시간암호화
 				,"class" : "center-cell"
 					,"visible" : false
 				}, {
-					"targets": [15]	//요청 프린트사용여부
+					"targets": [16]	//요청 프린트사용여부
 					,"visible" : false
 				}, {
-					"targets": [16]	//요청 CD사용가능여부
+					"targets": [17]	//요청 CD사용가능여부
 					,"visible" : false
 				}, {
-					"targets": [17]	//요청 CD반출여부
+					"targets": [18]	//요청 CD반출여부
 					,"visible" : false
 				}, {
-					"targets": [18]	//요청 무선랜사용가능여부
+					"targets": [19]	//요청 무선랜사용가능여부
 					,"visible" : false
 				}, {
-					"targets": [19]	//요청 공유폴더사용여부
+					"targets": [20]	//요청 공유폴더사용여부
 					,"visible" : false
 				}, {
-					"targets": [20]	//요청 메일반출여부
-					,"visible" : false
-				}, {
-					"targets": [21]	//요청
+					"targets": [21]	//요청 메일반출여부
 					,"visible" : false
 				}, {
 					"targets": [22]	//요청
 					,"visible" : false
 				}, {
-					"targets": [23]	//요청 USB포트사용여부
+					"targets": [23]	//요청
 					,"visible" : false
 				}, {
-					"targets": [24]	//요청 USB차단코드
+					"targets": [24]	//요청 USB포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [25]	//요청 시리얼포트사용여부
+					"targets": [25]	//요청 USB차단코드
 					,"visible" : false
 				}, {
-					"targets": [26]	//요청 시리얼포트차단코드
+					"targets": [26]	//요청 시리얼포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [27]	//요청 네트워크포트사용여부
+					"targets": [27]	//요청 시리얼포트차단코드
 					,"visible" : false
 				}, {
-					"targets": [28]	//요청 네트워크포트차단코드
+					"targets": [28]	//요청 네트워크포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [29]	//요청 프로세스차단여부
+					"targets": [29]	//요청 네트워크포트차단코드
 					,"visible" : false
 				}, {
-					"targets": [30]	//요청 프로세스차단코드
+					"targets": [30]	//요청 프로세스차단여부
 					,"visible" : false
 				}, {
-					"targets": [31]	//요청 민감패턴차단여부
+					"targets": [31]	//요청 프로세스차단코드
 					,"visible" : false
 				}, {
-					"targets": [32]	//요청 민감패턴차단코드
+					"targets": [32]	//요청 민감패턴차단여부
 					,"visible" : false
 				}, {
-					"targets": [33]	//요청 사이트차단여부
+					"targets": [33]	//요청 민감패턴차단코드
 					,"visible" : false
 				}, {
-					"targets": [34]	//요청 사이트차단코드
+					"targets": [34]	//요청 사이트차단여부
 					,"visible" : false
 				}, {
-					"targets": [35]	//요청 메신저차단여부
+					"targets": [35]	//요청 사이트차단코드
 					,"visible" : false
 				}, {
-					"targets": [36]	//요청 메신저차단코드
+					"targets": [36]	//요청 메신저차단여부
 					,"visible" : false
 				}, {
-					"targets": [37]	//요청 워터마크
+					"targets": [37]	//요청 메신저차단코드
 					,"visible" : false
 				}, {
-					"targets": [38]	//요청 워터적용코드
+					"targets": [38]	//요청 워터마크
 					,"visible" : false
 				}, {
-					"targets": [39]	//요청 워터마크적용일시
+					"targets": [39]	//요청 워터적용코드
 					,"visible" : false
 				}, {
-					"targets": [40]	//요청 프린터인쇄로그설정
+					"targets": [40]	//요청 워터마크적용일시
 					,"visible" : false
 				}, {
-					"targets": [41]	//기존 정책코드
+					"targets": [41]	//요청 프린터인쇄로그설정
 					,"visible" : false
 				}, {
-					"targets": [42]	//기존 에이전트삭제가능
+					"targets": [42]	//기존 정책코드
 					,"visible" : false
 				}, {
-					"targets": [43]	//기존 파일실시간암호화
+					"targets": [43]	//기존 에이전트삭제가능
 					,"visible" : false
 				}, {
-					"targets": [44]	//기존 CD실시간암호화
+					"targets": [44]	//기존 파일실시간암호화
 					,"visible" : false
 				}, {
-					"targets": [45]	//기존 프린트사용여부
+					"targets": [45]	//기존 CD실시간암호화
 					,"visible" : false
 				}, {
-					"targets": [46]	//기존 CD사용가능여부
+					"targets": [46]	//기존 프린트사용여부
 					,"visible" : false
 				}, {
-					"targets": [47]	//기존 CD반출여부
+					"targets": [47]	//기존 CD사용가능여부
 					,"visible" : false
 				}, {
-					"targets": [48]	//기존 무선랜사용가능여부
+					"targets": [48]	//기존 CD반출여부
 					,"visible" : false
 				}, {
-					"targets": [49]	//기존 공유폴더사용여부
+					"targets": [49]	//기존 무선랜사용가능여부
 					,"visible" : false
 				}, {
-					"targets": [50]	//기존 메일반출여부
+					"targets": [50]	//기존 공유폴더사용여부
 					,"visible" : false
 				}, {
-					"targets": [51]	//기존 
+					"targets": [51]	//기존 메일반출여부
 					,"visible" : false
 				}, {
 					"targets": [52]	//기존 
 					,"visible" : false
 				}, {
-					"targets": [53]	//기존 USB포트사용여부
+					"targets": [53]	//기존 
 					,"visible" : false
 				}, {
-					"targets": [54]	//기존 USB차단코드
+					"targets": [54]	//기존 USB포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [55]	//기존 시리얼포트사용여부
+					"targets": [55]	//기존 USB차단코드
 					,"visible" : false
 				}, {
-					"targets": [56]	//기존 시리얼포트차단코드
+					"targets": [56]	//기존 시리얼포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [57]	//기존 네트워크포트사용여부
+					"targets": [57]	//기존 시리얼포트차단코드
 					,"visible" : false
 				}, {
-					"targets": [58]	//기존 네트워크포트차단코드
+					"targets": [58]	//기존 네트워크포트사용여부
 					,"visible" : false
 				}, {
-					"targets": [59]	//기존 프로세스차단여부
+					"targets": [59]	//기존 네트워크포트차단코드
 					,"visible" : false
 				}, {
-					"targets": [60]	//기존 프로세스차단코드
+					"targets": [60]	//기존 프로세스차단여부
 					,"visible" : false
 				}, {
-					"targets": [61]	//기존 민감패턴차단여부
+					"targets": [61]	//기존 프로세스차단코드
 					,"visible" : false
 				}, {
-					"targets": [62]	//기존 민감패턴차단코드
+					"targets": [62]	//기존 민감패턴차단여부
 					,"visible" : false
 				}, {
-					"targets": [63]	//기존 사이트차단여부
+					"targets": [63]	//기존 민감패턴차단코드
 					,"visible" : false
 				}, {
-					"targets": [64]	//기존 사이트차단코드
+					"targets": [64]	//기존 사이트차단여부
 					,"visible" : false
 				}, {
-					"targets": [65]	//기존 메신저차단여부
+					"targets": [65]	//기존 사이트차단코드
 					,"visible" : false
 				}, {
-					"targets": [66]	//기존 메신저차단코드
+					"targets": [66]	//기존 메신저차단여부
 					,"visible" : false
 				}, {
-					"targets": [67]	//기존 워터마크
+					"targets": [67]	//기존 메신저차단코드
 					,"visible" : false
 				}, {
-					"targets": [68]	//기존 워터적용코드
+					"targets": [68]	//기존 워터마크
 					,"visible" : false
 				}, {
-					"targets": [69]	//기존 워터마크적용일시
+					"targets": [69]	//기존 워터적용코드
 					,"visible" : false
 				}, {
-					"targets": [70]	//기존 프린터인쇄로그설정
+					"targets": [70]	//기존 워터마크적용일시
 					,"visible" : false
 				}, {
-					"targets": [71]	//요청사유
+					"targets": [71]	//기존 프린터인쇄로그설정
+					,"visible" : false
+				}, {
+					"targets": [72]	//요청사유
 					,"visible" : false
 				}],						
 				"initComplete": function( settings, json ) {
