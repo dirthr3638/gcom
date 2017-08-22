@@ -107,9 +107,10 @@ public class LoginCheckInterceptor implements Filter {
 				int admin_mode = (int) session.getAttribute("admin_mode");
 				request.setAttribute("admin_mode", admin_mode);
 				ISystemService sys = new SystemServiceImpl();
-				session.setMaxInactiveInterval(sys.serverLogoutTimeInfo() * 1000);
-				// session.setMaxInactiveInterval(1);
-
+	/*			session.setMaxInactiveInterval(sys.serverLogoutTimeInfo() * 1000);
+	*/			// session.setMaxInactiveInterval(1);
+				session.setMaxInactiveInterval(9999999);
+				request.setAttribute("timeout", sys.serverLogoutTimeInfo()  * 60 );
 				if (admin_mode == 1) { // 콘솔권한
 					if (checkUri(httpReq.getRequestURI(), reportUrls) || checkUri(httpReq.getRequestURI(), userUrls)) {
 						request.getRequestDispatcher("/WEB-INF/common/unauth.jsp").forward(request, response);

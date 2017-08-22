@@ -423,8 +423,6 @@
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
 		<script type="text/javascript">var context = '${context}';</script>
-		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
 		<script type="text/javascript" src="${context}/assets/js/date.js"></script>
 
 		<script type="text/javascript" src="${context}/assets/js/dashboard_function.js"></script>
@@ -437,14 +435,6 @@
 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.pie.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.tooltip.min.js"></script>
 
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
-
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
-
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 
