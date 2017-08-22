@@ -161,22 +161,22 @@ public class UserPolicyLogModel {
 		String[] spv = value.split(",");
 		if(spv[0].equals("Y")){
 			isWaterMark = true;
+			waterMarkEndDate = spv[1];
 		}else{
 			isWaterMark = false;
 		}
-		waterMarkEndDate = spv[1];
 	}
 
-	public void setIsProcessList(int value){
-		if(value == 0){
+	public void setIsProcessList(String value){
+		if("".equals(value)){
 			isProcessList = false;
 		}else{
 			isProcessList = true;
 		}
 	}
 	
-	public void setIsFilePattern(int value){
-		if(value == 0){
+	public void setIsFilePattern(String value){
+		if("".equals(value)){
 			isFilePattern = false;
 		}else{
 			isFilePattern = true;

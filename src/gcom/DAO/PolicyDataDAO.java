@@ -239,8 +239,8 @@ sql += whereSql;
 				model.setIsUsbBlock(rs.getString("usb_dev_list"));
 				model.setIsComPortBlock(rs.getString("com_port_list"));
 				model.setIsNetPortBlock(rs.getString("net_port_list"));
-				model.setIsProcessList(rs.getInt("process_list"));
-				model.setIsFilePattern(rs.getInt("file_pattern_list"));
+				model.setIsProcessList(rs.getString("process_list"));
+				model.setIsFilePattern(rs.getString("file_pattern_list"));
 				model.setIsWebAddr(rs.getString("web_addr_list"));
 				model.setWatermarkInfo(rs.getString("watermark_descriptor"));
 				model.setPrintLogDesc(rs.getInt("print_log_descriptor"));
@@ -1130,7 +1130,7 @@ sql += whereSql;
 + "request.new_policy_pattern_file_control, "
 + "request.notice, "
 + "request.request_server_time, "
-+ "request.request_client_time, "
++ "IFNULL(request.request_client_time, '') AS request_client_time, "
 + "request.permit, "
 + "IFNULL(request.permit_date, '') as permit_date, "
 + "IFNULL(request.permit_admin_id, '') as permit_admin_id, "
@@ -1224,6 +1224,7 @@ sql += whereSql;
 				model.setPermitState(rs.getString("permit"));
 				model.setPermitDate(rs.getString("permit_date"));
 				model.setPermitStaf(rs.getString("permit_admin_id"));
+				model.setReqClientTime(rs.getString("request_client_time"));
 				
 				model.setIsUninstall(rs.getInt("new_policy_uninstall_enabled"));
 				model.setIsFileEncryption(rs.getInt("new_policy_file_encryption_enabled"));
