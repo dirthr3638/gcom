@@ -258,18 +258,6 @@
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
-		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/jstree/jstree.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/select2/js/select2.full.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
-
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
-
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 <script>
 
 	//라디오타입에 따라 컬럼 hide/show
@@ -585,6 +573,8 @@
 			],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
+					$('#table_userinfo').colResizable({liveDrag:true});
+
 				}
 			});
 			

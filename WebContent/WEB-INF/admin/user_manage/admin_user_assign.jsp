@@ -223,24 +223,7 @@
 		
 		<!-- USER 할당된 정책 정보 Ajax PopUp Div -->
 		<div id="pop_policy_setting_info"></div>
-	
-		<!-- JAVASCRIPT FILES -->
-		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
-		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/select2/js/select2.full.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/js/admin_function.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/jstree/jstree.min.js"></script>
-	
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
 
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
-
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.colVis.min.js"></script>
 
 		<script type="text/javascript">
 			var table;
@@ -254,9 +237,7 @@
 			        //data:{},
 			        success:function(args){   
 			            $("#dept_tree").html(args);     
-//			            setDataTable();
 			        },   
-			        //beforeSend:showRequest,  
 			        error:function(e){  
 			            console.log(e.responseText);  
 			        }  
@@ -390,6 +371,7 @@
 					
 					apTable = jQuery('#table_apply_policy');
 					table = apTable.dataTable({
+
 						"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB><"pull-right" ><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 						//dom: 'Bfrtip',
 						"ajax" : {
@@ -826,7 +808,9 @@
 						}],						
 						"initComplete": function( settings, json ) {
 							$('.export-print').hide();
+					        $('#table_apply_policy').colResizable({liveDrag:true});
 						}
+
 					});
 					
 					

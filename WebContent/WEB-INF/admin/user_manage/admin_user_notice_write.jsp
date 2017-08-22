@@ -113,10 +113,6 @@
 		
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
-		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/jstree/jstree.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/select2/js/select2.full.min.js"></script>
 		
 		<!-- file_upload-->
 		<script src="${context}/assets/plugins/fileupload/jquery.ui.widget.js" charset="utf-8"></script>
