@@ -28,11 +28,11 @@
 					<li ${menu_sub_first == 2300 ? 'class="active"' : ''}><a href="${context}/report/usbblock">USB차단로그</a></li>
 					<li ${menu_sub_first == 2400 ? 'class="active"' : ''}><a href="${context}/report/print">프린트로그</a></li>
 
-<%-- 					<li ${menu_sub_first == 2500 ? 'class="active"' : ''}><a href="${context}/report/print">디스크연결로그</a></li>
+ 					<li ${menu_sub_first == 2500 ? 'class="active"' : ''}><a href="${context}/report/print">디스크연결로그</a></li>
 					<li ${menu_sub_first == 2600 ? 'class="active"' : ''}><a href="${context}/report/print">파티션연결로그</a></li>
- --%>					<li ${menu_sub_first == 2700 ? 'class="active"' : ''}><a href="${context}/report/rmvdisktran">이동식디스크 반출로그</a></li>
-<%-- 					<li ${menu_sub_first == 2800 ? 'class="active"' : ''}><a href="${context}/report/print">CD반출로그</a></li>
- --%>				</ul>
+ 					<li ${menu_sub_first == 2700 ? 'class="active"' : ''}><a href="${context}/report/rmvdisktran">이동식디스크 반출로그</a></li>
+ 					<li ${menu_sub_first == 2800 ? 'class="active"' : ''}><a href="${context}/report/print">CD반출로그</a></li>
+ 				</ul>
 
 			</li>
 			<li ${menu_parent == 3000 ? 'class="active"' : ''}><a href="#"> <i
@@ -55,7 +55,7 @@
 				</ul>
 			</li>
 
-<%-- 			<li ${menu_parent == 5000 ? 'class="active"' : ''}><a href="#"> <i
+ 			<li ${menu_parent == 5000 ? 'class="active"' : ''}><a href="#"> <i
 					class="main-icon fa fa-tasks"></i> <span>파일/네트워크로그</span>
 			</a>
 				<ul>
@@ -63,7 +63,7 @@
 					<li ${menu_sub_first == 5200 ? 'class="active"' : ''}><a href="${context}/report/mail">파일반출/생성로그</a></li>
 					<li ${menu_sub_first == 5300 ? 'class="active"' : ''}><a href="${context}/report/mail">네트워크로그</a></li>
 				</ul>
-			</li> --%>
+			</li>
 
 
 		</ul>

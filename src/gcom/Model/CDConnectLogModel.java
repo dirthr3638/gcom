@@ -3,8 +3,8 @@ package gcom.Model;
 import lombok.Data;
 
 @Data
-public class netPortLogModel {
-	private int portNo;
+public class CDConnectLogModel {
+	private int exportNo;
 	private String userNo;
 	private String userName = "";
 	private String userId = "";
@@ -15,9 +15,9 @@ public class netPortLogModel {
 	private String macAddr = "";
 	private String pcName = "";
 	private String deptName = "";
-	private String processName = "";
-	private String description = "";
-	private String control = "";
+
+	private String status = "";
+
 	private String serverTime = "";
 	private String clientTime = "";
 }

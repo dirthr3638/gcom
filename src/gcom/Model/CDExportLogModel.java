@@ -7,6 +7,7 @@ public class CDExportLogModel {
 	private int exportNo;
 	private String userNo;
 	private String userName = "";
+	private String userNumber = "";
 	private String userId = "";
 	private int deptId ;
 	private String duty = "";
@@ -16,7 +17,7 @@ public class CDExportLogModel {
 	private String pcName = "";
 	private String deptName = "";
 	
-	private int fileId;
+	private String fileId;
 	private String fileList;
 	private String notice;
 	private int exportStatus;
@@ -26,11 +27,7 @@ public class CDExportLogModel {
 	
 	private boolean valid;
 	
-	private String createdServerTime;
-	private String createdClientTime;
-	private String updateServerTime;
-	private String updateClientTime;
+	private String exportServerTime;
+	private String exportClientTime;
 
-	private String serverTime = "";
-	private String clientTime = "";
 }
