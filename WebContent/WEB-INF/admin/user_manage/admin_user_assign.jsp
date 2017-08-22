@@ -569,6 +569,21 @@
 							data: "isWebExport",
 							"orderable": false	//메일반출여부
 						},{
+							data: "isSensitiveDirEnabled",
+							"orderable": false	//보호폴더 접근 사용여부
+						},{
+							data: "isSensitiveFileAccess",
+							"orderable": false	//민감파일 접근 여부
+						},{
+							data: "isStorageExport",
+							"orderable": false	//디스크반출가능 여부
+						},{
+							data: "isStorageAdmin",
+							"orderable": false	//디스크 관리자 여부
+						},{
+							data: "isUsbControlEnabled",
+							"orderable": false	//USB통제 여부
+						},{
 							data: "isUsbBlock",
 							"orderable": false	//USB포트사용여부
 						},{
@@ -737,61 +752,76 @@
 							"targets": [21]	// 메일반출여부
 							,"visible" : false
 						}, {	
-							"targets": [22]	// USB포트사용여부
+							"targets": [22]	// 보호폴더 접근 사용여부
+							,"visible" : false
+						},{	
+							"targets": [23]	// 민감파일 접근 여부
+							,"visible" : false
+						},{	
+							"targets": [24]	// 디스크반출가능 여부
+							,"visible" : false
+						},{	
+							"targets": [25]	// 디스크 관리자 여부 
+							,"visible" : false
+						},{	
+							"targets": [26]	// USB통제 여부
+							,"visible" : false
+						},{	
+							"targets": [27]	// USB포트사용여부
 							,"visible" : false
 						}, {	
-							"targets": [23]	// USB차단코드
+							"targets": [28]	// USB차단코드
 							,"visible" : false
 						}, {	
-							"targets": [24]	// 시리얼포트사용여부
+							"targets": [29]	// 시리얼포트사용여부
 							,"visible" : false
 						}, {	
-							"targets": [25]	// 시리얼포트차단코드
+							"targets": [30]	// 시리얼포트차단코드
 							,"visible" : false
 						}, {	
-							"targets": [26]	// 네트워크포트사용여부
+							"targets": [31]	// 네트워크포트사용여부
 							,"visible" : false
 						}, {	
-							"targets": [27]	// 네트워크포트차단코드
+							"targets": [32]	// 네트워크포트차단코드
 							,"visible" : false
 						}, {	
-							"targets": [28]	// 프로그램차단여부
+							"targets": [33]	// 프로그램차단여부
 							,"visible" : false
 						}, {	
-							"targets": [29]	// 프로그램차단코드
+							"targets": [34]	// 프로그램차단코드
 							,"visible" : false
 						}, {	
-							"targets": [30]	// 민감패턴차단여부
+							"targets": [35]	// 민감패턴차단여부
 							,"visible" : false
 						}, {	
-							"targets": [31]	// 민감패턴차단코드
+							"targets": [36]	// 민감패턴차단코드
 							,"visible" : false
 						}, {	
-							"targets": [32]	// 민감패턴파일처리코드
+							"targets": [37]	// 민감패턴파일처리코드
 							,"visible" : false
 						}, {	
-							"targets": [33]	// 사이트차단여부
+							"targets": [38]	// 사이트차단여부
 							,"visible" : false
 						}, {	
-							"targets": [34]	// 사이트차단코드
+							"targets": [39]	// 사이트차단코드
 							,"visible" : false
 						}, {	
-							"targets": [35]	// 메신저차단여부
+							"targets": [40]	// 메신저차단여부
 							,"visible" : false
 						}, {	
-							"targets": [36]	// 메신저차단코드
+							"targets": [41]	// 메신저차단코드
 							,"visible" : false
 						}, {	
-							"targets": [37]	// 워터마크
+							"targets": [42]	// 워터마크
 							,"visible" : false
 						}, {	
-							"targets": [38]	// 워터적용코드
+							"targets": [43]	// 워터적용코드
 							,"visible" : false
 						}, {	
-							"targets": [39]	// 워터마크적용일시
+							"targets": [44]	// 워터마크적용일시
 							,"visible" : false
 						}, {	
-							"targets": [40]	// 프린터인쇄로그설정
+							"targets": [45]	// 프린터인쇄로그설정
 							,"visible" : false
 						}],						
 						"initComplete": function( settings, json ) {

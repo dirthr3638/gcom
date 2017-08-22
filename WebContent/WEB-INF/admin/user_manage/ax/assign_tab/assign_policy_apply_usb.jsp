@@ -46,16 +46,32 @@
 	</table>
 </div>
 
-<table class="table table-bordered" id="usb_policy_table" style="width:100%;">
+<div>
+	<select class="form-control pull-left" id="usb_sel_search_type" name="usb_sel_search_type" style="width:200px;">
+		<option value="1">장치명</option>
+		<option value="2">벤더식별자(VID)</option>
+		<option value="3">제품식별자(PID)</option>
+		<option value="4">일련번호(SN)</option>
+	</select>
+	<input type="text" class="form-control pull-left" id="usb_att_search_text" name="usb_att_search_text" placeholder="검색어를 입력해주세요." style="width:200px;" value="" />
+	<button onclick="searchUsbList();" class="btn btn-info pull-left"><i class="fa fa-search"></i> 검색</button>
+</div>
+<table class="table table-bordered table-td-middle" id="usb_policy_table" style="width:100%; margin-top: 20px;">
+	<col width="50px;">
+	<col>
+	<col width="90px;">
+	<col width="90px;">
+	<col width="180px;">
+	<col width="180px;">
 	<thead>
 		<tr>
-			<th>선택</th>
+			<th class="center-cell vertical-middle">선택</th>
 			<th>장치ID</th>
-			<th>장치명</th>
-			<th>벤더식별자(VID)</th>
-			<th>제품식별자(PID)</th>
-			<th>일련번호(SerialNumber)</th>
-			<th>설명</th>
+			<th class="center-cell vertical-middle">장치명</th>
+			<th class="center-cell vertical-middle">벤더식별자<br/>(VID)</th>
+			<th class="center-cell vertical-middle">제품식별자<br/>(PID)</th>
+			<th class="center-cell vertical-middle">일련번호<br/>(SerialNumber)</th>
+			<th class="center-cell vertical-middle">설명</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -63,6 +79,11 @@
 </table>
 											
 <script type="text/javascript">
+
+	function searchUsbList(){
+		var datatable = $('#usb_policy_table').dataTable().api();
+		datatable.ajax.reload();
+	}
 
 	$(document).ready(function(){
 		$("input[name=radio_usb_block]").change(function() {
@@ -131,7 +152,10 @@
 						"url":'${context}/ax/admin/policy/usbblock/list',
 					   	"type":'POST',
 					   	"dataSrc" : "data",
-					   	"data" :  {},
+					   	"data" : function(param) {
+					   		param.search_type = $('#usb_sel_search_type option:checked').val();
+							param.search_text = $('#usb_att_search_text').val();
+				        },
 				        "beforeSend" : function(){
 							jQuery('#preloader').show();
 				        },
@@ -186,6 +210,7 @@
 					}, {  
 						'targets': [1]	// ID
 						,"class":"center-cell"
+						,"visible" : false
 					}, {  
 						'targets': [2]	// 장치명
 						,"class":"center-cell"
@@ -196,11 +221,11 @@
 						"targets": [4]	// 제품식별자
 						,"class":"center-cell"
 					}, {	
-						"targets": [5],	// 시리얼 넘버
-						"class":"center-cell"
+						"targets": [5]	// 시리얼 넘버
+						,"class":"center-cell"
 					}, {	
 						"targets": [6]	// 설명
-						,"class" : "center-cell"
+						,"class" : "left-cell"
 					}],
 					"initComplete": function( settings, json ) {
 					}

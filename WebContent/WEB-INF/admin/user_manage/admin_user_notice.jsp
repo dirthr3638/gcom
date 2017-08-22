@@ -159,7 +159,6 @@
 		 	function searchUserLog(){
 		 		var datatable = $('#table_notice').dataTable().api();
 				datatable.ajax.reload();   	
-		 	
 		 	}
 		 	
 			function fn_bbs_detail_view(bbs_id, file_yn, file_id) {

@@ -84,6 +84,13 @@ public class PersonalServiceImpl implements IPersonalService {
 				value.put("isWlan"				, Integer.parseInt(map.get("isWlan").toString()) == -1 ? 0 : map.get("isWlan"));
 				value.put("isNetShare"			, Integer.parseInt(map.get("isNetShare").toString()) == -1 ? 0 : map.get("isNetShare"));
 				value.put("isWebExport"			, Integer.parseInt(map.get("isWebExport").toString()) == -1 ? 0 : map.get("isWebExport"));
+				
+				value.put("isSensitiveDirEnabled"	, Integer.parseInt(map.get("isSensitiveDirEnabled").toString()) == -1 ? 0 : map.get("isSensitiveDirEnabled"));
+				value.put("isSensitiveFileAccess"	, Integer.parseInt(map.get("isSensitiveFileAccess").toString()) == -1 ? 0 : map.get("isSensitiveFileAccess"));
+				value.put("isStorageExport"			, Integer.parseInt(map.get("isStorageExport").toString()) == -1 ? 0 : map.get("isStorageExport"));
+				value.put("isStorageAdmin"			, Integer.parseInt(map.get("isStorageAdmin").toString()) == -1 ? 0 : map.get("isStorageAdmin"));
+				value.put("isUsbControlEnabled"		, Integer.parseInt(map.get("isUsbControlEnabled").toString()) == -1 ? 0 : map.get("isUsbControlEnabled"));
+				
 				value.put("patternFileControl"	, Integer.parseInt(map.get("patternFileControl").toString()) == -1 ? 0 : map.get("patternFileControl"));
 				value.put("printLogDesc"		, Integer.parseInt(map.get("printLogDesc").toString()) == -1 ? 0 : map.get("printLogDesc"));
 				
@@ -148,6 +155,13 @@ public class PersonalServiceImpl implements IPersonalService {
 		policy.put("isWlan", false);
 		policy.put("isNetShare", false);
 		policy.put("isWebExport", false);
+		
+		policy.put("isSensitiveDirEnabled", false);
+		policy.put("isSensitiveFileAccess", false);
+		policy.put("isStorageExport", false);
+		policy.put("isStorageAdmin", false);
+		policy.put("isUsbControlEnabled", false);
+		
 		policy.put("isStorageExport", false);
 		policy.put("isStorageAdmin", false);
 		
@@ -212,6 +226,14 @@ public class PersonalServiceImpl implements IPersonalService {
 					policy.put("isWebExport", true);
 				}
 				
+				if (Boolean.parseBoolean(temp.get("isSensitiveDirEnabled").toString())) {
+					policy.put("isSensitiveDirEnabled", true);
+				}
+				
+				if (Boolean.parseBoolean(temp.get("isSensitiveFileAccess").toString())) {
+					policy.put("isSensitiveFileAccess", true);
+				}
+				
 				if (Boolean.parseBoolean(temp.get("isStorageExport").toString())) {
 					policy.put("isStorageExport", true);
 				}
@@ -220,8 +242,12 @@ public class PersonalServiceImpl implements IPersonalService {
 					policy.put("isStorageAdmin", true);
 				}
 				
-				if (Boolean.parseBoolean(temp.get("patternFileControl").toString())) {
-					policy.put("patternFileControl", true);
+				if (Boolean.parseBoolean(temp.get("isUsbControlEnabled").toString())) {
+					policy.put("isUsbControlEnabled", true);
+				}
+				
+				if (Integer.parseInt(temp.get("patternFileControl").toString()) == 1) {
+					policy.put("patternFileControl", 1);
 				}
 
 
@@ -238,8 +264,12 @@ public class PersonalServiceImpl implements IPersonalService {
 			policy.put("isWlan"				, temp.get("isWlan"));
 			policy.put("isNetShare"			, temp.get("isNetShare"));
 			policy.put("isWebExport"		, temp.get("isWebExport"));
-			policy.put("isStorageExport"	, temp.get("isStorageExport"));
-			policy.put("isStorageAdmin"		, temp.get("isStorageAdmin"));
+			
+			policy.put("isSensitiveDirEnabled", temp.get("isSensitiveDirEnabled"));
+			policy.put("isSensitiveFileAccess", temp.get("isSensitiveFileAccess"));
+			policy.put("isStorageExport", temp.get("isStorageExport"));
+			policy.put("isStorageAdmin", temp.get("isStorageAdmin"));
+			policy.put("isUsbControlEnabled", temp.get("isUsbControlEnabled"));
 			
 			policy.put("isUsbBlock"			, temp.get("isUsbBlock"));
 			policy.put("isComPortBlock"		, temp.get("isComPortBlock"));
