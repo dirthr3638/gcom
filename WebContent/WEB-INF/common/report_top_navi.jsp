@@ -42,7 +42,6 @@ $(document).ready(function(){
 });
 
 function setTimeUI(){
-	console.log(dy_time);
 	
 	if(dy_time == 0){
 		clearInterval(intervalID);

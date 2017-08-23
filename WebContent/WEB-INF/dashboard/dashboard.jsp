@@ -440,7 +440,6 @@
 		<script type="text/javascript" src="${context}/assets/js/dashboard_function.js"></script>
 
 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.resize.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.time.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.fillbetween.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.orderBars.min.js"></script>
@@ -449,7 +448,8 @@
 
 		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
-
+<%-- 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.resize.min.js"></script>
+ --%>
 
 
 		<!-- PAGE LEVEL SCRIPT -->
@@ -737,7 +737,10 @@
 					colors : [$color_main, $color_second, $color_third, $color_fourth],										
 				};
 			
-				plot = jQuery.plot(jQuery("#flot-sales"), data, options);
+				loadScript(plugin_path + "chart.flot/jquery.flot.resize.min.js", function(){
+
+					plot = jQuery.plot(jQuery("#flot-sales"), data, options);
+				});
 			}
 
 		}

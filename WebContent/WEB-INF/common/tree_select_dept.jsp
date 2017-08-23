@@ -34,7 +34,11 @@
                  'icon' : 'fa fa-building'
              }
 	     }
-	 });
+	 })
+ 	 .on("check_node.jstree uncheck_node.jstree", function(e, data) {
+	  alert(data.node.id + ' ' + data.node.text +
+	        (data.node.state.checked ? ' CHECKED': ' NOT CHECKED'))
+	});
  });
  
  </script>

@@ -217,6 +217,11 @@
  		var datatable = $('#table_apply_policy').dataTable().api();
 		datatable.ajax.reload();   	
  	}
+ 	// 검색 버튼 클릭 시 
+ 	function reloadTable(){
+ 		var datatable = $('#table_apply_policy').dataTable().api();
+		datatable.ajax.reload();   	
+ 	}
 
  	// 인쇄 버튼 클릭 시 
  	function onClickPrintButton(){
@@ -270,7 +275,6 @@
 				req_id : req_id	        	
 	        },
 	        success:function(args){   
-	        	console.log(args)
 	        	if(args.returnCode == 'S'){
 		     		jQuery('#preloader').hide();
 		     		reloadTablePreventPage();
@@ -298,7 +302,6 @@
 				req_id : req_id	        	
 	        },
 	        success:function(args){   
-	        	console.log(args)
 	        	if(args.returnCode == 'S'){
 		     		jQuery('#preloader').hide();
 		     		reloadTablePreventPage();
