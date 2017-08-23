@@ -264,8 +264,11 @@ sql += whereSql;
 	
 	public List<PolicyMessengerModel> getPolicyMessengerList(HashMap<String, Object> map) {
 		List<PolicyMessengerModel> data = new ArrayList<PolicyMessengerModel>();
-		int start_date = Integer.parseInt(map.get("startRow").toString());
-		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
+		int startRow = Integer.parseInt(map.get("startRow").toString());
+		int endRow = Integer.parseInt(map.get("endRow").toString());
 		
 		String sql =
 				"SELECT " 
@@ -276,15 +279,30 @@ sql += whereSql;
 					+ "txt_block, "
 					+ "file_log, "
 					+ "file_block "
-			    + "FROM msg_info "
-			    + "ORDER BY no desc LIMIT ?, ? ";
+			    + "FROM msg_info WHERE 1 = 1 ";
+			    
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//메신저명
+				sql += "AND name LIKE ? ";
+			} else if (search_type == 2) {	//파일명
+				sql += "AND process_name LIKE ? ";
+			} 
+		}	    
+			    
+		sql += "ORDER BY no desc LIMIT ?, ? ";
 		
 		try{
 			
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  start_date);
-			pstmt.setInt(2,  end_date);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+			} else {
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, endRow);
+			}
 			
 			rs = pstmt.executeQuery();
 			
@@ -318,12 +336,25 @@ sql += whereSql;
 
 	public int getPolicyMessengerListCount(HashMap<String, Object> map) {
 		int result = 0;
-			
-		String sql= "SELECT COUNT(*) as cnt FROM msg_info ";
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
+		
+		String sql= "SELECT COUNT(*) as cnt FROM msg_info WHERE 1 = 1 ";
+		
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//메신저명
+				sql += "AND name LIKE ? ";
+			} else if (search_type == 2) {	//파일명
+				sql += "AND process_name LIKE ? ";
+			} 
+		}	
 			
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+			}
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -347,8 +378,11 @@ sql += whereSql;
 	
 	public List<PolicyProcessModel> getPolicyProcessList(HashMap<String, Object> map) {
 		List<PolicyProcessModel> data = new ArrayList<PolicyProcessModel>();
-		int start_date = Integer.parseInt(map.get("startRow").toString());
-		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
+		int startRow = Integer.parseInt(map.get("startRow").toString());
+		int endRow = Integer.parseInt(map.get("endRow").toString());
 		
 		String sql =
 				"SELECT "
@@ -358,15 +392,30 @@ sql += whereSql;
 					+ "IFNULL(hash, '') as hash, "
 					+ "notice, "
 					+ "valid "
-				+ "FROM process_info "
-			    + "ORDER BY no desc LIMIT ?, ? ";
+				+ "FROM process_info WHERE 1 = 1 ";
+				
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//프로세스이름
+				sql += "AND process_name LIKE ? ";
+			} else if (search_type == 2) {	//프로세스경로
+				sql += "AND process_path LIKE ? ";
+			}
+		}
+		
+		sql += "ORDER BY no desc LIMIT ?, ? ";
 		
 		try{
 			
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  start_date);
-			pstmt.setInt(2,  end_date);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+			} else {
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, endRow);
+			}
 			
 			rs = pstmt.executeQuery();
 			
@@ -399,12 +448,25 @@ sql += whereSql;
 	
 	public int getPolicyProcessListCount(HashMap<String, Object> map) {
 		int result = 0;
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
 		
-		String sql= "SELECT COUNT(*) as cnt FROM process_info ";
+		String sql= "SELECT COUNT(*) as cnt FROM process_info WHERE 1 = 1 ";
+		
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//프로세스이름
+				sql += "AND process_name LIKE ? ";
+			} else if (search_type == 2) {	//프로세스경로
+				sql += "AND process_path LIKE ? ";
+			}
+		}
 			
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+			}
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -469,8 +531,11 @@ sql += whereSql;
 	
 	public List<PolicyPatternModel> getPolicyPatternList(HashMap<String, Object> map) {
 		List<PolicyPatternModel> data = new ArrayList<PolicyPatternModel>();
-		int start_date = Integer.parseInt(map.get("startRow").toString());
-		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
+		int startRow = Integer.parseInt(map.get("startRow").toString());
+		int endRow = Integer.parseInt(map.get("endRow").toString());
 		
 		String sql =
 				"SELECT "
@@ -479,15 +544,30 @@ sql += whereSql;
 					+ "IFNULL(data, '') as data, "
 					+ "notice, "
 					+ "valid "
-				+ "FROM pattern_info "
-			    + "ORDER BY no desc LIMIT ?, ? ";
+				+ "FROM pattern_info WHERE 1 = 1 ";
+		
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//패턴이름
+				sql += "AND description LIKE ? ";
+			} else if (search_type == 2) {	//패턴데이터
+				sql += "AND data LIKE ? ";
+			} 
+		}
+				
+		sql += "ORDER BY no desc LIMIT ?, ? ";
 		
 		try{
 			
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  start_date);
-			pstmt.setInt(2,  end_date);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+			} else {
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, endRow);
+			}
 			
 			rs = pstmt.executeQuery();
 			
@@ -519,12 +599,25 @@ sql += whereSql;
 	
 	public int getPolicyPatternListCount(HashMap<String, Object> map) {
 		int result = 0;
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
 		
-		String sql= "SELECT COUNT(*) as cnt FROM pattern_info ";
-			
+		String sql= "SELECT COUNT(*) as cnt FROM pattern_info WHERE 1 = 1 ";
+		
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//패턴이름
+				sql += "AND description LIKE ? ";
+			} else if (search_type == 2) {	//패턴데이터
+				sql += "AND data LIKE ? ";
+			} 
+		}
+		
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+			}
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -548,8 +641,11 @@ sql += whereSql;
 	
 	public List<PolicyNetworkModel> getPolicyNetworkList(HashMap<String, Object> map) {
 		List<PolicyNetworkModel> data = new ArrayList<PolicyNetworkModel>();
-		int start_date = Integer.parseInt(map.get("startRow").toString());
-		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
+		int startRow = Integer.parseInt(map.get("startRow").toString());
+		int endRow = Integer.parseInt(map.get("endRow").toString());
 		
 		String sql =
 				"SELECT "
@@ -558,15 +654,30 @@ sql += whereSql;
 					+ "port, "
 					+ "descriptor, "
 					+ "allow "
-				+ "FROM net_port_info "
-			    + "ORDER BY no desc LIMIT ?, ? ";
+				+ "FROM net_port_info WHERE 1 = 1 ";
+		
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//포트이름
+				sql += "AND name LIKE ? ";
+			} else if (search_type == 2) {	//포트
+				sql += "AND port LIKE ? ";
+			}
+		}
+		
+		sql += "ORDER BY no desc LIMIT ?, ? ";
 		
 		try{
 			
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  start_date);
-			pstmt.setInt(2,  end_date);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+			} else {
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, endRow);
+			}
 			
 			rs = pstmt.executeQuery();
 			
@@ -598,12 +709,25 @@ sql += whereSql;
 	
 	public int getPolicyNetworkListCount(HashMap<String, Object> map) {
 		int result = 0;
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
 		
-		String sql= "SELECT COUNT(*) as cnt FROM net_port_info ";
+		String sql= "SELECT COUNT(*) as cnt FROM net_port_info WHERE 1 = 1 ";
+		
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//포트이름
+				sql += "AND name LIKE ? ";
+			} else if (search_type == 2) {	//포트
+				sql += "AND port LIKE ? ";
+			}
+		}
 			
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+			}
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -627,8 +751,11 @@ sql += whereSql;
 	
 	public List<PolicySerialModel> getPolicySerialList(HashMap<String, Object> map) {
 		List<PolicySerialModel> data = new ArrayList<PolicySerialModel>();
-		int start_date = Integer.parseInt(map.get("startRow").toString());
-		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
+		int startRow = Integer.parseInt(map.get("startRow").toString());
+		int endRow = Integer.parseInt(map.get("endRow").toString());
 		
 		String sql =
 				"SELECT "
@@ -636,15 +763,28 @@ sql += whereSql;
 					+ "name as serial_name, "
 					+ "allow, "
 					+ "description "
-				+ "FROM com_port_info "
-			    + "ORDER BY no desc LIMIT ?, ? ";
+				+ "FROM com_port_info WHERE 1 = 1 ";
+		
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//포트이름
+				sql += "AND name LIKE ? ";
+			}
+		}
+				
+		sql += "ORDER BY no desc LIMIT ?, ? ";
 		
 		try{
 			
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  start_date);
-			pstmt.setInt(2,  end_date);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+			} else {
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, endRow);
+			}
 			
 			rs = pstmt.executeQuery();
 			
@@ -675,12 +815,23 @@ sql += whereSql;
 	
 	public int getPolicySerialListCount(HashMap<String, Object> map) {
 		int result = 0;
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
 		
-		String sql= "SELECT COUNT(*) as cnt FROM com_port_info ";
+		String sql= "SELECT COUNT(*) as cnt FROM com_port_info WHERE 1 = 1 ";
+		
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//포트이름
+				sql += "AND name LIKE ? ";
+			}
+		}
 			
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+			}
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -1309,8 +1460,11 @@ sql += whereSql;
 
 	public List<UsbDevInfoModel> getPolicyUsbBlockList(HashMap<String, Object> map) {
 		List<UsbDevInfoModel> data = new ArrayList<UsbDevInfoModel>();
-		int start_date = Integer.parseInt(map.get("startRow").toString());
-		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
+		int startRow = Integer.parseInt(map.get("startRow").toString());
+		int endRow = Integer.parseInt(map.get("endRow").toString());
 		
 		String sql =
 				"SELECT "
@@ -1321,15 +1475,35 @@ sql += whereSql;
 					+ "serial_number, "
 					+ "allow, "
 					+ "description "
-				+ "FROM usb_dev_info "
-			    + "ORDER BY no desc LIMIT ?, ? ";
+				+ "FROM usb_dev_info WHERE 1 = 1 ";
+		
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//장치명
+				sql += "AND name LIKE ? ";
+			} else if (search_type == 2) {	//벤더 식별자
+				sql += "AND vid LIKE ? ";
+			} else if (search_type == 3) {	// 제품 식별자
+				sql += "AND pid LIKE ? ";
+			} else if (search_type == 4) {	//일련 번호
+				sql += "AND serial_number LIKE ? ";
+			}
+		}
+		
+		
+		sql	+= "ORDER BY no desc LIMIT ?, ? ";
 		
 		try{
 			
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  start_date);
-			pstmt.setInt(2,  end_date);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+			} else {
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, endRow);
+			}
 			
 			rs = pstmt.executeQuery();
 			
@@ -1363,12 +1537,29 @@ sql += whereSql;
 
 	public int getPolicyUsbBlockListCount(HashMap<String, Object> map) {
 		int result = 0;
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
 		
-		String sql= "SELECT COUNT(*) as cnt FROM usb_dev_info ";
+		String sql= "SELECT COUNT(*) as cnt FROM usb_dev_info WHERE 1 = 1 ";
+		
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//장치명
+				sql += "AND name LIKE ? ";
+			} else if (search_type == 2) {	//벤더 식별자
+				sql += "AND vid LIKE ? ";
+			} else if (search_type == 3) {	// 제품 식별자
+				sql += "AND pid LIKE ? ";
+			} else if (search_type == 4) {	//일련 번호
+				sql += "AND serial_number LIKE ? ";
+			}
+		}
 			
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+			}
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -1393,8 +1584,11 @@ sql += whereSql;
 
 	public List<PolicyWebSiteBlocklModel> getPolicyWebSiteBlockList(HashMap<String, Object> map) {
 		List<PolicyWebSiteBlocklModel> data = new ArrayList<PolicyWebSiteBlocklModel>();
-		int start_date = Integer.parseInt(map.get("startRow").toString());
-		int end_date = Integer.parseInt(map.get("endRow").toString());
+		
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
+		int startRow = Integer.parseInt(map.get("startRow").toString());
+		int endRow = Integer.parseInt(map.get("endRow").toString());
 		
 		String sql =
 				"SELECT "
@@ -1402,15 +1596,30 @@ sql += whereSql;
 					+ "address, "
 					+ "allow, "
 					+ "description "
-				+ "FROM web_addr_info "
-			    + "ORDER BY no desc LIMIT ?, ? ";
+				+ "FROM web_addr_info WHERE 1 = 1 ";
+				
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//사이트주소
+				sql += "AND address LIKE ? ";
+			} else if (search_type == 2) {	//설명
+				sql += "AND description LIKE ? ";
+			} 
+		}
+			    
+		sql += "ORDER BY no desc LIMIT ?, ? ";
 		
 		try{
 			
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
-			pstmt.setInt(1,  start_date);
-			pstmt.setInt(2,  end_date);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+			} else {
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, endRow);
+			}
 			
 			rs = pstmt.executeQuery();
 			
@@ -1442,12 +1651,25 @@ sql += whereSql;
 
 	public int getPolicyWebSiteBlockListCount(HashMap<String, Object> map) {
 		int result = 0;
+		int search_type = Integer.parseInt(map.get("search_type").toString());
+		String search_text = map.get("search_text").toString();
 		
-		String sql= "SELECT COUNT(*) as cnt FROM web_addr_info ";
+		String sql= "SELECT COUNT(*) as cnt FROM web_addr_info WHERE 1 = 1 ";
+			
+		if(!"".equals(search_text) && search_text.length() > 0){
+			if(search_type == 1) {	//사이트주소
+				sql += "AND address LIKE ? ";
+			} else if (search_type == 2) {	//설명
+				sql += "AND description LIKE ? ";
+			} 
+		}
 			
 		try{
 			con = ds.getConnection();
 			pstmt=con.prepareStatement(sql);
+			if(!"".equals(search_text) && search_text.length() > 0){
+				pstmt.setString(1, "%" + search_text + "%");
+			}
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){

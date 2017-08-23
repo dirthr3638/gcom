@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import gcom.common.util.StringUtil;
 import gcom.controller.action.admin.getAdminAction;
 
 @WebServlet("/ax/admin/policy/usbblock/list")
@@ -26,6 +27,8 @@ public class axAdminPolicyUsbBlockListController extends HttpServlet {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		getAdminAction action = new getAdminAction();
 		
+		map.put("search_type", StringUtil.nullToString((String)request.getParameter("search_type"), "1"));
+		map.put("search_text", StringUtil.nullToString((String)request.getParameter("search_text"), ""));
 		map.put("startRow", Integer.parseInt( request.getParameter("start").toString()) );
 		map.put("endRow", Integer.parseInt( request.getParameter("length").toString()) );
 		HashMap<String, Object> data = action.getPolicyUsbBlockList(map);

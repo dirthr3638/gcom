@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import gcom.common.util.StringUtil;
 import gcom.controller.action.admin.getAdminAction;
 
 @WebServlet("/ax/admin/policy/messenger/list")
@@ -25,9 +26,11 @@ public class axAdminPolicyMessengerListController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		getAdminAction action = new getAdminAction();
+		
+		map.put("search_type", StringUtil.nullToString((String)request.getParameter("search_type"), "1"));
+		map.put("search_text", StringUtil.nullToString((String)request.getParameter("search_text"), ""));
 		map.put("startRow", Integer.parseInt( request.getParameter("start").toString()) );
 		map.put("endRow", Integer.parseInt( request.getParameter("length").toString()) );
-		
 		HashMap<String, Object> data = action.getPolicyMessengerList(map);
 
 		data.putAll(data);

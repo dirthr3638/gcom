@@ -196,6 +196,7 @@
 						"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
 						"infoEmpty":      "검색된 데이터가 없습니다.",
 						"lengthMenu": "  _MENU_ 개",
+						"zeroRecords" :"검색된 정책이 없습니다.",
 						"paginate": {
 							"previous":"Prev",
 							"next": "Next",

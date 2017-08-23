@@ -46,7 +46,18 @@
 	</table>
 </div>
 
-<table class="table table-bordered" id="web_site_table" style="width:100%;">
+<div>
+	<select class="form-control pull-left" id="site_sel_search_type" name="site_sel_search_type" style="width:200px;">
+		<option value="1">사이트주소</option>
+		<option value="2">설명</option>
+	</select>
+	<input type="text" class="form-control pull-left" id="site_att_search_text" name="site_att_search_text" placeholder="검색어를 입력해주세요." style="width:200px;" value="" />
+	<button onclick="searchSiteList();" class="btn btn-info pull-left"><i class="fa fa-search"></i> 검색</button>
+</div>
+<table class="table table-bordered table-td-middle" id="web_site_table" style="width:100%; margin-top: 20px;">
+	<col width="100px">
+	<col>
+	<col width="250px">
 	<thead>
 		<tr>
 			<td>선택</td>
@@ -61,6 +72,11 @@
 													
 
 <script type="text/javascript">
+
+	function searchSiteList(){
+		var datatable = $('#web_site_table').dataTable().api();
+		datatable.ajax.reload();
+	}
 
 	$(document).ready(function(){
 		$("input[name=radio_website_block]").change(function() {
@@ -129,7 +145,10 @@
 						"url":'${context}/ax/admin/policy/website/list',
 					   	"type":'POST',
 					   	"dataSrc" : "data",
-					   	"data" :  {},
+					   	"data" : function(param) {
+					   		param.search_type = $('#site_sel_search_type option:checked').val();
+							param.search_text = $('#site_att_search_text').val();
+				        },
 				        "beforeSend" : function(){
 							jQuery('#preloader').show();
 				        },
@@ -164,6 +183,7 @@
 						"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
 						"infoEmpty":      "검색된 데이터가 없습니다.",
 						"lengthMenu": "  _MENU_ 개",
+						"zeroRecords" :"검색된 정책이 없습니다.",
 						"paginate": {
 							"previous":"Prev",
 							"next": "Next",
@@ -178,6 +198,7 @@
 					}, {  
 						'targets': [1]	// ID
 						,"class":"center-cell"
+						,"visible" : false
 					}, {  
 						'targets': [2]	// 사이트주소
 						,"class":"center-cell"
