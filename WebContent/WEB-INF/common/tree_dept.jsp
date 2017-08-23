@@ -33,9 +33,14 @@
  }
 
  $(document).ready(function(){
+
+	 var treeLoaded = false;
+	 var notUseFirst = false;
+	 
+	 	
 	 $('#org_tree').jstree({
 	     'core' : {
-	         'check_callback' : true,
+	         'check_callback' : false,
 	         'data' : JSON.parse('${deptJson}')
 	     },
          'plugins' : [ 'types', 'dnd', 'checkbox'],
@@ -49,8 +54,22 @@
 	     },
 	 });
 	 
+ 	    $("#org_tree").bind("changed.jstree",
+	    	    function (e, data) {
+	    	 	    if(treeLoaded == true)   {
+	 	    			if(notUseFirst == false){
+	 	    				notUseFirst = true;
+	 	    				return;
+	 	    			}
+	    	 	    	console.log( data );	    	 	    	
+	    	 	    	reloadTable();
+	    	 	    }
+
+	    	    });
+	  
 	 $('#org_tree').bind('loaded.jstree', function(e, data) {
 	 		$('#org_tree').jstree(true).check_all();		
+	 		treeLoaded = true;
 		})
  });
  

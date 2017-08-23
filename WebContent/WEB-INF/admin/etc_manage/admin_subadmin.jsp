@@ -141,7 +141,7 @@
 	    }); 
 	}
  	
- 	function searchUserLog(){
+ 	function reloadTable(){
  		var datatable = $('#table_admininfo').dataTable().api();
 		datatable.ajax.reload();   	
  	
@@ -528,7 +528,7 @@
 			],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
-			        $('#table_admininfo').colResizable({liveDrag:true});
+//			        $('#table_admininfo').colResizable({liveDrag:true});
 
 				}
 			});

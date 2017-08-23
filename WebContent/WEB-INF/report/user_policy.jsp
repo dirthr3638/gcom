@@ -89,7 +89,7 @@
 											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
 		
 											<!-- Info -->
-											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
+											<button type="button" class="btn btn-info" onclick="reloadTable()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
 											
 											
 											<!-- Primary -->
@@ -227,7 +227,7 @@
 	    }); 
 	}
  	
- 	function searchUserLog(){
+ 	function reloadTable(){
  		var datatable = $('#table_userinfo').dataTable().api();
 		datatable.ajax.reload();   	
  	
@@ -614,7 +614,7 @@
 				}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
-					$('#table_userinfo').colResizable({liveDrag:true});
+//					$('#table_userinfo').colResizable({liveDrag:true});
 
 				}
 			});

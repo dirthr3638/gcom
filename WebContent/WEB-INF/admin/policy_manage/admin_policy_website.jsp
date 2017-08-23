@@ -284,6 +284,7 @@
 							"class":"center-cell"
 						}],
 						"initComplete": function( settings, json ) {
+//							$('#table-website-policy').colResizable({liveDrag:true});
 						}
 					});
 						

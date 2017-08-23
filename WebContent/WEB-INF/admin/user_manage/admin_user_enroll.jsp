@@ -82,7 +82,7 @@
 											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
 		
 											<!-- Info -->
-											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
+											<button type="button" class="btn btn-info" onclick="reloadTable()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
 											
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
@@ -213,7 +213,12 @@
 	}
  	
  	// 검색 버튼 클릭 시 
- 	function searchUserLog(){
+ 	function reloadTable(){
+ 		var datatable = $('#table_apply_policy').dataTable().api();
+		datatable.ajax.reload();   	
+ 	}
+ 	// 검색 버튼 클릭 시 
+ 	function reloadTable(){
  		var datatable = $('#table_apply_policy').dataTable().api();
 		datatable.ajax.reload();   	
  	}
@@ -270,7 +275,6 @@
 				req_id : req_id	        	
 	        },
 	        success:function(args){   
-	        	console.log(args)
 	        	if(args.returnCode == 'S'){
 		     		jQuery('#preloader').hide();
 		     		reloadTablePreventPage();
@@ -298,7 +302,6 @@
 				req_id : req_id	        	
 	        },
 	        success:function(args){   
-	        	console.log(args)
 	        	if(args.returnCode == 'S'){
 		     		jQuery('#preloader').hide();
 		     		reloadTablePreventPage();
@@ -672,7 +675,7 @@
 				}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
-			        $('#table_apply_policy').colResizable({liveDrag:true});
+//			        $('#table_apply_policy').colResizable({liveDrag:true});
 				}
 			});
 			
