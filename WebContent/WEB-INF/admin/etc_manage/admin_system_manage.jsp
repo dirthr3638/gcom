@@ -497,6 +497,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						,"visible":false
 					}],						
 						"initComplete": function( settings, json ) {
+							$('#table_systeminfo').colResizable({liveDrag:true});
 						}
 					});
 
