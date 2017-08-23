@@ -546,7 +546,7 @@
 				}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
-			        $('#table_userinfo').colResizable({liveDrag:true});
+//			        $('#table_userinfo').colResizable({liveDrag:true});
 
 				}
 			});

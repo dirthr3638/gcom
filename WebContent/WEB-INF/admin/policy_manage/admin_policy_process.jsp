@@ -295,7 +295,7 @@
 							"class":"center-cell"
 						}],
 						"initComplete": function( settings, json ) {
-							 $('#table-process-policy').colResizable({liveDrag:true});
+//							 $('#table-process-policy').colResizable({liveDrag:true});
 						}
 					});
 						

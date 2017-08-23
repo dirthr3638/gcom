@@ -28,8 +28,8 @@
 
 			<% request.setAttribute("menu_parent", 1000); %> 
 			<jsp:include page="/WEB-INF/common/left_menu.jsp" flush="false" />
-			<jsp:include page="/WEB-INF/common/top_navi.jsp" flush="false" />			
-			<section id="middle">
+ 			<jsp:include page="/WEB-INF/common/top_navi.jsp" flush="false" />			
+ 			<section id="middle">
 				<div id="content" class="dashboard padding-20">
 
 					<!-- 
@@ -435,21 +435,30 @@
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
 		<script type="text/javascript">var context = '${context}';</script>
 
-		<script type="text/javascript" src="${context}/assets/js/date.js"></script>
+<%--		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
+ 		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
+ --%>		<script type="text/javascript" src="${context}/assets/js/date.js"></script>
 
 		<script type="text/javascript" src="${context}/assets/js/dashboard_function.js"></script>
 
 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.resize.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.time.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.fillbetween.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.orderBars.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.pie.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.tooltip.min.js"></script>
 
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+<%-- 		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
-<%-- 		<script type="text/javascript" src="${context}/assets/plugins/chart.flot/jquery.flot.resize.min.js"></script>
- --%>
+
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
+
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script> --%>
 
 
 		<!-- PAGE LEVEL SCRIPT -->
@@ -737,10 +746,9 @@
 					colors : [$color_main, $color_second, $color_third, $color_fourth],										
 				};
 			
-				loadScript(plugin_path + "chart.flot/jquery.flot.resize.min.js", function(){
-
-					plot = jQuery.plot(jQuery("#flot-sales"), data, options);
-				});
+/* 				loadScript(plugin_path + "chart.flot/jquery.flot.resize.min.js", function(){
+ */
+				plot = jQuery.plot(jQuery("#flot-sales"), data, options);
 			}
 
 		}

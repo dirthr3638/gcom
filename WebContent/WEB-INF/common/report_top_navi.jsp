@@ -18,8 +18,8 @@
 
 	<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/resize/colResizable.js"></script>
-
+<%-- 		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/resize/colResizable.js"></script>
+ --%>
 	<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
 	<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
 

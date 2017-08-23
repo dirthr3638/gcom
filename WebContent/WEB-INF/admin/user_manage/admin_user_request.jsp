@@ -996,7 +996,7 @@
 				}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
-			        $('#table_request_info').colResizable({liveDrag:true});
+//			        $('#table_request_info').colResizable({liveDrag:true});
 				}
 			});
 			

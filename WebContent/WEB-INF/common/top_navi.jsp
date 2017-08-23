@@ -77,8 +77,8 @@
 		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.colVis.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/idle-timer/idle-timer.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/resize/colResizable.js"></script>
-
+<%-- 		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/resize/colResizable.js"></script>
+ --%>
 
 <script>
 

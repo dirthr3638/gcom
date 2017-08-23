@@ -339,7 +339,7 @@
 				}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
-			        $('#table_usb_policy').colResizable({liveDrag:true});
+//			        $('#table_usb_policy').colResizable({liveDrag:true});
 				}
 			});
 			

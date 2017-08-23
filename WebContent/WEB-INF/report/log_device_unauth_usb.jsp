@@ -319,7 +319,7 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 						}],						
 						"initComplete": function( settings, json ) {
 							$('.export-print').hide();
-					        $('#table_userinfo').colResizable({liveDrag:true});
+//					        $('#table_userinfo').colResizable({liveDrag:true});
 
 						}
 					});

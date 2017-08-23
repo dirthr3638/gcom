@@ -289,7 +289,7 @@
 							"class":"center-cell"
 						}],
 						"initComplete": function( settings, json ) {
-							 $('#table-pattern-policy').colResizable({liveDrag:true});
+//							 $('#table-pattern-policy').colResizable({liveDrag:true});
 						}
 					});
 						

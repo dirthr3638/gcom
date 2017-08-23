@@ -528,7 +528,7 @@
 			],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
-			        $('#table_admininfo').colResizable({liveDrag:true});
+//			        $('#table_admininfo').colResizable({liveDrag:true});
 
 				}
 			});

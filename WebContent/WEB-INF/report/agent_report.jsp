@@ -551,7 +551,7 @@
 				"initComplete": function( settings, json ) {
 					setColumnType(2);
 					$('.export-print').hide();
-			        $('#table_userinfo').colResizable({liveDrag:true});
+//			        $('#table_userinfo').colResizable({liveDrag:true});
 	
 				}
 			});

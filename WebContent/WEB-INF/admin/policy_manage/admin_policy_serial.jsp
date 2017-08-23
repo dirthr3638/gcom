@@ -283,7 +283,7 @@
 							"class":"center-cell"
 						}],
 						"initComplete": function( settings, json ) {
-							$('#table-serial-policy').colResizable({liveDrag:true});
+//							$('#table-serial-policy').colResizable({liveDrag:true});
 						}
 					});
 						

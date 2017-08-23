@@ -326,7 +326,7 @@
 							,"class" : "center-cell"
 						}],
 						"initComplete": function( settings, json ) {
-							 $('#table-messenger-policy').colResizable({liveDrag:true});
+//							 $('#table-messenger-policy').colResizable({liveDrag:true});
 
 						}
 					});
