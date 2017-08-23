@@ -69,7 +69,7 @@
 													<option value="2">등록자</option>
 												</select>
 												<input type="text" class="form-control pull-left" id="att_search_text" name="att_search_text" placeholder="검색어를 입력해주세요." style="width:200px;" value="" />
-												<button onclick="searchUserLog();" class="btn btn-info pull-left"><i class="fa fa-search"></i> 검색</button>
+												<button onclick="reloadTable();" class="btn btn-info pull-left"><i class="fa fa-search"></i> 검색</button>
 											</div>
 											
 											<button id="btnNoticeDel" class="btn btn-amber pull-right">게시글삭제</button>
@@ -148,7 +148,7 @@
 		</div>
 		<script>
 	
-		 	function searchUserLog(){
+		 	function reloadTable(){
 		 		var datatable = $('#table_notice').dataTable().api();
 				datatable.ajax.reload();   	
 		 	}

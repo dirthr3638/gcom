@@ -141,7 +141,7 @@
 	    }); 
 	}
  	
- 	function searchUserLog(){
+ 	function reloadTable(){
  		var datatable = $('#table_admininfo').dataTable().api();
 		datatable.ajax.reload();   	
  	

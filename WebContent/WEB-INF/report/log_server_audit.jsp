@@ -76,7 +76,7 @@ table td {
 											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
 		
 											<!-- Info -->
-											<button type="button" class="btn btn-info" onclick="searchUserLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
+											<button type="button" class="btn btn-info" onclick="reloadTable()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
 											
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
@@ -201,7 +201,7 @@ table td {
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
 <script>
- 	function searchUserLog(){
+ 	function reloadTable(){
  		var datatable = $('#table_userinfo').dataTable().api();
 		datatable.ajax.reload();   	
  	
