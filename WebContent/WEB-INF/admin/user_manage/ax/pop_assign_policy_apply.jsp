@@ -58,15 +58,15 @@
 																			<td><input type="checkbox" value="1" id="chk_isUninstall_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isUninstall"))){ %> checked <%}%> /></td>
 																		</tr>	
 																		<tr>
-																			<td class="th-cell-gray">파일실시간 암호화</td>
+																			<td class="th-cell-gray">파일 암호화 사용</td>
 																			<td><input type="checkbox" value="1" id="chk_isFileEncryption_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isFileEncryption"))){ %> checked <%}%> /></td>
 																		</tr>
 																		<tr>
-																			<td class="th-cell-gray">CD실시간 암호화</td>
+																			<td class="th-cell-gray">CD 암호화 사용</td>
 																			<td><input type="checkbox" value="1" id="chk_isCdEncryption_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isCdEncryption"))){ %> checked <%}%> /></td>
 																		</tr>
 																		<tr>
-																			<td class="th-cell-gray">프린터 사용 여부</td>
+																			<td class="th-cell-gray">프린터 사용 가능 여부</td>
 																			<td><input type="checkbox" value="1" id="chk_isPrint_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isPrint"))){ %> checked <%}%> /></td>
 																		</tr>
 																		<tr>
@@ -74,7 +74,7 @@
 																			<td><input type="checkbox" value="1" id="chk_isCdEnabled_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isCdEnabled"))){ %> checked <%}%> /></td>
 																		</tr>
 																		<tr>
-																			<td class="th-cell-gray">CD 반출 여부</td>
+																			<td class="th-cell-gray">CD 반출 가능 여부</td>
 																			<td><input type="checkbox" value="1" id="chk_isCdExport_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isCdExport"))){ %> checked <%}%> /></td>
 																		</tr>
 																		<tr>
@@ -86,13 +86,35 @@
 																			<td><input type="checkbox" value="1" id="chk_isNetShare_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isNetShare"))){ %> checked <%}%> /></td>
 																		</tr>
 																		<tr>
-																			<td class="th-cell-gray">메일 반출 여부</td>
+																			<td class="th-cell-gray">메일반출 사용 여부</td>
 																			<td><input type="checkbox" value="1" id="chk_isWebExport_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isWebExport"))){ %> checked <%}%> /></td>
 																		</tr>
+																																				
 																		<tr>
-																			<td class="th-cell-gray">민감파일 접근 시 삭제</td>
-																			<td><input type="checkbox" value="1" id="chk_patternFileControl_item" name="chk_policy_item" <% if (Integer.parseInt(data.get("patternFileControl").toString()) == 1 ){ %> checked <%}%> /></td>
+																			<td class="th-cell-gray">보호폴더 접근 가능 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_isSensitiveDir_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isSensitiveDirEnabled"))){ %> checked <%}%> /></td>
 																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">민감파일 접근시 삭제 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_isSensitiveFileAccess_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isSensitiveFileAccess"))){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">디스크 반출 가능 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_isStorageExport_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isStorageExport"))){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">디스크 관리자 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_isStorageAdmin_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isStorageAdmin"))){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">USB통제 기능 사용 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_isUsbControl_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isUsbControlEnabled"))){ %> checked <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">검출된 패턴파일 삭제 여부</td>
+																			<td><input type="checkbox" value="1" id="chk_patternFileControl_item" name="chk_policy_item" <% if (Integer.parseInt(data.get("patternFileControl").toString()) == 1){ %> checked <%}%> /></td>
+																		</tr>
+																																				
 																		<tr>
 																			<td class="th-cell-gray">프린터 인쇄 로그</td>
 																			<td>
@@ -139,10 +161,32 @@
 																			<td class="th-cell-gray">메일 반출 여부</td>
 																			<td><input type="checkbox" class="tristate" id="chk_isWebExport_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isWebExport"))){ %> indeterminate <%}%> /></td>
 																		</tr>
+																		
 																		<tr>
-																			<td class="th-cell-gray">민감파일 접근 시 삭제</td>
-																			<td><input type="checkbox" class="tristate" id="chk_patternFileControl_item" name="chk_policy_item" <% if (Integer.parseInt(data.get("patternFileControl").toString()) == 1 ){ %> indeterminate <%}%> /></td>
+																			<td class="th-cell-gray">보호폴더 접근 가능 여부</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isSensitiveDir_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isSensitiveDirEnabled"))){ %> indeterminate <%}%> /></td>
 																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">민감파일 접근시 삭제 여부</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isSensitiveFileAccess_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isSensitiveFileAccess"))){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">디스크 반출 가능 여부</td>
+																			<td><input type="checkbox"class="tristate" id="chk_isStorageExport_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isStorageExport"))){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">디스크 관리자 여부</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isStorageAdmin_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isStorageAdmin"))){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">USB통제 기능 사용 여부</td>
+																			<td><input type="checkbox" class="tristate" id="chk_isUsbControl_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.get("isUsbControlEnabled"))){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		<tr>
+																			<td class="th-cell-gray">검출된 패턴파일 삭제 여부</td>	
+																			<td><input type="checkbox" class="tristate" id="chk_patternFileControl_item" name="chk_policy_item" <% if (Integer.parseInt(data.get("patternFileControl").toString()) == 1){ %> indeterminate <%}%> /></td>
+																		</tr>
+																		
 																		<tr>
 																			<td class="th-cell-gray">프린터 인쇄 로그</td>
 																			<td>
@@ -430,7 +474,14 @@
 		if( oriData.isWlan != change_policy_data.isWlan ){ cnt++; }
 		if( oriData.isNetShare != change_policy_data.isNetShare ){ cnt++; }
 		if( oriData.isWebExport != change_policy_data.isWebExport ){ cnt++; }
+		
+		if( oriData.isSensitiveDirEnabled != change_policy_data.isSensitiveDirEnabled ){ cnt++; }
+		if( oriData.isSensitiveFileAccess != change_policy_data.isSensitiveFileAccess ){ cnt++; }
+		if( oriData.isStorageExport != change_policy_data.isStorageExport ){ cnt++; }
+		if( oriData.isStorageAdmin != change_policy_data.isStorageAdmin ){ cnt++; }
+		if( oriData.isUsbControlEnabled != change_policy_data.isUsbControlEnabled ){ cnt++; }
 		if( oriData.patternFileControl != change_policy_data.patternFileControl ){ cnt++; }
+		
 		if( oriData.printLogDesc != change_policy_data.printLogDesc ){ cnt++; }
 		if( oriData.isUsbBlock != change_policy_data.isUsbBlock ){ cnt++; }
 		if( oriData.isComPortBlock != change_policy_data.isComPortBlock	){ cnt++; }

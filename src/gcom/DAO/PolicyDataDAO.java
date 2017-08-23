@@ -773,6 +773,12 @@ sql += whereSql;
 			    + "IFNULL(pi.wlan_enabled, 0) as isWlan, "
 			    + "IFNULL(pi.net_share_enabled, 0) as isNetShare, "
 			    + "IFNULL(pi.web_export_enabled, 0) as isWebExport, "
+			    
+			    //추가
+			    + "IFNULL(pi.sensitive_dir_enabled, 0) as sensitive_dir_enabled, "
+			    + "IFNULL(pi.policy_sensitive_file_access, 0) as policy_sensitive_file_access, "
+			    + "IFNULL(pi.policy_usb_control_enabled, 0) as policy_usb_control_enabled, "
+			    
 			    + "IFNULL(pi.removal_storage_export_enabled, 0) as isStorageExport, "
 			    + "IFNULL(pi.removal_storage_admin_mode, 0) as isStorageAdmin, "
 			    
@@ -845,8 +851,16 @@ sql += whereSql;
 				model.setIsWlan(rs.getInt("isWlan"));
 				model.setIsNetShare(rs.getInt("isNetShare"));
 				model.setIsWebExport(rs.getInt("isWebExport"));
+				
+				//추가
+				model.setIsSensitiveDirEnabled(rs.getInt("sensitive_dir_enabled"));
+				model.setIsSensitiveFileAccess(rs.getInt("policy_sensitive_file_access"));
+				model.setIsUsbControlEnabled(rs.getInt("policy_usb_control_enabled"));
+				
 				model.setIsStorageExport(rs.getInt("isStorageExport"));
 				model.setIsStorageAdmin(rs.getInt("isStorageAdmin"));
+				
+				
 				model.setIsUsbBlock(rs.getString("isUsbBlock"));
 				model.setIsComPortBlock(rs.getString("isComPortBlock"));
 				model.setIsNetPortBlock(rs.getString("isNetPortBlock"));

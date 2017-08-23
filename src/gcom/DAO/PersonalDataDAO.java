@@ -1263,6 +1263,13 @@ sql += whereSql;
 		int isWlan = Integer.parseInt(map.get("isWlan").toString());
 		int isNetShare = Integer.parseInt(map.get("isNetShare").toString());
 		int isWebExport = Integer.parseInt(map.get("isWebExport").toString());
+		
+		int isSensitiveDirEnabled = Integer.parseInt(map.get("isSensitiveDirEnabled").toString());
+		int isSensitiveFileAccess = Integer.parseInt(map.get("isSensitiveFileAccess").toString());
+		int isStorageExport = Integer.parseInt(map.get("isStorageExport").toString());
+		int isStorageAdmin = Integer.parseInt(map.get("isStorageAdmin").toString());
+		int isUsbControlEnabled = Integer.parseInt(map.get("isUsbControlEnabled").toString());
+		
 		int patternFileControl = Integer.parseInt(map.get("patternFileControl").toString());
 		String printLogDesc = map.get("printLogDesc").toString();
 		String isUsbBlock = map.get("isUsbBlock").toString();
@@ -1287,7 +1294,14 @@ sql += whereSql;
 					+ "cd_export_enabled, " 
 					+ "wlan_enabled, " 
 					+ "net_share_enabled, " 
-					+ "web_export_enabled, " 
+					+ "web_export_enabled, "
+					
+					+ "sensitive_dir_enabled, "
+					+ "policy_sensitive_file_access, "
+					+ "policy_usb_control_enabled, "
+					+ "removal_storage_export_enabled, "
+					+ "removal_storage_admin_mode, "
+					
 					+ "usb_dev_list, " 
 					+ "com_port_list, " 
 					+ "net_port_list, "
@@ -1298,7 +1312,7 @@ sql += whereSql;
 					+ "watermark_descriptor, " 
 					+ "print_log_descriptor, " 
 					+ "pattern_file_control )" 
-				+ "VALUES ( ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "VALUES ( ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try{
 			
@@ -1316,16 +1330,23 @@ sql += whereSql;
 			pstmt.setInt(8, isWlan);
 			pstmt.setInt(9, isNetShare);
 			pstmt.setInt(10, isWebExport);
-			pstmt.setString(11, isUsbBlock);
-			pstmt.setString(12, isComPortBlock);
-			pstmt.setString(13, isNetPortBlock);
-			pstmt.setString(14, isProcessList);
-			pstmt.setString(15, isFilePattern);
-			pstmt.setString(16, isWebAddr);
-			pstmt.setString(17, isMsgBlock);
-			pstmt.setString(18, waterMark);
-			pstmt.setString(19, printLogDesc);
-			pstmt.setInt(20, patternFileControl);
+			
+			pstmt.setInt(11, isSensitiveDirEnabled);
+			pstmt.setInt(12, isSensitiveFileAccess);
+			pstmt.setInt(13, isUsbControlEnabled);
+			pstmt.setInt(14, isStorageExport);
+			pstmt.setInt(15, isStorageAdmin);
+			
+			pstmt.setString(16, isUsbBlock);
+			pstmt.setString(17, isComPortBlock);
+			pstmt.setString(18, isNetPortBlock);
+			pstmt.setString(19, isProcessList);
+			pstmt.setString(20, isFilePattern);
+			pstmt.setString(21, isWebAddr);
+			pstmt.setString(22, isMsgBlock);
+			pstmt.setString(23, waterMark);
+			pstmt.setString(24, printLogDesc);
+			pstmt.setInt(25, patternFileControl);
 			pstmt.executeUpdate();
 			
 			rs = pstmt.getGeneratedKeys();
@@ -1378,6 +1399,13 @@ sql += whereSql;
 		int isWlan = Integer.parseInt(map.get("isWlan").toString());
 		int isNetShare = Integer.parseInt(map.get("isNetShare").toString());
 		int isWebExport = Integer.parseInt(map.get("isWebExport").toString());
+		
+		int isSensitiveDirEnabled = Integer.parseInt(map.get("isSensitiveDirEnabled").toString());
+		int isSensitiveFileAccess = Integer.parseInt(map.get("isSensitiveFileAccess").toString());
+		int isStorageExport = Integer.parseInt(map.get("isStorageExport").toString());
+		int isStorageAdmin = Integer.parseInt(map.get("isStorageAdmin").toString());
+		int isUsbControlEnabled = Integer.parseInt(map.get("isUsbControlEnabled").toString());
+		
 		int patternFileControl = Integer.parseInt(map.get("patternFileControl").toString());
 		String printLogDesc = map.get("printLogDesc").toString();
 		String isUsbBlock = map.get("isUsbBlock").toString();
@@ -1405,6 +1433,13 @@ sql += whereSql;
 		if (isWlan != -1) { sql += ",wlan_enabled= ? "; }
 		if (isNetShare != -1) { sql += ",net_share_enabled= ? "; }
 		if (isWebExport != -1) { sql += ",web_export_enabled= ? "; }
+		
+		if (isSensitiveDirEnabled != -1) { sql += ",sensitive_dir_enabled= ? "; }
+		if (isSensitiveFileAccess != -1) { sql += ",policy_sensitive_file_access= ? "; }
+		if (isStorageExport != -1) { sql += ",removal_storage_export_enabled= ? "; }
+		if (isStorageAdmin != -1) { sql += ",removal_storage_admin_mode= ? "; }
+		if (isUsbControlEnabled != -1) { sql += ",policy_usb_control_enabled= ? "; }
+		
 		if (!"".equals(isUsbBlock)) { sql += ",usb_dev_list= ? "; }
 		if (!"".equals(isComPortBlock)) { sql += ",com_port_list= ? "; }
 		if (!"".equals(isNetPortBlock)) { sql += ",net_port_list= ? "; }
@@ -1435,6 +1470,13 @@ sql += whereSql;
 			if (isWlan != -1) { pstmt.setInt(i++ , isWlan); }
 			if (isNetShare != -1) { pstmt.setInt(i++ , isNetShare); }
 			if (isWebExport != -1) { pstmt.setInt(i++ , isWebExport); }
+			
+			if (isSensitiveDirEnabled != -1) { pstmt.setInt(i++, isSensitiveDirEnabled); }
+			if (isSensitiveFileAccess != -1) { pstmt.setInt(i++, isSensitiveFileAccess); }
+			if (isStorageExport != -1) { pstmt.setInt(i++, isStorageExport); }
+			if (isStorageAdmin != -1) { pstmt.setInt(i++, isStorageAdmin); }
+			if (isUsbControlEnabled != -1) { pstmt.setInt(i++, isUsbControlEnabled); }
+			
 			if (!"".equals(isUsbBlock)) { pstmt.setString(i++ , isUsbBlock); }
 			if (!"".equals(isComPortBlock)) { pstmt.setString(i++ , isComPortBlock); }
 			if (!"".equals(isNetPortBlock)) { pstmt.setString(i++ , isNetPortBlock); }

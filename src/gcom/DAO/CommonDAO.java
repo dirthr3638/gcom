@@ -44,6 +44,11 @@ public class CommonDAO {
 						+ "wlan_enabled, "
 						+ "net_share_enabled, "
 						+ "web_export_enabled, "
+						
+						+ "sensitive_dir_enabled, "
+						+ "policy_sensitive_file_access, "
+						+ "policy_usb_control_enabled, "
+						
 						+ "removal_storage_export_enabled, "
 						+ "removal_storage_admin_mode, "
 						+ "usb_dev_list, "
@@ -71,6 +76,11 @@ public class CommonDAO {
 						+ "pi.wlan_enabled, "
 						+ "pi.net_share_enabled, "
 						+ "pi.web_export_enabled, "
+						
+						+ "pi.sensitive_dir_enabled, "
+						+ "pi.policy_sensitive_file_access, "
+						+ "pi.policy_usb_control_enabled, "
+						
 						+ "pi.removal_storage_export_enabled, "
 						+ "pi.removal_storage_admin_mode, "
 						+ "pi.usb_dev_list, "
