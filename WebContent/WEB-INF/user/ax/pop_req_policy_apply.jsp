@@ -94,6 +94,28 @@
 																		<td class="th-cell-gray">메일 반출 여부</td>
 																		<td><input type="checkbox" value="Y" id="chk_isWebExport_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.getIsWebExport())){ %> checked <%}%> /></td>
 																	</tr>
+																	
+																	<tr>
+																		<td class="th-cell-gray">보호폴더 접근 가능 여부</td>
+																		<td><input type="checkbox" value="1" id="chk_isSensitiveDir_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.getIsSensitiveDirEnabled())){ %> checked <%}%> /></td>
+																	</tr>
+																	<tr>
+																		<td class="th-cell-gray">민감파일 접근시 삭제 여부</td>
+																		<td><input type="checkbox" value="1" id="chk_isSensitiveFileAccess_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.getIsSensitiveFileAccess())){ %> checked <%}%> /></td>
+																	</tr>
+																	<tr>
+																		<td class="th-cell-gray">디스크 반출 가능 여부</td>
+																		<td><input type="checkbox" value="1" id="chk_isStorageExport_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.getIsStorageExport())){ %> checked <%}%> /></td>
+																	</tr>
+																	<tr>
+																		<td class="th-cell-gray">디스크 관리자 여부</td>
+																		<td><input type="checkbox" value="1" id="chk_isStorageAdmin_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.getIsStorageAdmin())){ %> checked <%}%> /></td>
+																	</tr>
+																	<tr>
+																		<td class="th-cell-gray">USB통제 기능 사용 여부</td>
+																		<td><input type="checkbox" value="1" id="chk_isUsbControl_item" name="chk_policy_item" <% if (Boolean.TRUE.equals(data.getIsUsbControlEnabled())){ %> checked <%}%> /></td>
+																	</tr>
+																	
 																	<tr>
 																		<td class="th-cell-gray">민감파일 접근 시 삭제</td>
 																		<td><input type="checkbox" value="1" id="chk_patternFileControl_item" name="chk_policy_item" <% if (data.getPatternFileControl() == 1 ){ %> checked <%}%> /></td>
@@ -233,7 +255,14 @@
 		map['isWlan'] 				= $('#chk_isWlan_item').is(':checked') == true ? 1 : 0 ;						// 무선랜 사용 여부
 		map['isNetShare'] 			= $('#chk_isNetShare_item').is(':checked') == true ? 1 : 0 ;					// 공유폴더 사용 여부
 		map['isWebExport'] 			= $('#chk_isWebExport_item').is(':checked') == true ? 1 : 0 ;					// 메일 반출 여부
+		
+		map['isSensitiveDirEnabled'] = $('#chk_isSensitiveDir_item').is(':checked') == true ? 1 : 0 ;				// 보호폴더 접근 사용여부
+		map['isSensitiveFileAccess'] = $('#chk_isSensitiveFileAccess_item').is(':checked') == true ? 1 : 0 ;		// 민감파일 접근 여부
+		map['isStorageExport'] 		= $('#chk_isStorageExport_item').is(':checked') == true ? 1 : 0 ;				// 디스크반출가능 여부
+		map['isStorageAdmin'] 		= $('#chk_isStorageAdmin_item').is(':checked') == true ? 1 : 0 ;				// 디스크 관리자 여부
+		map['isUsbControlEnabled'] 	= $('#chk_isUsbControl_item').is(':checked') == true ? 1 : 0 ;					// USB통제 여부
 		map['patternFileControl'] 	= $('#chk_patternFileControl_item').is(':checked') == true ? 1 : 0 ;			// 민감파일 접근 시 삭제
+		
 		map['printLogDesc'] 		= $(':radio[name="radio_printLogDesc_item"]:checked').val();					// 프린터 인쇄 로그
 		
 		// USB 탭 데이터 Set Operation
@@ -333,6 +362,8 @@
 		    	_ : $.now()
 		    },
 		    success:function(data){
+		    	$('#modalApplyPolicy').modal('hide');
+		    	
 		    	if(data.returnCode == "S") {
 		    		vex.defaultOptions.className = 'vex-theme-os'
 		    			
@@ -341,30 +372,18 @@
 	    				  buttons: [
 	    				    $.extend({}, vex.dialog.buttons.YES, {
 	    				      text: '확인'
-	    				  })],
-	    				  callback: function(data) {
-    				 	  	if (data) {
-    				 	  		$('#modalApplyPolicy').modal('hide');
-    				 	    }
-    				 	  }
-	    				  
+	    				  })]
 	    			})
 		    		
 		    	} else {
 		    		vex.defaultOptions.className = 'vex-theme-os'
 		    			
 	    			vex.dialog.open({
-	    				message: '정책이 요청에 실패했습니다.',
+	    				message: '정책 요청에 실패했습니다.',
 	    				  buttons: [
 	    				    $.extend({}, vex.dialog.buttons.YES, {
 	    				      text: '확인'
-	    				  })],
-	    				  callback: function(data) {
-    				 	  	if (data) {
-    				 	  		$('#modalApplyPolicy').modal('hide');
-    				 	    }
-    				 	  }
-	    				  
+	    				  })]
 	    			})
 		    	}
 		    },   

@@ -52,32 +52,50 @@
 				<td class="center-cell" colspan="3"><%= policyIcon %></td>
 			</tr>
 			<tr>
-				<td class="center-cell th-cell-gray" width="25%">에이전트삭제가능</td>
-				<td class="center-cell" width="25%"> <% if (data.getIsUninstall()) { %> 허용 <% } else { %> 불가 <% } %></td>
-				<td class="center-cell th-cell-gray" width="25%">파일실시간암호화</td>
-				<td class="center-cell" width="25%"> <% if (data.getIsFileEncryption()) { %> 암호화 <% } else { %> 비암호화 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">에이전트 삭제 가능 여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsUninstall()) { %> 가능 <% } else { %> 불가능 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">파일 암호화 사용</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsFileEncryption()) { %> 사용 <% } else { %> 미사용 <% } %></td>
 			</tr>
 			<tr>
-				<td class="center-cell th-cell-gray" width="25%">CD실시간암호화</td>
-				<td class="center-cell" width="25%"> <% if (data.getIsCdEncryption()) { %> 암호화 <% } else { %> 비암호화 <% } %></td>
-				<td class="center-cell th-cell-gray" width="25%">프린트사용여부</td>
-				<td class="center-cell" width="25%"> <% if (data.getIsPrint()) { %> 허용 <% } else { %> 불가 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">CD 암호화 사용</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsCdEncryption()) { %> 사용 <% } else { %> 미사용 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">프린터 사용 가능 여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsPrint()) { %> 가능 <% } else { %> 불가능 <% } %></td>
 			</tr>
 			<tr>
-				<td class="center-cell th-cell-gray" width="25%">CD사용가능여부</td>
-				<td class="center-cell" width="25%"> <% if (data.getIsCdEnabled()) { %> 허용 <% } else { %> 불가 <% } %></td>
-				<td class="center-cell th-cell-gray" width="25%">CD반출여부</td>
-				<td class="center-cell" width="25%"> <% if (data.getIsCdExport()) { %> 허용 <% } else { %> 불가 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">CD 사용 여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsCdEnabled()) { %> 사용 <% } else { %> 미사용 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">CD 반출 가능 여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsCdExport()) { %> 가능 <% } else { %> 불가능 <% } %></td>
 			</tr>
 			<tr>
-				<td class="center-cell th-cell-gray" width="25%">무선랜사용가능여부</td>
-				<td class="center-cell" width="25%"> <% if (data.getIsWlan()) { %> 허용 <% } else { %> 차단 <% } %></td>
-				<td class="center-cell th-cell-gray" width="25%">공유폴더사용여부</td>
+				<td class="center-cell th-cell-gray" width="25%">무선랜 사용 여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsWlan()) { %> 사용 <% } else { %> 미사용 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">공유폴더 사용 여부</td>
 				<td class="center-cell" width="25%"> <% if (data.getIsNetShare()) { %> 사용 <% } else { %> 미사용 <% } %></td>
 			</tr>
 			<tr>
-				<td class="center-cell th-cell-gray" width="25%">메일반출여부</td>
-				<td class="center-cell" width="25%"> <% if (data.getIsWebExport()) { %> 허용 <% } else { %> 차단 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">메일반출 사용 여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsWebExport()) { %> 사용 <% } else { %> 미사용 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">보호폴더 접근 가능 여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsSensitiveDirEnabled()) { %> 가능 <% } else { %> 불가능 <% } %></td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">민감파일 접근시 삭제 여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsSensitiveFileAccess()) { %> 삭제 <% } else { %> 보호폴더로 이동 <% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">디스크 반출 가능 여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsStorageExport()) { %> 가능 <% } else { %> 불가능 <% } %></td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">디스크 관리자 여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsStorageAdmin()) { %> 관리자 <% } else { %> 일반<% } %></td>
+				<td class="center-cell th-cell-gray" width="25%">USB통제 기능 사용 여부</td>
+				<td class="center-cell" width="25%"> <% if (data.getIsUsbControlEnabled()) { %> 사용 <% } else { %> 미사용 <% } %></td>
+			</tr>
+			<tr>
+				<td class="center-cell th-cell-gray" width="25%">검출된 패턴파일 삭제 여부:</td>
+				<td class="center-cell" width="25%"> <% if (data.getPatternFileControl() == 1) { %> 삭제 <% } else { %> 격리<% } %></td>	
 				<td class="center-cell th-cell-gray" width="25%">USB포트사용여부</td>
 				<td class="center-cell" width="25%">
 					<% if (data.getIsUsbBlock()) { %> 차단 <% } else { %> 허용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;

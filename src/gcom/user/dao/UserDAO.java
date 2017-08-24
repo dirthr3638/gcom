@@ -70,6 +70,12 @@ public class UserDAO {
 				    + "IFNULL(pi.wlan_enabled, 0) as isWlan, "
 				    + "IFNULL(pi.net_share_enabled, 0) as isNetShare, "
 				    + "IFNULL(pi.web_export_enabled, 0) as isWebExport, "
+				    
+				  	//추가
+				    + "IFNULL(pi.sensitive_dir_enabled, 0) as sensitive_dir_enabled, "
+				    + "IFNULL(pi.policy_sensitive_file_access, 0) as policy_sensitive_file_access, "
+				    + "IFNULL(pi.policy_usb_control_enabled, 0) as policy_usb_control_enabled, "
+				    
 				    + "IFNULL(pi.removal_storage_export_enabled, 0) as isStorageExport, "
 				    + "IFNULL(pi.removal_storage_admin_mode, 0) as isStorageAdmin, "
 				    
@@ -118,8 +124,15 @@ public class UserDAO {
 				model.setIsWlan(rs.getInt("isWlan"));
 				model.setIsNetShare(rs.getInt("isNetShare"));
 				model.setIsWebExport(rs.getInt("isWebExport"));
+				
+				//추가
+				model.setIsSensitiveDirEnabled(rs.getInt("sensitive_dir_enabled"));
+				model.setIsSensitiveFileAccess(rs.getInt("policy_sensitive_file_access"));
+				model.setIsUsbControlEnabled(rs.getInt("policy_usb_control_enabled"));
+				
 				model.setIsStorageExport(rs.getInt("isStorageExport"));
 				model.setIsStorageAdmin(rs.getInt("isStorageAdmin"));
+				
 				model.setIsUsbBlock(rs.getString("isUsbBlock"));
 				model.setIsComPortBlock(rs.getString("isComPortBlock"));
 				model.setIsNetPortBlock(rs.getString("isNetPortBlock"));
@@ -1286,6 +1299,12 @@ public class UserDAO {
 				    + "IFNULL(pi.wlan_enabled, 0) as isWlan, "
 				    + "IFNULL(pi.net_share_enabled, 0) as isNetShare, "
 				    + "IFNULL(pi.web_export_enabled, 0) as isWebExport, "
+				    
+				  	//추가
+				    + "IFNULL(pi.sensitive_dir_enabled, 0) as sensitive_dir_enabled, "
+				    + "IFNULL(pi.policy_sensitive_file_access, 0) as policy_sensitive_file_access, "
+				    + "IFNULL(pi.policy_usb_control_enabled, 0) as policy_usb_control_enabled, "
+				    				    
 				    + "IFNULL(pi.removal_storage_export_enabled, 0) as isStorageExport, "
 				    + "IFNULL(pi.removal_storage_admin_mode, 0) as isStorageAdmin, "
 				    
@@ -1334,6 +1353,12 @@ public class UserDAO {
 				model.setIsWlan(rs.getInt("isWlan"));
 				model.setIsNetShare(rs.getInt("isNetShare"));
 				model.setIsWebExport(rs.getInt("isWebExport"));
+				
+				//추가
+				model.setIsSensitiveDirEnabled(rs.getInt("sensitive_dir_enabled"));
+				model.setIsSensitiveFileAccess(rs.getInt("policy_sensitive_file_access"));
+				model.setIsUsbControlEnabled(rs.getInt("policy_usb_control_enabled"));
+				
 				model.setIsStorageExport(rs.getInt("isStorageExport"));
 				model.setIsStorageAdmin(rs.getInt("isStorageAdmin"));
 				model.setIsUsbBlock(rs.getString("isUsbBlock"));
@@ -1378,6 +1403,13 @@ public class UserDAO {
 		int isWlan = Integer.parseInt(map.get("isWlan").toString());
 		int isNetShare = Integer.parseInt(map.get("isNetShare").toString());
 		int isWebExport = Integer.parseInt(map.get("isWebExport").toString());
+		
+		int isSensitiveDirEnabled = Integer.parseInt(map.get("isSensitiveDirEnabled").toString());
+		int isSensitiveFileAccess = Integer.parseInt(map.get("isSensitiveFileAccess").toString());
+		int isStorageExport = Integer.parseInt(map.get("isStorageExport").toString());
+		int isStorageAdmin = Integer.parseInt(map.get("isStorageAdmin").toString());
+		int isUsbControlEnabled = Integer.parseInt(map.get("isUsbControlEnabled").toString());
+		
 		int patternFileControl = Integer.parseInt(map.get("patternFileControl").toString());
 		String printLogDesc = map.get("printLogDesc").toString();
 		String isUsbBlock = map.get("isUsbBlock").toString();
@@ -1402,6 +1434,11 @@ public class UserDAO {
 						+ "new_policy_wlan_enabled, "
 						+ "new_policy_net_share_enabled, "
 						+ "new_policy_web_export_enabled, "
+						
+						+ "new_sensitive_dir_enabled, "
+						+ "new_policy_sensitive_file_access, "
+						+ "new_policy_usb_control_enabled, "
+						
 						+ "new_policy_removal_storage_export_enabled, " 
 						+ "new_policy_removal_storage_admin_mode, "
 						+ "new_policy_usb_dev_list, "
@@ -1418,7 +1455,7 @@ public class UserDAO {
 						+ "notice, "
 						+ "request_server_time, "
 						+ "request_client_time "
-					+") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW()) ";
+					+") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW()) ";
 		
 		try{
 			
@@ -1437,20 +1474,23 @@ public class UserDAO {
 			pstmt.setInt(9, isWlan);
 			pstmt.setInt(10, isNetShare);
 			pstmt.setInt(11, isWebExport);
-			pstmt.setInt(12, 0);
-			pstmt.setInt(13, 0);
-			pstmt.setString(14, isUsbBlock);
-			pstmt.setString(15, isComPortBlock);
-			pstmt.setString(16, isNetPortBlock);
-			pstmt.setString(17, isProcessList);
-			pstmt.setString(18, isFilePattern);
-			pstmt.setString(19, isWebAddr);
-			pstmt.setString(20, isMsgBlock);
-			pstmt.setString(21, waterMark);
-			pstmt.setString(22, printLogDesc);
-			pstmt.setString(23, "Y");
-			pstmt.setInt(24, patternFileControl);
-			pstmt.setString(25, notice);
+			pstmt.setInt(12, isSensitiveDirEnabled);
+			pstmt.setInt(13, isSensitiveFileAccess);
+			pstmt.setInt(14, isUsbControlEnabled);
+			pstmt.setInt(15, isStorageExport);
+			pstmt.setInt(16, isStorageAdmin);
+			pstmt.setString(17, isUsbBlock);
+			pstmt.setString(18, isComPortBlock);
+			pstmt.setString(19, isNetPortBlock);
+			pstmt.setString(20, isProcessList);
+			pstmt.setString(21, isFilePattern);
+			pstmt.setString(22, isWebAddr);
+			pstmt.setString(23, isMsgBlock);
+			pstmt.setString(24, waterMark);
+			pstmt.setString(25, printLogDesc);
+			pstmt.setString(26, "Y");
+			pstmt.setInt(27, patternFileControl);
+			pstmt.setString(28, notice);
 			pstmt.executeUpdate();
 									
 			con.commit();

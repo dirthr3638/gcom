@@ -73,55 +73,91 @@ public class CommonUtil {
 		if(data.getIsUninstall()){
 			icon += "<i class=\"fa fa-trash policy_icon\" style=\"color:#7ed67e \" title=\"에이전트삭제가능\"></i>";
 		}else{
-			icon += "<i class=\"fa fa-trash policy_icon\" style=\"color:#ea6a66\" title=\"에이전트삭제불가\"></i>";
+			icon += "<i class=\"fa fa-trash policy_icon\" style=\"color:#ea6a66\" title=\"에이전트삭제불가능\"></i>";
 		}
 
 		if(data.getIsFileEncryption()){
-			icon += "<i class=\"fa fa-file policy_icon\" aria-hidden=\"true\" style=\"color:#7ed67e\" title=\"실시간파일암호화\"></i>";
+			icon += "<i class=\"fa fa-file policy_icon\" aria-hidden=\"true\" style=\"color:#7ed67e\" title=\"파일암호화사용\"></i>";
 		}else{
-			icon += "<i class=\"fa fa-file policy_icon\" aria-hidden=\"true\" style=\"color:#ea6a66\" title=\"실시간파일 비암호화\"></i>";
+			icon += "<i class=\"fa fa-file policy_icon\" aria-hidden=\"true\" style=\"color:#ea6a66\" title=\"파일암호화미사용\"></i>";
 		}
 
 		if(data.getIsCdEncryption()){
-			icon += "<i class=\"fa fa-get-pocket policy_icon\" aria-hidden=\"true\" style=\"color:#7ed67e\" title=\"CD암호화\"></i>";
+			icon += "<i class=\"fa fa-get-pocket policy_icon\" aria-hidden=\"true\" style=\"color:#7ed67e\" title=\"CD암호화사용\"></i>";
 		}else{
-			icon += "<i class=\"fa fa-get-pocket policy_icon\" aria-hidden=\"true\" style=\"color:#ea6a66\" title=\"CD비암호화\"></i>";
+			icon += "<i class=\"fa fa-get-pocket policy_icon\" aria-hidden=\"true\" style=\"color:#ea6a66\" title=\"CD암호화미사용\"></i>";
 		}
 		
 		if(data.getIsPrint()){
-			icon += "<i class=\"fa fa-print policy_icon\" style=\"color:#7ed67e\" title=\"프린트가능\"></i>";
+			icon += "<i class=\"fa fa-print policy_icon\" style=\"color:#7ed67e\" title=\"프린터사용가능\"></i>";
 		}else{
-			icon += "<i class=\"fa fa-print policy_icon\" style=\"color:#ea6a66\" title=\"프린트불가\"></i>";
+			icon += "<i class=\"fa fa-print policy_icon\" style=\"color:#ea6a66\" title=\"프린터사용불가능\"></i>";
 		}
 		
 		if(data.getIsCdEnabled()){
-			icon += "<i class=\"fa fa-database policy_icon\" aria-hidden=\"true\" style=\"color:#7ed67e\" title=\"CD사용허용\"></i>";
+			icon += "<i class=\"fa fa-database policy_icon\" aria-hidden=\"true\" style=\"color:#7ed67e\" title=\"CD사용\"></i>";
 		}else{
-			icon += "<i class=\"fa fa-database policy_icon\" aria-hidden=\"true\" style=\"color:#ea6a66\" title=\"CD사용차단\"></i>";
+			icon += "<i class=\"fa fa-database policy_icon\" aria-hidden=\"true\" style=\"color:#ea6a66\" title=\"CD미사용\"></i>";
 		}
 		
 		if(data.getIsCdExport()){
-			icon += "<i class=\"fa fa-minus-circle policy_icon\" aria-hidden=\"true\" style=\"color:#7ed67e\" title=\"CD반출허용\"></i>";
+			icon += "<i class=\"fa fa-minus-circle policy_icon\" aria-hidden=\"true\" style=\"color:#7ed67e\" title=\"CD반출가능\"></i>";
 		}else{
-			icon += "<i class=\"fa fa-minus-circle policy_icon\" aria-hidden=\"true\" style=\"color:#ea6a66\" title=\"CD반출차단\"></i>";
+			icon += "<i class=\"fa fa-minus-circle policy_icon\" aria-hidden=\"true\" style=\"color:#ea6a66\" title=\"CD반출불가능\"></i>";
 		}
 		
 		if(data.getIsWlan()){
-			icon += "<i class=\"fa fa-wifi policy_icon\" style=\"color:#7ed67e\" title=\"무선랜허용\"></i>";
+			icon += "<i class=\"fa fa-wifi policy_icon\" style=\"color:#7ed67e\" title=\"무선랜사용\"></i>";
 		}else{
-			icon += "<i class=\"fa fa-wifi policy_icon\" style=\"color:#ea6a66\" title=\"무선랜차단\"></i>";
+			icon += "<i class=\"fa fa-wifi policy_icon\" style=\"color:#ea6a66\" title=\"무선랜미사용\"></i>";
 		}
 		
 		if(data.getIsNetShare()){
-			icon += "<i class=\"fa fa-folder-open policy_icon\" style=\"color:#7ed67e\" title=\"공유폴더허용\"></i>";
+			icon += "<i class=\"fa fa-share-alt policy_icon\" style=\"color:#7ed67e\" title=\"공유폴더사용\"></i>";
 		}else{
-			icon += "<i class=\"fa fa-folder-open policy_icon\" style=\"color:#ea6a66\" title=\"공유폴더차단\"></i>";
+			icon += "<i class=\"fa fa-share-alt policy_icon\" style=\"color:#ea6a66\" title=\"공유폴더미사용\"></i>";
 		}
 		
 		if(data.getIsWebExport()){
-			icon += "<i class=\"fa fa-envelope policy_icon\" style=\"color:#7ed67e\" title=\"메일반출허용\"></i>";	
+			icon += "<i class=\"fa fa-envelope policy_icon\" style=\"color:#7ed67e\" title=\"메일반출사용\"></i>";	
 		}else{
-			icon += "<i class=\"fa fa-envelope policy_icon\" style=\"color:#ea6a66\" title=\"메일반출차단\"></i>";
+			icon += "<i class=\"fa fa-envelope policy_icon\" style=\"color:#ea6a66\" title=\"메일반출미사용\"></i>";
+		}
+		
+		if(data.getIsSensitiveDirEnabled()){
+			icon += "<i class=\"fa fa-folder-open policy_icon\"  style=\"color:#7ed67e\" title=\"보호폴더접근가능\"></i>";	
+		}else{
+			icon += "<i class=\"fa fa-folder-open policy_icon\"  style=\"color:#ea6a66\" title=\"보호폴더접근불가능\"></i>";		
+		}
+		
+		if(data.getIsSensitiveFileAccess()){
+			icon += "<i class=\"fa fa-file-archive-o policy_icon\" style=\"color:#7ed67e\" title=\"민감파일접근시삭제\"></i>";		
+		}else{
+			icon += "<i class=\"fa fa-file-archive-o policy_icon\"  style=\"color:#ea6a66\" title=\"민감파일접근시보호폴더로이동\"></i>";	
+		}
+		
+		if(data.getIsStorageExport()){
+			icon += "<i class=\"fa fa-archive policy_icon\"  style=\"color:#7ed67e\" title=\"디스크반출가능\"></i>";	
+		}else{
+			icon += "<i class=\"fa fa-archive policy_icon\"  style=\"color:#ea6a66\" title=\"디스크반출불가능\"></i>";		
+		}
+		
+		if(data.getIsStorageAdmin()){
+			icon += "<i class=\"fa fa-id-card policy_icon\" style=\"color:#7ed67e\" title=\"디스크관리가능\"></i>";		
+		}else{
+			icon += "<i class=\"fa fa-id-card policy_icon\" style=\"color:#ea6a66\" title=\"디스크관리불가\"></i>";	
+		}
+		
+		if(data.getIsUsbControlEnabled()){
+			icon += "<i class=\"fa fa-cogs policy_icon\"  style=\"color:#7ed67e\" title=\"USB통제기능사용\"></i>";	
+		}else{
+			icon += "<i class=\"fa fa-cogs policy_icon\"  style=\"color:#ea6a66\" title=\"USB통제기능미사용\"></i>";		
+		}
+		
+		if(data.getPatternFileControl() == 1){
+			icon += "<i class=\"fa fa-file-powerpoint-o policy_icon\"  style=\"color:#7ed67e\" title=\"검출된패턴파일삭제\"></i>";		
+		}else{
+			icon += "<i class=\"fa fa-file-powerpoint-o policy_icon\"  style=\"color:#ea6a66\" title=\"검출된패턴파일격리\"></i>";	
 		}
 		
 		if(data.getIsUsbBlock()){

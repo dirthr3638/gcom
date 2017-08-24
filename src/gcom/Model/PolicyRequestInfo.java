@@ -32,6 +32,11 @@ public class PolicyRequestInfo {
 	private Boolean isWlan;
 	private Boolean isNetShare;
 	private Boolean isWebExport;
+	
+	private Boolean isSensitiveDirEnabled = false;
+	private Boolean isSensitiveFileAccess = false;
+	private Boolean isUsbControlEnabled = false;
+	
 	private Boolean isStorageExport;
 	private Boolean isStorageAdmin;
 
@@ -123,6 +128,27 @@ public class PolicyRequestInfo {
 			isWebExport = false;
 		}else{
 			isWebExport = true;
+		}
+	}
+	public void setIsSensitiveDirEnabled(int value){
+		if(value == 0){
+			isSensitiveDirEnabled = false;
+		}else{
+			isSensitiveDirEnabled = true;
+		}
+	}
+	public void setIsSensitiveFileAccess(int value){
+		if(value == 0){
+			isSensitiveFileAccess = false;
+		}else{
+			isSensitiveFileAccess = true;
+		}
+	}
+	public void setIsUsbControlEnabled(int value){
+		if(value == 0){
+			isUsbControlEnabled = false;
+		}else{
+			isUsbControlEnabled = true;
 		}
 	}
 	public void setIsStorageExport(int value){

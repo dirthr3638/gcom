@@ -29,6 +29,11 @@ public class MemberPolicyModel {
 	private Boolean isWlan = false;
 	private Boolean isNetShare = false;
 	private Boolean isWebExport = false;
+
+	private Boolean isSensitiveDirEnabled = false;
+	private Boolean isSensitiveFileAccess = false;
+	private Boolean isUsbControlEnabled = false;
+	
 	private Boolean isStorageExport = false;
 	private Boolean isStorageAdmin = false;
 
@@ -120,6 +125,27 @@ public class MemberPolicyModel {
 			isWebExport = false;
 		}else{
 			isWebExport = true;
+		}
+	}
+	public void setIsSensitiveDirEnabled(int value){
+		if(value == 0){
+			isSensitiveDirEnabled = false;
+		}else{
+			isSensitiveDirEnabled = true;
+		}
+	}
+	public void setIsSensitiveFileAccess(int value){
+		if(value == 0){
+			isSensitiveFileAccess = false;
+		}else{
+			isSensitiveFileAccess = true;
+		}
+	}
+	public void setIsUsbControlEnabled(int value){
+		if(value == 0){
+			isUsbControlEnabled = false;
+		}else{
+			isUsbControlEnabled = true;
 		}
 	}
 	public void setIsStorageExport(int value){

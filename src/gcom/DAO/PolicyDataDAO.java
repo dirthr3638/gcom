@@ -1011,7 +1011,6 @@ sql += whereSql;
 				model.setIsStorageExport(rs.getInt("isStorageExport"));
 				model.setIsStorageAdmin(rs.getInt("isStorageAdmin"));
 				
-				
 				model.setIsUsbBlock(rs.getString("isUsbBlock"));
 				model.setIsComPortBlock(rs.getString("isComPortBlock"));
 				model.setIsNetPortBlock(rs.getString("isNetPortBlock"));
@@ -1280,6 +1279,11 @@ sql += whereSql;
 + "request.new_policy_wlan_enabled, "
 + "request.new_policy_net_share_enabled, "
 + "request.new_policy_web_export_enabled, "
+
++ "request.new_sensitive_dir_enabled, "
++ "request.new_policy_sensitive_file_access, "
++ "request.new_policy_usb_control_enabled, "
+
 + "request.new_policy_removal_storage_export_enabled, "
 + "request.new_policy_removal_storage_admin_mode, "
 + "request.new_policy_usb_dev_list, "
@@ -1308,6 +1312,11 @@ sql += whereSql;
 + "policy.wlan_enabled, "
 + "policy.net_share_enabled, "
 + "policy.web_export_enabled, "
+
++ "policy.sensitive_dir_enabled, "
++ "policy.policy_sensitive_file_access, "
++ "policy.policy_usb_control_enabled, "
+
 + "policy.removal_storage_export_enabled, "
 + "policy.removal_storage_admin_mode, "
 + "policy.usb_dev_list, "
@@ -1400,6 +1409,11 @@ sql += whereSql;
 				model.setIsWlan(rs.getInt("new_policy_wlan_enabled"));
 				model.setIsNetShare(rs.getInt("new_policy_net_share_enabled"));
 				model.setIsWebExport(rs.getInt("new_policy_web_export_enabled"));
+				
+				model.setIsSensitiveDirEnabled(rs.getInt("new_sensitive_dir_enabled"));
+				model.setIsSensitiveFileAccess(rs.getInt("new_policy_sensitive_file_access"));
+				model.setIsUsbControlEnabled(rs.getInt("new_policy_usb_control_enabled"));
+				
 				model.setIsStorageExport(rs.getInt("new_policy_removal_storage_export_enabled"));
 				model.setIsStorageAdmin(rs.getInt("new_policy_removal_storage_admin_mode"));
 				
@@ -1425,6 +1439,11 @@ sql += whereSql;
 				p_model.setIsWlan(rs.getInt("wlan_enabled"));
 				p_model.setIsNetShare(rs.getInt("net_share_enabled"));
 				p_model.setIsWebExport(rs.getInt("web_export_enabled"));
+				
+				p_model.setIsSensitiveDirEnabled(rs.getInt("sensitive_dir_enabled"));
+				p_model.setIsSensitiveFileAccess(rs.getInt("policy_sensitive_file_access"));
+				p_model.setIsUsbControlEnabled(rs.getInt("policy_usb_control_enabled"));
+				
 				p_model.setIsStorageExport(rs.getInt("removal_storage_export_enabled"));
 				p_model.setIsStorageAdmin(rs.getInt("removal_storage_admin_mode"));
 				p_model.setIsUsbBlock(rs.getString("usb_dev_list"));
@@ -2851,6 +2870,11 @@ sql += whereSql;
 					+ ",pi.wlan_enabled = pri.new_policy_wlan_enabled" 
 					+ ",pi.net_share_enabled = pri.new_policy_net_share_enabled"
 					+ ",pi.web_export_enabled = pri.new_policy_web_export_enabled"
+					
+					+ ",pi.sensitive_dir_enabled = pri.new_sensitive_dir_enabled"
+					+ ",pi.policy_sensitive_file_access = pri.new_policy_sensitive_file_access"
+					+ ",pi.policy_usb_control_enabled = pri.new_policy_usb_control_enabled"
+					
 				    + ",pi.removal_storage_export_enabled = pri.new_policy_removal_storage_export_enabled"
 				    + ",pi.removal_storage_admin_mode = pri.new_policy_removal_storage_admin_mode"
 					+ ",pi.usb_dev_list = pri.new_policy_usb_dev_list"
