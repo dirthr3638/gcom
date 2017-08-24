@@ -7791,3 +7791,11 @@ ul.search-history {
 	vertical-align: middle;
 	margin: 0px 10px;
 }
+
+.vertical-middle{
+	vertical-align: middle !important;
+}
+
+.table-td-middle td{
+	vertical-align: middle !important;
+}

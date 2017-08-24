@@ -61,11 +61,11 @@
 	<col width="40%">
 	<thead>
 		<tr>
-			<th>선택</th>
+			<th class="center-cell vertical-middle">선택</th>
 			<th>포트ID</th>
-			<th>포트이름</th>
-			<th>포트</th>
-			<th>설명</th>
+			<th class="center-cell vertical-middle">포트이름</th>
+			<th class="center-cell vertical-middle">포트</th>
+			<th class="center-cell vertical-middle">설명</th>
 		</tr>
 	</thead>
 	<tbody>

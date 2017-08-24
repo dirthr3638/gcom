@@ -26,15 +26,28 @@
 	</table>
 </div>
 
-<table class="table table-bordered" id="process_table" style="width: 100%">
+<div>
+	<select class="form-control pull-left" id="process_sel_search_type" name="process_sel_search_type" style="width:200px;">
+		<option value="1">프로세스이름</option>
+		<option value="2">프로세스경로</option>
+	</select>
+	<input type="text" class="form-control pull-left" id="process_att_search_text" name="process_att_search_text" placeholder="검색어를 입력해주세요." style="width:200px;" value="" />
+	<button onclick="searchProcessList();" class="btn btn-info pull-left"><i class="fa fa-search"></i> 검색</button>
+</div>
+<table class="table table-bordered table-td-middle" id="process_table" style="width: 100%; margin-top: 20px;">
+	<col width="90px">
+	<col width="140px">
+	<col width="200px">
+	<col >
+	<col width="170px">
 	<thead>
 		<tr>
-			<td>선택</td>
+			<td class="center-cell vertical-middle">선택</td>
 			<td>프로세스ID</td>
-			<td>프로세스이름</td>
-			<td>프로세스경로</td>
-			<td>해시데이터</td>
-			<td>설명</td>
+			<td class="center-cell vertical-middle">프로세스이름</td>
+			<td class="center-cell vertical-middle">프로세스경로</td>
+			<td class="center-cell vertical-middle">해시데이터</td>
+			<td class="center-cell vertical-middle">설명</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -43,6 +56,12 @@
 													
 
 <script type="text/javascript">
+
+function searchProcessList(){
+	var datatable = $('#process_table').dataTable().api();
+	datatable.ajax.reload();
+}
+
 $(document).ready(function(){
 	$("input[name=radio_process_block]").change(function() {
 		var chk_value = $(':radio[name="radio_process_block"]:checked').val();
@@ -102,7 +121,10 @@ function process_table() {
 					"url":'${context}/ax/admin/policy/process/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
-				   	"data" :  {},
+				   	"data" : function(param) {
+				   		param.search_type = $('#process_sel_search_type option:checked').val();
+						param.search_text = $('#process_att_search_text').val();
+			        },
 			        "beforeSend" : function(){
 						jQuery('#preloader').show();
 			        },
@@ -141,6 +163,7 @@ function process_table() {
 					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
 					"infoEmpty":      "검색된 데이터가 없습니다.",
 					"lengthMenu": "  _MENU_ 개",
+					"zeroRecords" :"검색된 정책이 없습니다.",
 					"paginate": {
 						"previous":"Prev",
 						"next": "Next",
@@ -155,6 +178,7 @@ function process_table() {
 				}, {  
 					'targets': [1]	// ID
 					,"class":"center-cell"
+					,"visible" : false
 				}, {  
 					'targets': [2]	// 프로세스 이름
 					,"class":"center-cell"

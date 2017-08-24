@@ -56,11 +56,11 @@
 	<col width="180px">
 	<thead>
 		<tr>
-			<td>선택</td>
+			<td class="center-cell vertical-middle">선택</td>
 			<td>패턴ID</td>
-			<td>패턴이름</td>
-			<td>패턴데이터</td>
-			<td>설명</td>
+			<td class="center-cell vertical-middle">패턴이름</td>
+			<td class="center-cell vertical-middle">패턴데이터</td>
+			<td class="center-cell vertical-middle">설명</td>
 		</tr>
 	</thead>
 	<tbody>

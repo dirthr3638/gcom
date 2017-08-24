@@ -60,10 +60,10 @@
 	<col width="250px">
 	<thead>
 		<tr>
-			<td>선택</td>
+			<td class="center-cell vertical-middle">선택</td>
 			<td>사이트ID</td>
-			<td>사이트주소</td>
-			<td>설명</td>
+			<td class="center-cell vertical-middle">사이트주소</td>
+			<td class="center-cell vertical-middle">설명</td>
 		</tr>
 	</thead>
 	<tbody>

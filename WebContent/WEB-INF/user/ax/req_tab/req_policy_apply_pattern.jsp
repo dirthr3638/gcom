@@ -26,14 +26,26 @@
 	</table>
 </div>
 
-<table class="table table-bordered" id="pattern_table" style="width: 100%">
+<div>
+	<select class="form-control pull-left" id="pattern_sel_search_type" name="pattern_sel_search_type" style="width:200px;">
+		<option value="1">패턴이름</option>
+		<option value="2">패턴데이터</option>
+	</select>
+	<input type="text" class="form-control pull-left" id="pattern_att_search_text" name="pattern_att_search_text" placeholder="검색어를 입력해주세요." style="width:200px;" value="" />
+	<button onclick="searchPatternList();" class="btn btn-info pull-left"><i class="fa fa-search"></i> 검색</button>
+</div>
+<table class="table table-bordered table-td-middle" id="pattern_table" style="width: 100%; margin-top: 20px;">
+	<col width="90px">
+	<col width="120px">
+	<col width="">
+	<col width="180px">
 	<thead>
 		<tr>
-			<td>선택</td>
+			<td class="center-cell vertical-middle">선택</td>
 			<td>패턴ID</td>
-			<td>패턴이름</td>
-			<td>패턴데이터</td>
-			<td>설명</td>
+			<td class="center-cell vertical-middle">패턴이름</td>
+			<td class="center-cell vertical-middle">패턴데이터</td>
+			<td class="center-cell vertical-middle">설명</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -42,6 +54,12 @@
 													
 
 <script type="text/javascript">
+
+function searchPatternList(){
+	var datatable = $('#pattern_table').dataTable().api();
+	datatable.ajax.reload();
+}
+
 $(document).ready(function(){
 	$("input[name=radio_pattern_block]").change(function() {
 		var chk_value = $(':radio[name="radio_pattern_block"]:checked').val();
@@ -101,7 +119,10 @@ function pattern_table() {
 					"url":'${context}/ax/admin/policy/pattern/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
-				   	"data" :  {},
+				   	"data" : function(param) {
+				   		param.search_type = $('#pattern_sel_search_type option:checked').val();
+						param.search_text = $('#pattern_att_search_text').val();
+			        },
 			        "beforeSend" : function(){
 						jQuery('#preloader').show();
 			        },
@@ -138,6 +159,7 @@ function pattern_table() {
 					"info": " _PAGES_ 페이지 중  _PAGE_ 페이지 / 총 _TOTAL_ 사용자",
 					"infoEmpty":      "검색된 데이터가 없습니다.",
 					"lengthMenu": "  _MENU_ 개",
+					"zeroRecords" :"검색된 정책이 없습니다.",
 					"paginate": {
 						"previous":"Prev",
 						"next": "Next",
@@ -152,6 +174,7 @@ function pattern_table() {
 				}, {  
 					'targets': [1]	// ID
 					,"class":"center-cell"
+					,"visible" : false
 				}, {  
 					'targets': [2]	// 패턴 이름
 					,"class":"center-cell"

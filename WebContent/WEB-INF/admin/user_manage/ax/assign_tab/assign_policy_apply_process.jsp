@@ -57,12 +57,12 @@
 	<col width="170px">
 	<thead>
 		<tr>
-			<td>선택</td>
+			<td class="center-cell vertical-middle">선택</td>
 			<td>프로세스ID</td>
-			<td>프로세스이름</td>
-			<td>프로세스경로</td>
-			<td>해시데이터</td>
-			<td>설명</td>
+			<td class="center-cell vertical-middle">프로세스이름</td>
+			<td class="center-cell vertical-middle">프로세스경로</td>
+			<td class="center-cell vertical-middle">해시데이터</td>
+			<td class="center-cell vertical-middle">설명</td>
 		</tr>
 	</thead>
 	<tbody>

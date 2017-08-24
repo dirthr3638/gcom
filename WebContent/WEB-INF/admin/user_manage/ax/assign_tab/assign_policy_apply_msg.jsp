@@ -65,14 +65,14 @@
 	<col width="80px">
 	<thead>
 		<tr>
-			<td>선택</td>
+			<td class="center-cell vertical-middle">선택</td>
 			<td>메신저ID</td>
-			<td>메신저명</td>
-			<td>파일명</td>
-			<td>Message로깅</td>
-			<td>Message차단</td>
-			<td>File전송로깅</td>
-			<td>File전송차단</td>
+			<td class="center-cell vertical-middle">메신저명</td>
+			<td class="center-cell vertical-middle">파일명</td>
+			<td class="center-cell vertical-middle">Message로깅</td>
+			<td class="center-cell vertical-middle">Message차단</td>
+			<td class="center-cell vertical-middle">File전송로깅</td>
+			<td class="center-cell vertical-middle">File전송차단</td>
 		</tr>
 	</thead>
 	<tbody>
