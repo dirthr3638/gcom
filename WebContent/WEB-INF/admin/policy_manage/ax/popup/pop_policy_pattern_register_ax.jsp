@@ -58,26 +58,29 @@
 										<table class="table table-bordered">
 											<tbody>
 												<tr>
-													<td class="th-cell-gray center-cell" width="200px" style="vertical-align: middle;">패턴이름</td>
-													<td>
+													<td class="th-cell-gray center-cell" width="120px" style="vertical-align: middle;">패턴이름</td>
+													<td colspan="2">
 														<input type="text" id="att_pattern_name" name="att_pattern_name" class="form-control" value="<%= PatName %>" />
 													</td>
 												</tr>
 												<tr>
 													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >패턴 데이터</td>
-													<td>
+													<td style="border-right:0px;">
 														<input type="text" id="att_pattern_data" name="att_pattern_data" class="form-control" value="<%= patData %>" />
+													</td>
+													<td width="80px" style="border-left:0px;">
+														<button type="button" id="btnSettingPattern" class="btn btn-primary" onclick="return false;" style="margin:0;"><i class="fa fa-cog"></i> 설정</button>
 													</td>
 												</tr>
 												<tr>
 													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >설명</td>
-													<td>
+													<td colspan="2">
 														<input type="text" id="att_pattern_notice" name="att_pattern_notice" class="form-control" value="<%= notice %>" />
 													</td>
 												</tr>
 												<tr>
 													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >사용여부</td>
-													<td>
+													<td colspan="2">
 														<label class="radio nomargin-top nomargin-bottom">
 															<input type="radio" name="radio_use_type" value="1" <% if (valid == 1){ %> checked <%}%> /><i></i>사용
 														</label>
@@ -118,7 +121,92 @@
 		</div>
 	</div>
 </div>
-													
+
+<div id="modalSettingPattern" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" style="padding-top: 5%;">
+	<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<button type="button" class="close" aria-label="Close" onClick="document.getElementById('btnSettingClose').click();" ><span aria-hidden="true">×</span></button>
+					<h4 class="modal-title" id="myModalLabel">패턴 데이터 설정</h4>
+				</div>
+				<!-- /Modal Header -->
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div id="content" class="dashboard padding-20">
+						<div class="row">
+							
+							<div class="col-md-12">
+								<div id="panel-2" class="panel panel-default">
+							
+									<div class="panel-heading">
+										<span class="title elipsis">
+											<strong>민감정보 패턴 생성</strong> <!-- panel title -->
+										</span>
+									</div>
+		
+									<!-- panel content -->
+									<div class="panel-body">
+										<table class="table table-bordered">
+											<tbody>
+												<tr>
+													<td class="th-cell-gray center-cell" width="110px" style="vertical-align: middle;">패턴</td>
+													<td style="border-right:0px;">
+														<input type="text" id="att_create_pattern_data" name="att_create_pattern_data" class="form-control" value="" />
+													</td>
+													<td width="110px" style="border-left:0px;">
+														<button type="button" id="btnReMakePattern" class="btn btn-dirtygreen pull-right" onclick="return false;" style="margin:0;"><i class="fa fa-trash"></i>다시작성</button>
+													</td>
+												</tr>
+												<tr>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >패턴 타입</td>
+													<td class="center-cell" colspan="2">
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_pattern_type" class="radio_pattern_item" value="1" /><i></i>숫자
+														</label>
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_pattern_type" class="radio_pattern_item" value="2" /><i></i>문자
+														</label>
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_pattern_type" class="radio_pattern_item" value="3" /><i></i>사용자 정의 문자
+														</label>
+													</td>
+												</tr>
+												<tr>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >사용자 정의<br /> 패턴 입력</td>
+													<td colspan="2">
+														<input type="text" id="att_custom_pattern" name="att_custom_pattern" class="form-control" value="" disabled />
+													</td>
+												</tr>
+												<tr>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >패턴길이</td>
+													<td style="border-right:0px;">
+														<input type="number" id="att_pattern_len" name="att_pattern_len" class="form-control" value="" min="0" />
+													</td>
+													<td style="border-left:0px;">
+														<button type="button" id="btnCheckPattern" class="btn btn-green pull-right" onclick="return false;" style="margin:0;"><i class="fa fa-eye"></i>패턴추가</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<!-- /panel content -->
+								</div>
+							</div>
+						</div>
+					</div>
+				<!-- /Modal body -->
+
+				<!-- Modal Footer -->
+				<div class="modal-footer">
+					<button type="button" id="btnPatternComplete" class="btn btn-primary" onclick="return false;" ><i class="fa fa-check"></i> 완료</button>
+					<button type="button" id="btnSettingClose" class="btn btn-default" onclick="return false;" ><i class="fa fa-times" aria-hidden="true"></i> 닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script type="text/javascript">
 
@@ -276,6 +364,54 @@ function fn_policy_pattern_modify () {
 	});
 }
 
+function fn_create_pattern() {
+	
+	if($(':radio[name="radio_pattern_type"]').is(':checked') == false) {
+		alert('패턴 타입을 선택해주세요.');
+		return false;
+	}
+	
+	var patternType = $(':radio[name="radio_pattern_type"]:checked').val();
+	
+	if (patternType == 1) {
+		var prxData = $('#att_create_pattern_data').val();
+		var lenData = $('#att_pattern_len').val();
+		var addData = '%';
+		
+		if (lenData == '') {
+			addData += 'd';
+		} else {
+			addData += lenData + 'd';
+		}
+		
+		$('#att_create_pattern_data').val(prxData + addData);
+	} else if (patternType == 2) {
+		var prxData = $('#att_create_pattern_data').val();
+		var lenData = $('#att_pattern_len').val();
+		var addData = '%';
+		
+		if (lenData == '') {
+			addData += 's';
+		} else {
+			addData += lenData + 'd';
+		}
+		
+		$('#att_create_pattern_data').val(prxData + addData);
+		
+	} else if (patternType == 3) {
+		var prxData = $('#att_create_pattern_data').val();
+		var addData = $('#att_custom_pattern').val();
+		
+		$('#att_create_pattern_data').val(prxData + addData);
+	}
+}
+
+function initSettingDataForm(){
+	$('#modalSettingPattern input:text').val('');
+	$('#att_pattern_len').val('');
+	$('#modalSettingPattern input:radio').prop('checked','');
+}
+
 $(document).ready(function(){
 	jQuery('#preloader').hide();
 	
@@ -285,6 +421,54 @@ $(document).ready(function(){
 	
 	$('#btnPolicyPatternModify').click(function(){
 		fn_policy_pattern_modify();				
+	});
+	
+	$('#btnSettingPattern').click(function(){
+		initSettingDataForm();
+		
+		var preexisPattern  = $('#att_pattern_data').val();
+		$('#att_create_pattern_data').val(preexisPattern);
+				
+		$('#modalPolicyRegPattern').modal('hide');
+		$('#modalSettingPattern').modal('show');
+	});
+	
+	$('#btnSettingClose').click(function(){
+		$('#modalSettingPattern').modal('hide');
+		$('#modalPolicyRegPattern').modal('show');
+	});
+	
+	$('#btnReMakePattern').click(function(){
+		$('#att_create_pattern_data').val('');
+	});
+	
+	$('#btnCheckPattern').click(function(){
+		fn_create_pattern();
+	});
+	
+	$('#btnPatternComplete').click(function(){
+		var patternData = $('#att_create_pattern_data').val();
+		
+		if (patternData == '' || patternData.length < 1) {
+			alert('패턴이 비어있어 완료 할 수 없습니다. 패턴은 필수 입력 사항입니다.');
+			return false;
+		}
+		
+		$('#att_pattern_data').val(patternData);
+		$('#modalSettingPattern').modal('hide');
+		$('#modalPolicyRegPattern').modal('show');
+	});
+	
+	$('.radio_pattern_item').change(function() {
+		var patternType = $(':radio[name="radio_pattern_type"]:checked').val();
+		
+		if(patternType == 3) {
+			$('#att_pattern_len').prop('disabled', true);
+			$('#att_custom_pattern').prop('disabled', false);
+		} else {
+			$('#att_pattern_len').prop('disabled', false);
+			$('#att_custom_pattern').prop('disabled', true);
+		}
 	});
 });
 	
