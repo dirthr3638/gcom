@@ -1,7 +1,6 @@
 package gcom.Model;
 
 import lombok.Data;
-
 @Data
 public class MsnFileModel {
 	private int msgNo;
@@ -20,4 +19,11 @@ public class MsnFileModel {
 	private String fileList = "";
 	private String sendServerTime = "";
 	private String sendClientTime = "";
+	private String firstFileName = "";
+	
+	public void setFileList(String value){
+		fileList = value;
+		firstFileName = fileList.split("\n")[0];
+		
+	}
 }

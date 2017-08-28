@@ -91,8 +91,8 @@
 											<!-- Primary -->
 											<button type="button" class="btn btn-primary pull-right" onclick="onClickExcelButton()">내보내기</button>
 											<!-- Success -->
-<!-- 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
- -->											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
+ 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
+											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
 												<table id="user" class="table table-bordered">
 													<tbody> 
 														<tr>         
@@ -342,6 +342,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
+					                	columns: [1,2,3,4,5,6,7,9,12,14],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -352,13 +353,22 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
-				                	columns: [1,2,3,4,5,6,7,9,12,14],
+				                	columns: [1,2,3,4,12,13],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
 			                      }
-			                  }
-			              }, 
+			                  },
+			             	 customize: function ( win ) {
+				                    $(win.document.body)
+				                        .css( 'font-size', '10px' )
+				 
+				                    $(win.document.body).find( 'table' )
+				                        .addClass( 'compact' )
+				                        .css( 'font-size', 'inherit' );
+				                 }
+
+			              } 
 
 			     ],
 		 		"serverSide" : true,

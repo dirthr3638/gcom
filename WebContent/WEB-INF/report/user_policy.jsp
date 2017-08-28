@@ -182,6 +182,7 @@
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
+
 <script>
 
 	//라디오타입에 따라 컬럼 hide/show
