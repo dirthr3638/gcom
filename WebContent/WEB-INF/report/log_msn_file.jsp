@@ -182,6 +182,8 @@
 														<th >발송시간</th>
 														<th >파일아이디</th>
 														<th >파일리스트</th>
+														<th >파일명</th>
+														
 													</tr>
 												</thead>				
 												<tbody>
@@ -362,7 +364,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
-					                	columns: [1,2,3,4,7,10,15,12],
+					                	columns: [1,2,3,4,7,10,15,12,16],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -373,7 +375,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
-				                	columns: [1,2,3,4,7,10,12],
+				                	columns: [1,2,3,4,7,10,12,16],
 
 			                      modifier: {
 			                          search: 'applied',
@@ -433,6 +435,9 @@
 				}, {
 					data: "fileList",
 					"orderable": false	//파일아이디
+				}, {
+					data: "firstFileName",
+					"orderable": false	//파일명
 				}],
 				// set the initial value
 				"pageLength": 20,
@@ -516,10 +521,14 @@
 					,"class" : "center-cell"
 				},{	
 					"targets": [11]	//파일리스트
-					,"class" : "center-cell"
+					,"class" : "left-cell"
 					,"render": function(data,type,row){
-						return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:msgFileDetail('+ row.msgNo + ', \'msg_file_log\',\''+ encodeURI(row.fileId) +'\')">';
-
+						var fileName = row.firstFileName;
+						if(fileName.length > 25){
+							fileName = ".." + fileName.substring(fileName.length-25,fileName.length);
+						}
+					
+						return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:msgFileDetail('+ row.msgNo + ', \'msg_file_log\',\''+ encodeURI(row.fileId) +'\')">' + fileName;
 					}
 				}, {	
 				"targets": [12]	//발송시간(서버)
@@ -535,6 +544,11 @@
 					"targets": [15]	//파일리스트
 					,"class" : "center-cell"
 					,"visible" : false
+				}, {	
+					"targets": [16]	//파일명
+					,"class" : "center-cell"
+					,"visible": false,
+					
 				}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();

@@ -130,11 +130,9 @@ function getFormatTime(date) {
 	return date + " " + time;
 }
 
-function getApplyPolicyDetailItem(data){
+function getApplyPolicyData(data){
 	var sOut = '<table class="table table-bordered">';
-				
-	//sOut += '<tr><td class="center-cell">요청시간:</td><td>' + data.requestServerTime +'</td>';
-	//sOut += '<td style="padding-left:100px;" class="center-cell">요청시간(PC):</td><td>' + data.requestClientTime +'</td></tr>';	
+	
 	sOut += '<col width="300px"><col><col width="300px"><col>';
 		
 	if(data.isUninstall == true){
@@ -287,7 +285,60 @@ function getApplyPolicyDetailItem(data){
 	sOut += '</table>';
 	
 	return sOut;
+}
 
+function getApplyUserData(data){
+	var sOut = '<table class="table table-bordered">';
+	
+	sOut += '<col width="300px"><col><col width="300px"><col>';
+		
+	sOut += '<tr><td class="center-cell th-cell-gray">직책:</td><td>'+ data.duty +'</td>';
+	sOut += '<td class="center-cell th-cell-gray">계급:</td><td>'+ data.rank +'</td></tr>';	
+
+	sOut += '<tr><td class="center-cell th-cell-gray">IP:</td><td>'+ data.ipAddr +'</td>';
+	sOut += '<td class="center-cell th-cell-gray">MAC:</td><td>'+ data.macAddr +'</td></tr>';	
+
+	sOut += '<tr><td class="center-cell th-cell-gray">PC명:</td><td>'+ data.pcName +'</td>';
+	sOut += '<td class="center-cell th-cell-gray"></td><td></td></tr>';	
+
+	
+	sOut += '</table>';
+	
+	return sOut;
+}
+
+function getApplyPolicyDetailItem(data){
+	var sOut = "";
+	
+	sOut += '<div class="panel-body">'
+	sOut += '<div class="row">'
+	sOut += '<div class="col-md-12" style="overflow: hidden;">'
+	
+	sOut += '<div class="aside-tabs">';
+	
+	sOut += '<ul class="nav nav-tabs"><li class="active"><a href="#ttab1_nobg'+ data.userNo +'" data-toggle="tab">정책정보</a>';
+	sOut += '</li><li class=""><a href="#ttab2_nobg'+ data.userNo +'" data-toggle="tab">사용자정보</a></li></ul>'
+	sOut += '</div>'
+	
+	sOut += '<div class="panel-body"><div class="tab-content transparent">'
+
+		sOut += '<div id="ttab1_nobg'+ data.userNo +'" class="tab-pane active">'
+		sOut += getApplyPolicyData(data);
+		sOut += '</div>'
+			
+		sOut += '<div id="ttab2_nobg'+ data.userNo +'" class="tab-pane">'
+
+		sOut += getApplyUserData(data);
+		sOut += '</div>'
+		
+	sOut += '</div></div>'
+		
+	
+	sOut += '</div>'
+	sOut += '</div>'
+	sOut += '</div>'
+	
+	return sOut;
 }
 
 function getPolicyIcon(data){

@@ -174,6 +174,22 @@ sql += whereSql;
 + "policy.print_log_descriptor AS print_log_descriptor, "
 + "policy.quarantine_path_access_code AS quarantine_path_access_code, "
 + "policy.pattern_file_control AS pattern_file_control, "
+
++ "policy.sensitive_dir_enabled AS sensitive_dir_enabled, "
++ "policy.policy_sensitive_file_access AS policy_sensitive_file_access, "
++ "policy.policy_usb_control_enabled AS policy_usb_control_enabled, "
+
++ "IFNULL(policy.usb_dev_list, 'N') as isUsbBlock, "
++ "IFNULL(policy.com_port_list, 'N') as isComPortBlock, "
++ "IFNULL(policy.net_port_list, 'N') as isNetPortBlock, "
++ "IFNULL(policy.process_list, '') as isProcessList, "
++ "IFNULL(policy.file_pattern_list, '') as isFilePattern, "
++ "IFNULL(policy.web_addr_list, 'N') as isWebAddr, "
++ "IFNULL(policy.msg_block_list, 'N') as isMsgBlock, "
++ "IFNULL(policy.watermark_descriptor, 'N') as isWaterMark, "
++ "IFNULL(policy.print_log_descriptor, 0) as printLogDesc, "
++ "IFNULL(policy.pattern_file_control, 0) as patternFileControl, "
+
 + "ur.number AS user_no, "
 + "ur.id AS user_id, "
 + "ifnull(ur.name , '' ) AS user_name, "
@@ -245,6 +261,11 @@ sql += whereSql;
 				model.setWatermarkInfo(rs.getString("watermark_descriptor"));
 				model.setPrintLogDesc(rs.getInt("print_log_descriptor"));
 				model.setPatternFileControl(rs.getInt("pattern_file_control"));
+
+				model.setIsSensitiveDirEnabled(rs.getInt("sensitive_dir_enabled"));
+				model.setIsSensitiveFileAccess(rs.getInt("policy_sensitive_file_access"));
+				model.setIsUsbControlEnabled(rs.getInt("policy_usb_control_enabled"));
+				
 				data.add(model);
 			}
 		}catch(SQLException ex){
