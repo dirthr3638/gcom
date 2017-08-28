@@ -514,8 +514,8 @@
 				}, {	
 					"targets": [9]	//PC이름
 					,"class" : "center-cell"
-					,"visible" : false
-						,"render":function(data,type,row){
+/* 					,"visible" : false
+ */						,"render":function(data,type,row){
 							if(data == ''){
 								return '-'
 							}else{
@@ -525,9 +525,11 @@
 				}, {	
 					"targets": [10]	//메일주소
 					,"class" : "center-cell"
+						,"visible" : false
 				},{	
 					"targets": [11]	//발신
 					,"class" : "center-cell"
+						,"visible" : false
 					,"render":function(data,type,row){
 						if(data.length > 20){
 							data = data.substring(0,20) + '....'
@@ -581,10 +583,13 @@
 			
 			function fnFormatDetails(oTable, nTr) {
 				var aData = oTable.fnGetData(nTr);
+				console.log(aData)
 				var sOut = '<table class="table table-bordered"  style="width:100%;overflow:auto">';
 				sOut += '<col width="25%"><col width="25%"><col width="25%"><col width="25%">';
 				sOut += '<tr><td class="center-cell th-cell-gray">MAC</td><td>' + aData.macAddr + '</td>';
 				sOut += '<td class="center-cell th-cell-gray">PC명</td><td>' + aData.pcName + '</td></tr>';
+				sOut += '<tr><td class="center-cell th-cell-gray">수신주소</td><td>' + aData.dstAddr + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">발신주소</td><td>' + aData.srcAddr + '</td></tr>';
 				sOut += '<tr><td class="center-cell th-cell-gray">발송시간(PC)</td><td colspan="3" >' + aData.sendClientTime + '</td></tr>';
 										
 				sOut += '</table>';

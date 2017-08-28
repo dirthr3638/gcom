@@ -665,13 +665,16 @@
 						}, {	
 							"targets": [6]	//직책
 							,"class" : "center-cell"
+								,"visible" : false
 						}, 
 						{	
 							"targets": [7]	//계급
 							,"class" : "center-cell"
+								,"visible" : false
 						}, {	
 							"targets": [8]	//IP
 							,"class" : "center-cell"
+								,"visible" : false
 							,"render":function(data,type,row){
 	 							if(data == ''){
 	 								return '-'
@@ -682,6 +685,7 @@
 						}, {	
 							"targets": [9]	//MAC
 							,"class" : "center-cell"
+								,"visible" : false
 	 						,"render":function(data,type,row){
 	 							if(data == ''){
 	 								return '-'
@@ -692,6 +696,7 @@
 	 													
 						}, {	
 							"targets": [10]	//PC이름
+							,"visible" : false
 							,"class" : "center-cell"
 							,"render":function(data,type,row){
 	 							if(data == ''){

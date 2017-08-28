@@ -179,6 +179,8 @@
 				</div>
 			</section>
 		</div>
+			<!-- USER 할당된 정책 정보 Ajax PopUp Div -->
+		<div id="pop_policy_setting_info"></div>
 	
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
@@ -213,7 +215,7 @@
 	}
 
  	function setTree(){
-		$.ajax({      
+		$.ajax({       
 	        type:"POST",  
 	        url:'${context}/common/tree/dept',
 	        async: false,
@@ -245,6 +247,57 @@
  		$buttons.click();
  		
  	}
+ 	
+
+ 	function fn_sel_policy_detailOpen(type, code){
+ 		
+		if(type == 'isWaterMark') {
+			alert("준비중입니다.");
+			return false;
+		}
+ 		
+ 		$.ajax({      
+		    type:"POST",  
+		    url:'${context}/admin/user/assign/setting/info',
+		    async: false,
+		    data:{
+		    	type : type,
+		    	code : code,
+		    	_ : $.now()
+		    },
+		    success:function(data){
+		    	$("#pop_policy_setting_info").html(data);
+		    	
+		    	if (type == 'isUsbBlock') {
+		    		 $('#modalUsbSettingInfo').modal('show');
+		    		 	usb_info_table();
+		    	} else if (type == 'isComPortBlock') {
+		    		$('#modalComPortSettingInfo').modal('show');
+		    			 com_port_info_table();
+		    	} else if (type == 'isNetPortBlock') {
+		    		$('#modalNetPortSettingInfo').modal('show');
+		    			net_port_info_table();
+		    	} else if (type == 'isProcessList') {
+		    		$('#modalProcessSettingInfo').modal('show');
+		    			process_info_table();
+		    	} else if (type == 'isFilePattern') {
+		    		$('#modalPatternSettingInfo').modal('show');
+		    			pattern_info_table();
+		    	} else if (type == 'isWebAddr') {
+		    		$('#modalWebAddrSettingInfo').modal('show');
+		    			web_site_info_table();
+		    	} else if (type == 'isMsgBlock') {
+		    		$('#modalMsgBlockSettingInfo').modal('show');
+		    			msg_block_info_table();
+		    	} 
+	           
+		    },   
+		    error:function(e){  
+		        console.log(e.responseText);  
+		    }  
+		});
+ 	}
+ 	
  	
  	function setDataTable(){
  		if (jQuery().dataTable) {
@@ -366,10 +419,10 @@
 					data: "isFilePattern",
 					"orderable": false	//메일반출가능
 				}, {
-					data: "isFilePattern",
+					data: "isSensitiveFileAccess",
 					"orderable": false	//민감파일
 				}, {
-					data: "isFilePattern",
+					data: "isSensitiveDirEnabled",
 					"orderable": false	//보호폴더접근가능
 				}, {
 					data: "isNetShare",
@@ -386,6 +439,57 @@
 				}, {
 					data: "requestClientTime",
 					"orderable": false	//요청시간
+				},{
+					data: "isWebExport",
+					"orderable": false	//메일반출여부
+				},{
+					data: "isStorageExport",
+					"orderable": false	//디스크반출가능 여부
+				},{
+					data: "isStorageAdmin",
+					"orderable": false	//디스크 관리자 여부
+				},{
+					data: "isUsbControlEnabled",
+					"orderable": false	//USB통제 여부
+				},{
+					data: "usbBlockCode",
+					"orderable": false	//USB차단코드
+				},{
+					data: "comPortBlockCode",
+					"orderable": false	//시리얼포트차단코드
+				},{
+					data: "isNetPortBlock",
+					"orderable": false	//네트워크포트사용여부
+				},{
+					data: "netPortBlockCode",
+					"orderable": false	//네트워크포트차단코드
+				},{
+					data: "isProcessList",
+					"orderable": false	//프로세스차단여부
+				},{
+					data: "processListCode",
+					"orderable": false	//프로세스차단코드
+				},{
+					data: "isWebAddr",
+					"orderable": false	//사이트차단여부
+				},{
+					data: "webAddrCode",
+					"orderable": false	//사이트차단코드
+				},{
+					data: "isMsgBlock",
+					"orderable": false	//메신저차단여부
+				},{
+					data: "msgBlockCode",
+					"orderable": false	//메신저차단코드
+				},{
+					data: "waterMarkType",
+					"orderable": false	//워터적용코드
+				},{
+					data: "waterMarkEndDate",
+					"orderable": false	//워터마크적용일시
+				},{
+					data: "printLogDesc",
+					"orderable": false	//프린터인쇄로그설정
 				}],
 				// set the initial value
 				"pageLength": 20,
@@ -590,29 +694,97 @@
 							}
 						}
 						,"visible" : false
-				}, {	
-					"targets": [22]	//CD사용여부
-					,"class" : "center-cell"
-						,"render":function(data,type,row){
-							if(data == true){
-								return '허용';
-							}else{
-								return '불허';
+					}, {	
+						"targets": [22]	//CD사용여부
+						,"class" : "center-cell"
+							,"render":function(data,type,row){
+								if(data == true){
+									return '허용';
+								}else{
+									return '불허';
+								}
 							}
-						}
+							,"visible" : false
+					}, {	
+						"targets": [23]	//적용시간
+						,"class" : "center-cell"
+					}, {	
+						"targets": [24]	//요청시간
+						,"class" : "center-cell"
+							,"visible" : false
+					}, {	
+						"targets": [25]	//요청시간(PC)
+						,"class" : "center-cell"
+							,"visible" : false
+					}, {	
+						"targets": [26]	//요청시간(PC)
+						,"class" : "center-cell"
 						,"visible" : false
-				}, {	
-					"targets": [23]	//적용시간
-					,"class" : "center-cell"
-				}, {	
-					"targets": [24]	//요청시간
+					}, {	
+						"targets": [27]	//요청시간(PC)
 					,"class" : "center-cell"
 						,"visible" : false
-				}, {	
-					"targets": [25]	//요청시간(PC)
+					}, {	
+						"targets": [28]	//요청시간(PC)
 					,"class" : "center-cell"
 						,"visible" : false
-				}],						
+					}, {	
+						"targets": [29]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [30]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [31]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [32]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [33]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [34]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [35]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [36]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [37]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [38]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [39]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [40]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [41]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [42]	//요청시간(PC)
+					,"class" : "center-cell"
+						,"visible" : false
+					}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
 //					$('#table_userinfo').colResizable({liveDrag:true});
