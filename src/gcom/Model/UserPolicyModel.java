@@ -59,6 +59,7 @@ public class UserPolicyModel {
 	// 워터 마크 관련 데이터
 	private Boolean isWaterMark = false;
 	private String waterMarkEndDate = "";
+	private String waterLimitDate = "";
 	private int waterMarkType = 0;
 	
 	private int printLogDesc;	//0:로그 전송 안함	1:이벤트 로그	2: 파일 원본 로그

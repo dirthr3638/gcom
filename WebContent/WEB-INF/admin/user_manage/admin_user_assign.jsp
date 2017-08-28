@@ -622,6 +622,9 @@
 						},{
 							data: "printLogDesc",
 							"orderable": false	//프린터인쇄로그설정
+						},{
+							data: "waterLimitDate",
+							"orderable": false	//워터마크 기한
 						}],
 						// set the initial value
 						"pageLength": 20,
@@ -804,6 +807,9 @@
 							,"visible" : false
 						}, {	
 							"targets": [45]	// 프린터인쇄로그설정
+							,"visible" : false
+						}, {	
+							"targets": [46]	// 워터마크 기한
 							,"visible" : false
 						}],						
 						"initComplete": function( settings, json ) {

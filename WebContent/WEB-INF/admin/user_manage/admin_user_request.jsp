@@ -541,7 +541,7 @@
 					,render : function (data,type,row) {
 						var time = '';
 						if (data != '') {
-							time = new Date(data).format('yyyy-mm-dd hh:mm:ss');
+							time = new Date(data).format('yyyy-MM-dd hh:mm:ss');
 						} 
 						return data;
 					}
@@ -765,6 +765,12 @@
 					"orderable": false	//기존 프린터인쇄로그설정
 				}, {
 					data: "reqNotice",
+					"orderable": false	//요청사유
+				}, {
+					data: "waterLimitDate",
+					"orderable": false	//요청사유
+				}, {
+					data: "oldPolicy.waterLimitDate",
 					"orderable": false	//요청사유
 				}],
 				// set the initial value
@@ -1024,6 +1030,12 @@
 					,"visible" : false
 				}, {
 					"targets": [78]	//요청사유
+					,"visible" : false
+				}, {
+					"targets": [79]	//요청 워터마크 기한
+					,"visible" : false
+				}, {
+					"targets": [80]	//기존 워터마크 기한
 					,"visible" : false
 				}],						
 				"initComplete": function( settings, json ) {

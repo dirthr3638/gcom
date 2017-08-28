@@ -12,6 +12,8 @@
 <script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
 <script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 
+<script type="text/javascript" src="${context}/assets/js/date.js"></script>
+
 <div id="modalApplyPolicy" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
 	<div class="modal-dialog" style="width:940px;">
 			<div class="modal-content">
@@ -286,24 +288,41 @@
 		// 메신저 탭 데이터 Set Operation
 		map['isMsgBlock']		= $('#att_msg_block_type').val();			// 메신저 차단정책
 		
-		// 워터마크 탭 데이터 Set Operation // 워터마크 정책
-		var isWaterMarkPrint	= $(':radio[name="radio_water_mark_print"]:checked').val();	
-		var waterMarkCheck = $(':radio[name="radio_water_mark_print"]').is(':checked') == true ? 1 : -1 ;				
-		map['isWaterMarkPrint'] = waterMarkCheck;
-		var waterMarkDate		= $('#att_waterMark_end_date').val();
-		var waterMaekTime		= $('#att_waterMark_end_time').val();
 		
-		if (waterMaekTime != "") {
-			waterMaekTime = getFormatTime(waterMaekTime);
-		}
-		
-		var waterMarkType		= $('#att_waterMark_type').val();			// 워터마크 타입
+		// 최종 정책 변수 선언
 		var waterMaskPolicy = '';
+			
+		var isWaterMarkPrint	= $(':radio[name="radio_water_mark_print"]:checked').val();	
+		map['waterPolicyValue'] = isWaterMarkPrint;
 		
-		if (waterMarkCheck != -1) {
-			waterMaskPolicy = isWaterMarkPrint=='N'? isWaterMarkPrint : isWaterMarkPrint + "," + waterMarkDate + " " + waterMaekTime + "," + waterMarkType;
+		if (isWaterMarkPrint == 'N') {
+			waterMaskPolicy = isWaterMarkPrint;
 		} else {
-			waterMaskPolicy = '';
+			waterMaskPolicy = isWaterMarkPrint;
+			var waterMarkType		= $('#att_waterMark_type').val();										// 워터마크 타입
+			var limit_chk = $(':radio[name="radio_water_limit_use"]').is(':checked') == true ? 1 : 0 ;		// 기한제한 선택 여부
+			map['waterLimitCheck'] = limit_chk;
+			
+			if (limit_chk == 1) {
+				
+				var limit_value = $(':radio[name="radio_water_limit_use"]:checked').val();				// 기한제한 선택 값
+				map['waterLimitValue'] = limit_value;
+				
+				if (limit_value == 'N') {																// 제한 없음
+					waterMaskPolicy += ",0,"+waterMarkType;
+				} else {																				// 제한 있음
+					var waterMarkDate	 = $('#att_waterMark_apply_date').val();
+					map['waterMarkDate'] = waterMarkDate;
+					
+					var waterMarkLimitTime	= $('#att_waterMark_limit_time').val();
+					map['waterMarkLimitTime'] = waterMarkLimitTime;
+					
+					var dateTime = getFormatTime(waterMarkDate);
+					
+					waterMaskPolicy += "," + dateTime + waterMarkLimitTime + "," + waterMarkType;
+				}
+			} 			
+			
 		}
 		
 		map['waterMark'] = waterMaskPolicy;									// 워터마크 정책
@@ -311,29 +330,16 @@
 		return map;
 	}
 
-	function getFormatTime(time) {
-		var splitTimeArray = time.split(':');
-		var hour = splitTimeArray[0].trim();
-		var min = splitTimeArray[1].trim();
-		var checkTime = splitTimeArray[2].trim();
+	function getFormatTime(date) {
+		var hour = $('#att_waterMark_apply_hour option:selected').val();
+		var min = $('#att_waterMark_apply_min option:selected').val();
+		var sec = $('#att_waterMark_apply_sec option:selected').val();
 		
-		var changeHour = '';
+		var limitType = $('#att_waterMark_limit_type option:selected').val();
 		
-		if (checkTime == 'PM') {
-			if( parseInt(hour) != 12) {
-				changeHour = (parseInt(hour) + 12).toString() ;
-			} else {
-				changeHour = "12";
-			}
-		} else {
-			if(parseInt(hour) == 12) {
-				changeHour = "00";
-			} else {
-				changeHour = hour;
-			}
-		}
+		var time = hour + ":" + min + ":" + sec + ">" + limitType;
 		
-		return changeHour+":"+min;
+		return date + " " + time;
 	}
 
 	$(document).ready(function(){
@@ -351,7 +357,11 @@
 		data['agent_no'] = <%= data.getAgentNo() %>
 		data['user_no'] = <%= data.getUserNo() %>
 		data['policy_no'] = <%= data.getPolicyNo() %>
-		data['notice'] = $('#att_change_policy_notice').val();;
+		data['notice'] = $('#att_change_policy_notice').val();
+		
+		if(!isValid(data)){
+			return false;
+		}
 		
 		$.ajax({      
 		    type:"POST",  
@@ -392,6 +402,54 @@
 		    }  
 		});
 		
+	}
+	
+	function isValid(policy_data) {
+		vex.defaultOptions.className = 'vex-theme-os'
+		
+		if(policy_data.waterPolicyValue != 'N') {
+			if(parseInt(policy_data.waterLimitCheck) == 0) {
+				vex.dialog.open({
+					message: '워터마크 정책 출력 허용 시 기한 제한 선택은 필수 입니다. 확인해주세요.',
+					  buttons: [
+					    $.extend({}, vex.dialog.buttons.YES, {
+					      text: '확인'
+					  	})
+					  ]
+				})
+				return false;
+			}
+			
+			if (policy_data.waterLimitValue == 'Y') {
+				if(policy_data.waterMarkDate == '' || policy_data.waterMarkLimitTime == '') {
+					vex.dialog.open({
+						message: '워터마크 정책 기한 제한시 시간 및 제한 기간 입력은 필수 입니다. 확인해주세요.',
+						  buttons: [
+						    $.extend({}, vex.dialog.buttons.YES, {
+						      text: '확인'
+						  	})
+						  ]
+					})
+					return false;
+				}
+				
+				var today = new Date().format("yyyyMMdd");
+				var waterDate = policy_data.waterMarkDate.replace(/-/g, '');
+				if(waterDate < today) {
+					vex.dialog.open({
+						message: '워터마크 정책 기한 제한 기준 일자가 오늘 이전 기간 입니다. 확인해주세요.',
+						  buttons: [
+						    $.extend({}, vex.dialog.buttons.YES, {
+						      text: '확인'
+						  	})
+						  ]
+					})
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 	
 	
