@@ -490,6 +490,9 @@
 				},{
 					data: "printLogDesc",
 					"orderable": false	//프린터인쇄로그설정
+				},{
+					data: "waterLimitDate",
+					"orderable": false	//워터마크 기한
 				}],
 				// set the initial value
 				"pageLength": 20,
@@ -778,11 +781,15 @@
 						,"visible" : false
 					}, {	
 						"targets": [41]	//요청시간(PC)
-					,"class" : "center-cell"
+						,"class" : "center-cell"
 						,"visible" : false
 					}, {	
 						"targets": [42]	//요청시간(PC)
-					,"class" : "center-cell"
+						,"class" : "center-cell"
+						,"visible" : false
+					}, {	
+						"targets": [43]	//요청시간(PC)
+						,"class" : "center-cell"
 						,"visible" : false
 					}],						
 				"initComplete": function( settings, json ) {

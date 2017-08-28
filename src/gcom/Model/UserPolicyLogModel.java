@@ -57,6 +57,7 @@ public class UserPolicyLogModel {
 
 	private Boolean isWaterMark;
 	private String waterMarkEndDate = "";
+	private String waterLimitDate = "";
 	private int waterMarkType;
 
 	

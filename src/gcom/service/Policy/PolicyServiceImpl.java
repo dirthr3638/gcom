@@ -30,7 +30,13 @@ public class PolicyServiceImpl implements IPolicyService {
 	
 	
 	public List<UserPolicyLogModel> getUserPolicyLogList(HashMap<String, Object> map){
-		return poDao.getUserPolicyLogList(map);
+		List<UserPolicyLogModel> list = poDao.getUserPolicyLogList(map);
+		
+		for(UserPolicyLogModel model : list) {
+			model.setWaterLimitDate(CommonUtil.getFomatLimitTime(model.getWaterMarkEndDate()));
+		}
+		
+		return list;
 	}
 	public int getUserPolicyLogCount(HashMap<String, Object> map){
 		return poDao.getUserPolicyLogListCount(map);
