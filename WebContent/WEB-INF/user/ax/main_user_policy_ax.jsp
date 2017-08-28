@@ -141,7 +141,7 @@
 			<tr>
 				<td class="center-cell th-cell-gray" width="25%">워터마크사용여부</td>
 				<td class="center-cell" width="25%">
-					<% if (data.getIsWaterMark()) { %> 사용 [<%= data.getWaterMarkEndDate() %> 까지] <% } else { %> 미사용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;
+					<% if (data.getIsWaterMark()) { %> 사용 <% } else { %> 미사용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="#" onClick="javascript:fn_popup_detail('isWaterMark', '<%= data.getWaterMarkType() %>');" style="color:#1b74a7"><i class="fa fa-search"></i> 상세</a>
 				</td>
 				<td class="center-cell th-cell-gray" width="25%">프린터 인쇄 로그</td>

@@ -268,8 +268,8 @@ function getApplyPolicyData(data){
 	}
 	
 	if(data.isWaterMark == true){
-		var waterLimit = data.waterMarkEndDate == 0? '기한제한없음' : data.waterLimitDate + '까지';
-		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>사용 ['+ waterLimit +'] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></td>';	
+		//var waterLimit = data.waterMarkEndDate == 0? '기한제한없음' : data.waterLimitDate + '까지';
+		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>사용&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></td>';	
 	}else{
 		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>미사용</td>';			
 	}
@@ -806,8 +806,8 @@ function getRequestPolicyDetailTable(data){
 	}
 	
 	if(data.oldPolicy.isWaterMark == true){
-		var waterLimit = data.oldPolicy.waterMarkEndDate == 0? '기한제한없음' : data.oldPolicy.waterLimitDate + '까지';
-		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>사용 ['+ waterLimit +'] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.oldPolicy.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a>';
+		//var waterLimit = data.oldPolicy.waterMarkEndDate == 0? '기한제한없음' : data.oldPolicy.waterLimitDate + '까지';
+		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>사용&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.oldPolicy.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a>';
 		if (data.isWaterMark == false) {
 			sOut += '<span><i class="fa fa-arrow-right" aria-hidden="true" style="margin:0 10px; color:#fb827a;"></i>미사용</span>';
 		}
@@ -815,8 +815,8 @@ function getRequestPolicyDetailTable(data){
 	}else{
 		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>미사용';
 		if (data.isWaterMark == true) {
-			var waterLimit = data.waterMarkEndDate == 0? '기한제한없음' : data.waterLimitDate + '까지';
-			sOut += '<span><i class="fa fa-arrow-right" aria-hidden="true" style="margin:0 10px; color:#fb827a;"></i>사용 ['+ waterLimit +'] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></span>';
+			//var waterLimit = data.waterMarkEndDate == 0? '기한제한없음' : data.waterLimitDate + '까지';
+			sOut += '<span><i class="fa fa-arrow-right" aria-hidden="true" style="margin:0 10px; color:#fb827a;"></i>사용&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></span>';
 		}
 		sOut += '</td>';			
 	}

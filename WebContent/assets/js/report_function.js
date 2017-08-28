@@ -136,8 +136,8 @@ function getPolicyDetailTable(data){
 	}
 	
 	if(data.isWaterMark == true){
-		var waterLimit = data.waterMarkEndDate == 0? '기한제한없음' : data.waterLimitDate + '까지';
-		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>사용 ['+ waterLimit +'] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></td>';	
+		//var waterLimit = data.waterMarkEndDate == 0? '기한제한없음' : data.waterLimitDate + '까지';
+		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>사용&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></td>';	
 	}else{
 		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>미사용</td>';			
 	}
