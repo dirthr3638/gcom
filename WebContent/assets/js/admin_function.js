@@ -70,28 +70,46 @@ function getPolicyApplyData(flag){
 	map['isMsgBlock']		= $('#att_msg_block_type').val();			// 메신저 차단정책
 	
 	// 워터마크 탭 데이터 Set Operation // 워터마크 정책
-	var isWaterMarkPrint	= $(':radio[name="radio_water_mark_print"]:checked').val();	
-	var waterMarkCheck = $(':radio[name="radio_water_mark_print"]').is(':checked') == true ? 1 : -1 ;				
+	var waterMarkCheck = $(':radio[name="radio_water_mark_print"]').is(':checked') == true ? 1 : -1 ;
 	map['isWaterMarkPrint'] = waterMarkCheck;
-	var waterMarkDate		= $('#att_waterMark_end_date').val();
-	var waterMaekTime		= $('#att_waterMark_end_time').val();
 	
-	// 워터마크 검증을 위한 데이터
-	map['waterPolicyValue'] = isWaterMarkPrint;
-	map['waterMarkDate'] = waterMarkDate;
-	map['waterMaekTime'] = waterMaekTime;
-	
-	if (waterMaekTime != "") {
-		waterMaekTime = getFormatTime(waterMaekTime);
-	}
-	
-	var waterMarkType		= $('#att_waterMark_type').val();			// 워터마크 타입
+	// 최종 정책 변수 선언
 	var waterMaskPolicy = '';
 	
 	if (waterMarkCheck != -1) {
-		waterMaskPolicy = isWaterMarkPrint=='N'? isWaterMarkPrint : isWaterMarkPrint + "," + waterMarkDate + " " + waterMaekTime + "," + waterMarkType;
-	} else {
-		waterMaskPolicy = '';
+		
+		var isWaterMarkPrint	= $(':radio[name="radio_water_mark_print"]:checked').val();	
+		map['waterPolicyValue'] = isWaterMarkPrint;
+		
+		if (isWaterMarkPrint == 'N') {
+			waterMaskPolicy = isWaterMarkPrint;
+		} else {
+			waterMaskPolicy = isWaterMarkPrint;
+			var waterMarkType		= $('#att_waterMark_type').val();										// 워터마크 타입
+			var limit_chk = $(':radio[name="radio_water_limit_use"]').is(':checked') == true ? 1 : 0 ;		// 기한제한 선택 여부
+			map['waterLimitCheck'] = limit_chk;
+			
+			if (limit_chk == 1) {
+				
+				var limit_value = $(':radio[name="radio_water_limit_use"]:checked').val();				// 기한제한 선택 값
+				map['waterLimitValue'] = limit_value;
+				
+				if (limit_value == 'N') {																// 제한 없음
+					waterMaskPolicy += ",0,"+waterMarkType;
+				} else {																				// 제한 있음
+					var waterMarkDate	 = $('#att_waterMark_apply_date').val();
+					map['waterMarkDate'] = waterMarkDate;
+					
+					var waterMarkLimitTime	= $('#att_waterMark_limit_time').val();
+					map['waterMarkLimitTime'] = waterMarkLimitTime;
+					
+					var dateTime = getFormatTime(waterMarkDate);
+					
+					waterMaskPolicy += "," + dateTime + waterMarkLimitTime + "," + waterMarkType;
+				}
+			} 			
+			
+		}
 	}
 	
 	map['waterMark'] = waterMaskPolicy;									// 워터마크 정책
@@ -99,29 +117,17 @@ function getPolicyApplyData(flag){
 	return map;
 }
 
-function getFormatTime(time) {
-	var splitTimeArray = time.split(':');
-	var hour = splitTimeArray[0].trim();
-	var min = splitTimeArray[1].trim();
-	var checkTime = splitTimeArray[2].trim();
+function getFormatTime(date) {
 	
-	var changeHour = '';
+	var hour = $('#att_waterMark_apply_hour option:selected').val();
+	var min = $('#att_waterMark_apply_min option:selected').val();
+	var sec = $('#att_waterMark_apply_sec option:selected').val();
 	
-	if (checkTime == 'PM') {
-		if( parseInt(hour) != 12) {
-			changeHour = (parseInt(hour) + 12).toString() ;
-		} else {
-			changeHour = "12";
-		}
-	} else {
-		if(parseInt(hour) == 12) {
-			changeHour = "00";
-		} else {
-			changeHour = hour;
-		}
-	}
+	var limitType = $('#att_waterMark_limit_type option:selected').val();
 	
-	return changeHour+":"+min;
+	var time = hour + ":" + min + ":" + sec + ">" + limitType;
+	
+	return date + " " + time;
 }
 
 function getApplyPolicyData(data){
@@ -262,7 +268,8 @@ function getApplyPolicyData(data){
 	}
 	
 	if(data.isWaterMark == true){
-		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>사용 ['+ data.waterMarkEndDate +'까지] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></td>';	
+		var waterLimit = data.waterMarkEndDate == 0? '기한제한없음' : data.waterLimitDate + '까지';
+		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>사용 ['+ waterLimit +'] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></td>';	
 	}else{
 		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>미사용</td>';			
 	}
@@ -799,7 +806,8 @@ function getRequestPolicyDetailTable(data){
 	}
 	
 	if(data.oldPolicy.isWaterMark == true){
-		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>사용 ['+ data.oldPolicy.waterMarkEndDate +'까지] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.oldPolicy.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a>';
+		var waterLimit = data.oldPolicy.waterMarkEndDate == 0? '기한제한없음' : data.oldPolicy.waterLimitDate + '까지';
+		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>사용 ['+ waterLimit +'] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.oldPolicy.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a>';
 		if (data.isWaterMark == false) {
 			sOut += '<span><i class="fa fa-arrow-right" aria-hidden="true" style="margin:0 10px; color:#fb827a;"></i>미사용</span>';
 		}
@@ -807,7 +815,8 @@ function getRequestPolicyDetailTable(data){
 	}else{
 		sOut += '<tr><td class="center-cell th-cell-gray">워터마크사용여부:</td><td>미사용';
 		if (data.isWaterMark == true) {
-			sOut += '<span><i class="fa fa-arrow-right" aria-hidden="true" style="margin:0 10px; color:#fb827a;"></i>사용 ['+ data.waterMarkEndDate +'까지] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></span>';
+			var waterLimit = data.waterMarkEndDate == 0? '기한제한없음' : data.waterLimitDate + '까지';
+			sOut += '<span><i class="fa fa-arrow-right" aria-hidden="true" style="margin:0 10px; color:#fb827a;"></i>사용 ['+ waterLimit +'] &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick="javascript:fn_sel_policy_detailOpen(' + '\'isWaterMark\'' + ', \''+ data.waterMarkType +'\');" ><i class="fa fa-search"></i> 상세</a></span>';
 		}
 		sOut += '</td>';			
 	}

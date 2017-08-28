@@ -20,6 +20,7 @@ import gcom.Model.UsbDevInfoModel;
 import gcom.Model.UserPolicyLogModel;
 import gcom.Model.UserPolicyModel;
 import gcom.Model.statistic.AuditClientSimpleModel;
+import gcom.common.util.CommonUtil;
 import gcom.common.util.ConfigInfo;
 
 public class PolicyServiceImpl implements IPolicyService {
@@ -66,7 +67,14 @@ public class PolicyServiceImpl implements IPolicyService {
 	}
 	
 	public List<PolicyRequestInfo> getRequestedPolicyList(HashMap<String, Object> map){
-		return poDao.getRequestedPolicyList(map);
+		List<PolicyRequestInfo> list = poDao.getRequestedPolicyList(map);
+		
+		for(PolicyRequestInfo model : list) {
+			model.setWaterLimitDate(CommonUtil.getFomatLimitTime(model.getWaterMarkEndDate()));
+			model.getOldPolicy().setWaterLimitDate(CommonUtil.getFomatLimitTime(model.getOldPolicy().getWaterMarkEndDate()));
+		}
+		
+		return list;
 		
 	}
 	public int getRequestedPolicyListCount(HashMap<String, Object> map){
@@ -123,7 +131,13 @@ public class PolicyServiceImpl implements IPolicyService {
 	}
 	
 	public List<UserPolicyModel> getPolicyAssignMemberList(HashMap<String, Object> map) {
-		return poDao.getPolicyAssignMemberList(map);	
+		List<UserPolicyModel> list = poDao.getPolicyAssignMemberList(map);
+		
+		for(UserPolicyModel model : list) {
+			model.setWaterLimitDate(CommonUtil.getFomatLimitTime(model.getWaterMarkEndDate()));
+		}
+		
+		return list;
 	}
 	
 	public int getPolicyAssignMemberListCount(HashMap<String, Object> map) {

@@ -6,6 +6,7 @@
 	HashMap<String, Object> data = (HashMap<String, Object>)request.getAttribute("current_policy");
 %>
 <script type="text/javascript" src="${context}/assets/js/admin_function.js"></script>
+<script type="text/javascript" src="${context}/assets/js/date.js"></script>
 <div id="modalApplyPolicy" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 5%;">
 	<div class="modal-dialog" style="width:940px;">
 			<div class="modal-content">
@@ -346,7 +347,7 @@
 		var policy_data = getPolicyApplyData(flag);
 		var apply_list = getApplyPolicyUserData();
 		policy_data['apply_list'] = apply_list;
-		
+		console.log('========>' + policy_data.waterMark);
 		if(!isChangeValueCheck(policy_data)) {
 			vex.defaultOptions.className = 'vex-theme-os'
 				
@@ -502,9 +503,9 @@
 		vex.defaultOptions.className = 'vex-theme-os'
 		
 		if(policy_data.isWaterMarkPrint != -1 && policy_data.waterMark != '' && policy_data.waterPolicyValue != 'N') {
-			if(policy_data.waterMarkDate == '' || policy_data.waterMaekTime == '') {
+			if(parseInt(policy_data.waterLimitCheck) == 0) {
 				vex.dialog.open({
-					message: '워터마크 정책 출력 허용 시 날짜와 시간 입력은 필수 입니다. 확인해주세요.',
+					message: '워터마크 정책 출력 허용 시 기한 제한 선택은 필수 입니다. 확인해주세요.',
 					  buttons: [
 					    $.extend({}, vex.dialog.buttons.YES, {
 					      text: '확인'
@@ -512,7 +513,35 @@
 					  ]
 				})
 				return false;
-			} 
+			}
+			
+			if (policy_data.waterLimitValue == 'Y') {
+				if(policy_data.waterMarkDate == '' || policy_data.waterMarkLimitTime == '') {
+					vex.dialog.open({
+						message: '워터마크 정책 기한 제한시 시간 및 제한 기간 입력은 필수 입니다. 확인해주세요.',
+						  buttons: [
+						    $.extend({}, vex.dialog.buttons.YES, {
+						      text: '확인'
+						  	})
+						  ]
+					})
+					return false;
+				}
+				
+				var today = new Date().format("yyyyMMdd");
+				var waterDate = policy_data.waterMarkDate.replace(/-/g, '');
+				if(waterDate < today) {
+					vex.dialog.open({
+						message: '워터마크 정책 기한 제한 기준 일자가 오늘 이전 기간 입니다. 확인해주세요.',
+						  buttons: [
+						    $.extend({}, vex.dialog.buttons.YES, {
+						      text: '확인'
+						  	})
+						  ]
+					})
+					return false;
+				}
+			}
 		}
 		
 		return true;

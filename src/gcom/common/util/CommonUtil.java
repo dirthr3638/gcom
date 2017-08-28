@@ -1,6 +1,12 @@
 package gcom.common.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import gcom.user.model.MemberPolicyModel;
 
@@ -209,6 +215,49 @@ public class CommonUtil {
 		}
 		
 		return icon;
+	}
+
+	public static String getFomatLimitTime(String data) {
+		String result = "";
+		
+		if("".equals(data) || "0".equals(data)) {
+			result = data;
+		} else {
+			String[] temp =  data.split(">");
+			
+			String from = temp[0];
+			if(temp.length > 1) {
+				String limitType = temp[1].substring(0, 1);
+				String limitTime = temp[1].substring(1, temp[1].length());
+				
+				Calendar cal = new GregorianCalendar(Locale.KOREA);
+				SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				
+				try {
+					Date date = transFormat.parse(from);
+					cal.setTime(date);
+					
+					if ("H".equals(limitType)) {
+						cal.add(Calendar.HOUR, Integer.parseInt(limitTime)); // 시간을 더한다
+					} else if ("D".equals(limitType)) {
+						cal.add(Calendar.DAY_OF_YEAR, Integer.parseInt(limitTime)); // 일을 더한다
+					} else if ("M".equals(limitType)) {
+						cal.add(Calendar.MONTH, Integer.parseInt(limitTime)); // 월을 더한다
+					}
+					
+					SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				    String strDate = fm.format(cal.getTime());
+				    System.out.println(strDate);
+					result = strDate;
+			
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return result;
 	}
 	
 }
