@@ -17,6 +17,7 @@ import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.PrivacyLogModel;
 import gcom.Model.UserInfoModel;
+import gcom.Model.UserPolicyModel;
 import gcom.common.util.ConfigInfo;
 import gcom.user.model.UserContactModel;
 
@@ -300,6 +301,59 @@ public class PersonalServiceImpl implements IPersonalService {
 	
 	public HashMap<String, Object> updateNoticeDelete(HashMap<String, Object> map) {
 		return poDao.updateNoticeDelete(map);	
+	}
+	
+	public HashMap<String, Object> getApplyPolicyAllUserInfo(HashMap<String, Object> map) {
+		HashMap<String, Object> data = new  HashMap<String, Object>();
+		List<HashMap<String, Object>> apply_list = poDao.getApplyPolicyAllUserList(map);
+ 
+		HashMap<String, Object> policy = new HashMap<String, Object>();
+			
+		policy.put("isUninstall", false);
+		policy.put("isFileEncryption", false);
+		policy.put("isCdEncryption", false);
+		policy.put("isPrint", false);
+		policy.put("isCdEnabled", false);
+		policy.put("isCdExport", false);
+		policy.put("isWlan", false);
+		policy.put("isNetShare", false);
+		policy.put("isWebExport", false);
+		
+		policy.put("isSensitiveDirEnabled", false);
+		policy.put("isSensitiveFileAccess", false);
+		policy.put("isStorageExport", false);
+		policy.put("isStorageAdmin", false);
+		policy.put("isUsbControlEnabled", false);
+		
+		policy.put("isStorageExport", false);
+		policy.put("isStorageAdmin", false);
+		
+		policy.put("isUsbBlock", false);
+		policy.put("isComPortBlock", false);
+		policy.put("isNetPortBlock", false);
+		policy.put("isProcessList", false);
+		policy.put("isFilePattern", false);
+		policy.put("isWebAddr", false);
+		policy.put("isMsgBlock", false);
+		
+		policy.put("usbBlockCode", "");
+		policy.put("comPortBlockCode", "");
+		policy.put("netPortBlockCode", "");
+		policy.put("processListCode", "");
+		policy.put("filePatternCode", "");
+		policy.put("webAddrCode", "");
+		policy.put("msgBlockCode", "");
+		
+		policy.put("isWaterMark", false);
+		policy.put("waterMarkEndDate", "");
+		policy.put("waterMarkType", 0);
+		policy.put("printLogDesc", 0);
+		policy.put("patternFileControl", 0);
+		
+		data.put("apply_list", apply_list);
+		data.put("current_policy", policy);
+		
+		return data;	
 	}
 	
 }

@@ -91,6 +91,7 @@
 											<button type="button" class="btn btn-success pull-right" onclick="onClickPrintButton()"><i class="fa fa-print" aria-hidden="true">&nbsp;인쇄</i></button>
 											<!--policy apply button -->
 											<button type="button" class="btn btn-blue pull-right" onclick="fn_apply_policy()"><i class="fa fa-check" aria-hidden="true">&nbsp;정책할당</i></button>
+											<button type="button" class="btn btn-dirtygreen pull-right" onclick="fn_click_all_apply_policy()"><i class="fa fa-check" aria-hidden="true">&nbsp;전체정책할당</i></button>
 											
 											<!-- search text content -->
 											<div id="pre-1" class="margin-top-10 margin-bottom-10 text-left noradius text-danger softhide" style="width:700px;">
@@ -301,6 +302,59 @@
 				});
 		 		
 		 	}
+		 	
+		 	// 전체정책할당 팝업 호출
+		 	function fn_all_apply_policy() {
+		 		
+		 		$.ajax({      
+				    type:"POST",  
+				    url:'${context}/admin/user/assign/applyAll',
+				    async: false,
+				    data:{
+				    	user_id 	: $('#filterUserId').val(),
+						user_name 	: $('#filterUserName').val(),
+						user_number : $('#filterUserNumber').val(),
+						user_duty 	: $('#filterUserDuty').val(),
+						user_rank 	: $('#filterUserRank').val(),
+						user_pc 	: $('#filterUserPCName').val(),
+						user_ip 	: $('#filterUserIPAddr').val(),
+						user_phone 	: $('#filterUserPhone').val(),
+						dept : getCheckedDept(),
+				    	_ : $.now()
+				    },
+				    success:function(data){
+				    	$("#policy_apply_div").html(data);
+			            $('#modalApplyPolicy').modal('show');
+				    },   
+				    error:function(e){  
+				        console.log(e.responseText);  
+				    }  
+				});
+		 	}
+		 	
+		 	// 전체정책할당 버튼 클릭 시
+		 	function fn_click_all_apply_policy() {
+		 		vex.defaultOptions.className = 'vex-theme-os'
+	    			
+    			vex.dialog.open({
+    				message: '검색된 리스트의 모든 회원의 정책이 적용됩니다. 전체정책할당을 진행하시겠습니까?',
+    				  buttons: [
+    				    $.extend({}, vex.dialog.buttons.YES, {
+    				      text: '확인'
+    				 	 }),
+    				  	$.extend({}, vex.dialog.buttons.NO, {
+    				      text: '취소'
+    				  })],
+    				  callback: function(data) {
+   				 	  	if (data) {
+   				 	  		fn_all_apply_policy();
+   				 	    }
+   				 	  }
+    				  
+    			})
+		 	};
+		 	
+		 	
 		 	
 		 	// 체크 박스 클릭 시 전체 체크 여부 확인
 		 	var check_Info = function() {
