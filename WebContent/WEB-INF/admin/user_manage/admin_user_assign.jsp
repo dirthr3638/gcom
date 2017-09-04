@@ -447,9 +447,7 @@
 										body: function ( data, row, column, node) {
 											if (column === 3) {
 												var i_tag = $('i', node);
-												var i_text = '';
-												
-												for (var idx = 0;  idx < i_tag.length ; idx ++ ){
+												var i_text = '';z_tag.length ; idx ++ ){
 													if (idx == i_tag.length - 1) {
 														i_text += i_tag[idx].title
 													} else {												
@@ -467,7 +465,7 @@
 				             	 },
 				             	 customize: function ( win ) {
 				                    $(win.document.body)
-				                        .css( 'font-size', '10px' )
+				                        .css( 'font-size', '1px' )
 				 
 				                    $(win.document.body).find( 'table' )
 				                        .addClass( 'compact' )
