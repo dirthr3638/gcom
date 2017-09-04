@@ -3235,5 +3235,36 @@ sql += whereSql;
 		
 		return result;
 	}
+
+
+	public int selectNetPortIsValied(HashMap<String, Object> map) {
+		int result = 0;
+		int port = Integer.parseInt(map.get("net_port").toString());
+		String sql= "SELECT COUNT(*) AS cnt FROM net_port_info WHERE port = ? ";
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, port);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 	
 }

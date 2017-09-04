@@ -66,7 +66,13 @@
 												<tr>
 													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >포트</td>
 													<td>
-														<input type="text" id="att_net_work_port" name="att_net_work_port" class="form-control" value="<%= port %>" />
+														<input type="text" id="att_net_work_port" name="att_net_work_port" class="form-control width-100 pull-left" value="<%= port %>" />
+														<% if (!modifyCheck) { %>
+															<span class="pull-left" style="font-weight: bold; padding-top: 10px;">&nbsp;~&nbsp;</span>
+															<input type="text" id="att_relate_port" name="att_relate_port" class="form-control width-100 pull-left" value="" disabled placeholder="연속포트"/>
+															<input type="checkbox" id="att_relate_port_yn" name="att_relate_port_yn" class="form-control width-20 pull-left" style="margin:0 0 0 4px;"/>
+															<span class="pull-left">연속<br/>생성</span>
+														<% } %>
 													</td>
 												</tr>
 												<tr>
@@ -131,6 +137,11 @@ function get_policy_network_setting_data(){
 	map['net_port'] = $('#att_net_work_port').val();
 	map['descript'] = $('#att_net_work_descript').val();
 	map['use_type'] = $(':radio[name="radio_use_type"]:checked').val();
+	map['net_relate_port'] = '';
+	
+	if($('#att_relate_port_yn').is(':checked') == true) {
+		map['net_relate_port'] = $('#att_relate_port').val();
+	}
 	
 	return map;
 }
@@ -152,6 +163,39 @@ function isValied(data) {
 	if(data.net_port.trim() == '' || data.net_port.trim().length < 1) {
 		vex.dialog.open({
 			message: '포트는 필수 입력 사항입니다.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		})
+		return false;
+	}
+	
+	if($.isNumeric(data.net_port) == false || data.net_port < 0) {
+		vex.dialog.open({
+			message: '포트는 숫자만 입력 가능하며 0이상 입력 하셔야합니다.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		})
+		return false;
+	}
+	
+	if($('#att_relate_port_yn').is(':checked') == true && (data.net_relate_port == '' || data.net_relate_port.length < 1)) {
+		vex.dialog.open({
+			message: '연속 포트 생성 시 연속포트 필드는 필수 입력 사항입니다.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		})
+		return false;
+	}
+	
+	if($('#att_relate_port_yn').is(':checked') == true && ($.isNumeric(data.net_relate_port) == false || data.net_relate_port < 0)) {
+		vex.dialog.open({
+			message: '연속 포트는 숫자만 입력 가능하며 0이상 입력하셔야 합니다.',
 			  buttons: [
 			    $.extend({}, vex.dialog.buttons.YES, {
 			      text: '확인'
@@ -196,7 +240,21 @@ function fn_policy_network_save () {
 	    			  })]
 	    		})
 	    		
+	    	} else if(data.returnCode == 'SO') {
+				$('#modalPolicyRegNetwork').modal('hide');
+	    		
+	    		var datatable = $('#table-network-policy').dataTable().api();
+	    		datatable.ajax.reload();
+	    		
+	    		vex.dialog.open({
+	    			message: '중복된 포트가 존재합니다. 중복된 포트를 제외하고 정책 등록이 완료되었습니다.',
+	    			  buttons: [
+	    			    $.extend({}, vex.dialog.buttons.YES, {
+	    			      text: '확인'
+	    			  })]
+	    		})
 	    	} else {
+	    	
 	    		
     			vex.dialog.open({
     				message: '정책 등록중 예기치 못한 오류가 발생하여 등록에 실패하였습니다.',
@@ -253,19 +311,24 @@ function fn_policy_network_modify () {
 	    			  })]
 	    		})
 	    		
-	    	} else {
+	    	} else if(data.returnCode == 'SO') {
+				$('#modalPolicyRegNetwork').modal('hide');
 	    		
+	    		vex.dialog.open({
+	    			message: '정책 수정에 실패하였습니다. 중복된 포트가 존재합니다.',
+	    			  buttons: [
+	    			    $.extend({}, vex.dialog.buttons.YES, {
+	    			      text: '확인'
+	    			  })]
+	    		})
+	    	} else {
+	    		$('#modalPolicyRegNetwork').modal('hide');
     			vex.dialog.open({
     				message: '정책 수정중 예기치 못한 오류가 발생하여 등록에 실패하였습니다.',
     				  buttons: [
     				    $.extend({}, vex.dialog.buttons.YES, {
     				      text: '확인'
-    				  })],
-    				  callback: function(data) {
-   				 	  	if (data) {
-   				 	  		$('#modalPolicyRegNetwork').modal('hide');
-   				 	    }
-   				 	  }
+    				  })]
     			});
 	    	}
 	    },   
@@ -285,6 +348,16 @@ $(document).ready(function(){
 	
 	$('#btnPolicyNetworkModify').click(function(){
 		fn_policy_network_modify();				
+	});
+	
+	$('#att_relate_port_yn').change(function(){
+		
+		if($('#att_relate_port_yn').is(':checked') == true) {
+			$('#att_relate_port').prop('disabled', false);
+		} else {
+			$('#att_relate_port').prop('disabled', true);
+			$('#att_relate_port').val('');
+		}
 	});
 });
 	
