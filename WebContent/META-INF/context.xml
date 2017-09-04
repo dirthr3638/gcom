@@ -1,5 +1,5 @@
 <Context reloadable="true">
-<Resource 
+<!-- <Resource 
 	name="jdbc/mysql" 
 	auth="Container" 
 	type="javax.sql.DataSource"
@@ -9,8 +9,8 @@
     username="root" 
     password="ohm1209" 
     driverClassName="com.mysql.jdbc.Driver"
-    url="jdbc:mysql://127.0.0.1:14000/guardcom?characterEncoding=utf8&amp;useSSL=false" />
-<!--     <Resource 
+    url="jdbc:mysql://127.0.0.1:14000/guardcom?characterEncoding=utf8&amp;useSSL=false" /> -->
+<Resource 
 	name="jdbc/mysql" 
 	auth="Container" 
 	type="javax.sql.DataSource"
@@ -20,5 +20,5 @@
     username="guardcom" 
     password="guardcom!@#" 
     driverClassName="com.mysql.jdbc.Driver"
-    url="jdbc:mysql://127.0.0.1:3306/guardcom?characterEncoding=utf8&amp;useSSL=false" /> -->
+    url="jdbc:mysql://127.0.0.1:3306/guardcom?characterEncoding=utf8&amp;useSSL=false" />
 </Context>

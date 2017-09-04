@@ -34,4 +34,5 @@ public interface IPersonalService {
 	public HashMap<String, Object> updateContactCommentUpdate(HashMap<String, Object> map);
 	public HashMap<String, Object> getCurrentPolicyCheck(List<Map<String, Object>> apply_list);
 	public HashMap<String, Object> updateNoticeDelete(HashMap<String, Object> map);
+	public HashMap<String, Object> getApplyPolicyAllUserInfo(HashMap<String, Object> map);
 }

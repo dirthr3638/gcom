@@ -29,4 +29,5 @@ public class ConfigInfo {
 	
 	public final static String NOT_CORRECT_IP = "NCI";		//아이피 거부
 	
+	public final static String RETURN_CODE_SUCCESS_OVERLAP = "SO"; //일부성공 중복존재
 }

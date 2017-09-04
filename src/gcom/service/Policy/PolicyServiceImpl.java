@@ -207,11 +207,59 @@ public class PolicyServiceImpl implements IPolicyService {
 	}
 	
 	public HashMap<String, Object> insertPolicyNetworkSave(HashMap<String, Object> map) {
-		return poDao.insertPolicyNetworkSave(map);
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		int overlap = 0; 
+		if("".equals(map.get("net_relate_port").toString())) {
+			result = poDao.insertPolicyNetworkSave(map);
+		} else {
+			int min = 0;
+			int max = 0;
+			
+			int netport = Integer.parseInt(map.get("net_port").toString());
+			int netportRelate = Integer.parseInt(map.get("net_relate_port").toString());
+			if(netport < netportRelate) {
+				min = netport;
+				max = netportRelate;
+			} else {
+				min = netportRelate;
+				max = netport;
+			}
+			
+					
+			if((max - min) == 0) {
+				result = poDao.insertPolicyNetworkSave(map);
+			} else {
+				for (int idx = min; idx <= max; idx ++) {
+					map.put("net_port", idx);
+					int cnt = poDao.selectNetPortIsValied(map);
+					if (cnt == 0) {
+						result = poDao.insertPolicyNetworkSave(map);
+					} else {
+						overlap++;
+					}
+				}
+			}
+			
+		}
+		
+		if (overlap != 0) {
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS_OVERLAP);
+		}
+		
+		return result;
 	}
 	
 	public HashMap<String, Object> updatePolicyNetworkUpdate(HashMap<String, Object> map) {
-		return poDao.updatePolicyNetworkUpdate(map);
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int cnt = poDao.selectNetPortIsValied(map);
+		if (cnt == 0) {
+			result =  poDao.updatePolicyNetworkUpdate(map);
+		} else {
+			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS_OVERLAP);
+		}
+		
+		return result;
 	}
 	
 	public PolicySerialModel getSerialInfo(int code) {

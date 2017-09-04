@@ -1990,5 +1990,148 @@ sql += whereSql;
 		
 		return result;
 	}
+
+	public List<HashMap<String, Object>> getApplyPolicyAllUserList(HashMap<String, Object> map) {
+		List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
+		
+		String whereSql = "WHERE 1=1 AND ui.valid = 1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		
+		String user_phone = map.get("user_phone").toString();
+		String user_duty = map.get("user_duty").toString();
+		String user_rank = map.get("user_rank").toString();
+		String user_number = map.get("user_number").toString();
+		String user_pc = map.get("user_pc").toString();
+		String user_ip = map.get("user_ip").toString();
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}else{
+			return data;
+		}
+		
+		if(!user_id.equals(""))	whereSql += "AND ui.id LIKE ? ";
+		if(!user_name.equals("")) whereSql += "AND ui.name LIKE ? ";
+		if(!user_phone.equals("")) whereSql += "AND ui.phone LIKE ? ";
+		if(!user_duty.equals("")) whereSql += "AND ui.duty LIKE ? ";
+		if(!user_rank.equals("")) whereSql += "AND ui.rank LIKE ? ";
+		if(!user_number.equals("")) whereSql += "AND ui.number LIKE ? ";
+		if(!user_pc.equals("")) whereSql += "AND ai.pc_name LIKE ? ";
+		if(!user_ip.equals("")) whereSql += "AND ai.ip_addr LIKE ? ";
+
+		if(oDept != null) whereSql += "AND ai.dept_no in ("+idList+") ";
+
+		
+		whereSql += "ORDER BY ui.no DESC ";	
+		
+		String sql= 
+			"SELECT "
+				+ "ai.no as agentNo, "
+			    + "ui.number as userNo, "
+			    + "ui.no as uno, "
+				
+			    + "ai.policy_no as policyNo, "
+			    + "ai.dept_no as deptId, "
+			    + "ui.id as userId, "
+			    + "ui.name as userName, "
+			    + "ui.duty as duty, "
+			    + "ui.rank as rank, "
+				+ "ai.ip_addr as ipAddr, "
+			    + "ai.mac_addr as macAddr, "
+			    + "ai.pc_name as pcName, "
+			    + "di.short_name as deptName, "
+			    + "ui.number, "
+			    
+			    + "IFNULL(pi.uninstall_enabled, 0) as isUninstall, "
+			    + "IFNULL(pi.file_encryption_enabled, 0) as isFileEncryption, "
+			    + "IFNULL(pi.cd_encryption_enabled, 0) as isCdEncryption, "
+			    + "IFNULL(pi.printer_enabled, 0) as isPrint, "
+			    + "IFNULL(pi.cd_enabled, 0) as isCdEnabled, "
+			    + "IFNULL(pi.cd_export_enabled, 0) as isCdExport, "
+			    + "IFNULL(pi.wlan_enabled, 0) as isWlan, "
+			    + "IFNULL(pi.net_share_enabled, 0) as isNetShare, "
+			    + "IFNULL(pi.web_export_enabled, 0) as isWebExport, "
+			    
+			    //추가
+			    + "IFNULL(pi.sensitive_dir_enabled, 0) as sensitive_dir_enabled, "
+			    + "IFNULL(pi.policy_sensitive_file_access, 0) as policy_sensitive_file_access, "
+			    + "IFNULL(pi.policy_usb_control_enabled, 0) as policy_usb_control_enabled, "
+			    
+			    + "IFNULL(pi.removal_storage_export_enabled, 0) as isStorageExport, "
+			    + "IFNULL(pi.removal_storage_admin_mode, 0) as isStorageAdmin, "
+			    
+			    + "IFNULL(pi.usb_dev_list, 'N') as isUsbBlock, "
+			    + "IFNULL(pi.com_port_list, 'N') as isComPortBlock, "
+			    + "IFNULL(pi.net_port_list, 'N') as isNetPortBlock, "
+			    + "IFNULL(pi.process_list, '') as isProcessList, "
+			    + "IFNULL(pi.file_pattern_list, '') as isFilePattern, "
+			    + "IFNULL(pi.web_addr_list, 'N') as isWebAddr, "
+			    + "IFNULL(pi.msg_block_list, 'N') as isMsgBlock, "
+			    + "IFNULL(pi.watermark_descriptor, 'N') as isWaterMark, "
+			    + "IFNULL(pi.print_log_descriptor, 0) as printLogDesc, "
+			    + "IFNULL(pi.pattern_file_control, 0) as patternFileControl "
+			+ "FROM agent_info AS ai "
+			+ "INNER JOIN user_info AS ui ON ai.own_user_no = ui.no "
+			+ "LEFT JOIN policy_info AS pi ON ai.policy_no = pi.no "
+			+ "INNER JOIN dept_info as di ON ai.dept_no = di.no ";
+
+
+		sql += whereSql;
+		
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+		
+			int i = 1;
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_phone.equals("")) pstmt.setString(i++,  "%" + user_phone + "%");
+
+			if(!user_duty.equals("")) pstmt.setString(i++, "%" + user_duty + "%");
+			if(!user_rank.equals("")) pstmt.setString(i++, "%" + user_rank + "%");
+			if(!user_number.equals(""))	pstmt.setString(i++, "%" + user_number + "%");;
+			if(!user_pc.equals("")) pstmt.setString(i++, "%" + user_pc + "%");
+			if(!user_ip.equals("")) pstmt.setString(i++, "%" + user_ip + "%");
+			
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				HashMap<String, Object> result = new HashMap<String, Object>();
+				result.put("agentNo", rs.getInt("agentNo"));
+				result.put("uno", rs.getString("uno"));
+				result.put("policyNo", rs.getInt("policyNo"));
+				
+				data.add(result);
+			}
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
 	
 }
