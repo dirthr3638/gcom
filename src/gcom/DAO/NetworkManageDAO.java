@@ -13,21 +13,22 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import gcom.Model.CDExportLogModel;
-import gcom.Model.DiskConnectLogModel;
-import gcom.Model.DiskExportModel;
-import gcom.Model.FileEventLogModel;
-import gcom.Model.PartitionConnectLogModel;
-import gcom.Model.UsbConnectModel;
-import gcom.Model.UsbDevInfoModel;;
+import gcom.Model.NetExportLogModel;
+import gcom.Model.NetPortLogModel;
+import gcom.Model.UserAgentModel;
+import gcom.Model.UserInfoModel;
+import gcom.Model.UserPolicyModel;
+import gcom.common.util.ConfigInfo;
+import gcom.common.util.encrypto.hashEncrypto;
 
-//디스크 파일전송로그
-public class CDDataDAO {
+
+public class NetworkManageDAO {
 	DataSource ds;
 	Connection con=null;
 	PreparedStatement pstmt=null;
 	ResultSet rs = null;
 	
-	public CDDataDAO(){ 
+	public NetworkManageDAO(){ 
 		try{
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context)initCtx.lookup("java:comp/env");
@@ -37,15 +38,17 @@ public class CDDataDAO {
 		}
 	}
 	
-	public int getCDExportListCount(HashMap<String, Object> map){
-		int result = 0;
+
+	public List<NetPortLogModel> getNetPortLogList(HashMap<String, Object> map){
+		List<NetPortLogModel> data = new ArrayList<NetPortLogModel>();
 		
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+		String user_number = map.get("user_number").toString();
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
-
+		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
 
@@ -58,24 +61,42 @@ public class CDDataDAO {
 				idList.append("?");
 			}
 		}else{
-			return result;
+			return data;
 		}
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
-		if(!start_date.equals("")) 	whereSql += "AND de.export_client_time >= ? ";
-		if(!end_date.equals("")) 	whereSql += "AND de.export_client_time < ? + interval 1 day ";
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
+		if(!start_date.equals("")) 	whereSql += "AND port.control_server_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND port.control_server_time < ? + interval 1 day ";
 
 
 		
+		whereSql += "ORDER BY port.no DESC LIMIT ?, ? ";	
+		
 		String sql= 
-				"SELECT "
-				+ "COUNT(*) AS cnt "
-				+ "FROM disk_export_log AS de "
-				+ "INNER JOIN user_info AS ur ON ur.no = de.user_no "
-				+ "INNER JOIN agent_log AS agent ON agent.no = de.agent_log_no "
-				+ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no "
-				+ "LEFT JOIN partition_log AS ptn ON de.partition_log_no = ptn.no ";
+"SELECT 	"
++ "port.no AS port_no,    "
++ "port.process_name,    "
++ "port.port,    "
++ "port.description,    "
++ "port.control,    "
++ "port.control_server_time,    "
++ "port.control_client_time,	"
++ "ur.id AS user_id, 	"
++ "ur.number AS user_no, 	"
++ "ur.dept_no,	"
++ "ur.name,  "
++ "ur.duty, "
++ "ur.rank, "
++ "agent.ip_addr, 	"
++ "agent.mac_addr,	"
++ "agent.pc_name, 	"
++ "dept.name AS dept_name "
++ "FROM net_port_log AS port "
++ "INNER JOIN user_info AS ur ON ur.no = port.user_no "
++ "INNER JOIN agent_log AS agent ON agent.no = port.agent_log_no "
++ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no  ";
 
 sql += whereSql;			
 			
@@ -92,14 +113,37 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_number.equals("")) pstmt.setString(i++, "%" + user_number + "%");
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+
+			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
+			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
 			
 			rs = pstmt.executeQuery();
-
 			
-			if(rs.next()){
-				result = rs.getInt("cnt");				
+			while(rs.next()){
+				NetPortLogModel model = new NetPortLogModel();
+				model.setPortNo(rs.getInt("export_no"));
+
+				model.setProcessName(rs.getString("file_id"));
+				model.setPort(rs.getInt("port"));
+				model.setDescription(rs.getString("notice"));
+				model.setControl(rs.getString("control"));
+				model.setServerTime(rs.getString("control_server_time"));
+				model.setClientTime(rs.getString("control_client_time"));
+
+				
+				model.setUserNo(rs.getString("user_no"));
+				model.setUserId(rs.getString("user_id"));
+				model.setDuty(rs.getString("duty"));
+				model.setRank(rs.getString("rank"));
+				model.setIpAddr(rs.getString("ip_addr"));
+				model.setMacAddr(rs.getString("mac_addr"));
+				model.setUserNumber(rs.getString("user_no"));
+				model.setPcName(rs.getString("pc_name"));
+				model.setDeptName(rs.getString("dept_name"));
+				data.add(model);
 			}
 			
 		}catch(SQLException ex){
@@ -114,12 +158,11 @@ sql += whereSql;
 			}
 		}
 		
-		return result;
+		return data;
 	}
-	
-	
-	public List<CDExportLogModel> getCDExportList(HashMap<String, Object> map){
-		List<CDExportLogModel> data = new ArrayList<CDExportLogModel>();
+
+	public List<NetExportLogModel> getNetExportLogList(HashMap<String, Object> map){
+		List<NetExportLogModel> data = new ArrayList<NetExportLogModel>();
 		
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
@@ -154,32 +197,30 @@ sql += whereSql;
 		whereSql += "ORDER BY exp.no DESC LIMIT ?, ? ";	
 		
 		String sql= 
-"SELECT "
-+ "de.no AS export_no, "
-+ "ur.number AS user_no, "
-+ "ifnull(de.export_server_time, '') AS export_server_time, "
-+ "ifnull(de.export_client_time, '') AS export_client_time, "
-+ "de.grade, "
-+ "de.file_list, "
-+ "de.notice, "
-+ "de.export_status, "
-+ "ifnull(de.file_id, '') AS file_id, "
-+ "ur.id AS user_id, "
-+ "ur.dept_no, "
-+ "ur.name, "
-+ "ur.duty,"
-+ "ur.number AS user_no,"
-+ "ur.rank, "
-+ "agent.ip_addr, "
+"SELECT 	"
++ "exp.no AS export_no,    "
++ "exp.process_name,    "
++ "exp.protocol_type,    "
++ "exp.dest_addr,    "
++ "exp.file_name,    "
++ "exp.file_key,    "
++ "exp.export_server_time,    "
++ "exp.export_client_time,    "
++ "exp.completed,	"
++ "ur.id AS user_id, 	"
++ "ur.dept_no, 	"
++ "ur.name,	"
++ "ur.duty,	"
++ "ur.rank,	"
++ "agent.ip_addr,	"
 + "agent.mac_addr,	"
-+ "agent.pc_name, "
++ "agent.pc_name, 	"
 + "dept.name AS dept_name "
-+ "FROM cd_export_log AS exp "
-+ "INNER JOIN cd_log AS cd_log ON cd_log.no = exp.cd_log_no "
-+ "INNER JOIN cd_info AS cd_info ON cd_info.no = cd_log.cd_no "
-+ "INNER JOIN user_info AS ur ON ur.no = cd_info.user_no "
-+ "INNER JOIN agent_log AS agent ON agent.no = cd_info.agent_log_no "
-+ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no  ";
++ "FROM net_export_log AS exp "
++ "INNER JOIN user_info AS ur ON ur.no = exp.user_no "
++ "INNER JOIN agent_log AS agent ON agent.no = exp.agent_log_no "
++ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no "
++ "WHERE exp.protocal_type = 'SMB'  ";
 
 sql += whereSql;			
 			
@@ -206,8 +247,17 @@ sql += whereSql;
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
-				CDExportLogModel model = new CDExportLogModel();
-				model.setExportNo(rs.getInt("export_no"));
+				NetExportLogModel model = new NetExportLogModel();
+				model.setPortNo(rs.getInt("export_no"));
+
+				model.setProcessName(rs.getString("file_id"));
+				model.setPort(rs.getInt("port"));
+				model.setDescription(rs.getString("notice"));
+				model.setControl(rs.getString("control"));
+				model.setServerTime(rs.getString("control_server_time"));
+				model.setClientTime(rs.getString("control_client_time"));
+
+				
 				model.setUserNo(rs.getString("user_no"));
 				model.setUserId(rs.getString("user_id"));
 				model.setDuty(rs.getString("duty"));
@@ -217,16 +267,6 @@ sql += whereSql;
 				model.setUserNumber(rs.getString("user_no"));
 				model.setPcName(rs.getString("pc_name"));
 				model.setDeptName(rs.getString("dept_name"));
-				model.setFileId(rs.getString("file_id"));
-				model.setFileList(rs.getString("file_list"));
-				model.setNotice(rs.getString("notice"));
-				model.setExportStatus(rs.getInt("export_status"));
-				model.setGuid(rs.getString("guid"));
-				model.setStatus(rs.getInt("status"));
-				model.setLabel(rs.getString("label"));
-				model.setValid(rs.getInt("valid") ==  0 ? false : true );
-				model.setExportServerTime(rs.getString("export_server_time"));
-				model.setExportClientTime(rs.getString("export_client_time"));
 				data.add(model);
 			}
 			
@@ -244,5 +284,6 @@ sql += whereSql;
 		
 		return data;
 	}
+	
 	
 }

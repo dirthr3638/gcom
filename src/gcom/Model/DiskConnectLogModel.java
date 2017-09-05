@@ -18,6 +18,13 @@ public class DiskConnectLogModel {
 
 	private int status = -1;
 
-	private String serverTime = "";
-	private String clientTime = "";
+	private String label = "";
+	private String guid = "";
+	private int type = -1;
+	private String hwInfo = "";
+
+	private String connectServerTime = "";
+	private String connectClientTime = "";
+	private String createServerTime = "";
+	private String createClientTime = "";
 }

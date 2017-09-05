@@ -603,13 +603,20 @@ sql += whereSql;
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
-		String start_date = map.get("start_date").toString();
-		String end_date = map.get("end_date").toString();
+		String user_number = map.get("user_number").toString();
 		String duty = map.get("duty").toString();
 		String rank = map.get("rank").toString();
-		String device_name = map.get("device_name").toString();
 		String pc_name = map.get("pc_name").toString();
-		int status = Integer.parseInt(map.get("status").toString());
+
+		String guid = map.get("guid").toString();
+		String label = map.get("label").toString();
+		String type = map.get("type").toString();
+		String hwinfo = map.get("hwinfo").toString();
+
+		String start_date = map.get("start_date").toString();
+		String end_date = map.get("end_date").toString();
+		
+		String status = map.get("status").toString();
 		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
@@ -628,15 +635,20 @@ sql += whereSql;
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
-		if(!start_date.equals("")) 	whereSql += "AND disk.connect_client_time >= ? ";
-		if(!end_date.equals("")) 	whereSql += "AND disk.connect_client_time < ? + interval 1 day ";
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
+		
 		
 		if(!duty.equals("")) 		whereSql += "AND ur.duty LIKE ? ";
 		if(!rank.equals("")) 		whereSql += "AND ur.rank LIKE ? ";
-		if(!device_name.equals("")) whereSql += "AND usb.device_name LIKE ? ";
 		if(!pc_name.equals("")) 		whereSql += "AND agent.pc_name LIKE ? ";
-		if(status != -1) 	whereSql += "AND disk.status = ? ";
+		if(!guid.equals("")) 	whereSql += "AND log.guid LIKE ? ";
+		if(!label.equals("")) 	whereSql += "AND log.label LIKE ? ";
+		if(!type.equals("")) 	whereSql += "AND log.type LIKE ? ";
+		if(!hwinfo.equals("")) 	whereSql += "AND log.hw_info LIKE ? ";
+		if(!status.equals("")) 	whereSql += "AND disk.status LIKE ? ";
 
+		if(!start_date.equals("")) 	whereSql += "AND disk.connect_client_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND disk.connect_client_time < ? + interval 1 day ";
 		
 		whereSql += "ORDER BY disk.no DESC LIMIT ?, ? ";	
 		
@@ -644,9 +656,16 @@ sql += whereSql;
 "SELECT "
 + "disk.no AS connect_no, "
 + "ur.number AS user_no, "
++ "ur.name AS name, "
 + "disk.status, "
 + "ifnull(disk.connect_server_time, '') AS connect_server_time, "
 + "ifnull(disk.connect_client_time, '') AS connect_client_time, "
++ "ifnull(dinfo.created_server_time, '') AS create_server_time, "
++ "ifnull(dinfo.created_client_time, '') AS create_client_time, "
++ "log.label, "
++ "log.guid, "
++ "log.hw_info, "
++ "log.type, "
 + "ur.id AS user_id, "
 + "ur.name, "
 + "ur.duty, "
@@ -656,6 +675,8 @@ sql += whereSql;
 + "agent.pc_name, "
 + "dept.name AS dept_name "
 + "FROM disk_connect_log AS disk "
++ "INNER JOIN disk_log AS log ON log.no = disk.disk_log_no "
++ "INNER JOIN disk_info AS dinfo ON dinfo.no = log.disk_no "
 + "INNER JOIN user_info AS ur ON ur.no = disk.user_no "
 + "INNER JOIN agent_log AS agent ON agent.no = disk.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
@@ -674,14 +695,20 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_number.equals("")) pstmt.setString(i++, "%" + user_number + "%");
 			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
 			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 			if(!duty.equals("")) 		pstmt.setString(i++, "%" + duty + "%");
 			if(!rank.equals("")) 		pstmt.setString(i++, "%" + rank + "%");
-			if(!device_name.equals("")) pstmt.setString(i++, "%" + device_name + "%");
 			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
-			if(status != -1) pstmt.setInt(i++, status);
-
+			
+			if(!guid.equals("")) 	pstmt.setString(i++, "%" + guid + "%");
+			if(!label.equals("")) 	pstmt.setString(i++, "%" + label + "%");
+			if(!type.equals("")) 	pstmt.setString(i++, "%" + type + "%");
+			if(!hwinfo.equals("")) 	pstmt.setString(i++, "%" + hwinfo + "%");
+			
+			if(!status.equals("")) 	pstmt.setString(i++, "%" + status + "%");
+						
 			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
 			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
 
@@ -692,17 +719,24 @@ sql += whereSql;
 				DiskConnectLogModel model = new DiskConnectLogModel();
 				model.setConnectNo(rs.getInt("connect_no"));
 				model.setUserNo(rs.getString("user_no"));
-				model.setUserName(rs.getString("user_name"));
+				model.setUserName(rs.getString("name"));
 				model.setUserId(rs.getString("user_id"));
-				model.setDeptId(rs.getInt("dept_no"));
 				model.setDuty(rs.getString("duty"));
 				model.setRank(rs.getString("rank"));
 				model.setIpAddr(rs.getString("ip_addr"));
 				model.setMacAddr(rs.getString("mac_addr"));
 				model.setPcName(rs.getString("pc_name"));
 				model.setDeptName(rs.getString("dept_name"));
-				model.setServerTime(rs.getString("connect_server_time"));
-				model.setClientTime(rs.getString("connect_client_time"));
+
+				model.setLabel(rs.getString("label"));
+				model.setGuid(rs.getString("guid"));
+				model.setHwInfo(rs.getString("hw_info"));
+				model.setType(Integer.parseInt(rs.getString("type")));
+				
+				model.setCreateServerTime(rs.getString("create_server_time"));
+				model.setCreateClientTime(rs.getString("create_client_time"));
+				model.setConnectServerTime(rs.getString("connect_server_time"));
+				model.setConnectClientTime(rs.getString("connect_client_time"));
 				model.setStatus(rs.getInt("status"));
 				data.add(model);
 			}
@@ -740,6 +774,7 @@ sql += whereSql;
 		String disk_guid = map.get("diskGuid").toString();
 		String label = map.get("label").toString();
 		
+		
 		String[] oDept = null;
 		StringBuilder idList = new StringBuilder();
 
@@ -758,8 +793,6 @@ sql += whereSql;
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
 
-		if(!start_date.equals("")) 	whereSql += "AND connect.connect_client_time >= ? ";
-		if(!end_date.equals("")) 	whereSql += "AND connect.connect_client_time < ? + interval 1 day ";
 		
 		if(!duty.equals("")) 		whereSql += "AND ur.duty LIKE ? ";
 		if(!rank.equals("")) 		whereSql += "AND ur.rank LIKE ? ";
@@ -769,6 +802,8 @@ sql += whereSql;
 		if(!disk_guid.equals("")) 		whereSql += "AND agent.pc_name LIKE ? ";
 		if(!label.equals("")) 		whereSql += "AND agent.pc_name LIKE ? ";
 
+		if(!start_date.equals("")) 	whereSql += "AND connect.connect_client_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND connect.connect_client_time < ? + interval 1 day ";
 		
 		whereSql += "ORDER BY disk.no DESC LIMIT ?, ? ";	
 		
@@ -813,14 +848,14 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
-			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
-			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 			if(!duty.equals("")) 		pstmt.setString(i++, "%" + duty + "%");
 			if(!rank.equals("")) 		pstmt.setString(i++, "%" + rank + "%");
 			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
 			if(!guid.equals("")) 	pstmt.setString(i++, "%" + guid + "%");
 			if(!disk_guid.equals("")) 	pstmt.setString(i++, "%" + disk_guid + "%");
 			if(!label.equals("")) 	pstmt.setString(i++, "%" + label + "%");
+			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
+			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 			
 			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
 			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
@@ -831,7 +866,7 @@ sql += whereSql;
 				PartitionConnectLogModel model = new PartitionConnectLogModel();
 				model.setConnectNo(rs.getInt("connect_no"));
 				model.setUserNo(rs.getString("user_no"));
-				model.setUserName(rs.getString("user_name"));
+				model.setUserName(rs.getString("name"));
 				model.setUserId(rs.getString("user_id"));
 				model.setDeptId(rs.getInt("dept_no"));
 				model.setDuty(rs.getString("duty"));

@@ -6,6 +6,7 @@ import java.util.List;
 
 import gcom.Model.AuditClientModel;
 import gcom.Model.AuditServerModel;
+import gcom.Model.DiskConnectLogModel;
 import gcom.Model.DiskExportModel;
 import gcom.Model.FileEventLogModel;
 import gcom.Model.LoginLogModel;
@@ -36,6 +37,8 @@ import gcom.service.UserAgent.IUserAgentService;
 import gcom.service.UserAgent.UserAgentServiceImpl;
 import gcom.service.common.CommonServiceImpl;
 import gcom.service.common.ICommonService;
+import gcom.service.disk.DiskServiceImpl;
+import gcom.service.disk.IDiskService;
 import gcom.user.service.UserService;
 import gcom.user.service.UserServiceImpl;
 
@@ -414,6 +417,21 @@ public class getAction {
 	public String getFilePath(HashMap<String, Object> map){
 		ICommonService ca = new CommonServiceImpl();
 		return ca.getFilePath(map);	
+	}
+	
+	public HashMap<String, Object> getDiskConnectLogList(HashMap<String, Object> map){
+		IDiskService ds = new DiskServiceImpl();
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int total = ds.getDiskConnectLogListCount(map);
+		List<DiskConnectLogModel> data = ds.getDiskConnectLogList(map);
+
+		result.put("data", data);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+				
+		return result;
+
 	}
 
 
