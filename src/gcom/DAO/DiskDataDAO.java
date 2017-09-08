@@ -756,14 +756,134 @@ sql += whereSql;
 		return data;
 	}
 	
+
+
+	public int getDiskConnectLogListCount(HashMap<String, Object> map){
+		int result = 0;
+		
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		String user_number = map.get("user_number").toString();
+		String duty = map.get("duty").toString();
+		String rank = map.get("rank").toString();
+		String pc_name = map.get("pc_name").toString();
+
+		String guid = map.get("guid").toString();
+		String label = map.get("label").toString();
+		String type = map.get("type").toString();
+		String hwinfo = map.get("hwinfo").toString();
+
+		String start_date = map.get("start_date").toString();
+		String end_date = map.get("end_date").toString();
+		
+		String status = map.get("status").toString();
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}else{
+			return result;
+		}
+		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
+		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
+		
+		
+		if(!duty.equals("")) 		whereSql += "AND ur.duty LIKE ? ";
+		if(!rank.equals("")) 		whereSql += "AND ur.rank LIKE ? ";
+		if(!pc_name.equals("")) 		whereSql += "AND agent.pc_name LIKE ? ";
+		if(!guid.equals("")) 	whereSql += "AND log.guid LIKE ? ";
+		if(!label.equals("")) 	whereSql += "AND log.label LIKE ? ";
+		if(!type.equals("")) 	whereSql += "AND log.type LIKE ? ";
+		if(!hwinfo.equals("")) 	whereSql += "AND log.hw_info LIKE ? ";
+		if(!status.equals("")) 	whereSql += "AND disk.status LIKE ? ";
+
+		if(!start_date.equals("")) 	whereSql += "AND disk.connect_client_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND disk.connect_client_time < ? + interval 1 day ";
+		
+		whereSql += "ORDER BY disk.no DESC LIMIT ?, ? ";	
+		
+		String sql= 
+"SELECT "
++ "COUNT(*) AS cnt "
++ "INNER JOIN disk_log AS log ON log.no = disk.disk_log_no "
++ "INNER JOIN disk_info AS dinfo ON dinfo.no = log.disk_no "
++ "INNER JOIN user_info AS ur ON ur.no = disk.user_no "
++ "INNER JOIN agent_log AS agent ON agent.no = disk.agent_log_no "
++ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no ";
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_number.equals("")) pstmt.setString(i++, "%" + user_number + "%");
+			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
+			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+			if(!duty.equals("")) 		pstmt.setString(i++, "%" + duty + "%");
+			if(!rank.equals("")) 		pstmt.setString(i++, "%" + rank + "%");
+			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
+			
+			if(!guid.equals("")) 	pstmt.setString(i++, "%" + guid + "%");
+			if(!label.equals("")) 	pstmt.setString(i++, "%" + label + "%");
+			if(!type.equals("")) 	pstmt.setString(i++, "%" + type + "%");
+			if(!hwinfo.equals("")) 	pstmt.setString(i++, "%" + hwinfo + "%");
+			
+			if(!status.equals("")) 	pstmt.setString(i++, "%" + status + "%");
+						
+			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
+			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
+
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 	
 	
-	public List<PartitionConnectLogModel> getPartitionLogList(HashMap<String, Object> map){
+	
+	public List<PartitionConnectLogModel> getPartitionConnectLogList(HashMap<String, Object> map){
 		List<PartitionConnectLogModel> data = new ArrayList<PartitionConnectLogModel>();
 		
 		String whereSql = "WHERE 1=1 ";
 		String user_id = map.get("user_id").toString();
 		String user_name = map.get("user_name").toString();
+		String user_number = map.get("user_number").toString();
 		String start_date = map.get("start_date").toString();
 		String end_date = map.get("end_date").toString();
 		String duty = map.get("duty").toString();
@@ -771,7 +891,7 @@ sql += whereSql;
 		String pc_name = map.get("pc_name").toString();
 
 		String guid = map.get("guid").toString();
-		String disk_guid = map.get("diskGuid").toString();
+		String disk_guid = map.get("disk_guid").toString();
 		String label = map.get("label").toString();
 		
 		
@@ -792,20 +912,21 @@ sql += whereSql;
 		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
 		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
 		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
 
 		
 		if(!duty.equals("")) 		whereSql += "AND ur.duty LIKE ? ";
 		if(!rank.equals("")) 		whereSql += "AND ur.rank LIKE ? ";
 		if(!pc_name.equals("")) 		whereSql += "AND agent.pc_name LIKE ? ";
 
-		if(!guid.equals("")) 		whereSql += "AND agent.pc_name LIKE ? ";
-		if(!disk_guid.equals("")) 		whereSql += "AND agent.pc_name LIKE ? ";
-		if(!label.equals("")) 		whereSql += "AND agent.pc_name LIKE ? ";
+		if(!guid.equals("")) 		whereSql += "AND pl.guid LIKE ? ";
+		if(!disk_guid.equals("")) 		whereSql += "AND pl.disk_guid LIKE ? ";
+		if(!label.equals("")) 		whereSql += "AND pl.label LIKE ? ";
 
 		if(!start_date.equals("")) 	whereSql += "AND connect.connect_client_time >= ? ";
 		if(!end_date.equals("")) 	whereSql += "AND connect.connect_client_time < ? + interval 1 day ";
 		
-		whereSql += "ORDER BY disk.no DESC LIMIT ?, ? ";	
+		whereSql += "ORDER BY connect.no DESC LIMIT ?, ? ";	
 		
 		String sql= 
 "SELECT "
@@ -816,10 +937,10 @@ sql += whereSql;
 + "pl.guid, "
 + "pl.label, "
 + "pl.disk_guid, "
-+ "ifnull(pl.created_server_time) AS created_server_time , "
-+ "ifnull(pl.created_client_time) AS created_client_time , "
-+ "ifnull(pl.update_client_time) AS update_client_time , "
-+ "ifnull(pl.update_server_time) AS update_server_time , "
++ "ifnull(pl.created_server_time, '') AS created_server_time , "
++ "ifnull(pl.created_client_time, '') AS created_client_time , "
++ "ifnull(pl.update_client_time, '') AS update_client_time , "
++ "ifnull(pl.update_server_time, '') AS update_server_time , "
 + "ur.id AS user_id, "
 + "ur.name, "
 + "ur.duty,"
@@ -848,6 +969,7 @@ sql += whereSql;
 
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+			if(!user_number.equals("")) pstmt.setString(i++, "%" + user_number + "%");
 			if(!duty.equals("")) 		pstmt.setString(i++, "%" + duty + "%");
 			if(!rank.equals("")) 		pstmt.setString(i++, "%" + rank + "%");
 			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
@@ -868,7 +990,6 @@ sql += whereSql;
 				model.setUserNo(rs.getString("user_no"));
 				model.setUserName(rs.getString("name"));
 				model.setUserId(rs.getString("user_id"));
-				model.setDeptId(rs.getInt("dept_no"));
 				model.setDuty(rs.getString("duty"));
 				model.setRank(rs.getString("rank"));
 				model.setIpAddr(rs.getString("ip_addr"));
@@ -904,6 +1025,10 @@ sql += whereSql;
 		return data;
 	}
 	
+	public int getPartitionConnectLogListCount(HashMap<String, Object> map){
+
+		return 10;
+	}
 	
 	public List<FileEventLogModel> getRmvDiskFileLogList(HashMap<String, Object> map){
 		List<FileEventLogModel> data = new ArrayList<FileEventLogModel>();

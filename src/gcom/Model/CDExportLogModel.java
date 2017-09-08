@@ -19,15 +19,22 @@ public class CDExportLogModel {
 	
 	private String fileId;
 	private String fileList;
+	private String firstFileName;
 	private String notice;
-	private int exportStatus;
 	private String guid;
 	private int status;
 	private String label;
+	private String grade;
+	
 	
 	private boolean valid;
 	
 	private String exportServerTime;
 	private String exportClientTime;
 
+	public void setFileList(String value){
+		fileList = value;
+		firstFileName = fileList.split("\n")[0];
+		
+	}
 }

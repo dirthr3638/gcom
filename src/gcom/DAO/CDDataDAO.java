@@ -155,15 +155,16 @@ sql += whereSql;
 		
 		String sql= 
 "SELECT "
-+ "de.no AS export_no, "
++ "exp.no AS export_no, "
 + "ur.number AS user_no, "
-+ "ifnull(de.export_server_time, '') AS export_server_time, "
-+ "ifnull(de.export_client_time, '') AS export_client_time, "
-+ "de.grade, "
-+ "de.file_list, "
-+ "de.notice, "
-+ "de.export_status, "
-+ "ifnull(de.file_id, '') AS file_id, "
++ "ur.name AS user_name, "
++ "ifnull(exp.export_server_time, '') AS export_server_time, "
++ "ifnull(exp.export_client_time, '') AS export_client_time, "
++ "exp.grade, "
++ "exp.file_list, "
++ "exp.notice, "
++ "exp.export_status AS status, "
++ "ifnull(exp.file_id, '') AS file_id, "
 + "ur.id AS user_id, "
 + "ur.dept_no, "
 + "ur.name, "
@@ -173,11 +174,12 @@ sql += whereSql;
 + "agent.ip_addr, "
 + "agent.mac_addr,	"
 + "agent.pc_name, "
++ "cd_log.label, "
 + "dept.name AS dept_name "
 + "FROM cd_export_log AS exp "
 + "INNER JOIN cd_log AS cd_log ON cd_log.no = exp.cd_log_no "
 + "INNER JOIN cd_info AS cd_info ON cd_info.no = cd_log.cd_no "
-+ "INNER JOIN user_info AS ur ON ur.no = cd_info.user_no "
++ "INNER JOIN user_info AS ur ON ur.no = exp.user_no "
 + "INNER JOIN agent_log AS agent ON agent.no = cd_info.agent_log_no "
 + "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no  ";
 
@@ -215,16 +217,15 @@ sql += whereSql;
 				model.setIpAddr(rs.getString("ip_addr"));
 				model.setMacAddr(rs.getString("mac_addr"));
 				model.setUserNumber(rs.getString("user_no"));
+				model.setUserName(rs.getString("user_name"));
 				model.setPcName(rs.getString("pc_name"));
 				model.setDeptName(rs.getString("dept_name"));
 				model.setFileId(rs.getString("file_id"));
 				model.setFileList(rs.getString("file_list"));
 				model.setNotice(rs.getString("notice"));
-				model.setExportStatus(rs.getInt("export_status"));
-				model.setGuid(rs.getString("guid"));
 				model.setStatus(rs.getInt("status"));
+				model.setGrade(rs.getString("grade"));
 				model.setLabel(rs.getString("label"));
-				model.setValid(rs.getInt("valid") ==  0 ? false : true );
 				model.setExportServerTime(rs.getString("export_server_time"));
 				model.setExportClientTime(rs.getString("export_client_time"));
 				data.add(model);

@@ -45,7 +45,7 @@
 			
 				<!-- page title -->
 				<header id="page-header">
-					<h1>파티션 변경로그</h1>
+					<h1>파티션연결로그</h1>
 				</header>
 				<!-- /page title -->
 			
@@ -75,7 +75,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>파일전송로그</strong> <!-- panel title -->
+										<strong>파티션연결로그</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -125,35 +125,19 @@
 															<td>
 																<input type="text" name="filterUserRank" id="filterUserRank" value="" class="form-control required">
 															</td>
-															<td width="15%">등급</td>
-															<td>
-																<select class="select2theme" id="filterGrade">
-																  <option value="-1">전체</option>
-																  <option value="0">대외비</option>
-																  <option value="1">3급비문</option>
-																  <option value="2">2급비문</option>
-																  <option value="3">평문</option>
-																</select>
-															</td>
-														</tr>
-														<tr>         
-															<td width="15%">파일</td>
-															<td>
-																<input type="text" name="filterFileList" id="filterFileList" value="" class="form-control required">
-															</td>
 															<td width="15%">PC명</td>
 															<td>
 																<input type="text" name="filterUserPCName" id="filterUserPCName" value="" class="form-control required">
 															</td>
 														</tr>
 														<tr>         
-															<td width="15%">메모</td>
+															<td width="15%">파티션식별자</td>
 															<td>
-																<input type="text" name="filterNotice" id="filterNotice" value="" class="form-control required">
+																<input type="text" name="filterGuid" id="filterGuid" value="" class="form-control required">
 															</td>
-															<td width="15%">파티션명</td>
+															<td width="15%">디스크식별자</td>
 															<td>
-																<input type="text" name="filterPartitionName" id="filterPartitionName" value="" class="form-control required">
+																<input type="text" name="filterDiskGuid" id="filterDiskGuid" value="" class="form-control required">
 															</td>
 														</tr>
 														
@@ -168,6 +152,13 @@
 															</td>
 
 														</tr>																															
+														<tr>         
+
+															<td width="15%">Label</td>
+															<td>
+																<input type="text" name="filterLabel" id="filterLabel" value="" class="form-control required">
+															</td>
+														</tr>
 														
 													</tbody>
 												</table>	
@@ -197,14 +188,15 @@
 														<th >IP</th>
 														<th >MAC</th>
 														<th >PC이름</th>
-														<th >반출시간(서버)</th>
-														<th >반출시간(PC)</th>
-														<th >파티션식별자</th>
+														<th >연결시간(서버)</th>
+														<th >연결시간(PC)</th>
+														<th >생성시간(서버)</th>
+														<th >생성시간(PC)</th>
+														<th >최종수정시간(서버)</th>
+														<th >최종수정시간(PC)</th>
 														<th >파티션이름</th>
-														<th >등급</th>
-														<th >파일목록</th>
-														<th >메모</th>
-														<th >파일목록</th>
+														<th >파티션식별자</th>
+														<th >디스크식별자</th>
 													</tr>
 												</thead>
 				
@@ -226,18 +218,6 @@
 		</div>
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
-		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/jstree/jstree.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/select2/js/select2.full.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
-
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js"></script>
-
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 
 <script>
 
@@ -324,21 +304,20 @@
 				"dom": '<"row view-filter"<"col-sm-12"<"pull-left" iB ><"pull-right" l><"clearfix">>>t<"row view-pager"<"col-sm-12"<"pull-left"<"toolbar">><"pull-right"p>>>',
 				//dom: 'Bfrtip',
 				"ajax" : {
-					"url":'${context}/ax/disktran/list',
+					"url":'${context}/ax/partitionconnect/list',
 				   	"type":'POST',
 				   	"dataSrc" : "data",
 				   	"data" :  function(param) {
 						param.user_id = $('#filterUserId').val();
 						param.user_name = $('#filterUserName').val();
 
-						param.user_number = $('#filterUserNumber').val();
-						param.user_duty = $('#filterUserDuty').val();
 						param.user_rank = $('#filterUserRank').val();
-						param.grade = $('#filterGrade option:selected').val();
-						param.file_list = $('#filterFileList').val();
+						param.user_duty = $('#filterUserDuty').val();
+						param.user_number = $('#filterUserNumber').val();
 						param.pc_name = $('#filterUserPCName').val();
-						param.notice = $('#filterNotice').val();
-						param.partition_name = $('#filterPartitionName').val();
+						param.label = $('#filterLabel').val();
+						param.guid = $('#filterGuid').val();
+						param.disk_guid = $('#filterDiskGuid').val();
 
 						param.start_date = $('#filterStartDate').val();
 						param.end_date = $('#filterEndDate').val();
@@ -417,29 +396,32 @@
 					data: "pcName",
 					"orderable": false	//PC이름
 				}, {
-					data: "exportServerTime",
-					"orderable": false	//반출시간(서버)
+					data: "connectServerTime",
+					"orderable": false	//연결시간(서버)
 				}, {
-					data: "exportClientTime",
-					"orderable": false	//반출시간(PC)
+					data: "connectClientTime",
+					"orderable": false	//연결시간(PC)
 				}, {
-					data: "partitionGuid",
-					"orderable": false	//파티션식별자
+					data: "createServerTime",
+					"orderable": false	//생성시간서버
 				}, {
-					data: "partitionLabel",
-					"orderable": false	//파티션이름
+					data: "createClientTime",
+					"orderable": false	//생성시간PC
 				}, {
-					data: "grade",
-					"orderable": false	//등급
+					data: "updateServerTime",
+					"orderable": false	//수정시간서버
 				}, {
-					data: "fileId",
-					"orderable": false	//파일목록
+					data: "updateClientTime",
+					"orderable": false	//수정시간PC
 				}, {
-					data: "notice",
-					"orderable": false	//메모
+					data: "label",
+					"orderable": false	//레이블
 				}, {
-					data: "fileList",
-					"orderable": false	//파일목록
+					data: "guid",
+					"orderable": false	//식별자
+				}, {
+					data: "diskGuid",
+					"orderable": false	//디스크식별자
 				}],
 				// set the initial value
 				"pageLength": 20,
@@ -519,53 +501,42 @@
 							}
 						}								
 				}, {	
-					"targets": [10]	//서버반출시간
-					,"class" : "center-cell"
-					,"visible" : false
-				}, {	
-					"targets": [11]	//PC반출시간
+					"targets": [10]	//서버연결시간
 					,"class" : "center-cell"
 				}, {	
-					"targets": [12]	//파티션식별자
+					"targets": [11]	//PC연결시간
+					,"class" : "center-cell"
+						,"visible" : false
+				}, {	
+					"targets": [12]	//생성시간서버
 					,"class" : "center-cell"
 					,"visible" : false
 
 				}, {	
-					"targets": [13]	//파티션이름
+					"targets": [13]	//생성시간PC
 					,"class" : "center-cell"
 					,"visible" : false	
-				}, {	
-					"targets": [14]	//등급
-					,"class" : "center-cell"
-					,"render":function(data,type,row){
-						if(data == 0){
-							return '대외비';									
-						}else if(data == 1){
-							return '3급';									
-						}else if(data == 2){
-							return '2급';									
-						}else if(data == 3){
-							return '평문';									
-						}else{
-							return '기타';
-						}
-					}
-				}, {	
-					"targets": [15]	//파일목록
-					,"class" : "center-cell"
-					,"render": function(data,type,row){
-						return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:FileDetail('+ row.exportNo + ', \'disk_export_log\',\''+ encodeURI(row.fileId) +'\')">';
-
-					}
-				}, {	
-					"targets": [16]	//메모
-					,"class" : "center-cell"
 					,"visible" : false
+				}, {	
+					"targets": [14]	//수정시간서버
+					,"class" : "center-cell"
+						,"visible" : false
+					
+				}, {	
+					"targets": [15]	//수정시간PC
+					,"class" : "center-cell"
+						,"visible" : false
+				}, {	
+					"targets": [16]	//파티션이름
+					,"class" : "center-cell"
 
 				}, {	
-					"targets": [17]	//파일목록
+					"targets": [17]	//파티션식별자
 					,"class" : "center-cell"
-					,"visible" : false
+
+				}, {	
+					"targets": [18]	//디스크식별자
+					,"class" : "center-cell"
 
 				}],						
 				"initComplete": function( settings, json ) {
@@ -579,10 +550,12 @@
 				sOut += '<col width="25%"><col width="25%"><col width="25%"><col width="25%">';
 				sOut += '<tr><td class="center-cell th-cell-gray">MAC</td><td>' + aData.macAddr + '</td>';
 				sOut += '<td class="center-cell th-cell-gray">PC명</td><td>' + aData.pcName + '</td></tr>';
-				sOut += '<tr><td class="center-cell th-cell-gray">서버반출시간</td><td>' + aData.exportServerTime + '</td>';
-				sOut += '<td class="center-cell th-cell-gray">파티션식별자</td><td>' + aData.partitionGuid + '</td></tr>';
-				sOut += '<tr><td class="center-cell th-cell-gray">파티션이름</td><td>' + aData.partitionLabel + '</td>';
-				sOut += '<td class="center-cell th-cell-gray">메모</td><td>' + aData.notice + '</td></tr>';
+				sOut += '<tr><td class="center-cell th-cell-gray">파티션식별자</td><td>' + aData.guid + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">디스크식별자</td><td>' + aData.diskGuid + '</td></tr>';
+				sOut += '<tr><td class="center-cell th-cell-gray">파티션생성시간(서버)</td><td>' + aData.createServerTime + '</td>';
+				sOut += '<td class="center-cell th-cell-gray">파티션생성시간(PC)</td><td>' + aData.createClientTime + '</td></tr>';
+				sOut += '<tr><td class="center-cell th-cell-gray">파티션연결시간(PC)</td><td>' + aData.connectClientTime + '</td>';
+				sOut += '</tr>';
 										
 				sOut += '</table>';
 

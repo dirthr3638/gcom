@@ -150,7 +150,7 @@ public class LoginCheckInterceptor implements Filter {
 				httpRes.sendRedirect(url);
 			} else {
 				// 로그인 되어있고 루트디렉토리가 아닐시 리퀘스트 받은 결과 넘김
-				if(session.getAttribute("dept_no") != null  ){
+				if( session != null && session.getAttribute("dept_no") != null  ){
 					int dept_id =  Integer.parseInt(session.getAttribute("dept_no").toString());
 					request.setAttribute("dept_no", dept_id);					
 				}

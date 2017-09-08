@@ -14,20 +14,17 @@
 				<span class="logo pull-left">
 					<img src="${context}/assets/images/logo_light.png" alt="admin panel" height="35" />
 				</span>
-
 				<nav>
-
 					<!-- OPTIONS LIST -->
 					<ul class="nav pull-right">
-							<li class="pull-left" style="height:50px; line-height: 50px;">
-	
-								<span >
-									<i class="fa fa-clock-o" aria-hidden="true"></i>
-									남은시간:
-									<span class="hidden-xs" id="remain_time">
-									</span>
+						<li class="pull-left" style="height:50px; line-height: 50px;">
+							<span >
+								<i class="fa fa-clock-o" aria-hidden="true"></i>
+								남은시간:
+								<span class="hidden-xs" id="remain_time">
 								</span>
-							</li>
+							</span>
+						</li>
 
 						<!-- USER OPTIONS -->
 						<li class="dropdown pull-left">
@@ -55,7 +52,7 @@
 					<!-- /OPTIONS LIST -->
 
 				</nav>
-			</header>
+</header>
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
 		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
@@ -78,8 +75,6 @@
 		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/Buttons/js/buttons.colVis.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/idle-timer/idle-timer.min.js"></script>
 		
-<%-- 		<script type="text/javascript" src="${context}/assets/plugins/datatables/extensions/resize/colResizable.js"></script>
- --%>
 
 <script>
 
