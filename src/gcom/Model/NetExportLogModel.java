@@ -5,15 +5,6 @@ import lombok.Data;
 @Data
 public class NetExportLogModel {
 	private int exportNo;
-	private String processName = "";
-	private String protocolType;
-	private String destAddr = "";
-	private String fileName = "";
-	private String exportFileName = "";
-	private String fileKey = "";
-	private String exportServerTime = "";
-	private String exportClientTime = "";
-	private String completed = "";
 
 	private String userNo;
 	private String userName = "";
@@ -25,4 +16,15 @@ public class NetExportLogModel {
 	private String macAddr = "";
 	private String pcName = "";
 	private String deptName = "";
+
+	private String processName = "";
+	private String protocolType;
+	private String destAddr = "";
+	private String fileName = "";
+	private String notice = "";
+	private String fileKey = "";
+	private String exportServerTime = "";
+	private String exportClientTime = "";
+	private String completed = "";
+
 }

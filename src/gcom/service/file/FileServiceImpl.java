@@ -9,6 +9,7 @@ import gcom.DAO.FileDataDAO;
 import gcom.Model.DiskConnectLogModel;
 import gcom.Model.DiskExportModel;
 import gcom.Model.FileEventLogModel;
+import gcom.Model.FileExportLogModel;
 import gcom.Model.FileOwnerShipLogModel;
 import gcom.Model.PartitionConnectLogModel;
 import gcom.Model.PrintFileModel;
@@ -26,6 +27,11 @@ public class FileServiceImpl implements IFileService {
 		return fileDao.getFileOwnershipListCount(map);
 	}
 
+	public List<FileExportLogModel> getFileExportList(HashMap<String, Object> map){
+		return fileDao.getFileExportList(map);
+	}
 
-
+	public int getFileExportListCount(HashMap<String, Object> map){
+		return fileDao.getFileExportListCount(map);
+	}
 }

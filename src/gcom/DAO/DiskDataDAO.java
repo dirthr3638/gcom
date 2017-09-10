@@ -816,6 +816,7 @@ sql += whereSql;
 		String sql= 
 "SELECT "
 + "COUNT(*) AS cnt "
++ "FROM disk_connect_log AS disk "
 + "INNER JOIN disk_log AS log ON log.no = disk.disk_log_no "
 + "INNER JOIN disk_info AS dinfo ON dinfo.no = log.disk_no "
 + "INNER JOIN user_info AS ur ON ur.no = disk.user_no "

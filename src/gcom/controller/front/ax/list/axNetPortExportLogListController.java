@@ -33,14 +33,20 @@ public class axNetPortExportLogListController extends HttpServlet {
 		map.put("user_rank", request.getParameter("user_rank").toString());
 		map.put("user_duty", request.getParameter("user_duty").toString());
 		map.put("user_number", request.getParameter("user_number").toString());
-		map.put("pc_name", request.getParameter("pc_name").toString());
+		
+		map.put("dst_addr", request.getParameter("dst_addr").toString());
+		map.put("file_key", request.getParameter("file_key").toString());
+		map.put("process_name", request.getParameter("process_name").toString());
 		map.put("file_name", request.getParameter("file_name").toString());
-		map.put("water_mark", request.getParameter("water_mark").toString());		
+		map.put("notice", request.getParameter("notice").toString());
+
+		
+		map.put("pc_name", request.getParameter("pc_name").toString());
 		map.put("start_date", request.getParameter("start_date").toString());
 		map.put("end_date", request.getParameter("end_date").toString());
 		map.put("dept", request.getParameterValues("dept[]"));
 		
-		HashMap<String, Object> data = action.getPrintList(map);
+		HashMap<String, Object> data = action.getNetExportLogList(map);
 
 		data.putAll(data);
 		response.setContentType("application/json; charset=UTF-8");

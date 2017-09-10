@@ -4,14 +4,7 @@ import lombok.Data;
 
 @Data
 public class NetPortLogModel {
-	private int portNo;
-	private String processName = "";
-	private int port;
-	private String description = "";
-	private String control = "";
-	private String serverTime = "";
-	private String clientTime = "";
-
+	private int logNo;
 	private String userNo;
 	private String userName = "";
 	private String userId = "";
@@ -22,4 +15,12 @@ public class NetPortLogModel {
 	private String macAddr = "";
 	private String pcName = "";
 	private String deptName = "";
+	
+	private String processName = "";
+	private String port;
+	private String description = "";
+	private String control = "";
+	private String serverTime = "";
+	private String clientTime = "";
+
 }

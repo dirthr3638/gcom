@@ -34,7 +34,8 @@ public class CDExportLogModel {
 
 	public void setFileList(String value){
 		fileList = value;
-		firstFileName = fileList.split("\n")[0];
+		if(value != null)
+			firstFileName = fileList.split("\n")[0];
 		
 	}
 }
