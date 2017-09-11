@@ -499,6 +499,7 @@
 				                	columns: [2,3,4,11],
 									format: {
 										body: function ( data, row, column, node) {
+										
 											if (column === 3) {
 												var i_tag = $('i', node);
 												var i_text = '';
@@ -521,7 +522,7 @@
 				             	 },
 				             	 customize: function ( win ) {
 				                    $(win.document.body)
-				                        .css( 'font-size', '10px' )
+				                        .css( 'font-size', '1px' )
 				 
 				                    $(win.document.body).find( 'table' )
 				                        .addClass( 'compact' )

@@ -3,8 +3,10 @@ package gcom.service.Device;
 import java.util.HashMap;
 import java.util.List;
 
+import gcom.DAO.CDDataDAO;
 import gcom.DAO.DeviceDataDAO;
 import gcom.DAO.DiskDataDAO;
+import gcom.Model.CDExportLogModel;
 import gcom.Model.DiskExportModel;
 import gcom.Model.FileEventLogModel;
 import gcom.Model.PrintFileModel;
@@ -15,6 +17,7 @@ public class DeviceInfoServiceImpl implements IDeviceInfoService {
 
 	DeviceDataDAO uaDao = new DeviceDataDAO();
 	DiskDataDAO diskDao = new DiskDataDAO();
+	CDDataDAO cdDao = new CDDataDAO();
 	
 	//비인가 USB목록
 	public List<UsbDevInfoModel> getUnAuthUsbList(HashMap<String, Object> map){		
@@ -59,5 +62,13 @@ public class DeviceInfoServiceImpl implements IDeviceInfoService {
 		return diskDao.getRmvDiskFileLogListCount(map);		
 	}
 
+	public List<CDExportLogModel> getCDExportList(HashMap<String, Object> map){
+		return cdDao.getCDExportList(map);
+	}
+	public int getCDExportListCount(HashMap<String, Object> map){
+		return cdDao.getCDExportListCount(map);
+		
+	}
 
+	
 }

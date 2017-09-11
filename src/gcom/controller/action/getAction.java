@@ -6,13 +6,20 @@ import java.util.List;
 
 import gcom.Model.AuditClientModel;
 import gcom.Model.AuditServerModel;
+import gcom.Model.CDExportLogModel;
+import gcom.Model.DiskConnectLogModel;
 import gcom.Model.DiskExportModel;
 import gcom.Model.FileEventLogModel;
+import gcom.Model.FileExportLogModel;
+import gcom.Model.FileOwnerShipLogModel;
 import gcom.Model.LoginLogModel;
 import gcom.Model.MailExportContentModel;
 import gcom.Model.MailExportModel;
 import gcom.Model.MsnFileModel;
 import gcom.Model.MsnTalkModel;
+import gcom.Model.NetExportLogModel;
+import gcom.Model.NetPortLogModel;
+import gcom.Model.PartitionConnectLogModel;
 import gcom.Model.PolicyMessengerModel;
 import gcom.Model.PolicyNetworkModel;
 import gcom.Model.PolicyPatternModel;
@@ -36,6 +43,12 @@ import gcom.service.UserAgent.IUserAgentService;
 import gcom.service.UserAgent.UserAgentServiceImpl;
 import gcom.service.common.CommonServiceImpl;
 import gcom.service.common.ICommonService;
+import gcom.service.disk.DiskServiceImpl;
+import gcom.service.disk.IDiskService;
+import gcom.service.file.FileServiceImpl;
+import gcom.service.file.IFileService;
+import gcom.service.network.INetworkService;
+import gcom.service.network.NetworkServiceImpl;
 import gcom.user.service.UserService;
 import gcom.user.service.UserServiceImpl;
 
@@ -415,6 +428,106 @@ public class getAction {
 		ICommonService ca = new CommonServiceImpl();
 		return ca.getFilePath(map);	
 	}
+	
+	public HashMap<String, Object> getDiskConnectLogList(HashMap<String, Object> map){
+		IDiskService ds = new DiskServiceImpl();
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int total = ds.getDiskConnectLogListCount(map);
+		List<DiskConnectLogModel> data = ds.getDiskConnectLogList(map);
 
+		result.put("data", data);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+				
+		return result;
 
+	}
+
+	public HashMap<String, Object> getPartitionConnectLogList(HashMap<String, Object> map){
+		IDiskService ds = new DiskServiceImpl();
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int total = ds.getPartitionConnectLogListCount(map);
+		List<PartitionConnectLogModel> data = ds.getPartitionConnectLogList(map);
+
+		result.put("data", data);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+				
+		return result;
+
+	}
+	
+	public HashMap<String, Object> getCDExportList(HashMap<String, Object> map){
+		IDeviceInfoService ds = new DeviceInfoServiceImpl();
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int total = ds.getCDExportListCount(map);
+		List<CDExportLogModel> data = ds.getCDExportList(map);
+
+		result.put("data", data);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+				
+		return result;
+
+	}
+		
+	public HashMap<String, Object> getFileOwnershipList(HashMap<String, Object> map){
+		IFileService ds = new FileServiceImpl();
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int total = ds.getFileOwnershipListCount(map);
+		List<FileOwnerShipLogModel> data = ds.getFileOwnershipList(map);
+
+		result.put("data", data);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+				
+		return result;
+	
+	}
+
+	public HashMap<String, Object> getFileExportList(HashMap<String, Object> map){
+		IFileService ds = new FileServiceImpl();
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int total = ds.getFileExportListCount(map);
+		List<FileExportLogModel> data = ds.getFileExportList(map);
+
+		result.put("data", data);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+				
+		return result;	
+	}
+	
+	public HashMap<String, Object> getNetPortLogList(HashMap<String, Object> map){
+		INetworkService ds = new NetworkServiceImpl();
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int total = ds.getNetPortLogListCount(map);
+		List<NetPortLogModel> data = ds.getNetPortLogList(map);
+
+		result.put("data", data);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+				
+		return result;
+	}
+	
+	public HashMap<String, Object> getNetExportLogList(HashMap<String, Object> map){
+		INetworkService ds = new NetworkServiceImpl();
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int total = ds.getNetExportLogListCount(map);
+		List<NetExportLogModel> data = ds.getNetExportLogList(map);
+
+		result.put("data", data);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+				
+		return result;
+	}
 }

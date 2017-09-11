@@ -3,6 +3,7 @@ package gcom.service.Device;
 import java.util.HashMap;
 import java.util.List;
 
+import gcom.Model.CDExportLogModel;
 import gcom.Model.DiskExportModel;
 import gcom.Model.FileEventLogModel;
 import gcom.Model.PrintFileModel;
@@ -22,5 +23,11 @@ public interface IDeviceInfoService {
 	
 	public List<FileEventLogModel> getRmvDiskFileLogList(HashMap<String, Object> map);
 	public int getRmvDiskFileLogListCount(HashMap<String, Object> map);
+
+	public List<CDExportLogModel> getCDExportList(HashMap<String, Object> map);
+	public int getCDExportListCount(HashMap<String, Object> map);
+	
+
+	
 	
 }
