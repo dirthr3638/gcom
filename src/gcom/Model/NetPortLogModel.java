@@ -22,5 +22,5 @@ public class NetPortLogModel {
 	private String control = "";
 	private String serverTime = "";
 	private String clientTime = "";
-
+  
 }
