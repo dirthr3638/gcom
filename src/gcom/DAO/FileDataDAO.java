@@ -308,7 +308,109 @@ sql += whereSql;
 	
 	
 	public int getFileExportListCount(HashMap<String, Object> map){
-		return 10;
+		int result = 0;
+		
+		String whereSql = "WHERE 1=1 ";
+		String user_id = map.get("user_id").toString();
+		String user_name = map.get("user_name").toString();
+		String user_number = map.get("user_number").toString();
+		String duty = map.get("duty").toString();
+		String rank = map.get("rank").toString();
+		String pc_name = map.get("pc_name").toString();
+		
+		String file_name = map.get("file_name").toString();
+		String notice = map.get("notice").toString();
+
+		String start_date = map.get("start_date").toString();
+		String end_date = map.get("end_date").toString();
+		
+		String[] oDept = null;
+		StringBuilder idList = new StringBuilder();
+
+		if(map.containsKey("dept") && map.get("dept") != null){
+			oDept = (String[])map.get("dept");			
+			for (String id : oDept){
+				if(idList.length() > 0 )	
+					idList.append(",");
+
+				idList.append("?");
+			}
+		}else{
+			return result;
+		}
+		if(oDept != null)			whereSql += "AND ur.dept_no in ("+idList+") ";
+		if(!user_id.equals("")) 	whereSql += "AND ur.id LIKE ? ";
+		if(!user_name.equals("")) 	whereSql += "AND ur.name LIKE ? ";
+
+		if(!user_number.equals("")) 	whereSql += "AND ur.number LIKE ? ";
+		if(!duty.equals("")) 	whereSql += "AND ur.duty LIKE ? ";
+		if(!rank.equals("")) 	whereSql += "AND ur.rank LIKE ? ";
+		if(!pc_name.equals("")) 	whereSql += "AND agent.pc_name LIKE ? ";
+
+		if(!file_name.equals("")) 	whereSql += "AND log.file_list LIKE ? ";
+		if(!notice.equals("")) 	whereSql += "AND log.notice LIKE ? ";
+		
+		if(!start_date.equals("")) 	whereSql += "AND log.export_client_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND log.export_client_time < ? + interval 1 day ";
+		
+		
+		String sql= 
+"SELECT "
++ "COUNT(*) AS cnt "
++ "FROM file_export_log AS log "
++ "INNER JOIN user_info AS ur ON ur.no = log.user_no "
++ "INNER JOIN agent_log AS agent ON agent.no = log.agent_log_no "
++ "INNER JOIN dept_info AS dept ON dept.no = ur.dept_no  ";
+
+sql += whereSql;			
+			
+		try{
+			con = ds.getConnection();
+			pstmt=con.prepareStatement(sql);
+
+			int i = 1;
+			if(oDept != null){
+				for(int t = 0; t<oDept.length ; t++){
+					pstmt.setInt(i++, Integer.parseInt(oDept[t]));
+				}
+			}
+
+			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
+			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
+
+
+			if(!user_number.equals("")) 		pstmt.setString(i++, "%"+user_number+"%");
+			if(!duty.equals("")) 		pstmt.setString(i++, "%" + duty + "%");
+			if(!rank.equals("")) 		pstmt.setString(i++, "%" + rank + "%");
+			if(!pc_name.equals("")) 		pstmt.setString(i++, "%" + pc_name + "%");;
+			if(!file_name.equals("")) 		pstmt.setString(i++, "%" + file_name + "%");
+			if(!notice.equals("")) 		pstmt.setString(i++, "%" + notice + "%");
+
+			
+			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
+			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");
+				
+			}
+			
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally {
+			try{
+				if(rs!=null) rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
 	}
 	
 	

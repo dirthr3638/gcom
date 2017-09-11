@@ -320,31 +320,6 @@
 	    }); 
  		
  	}
- 	
- 	function userViewDo(){
- 		$.ajax({      
-	        type:"POST",  
-	        url:'${context}/admin/enroll/do/view',
-	        data:{
-				req_id : req_id	        	
-	        },
-	        success:function(args){   
-	        	if(args.returnCode == 'S'){
-	        	}else{
-		     		jQuery('#preloader').hide();
-		     		failAlert();	        			        		
-	        	}
-	        },   
-	        beforeSend:function(args){
-	     		jQuery('#preloader').show();
-	        },  
-	        error:function(e){  
-	            console.log(e.responseText);  
-	        }  
-	    }); 
- 		
- 	}
-
 
  	function checkDupEnrollUser(req_id){
 		var result = 'E';
@@ -371,10 +346,11 @@
  	}
 
  	function enrollConfirm(userId, req_id){
-		vex.defaultOptions.className = 'vex-theme-os'
+		console.log('123123123')
+ 		vex.defaultOptions.className = 'vex-theme-os'
 		
 		vex.dialog.open({
-			message: '해당 사용자 ['+ userId +'] 가 등록됩니다. 계속하시겠습니까?',
+			message: '해당 사용자 ['+ atob(userId) +'] 가 등록됩니다. 계속하시겠습니까?',
 		  buttons: [
 		    $.extend({}, vex.dialog.buttons.YES, {
 		      text: '확인'
@@ -415,9 +391,9 @@
 		vex.dialog.open({
 			input: [
 			         '<label>승인관리자</label>',			        
-			         '<input name="adminId" type="text" readonly value=" '+ adminId +' " />',
+			         '<input name="adminId" type="text" readonly value=" '+ atob(adminId) +' " />',
 			         '<label>승인일자</label>',			        
-			         '<input name="date" type="text" readonly value=" '+ date +' " />'
+			         '<input name="date" type="text" readonly value=" '+ atob(date) +' " />'
 			     ].join(''),
 			buttons: [
 		    $.extend({}, vex.dialog.buttons.YES, {
@@ -431,9 +407,9 @@
 		vex.dialog.open({
 			input: [
 			         '<label>반려관리자</label>',			        
-			         '<input name="adminId" type="text" readonly value=" '+ adminId +' " />',
+			         '<input name="adminId" type="text" readonly value=" '+ atob(adminId) +' " />',
 			         '<label>반려일자</label>',			        
-			         '<input name="date" type="text" readonly value=" '+ date +' " />'
+			         '<input name="date" type="text" readonly value=" '+ atob(date) +' " />'
 			     ].join(''),
 			buttons: [
 		    $.extend({}, vex.dialog.buttons.YES, {
@@ -655,14 +631,16 @@
 					,"class" : "center-cell"
 					,"render":function(data,type,row){
 							if(row.permit == 'W'){
-								var ret = '<button type="button" class="btn btn-success btn-xs" onclick="javascript:enrollConfirm(\''+ row.userId  +'\', '+data+')"><i class="fa fa-check" aria-hidden="true">&nbsp;승인</i></button>';
-								ret +='<button type="button" class="btn btn-danger btn-xs" onclick="javascript:enrollReject(\''+ row.userId  +'\', '+data+')" ><i class="fa fa-remove" aria-hidden="true">&nbsp;거절</i></button>'
+								var uid = btoa(row.userId);
+								
+								var ret = '<button type="button" class="btn btn-success btn-xs" onclick="javascript:enrollConfirm(\''+ uid  +'\', '+data+')"><i class="fa fa-check" aria-hidden="true">&nbsp;승인</i></button>';
+								ret +='<button type="button" class="btn btn-danger btn-xs" onclick="javascript:enrollReject(\''+ btoa(row.userId)  +'\', '+data+')" ><i class="fa fa-remove" aria-hidden="true">&nbsp;거절</i></button>'
 								return ret
 							}else if(row.permit == 'P'){
-								var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:enrollPassInfo(\''+ row.permitAdmin  +'\', \'' + row.permitDate + '\')"><i class="fa fa-check" aria-hidden="true">&nbsp;승인완료</i></button>';
+								var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:enrollPassInfo(\''+ btoa(row.permitAdmin)  +'\', \'' + btoa(row.permitDate) + '\')"><i class="fa fa-check" aria-hidden="true">&nbsp;승인완료</i></button>';
 								return ret;
 							}else if(row.permit == 'R'){
-								var ret = '<button type="button" class="btn btn-purple btn-xs" onclick="javascript:enrollRejectInfo(\''+ row.permitAdmin  +'\', \'' + row.permitDate + '\')"><i class="fa fa-remove" aria-hidden="true">&nbsp;반려처리</i></button>';
+								var ret = '<button type="button" class="btn btn-purple btn-xs" onclick="javascript:enrollRejectInfo(\''+ btoa(row.permitAdmin)  +'\', \'' + btoa(row.permitDate) + '\')"><i class="fa fa-remove" aria-hidden="true">&nbsp;반려처리</i></button>';
 								return ret;
 							}
 						}

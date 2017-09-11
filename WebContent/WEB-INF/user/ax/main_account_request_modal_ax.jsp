@@ -142,9 +142,7 @@ $(document).ready(function(){
 function fn_request_proc() {
 	var data = get_input_data()
 	if(fn_request_input_valid(data)){
-		//가입요청 보내기
-		//
-			
+		
 		$.ajax({      
 	        type:"POST",  
 	        url:'${context}/account/request/do',
