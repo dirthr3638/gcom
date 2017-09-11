@@ -13,6 +13,13 @@
 		<link href="${context}/assets/css/essentials.css" rel="stylesheet" type="text/css" />
 		<link href="${context}/assets/css/layout.css" rel="stylesheet" type="text/css" />
 		<link href="${context}/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		
+		<!-- Alert -->
+		<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 
 
 <div id="modalRequestDetail" class="modal fade" role="dialog" aria-hidden="true" style="margin-top: 10%;">
@@ -150,12 +157,27 @@ function fn_request_proc() {
 	        url:'${context}/account/request/do',
 	        async: false,
 	        data:data,
-	        success:function(args){   
+	        success:function(args){ 
+	        	vex.defaultOptions.className = 'vex-theme-os';
+	        	
 	        	if(args.returnCode == 'S'){
-					alert('신청이 완료되었습니다.')
+    		
+		    		vex.dialog.open({
+						message: '신청이 완료되었습니다.',
+						buttons: [
+					    	$.extend({}, vex.dialog.buttons.YES, {
+					     	text: '확인'
+					  	})]
+					});
 					$('#modalRequestDetail').modal('hide');
 	        	}else{
-					alert('회원 가입신청에 실패하였습니다. 관리자에게 문의해주세요')
+					vex.dialog.open({
+						message: '회원 가입신청에 실패하였습니다. 관리자에게 문의해주세요.',
+						buttons: [
+					    	$.extend({}, vex.dialog.buttons.YES, {
+					     	text: '확인'
+					  	})]
+					});
 					$('#modalRequestDetail').modal('hide');	        		
 	        	}
 	        	
@@ -190,6 +212,7 @@ function get_input_data(){
 }
 
 function fn_request_input_valid(data) {
+	
 	console.log(data);
 	if (data.user_id.length < 1 || data.user_id == '' ) {
 		alert("ID 입력은 필수 입니다. 확인해주세요.");

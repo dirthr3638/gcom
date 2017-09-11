@@ -103,7 +103,7 @@
 			});
 		
 			function fn_open_reg_watermark_popup(code){
-				alert('준비중 입니다.')
+				alert('준비중입니다.');
 				return false;
 				$.ajax({      
 				    type:"POST",  

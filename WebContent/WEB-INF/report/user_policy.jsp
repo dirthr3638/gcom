@@ -252,7 +252,7 @@
  	function fn_sel_policy_detailOpen(type, code){
  		
 		if(type == 'isWaterMark') {
-			alert("준비중입니다.");
+			alert('준비중입니다.');
 			return false;
 		}
  		

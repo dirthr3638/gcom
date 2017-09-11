@@ -104,7 +104,15 @@
 		var type = $('#att_website_block_type').val();
 		
 		if (type == '') {
-			alert('차단여부를 먼저 선택해주세요.');
+			vex.defaultOptions.className = 'vex-theme-os';
+    		
+    		vex.dialog.open({
+				message: '차단여부를 먼저 선택해주세요.',
+				buttons: [
+			    	$.extend({}, vex.dialog.buttons.YES, {
+			     	text: '확인'
+			  	})]
+			});
 			$(check_box).prop('checked', false);
 			return false;
 		}

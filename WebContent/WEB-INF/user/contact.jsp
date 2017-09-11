@@ -25,6 +25,13 @@
 		<!-- PAGE LEVEL STYLE -->
 		<link href="${context}/assets/css/user_header.css" rel="stylesheet" type="text/css" />
 		<link href="${context}/assets/css/color_scheme/user_green.css" rel="stylesheet" type="text/css" id="color_scheme" />
+		
+		<!-- Alert -->
+		<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 
 	</head>
 	<body class="smoothscroll enable-animation">
@@ -199,17 +206,32 @@
 		function callbackFail(){}
 		
 		function fn_contact_callback(data){
+			vex.defaultOptions.className = 'vex-theme-os';
 			
 			if(data.returnCode== "S"){
-				alert("문의가 등록 되었습니다.");
+				
+				vex.dialog.open({
+					message: '문의가 등록 되었습니다.',
+					buttons: [
+				    	$.extend({}, vex.dialog.buttons.YES, {
+				     	text: '확인'
+				  	})]
+				});
+				
 				var datatable = $('#contact_table').dataTable().api();
 				datatable.ajax.reload();
 			}else{
 				switch (data.returnCode){
 				  case "E":
-					  alert("문의 등록에 실패 하였습니다.");
+					  vex.dialog.open({
+							message: '문의 등록에 실패 하였습니다.',
+							buttons: [
+						    	$.extend({}, vex.dialog.buttons.YES, {
+						     	text: '확인'
+						  	})]
+						});
 				    break;
-				   default:
+				   default: break;
 				}
 			}
 			

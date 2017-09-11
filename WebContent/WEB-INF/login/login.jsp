@@ -18,6 +18,13 @@
 		<link href="${context}/assets/css/user_layout.css" rel="stylesheet" type="text/css" />
 		<link href="${context}/assets/css/color_scheme/darkblue.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		
+		<!-- Alert -->
+		<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
+		
 		<style type="text/css">
 			.blur-bg {
 				position:relative;
@@ -153,13 +160,28 @@
 				var id = $('#att_staf_id').val();
 				var pw = $('#att_staf_pwd').val();
 				
+				vex.defaultOptions.className = 'vex-theme-os';
+				
 				if (id.length < 1 || id == '' ) {
-					alert("ID 입력은 필수 입니다. 확인해주세요.");
+					
+		   			vex.dialog.open({
+						message: 'ID 입력은 필수 입니다. 확인해주세요.',
+						buttons: [
+					    	$.extend({}, vex.dialog.buttons.YES, {
+					     	text: '확인'
+					  	})]
+					});
 					return false;
 				}
 				
 				if (pw.length < 1 || pw == '' ) {
-					alert("Password 입력은 필수 입니다. 확인해주세요.");
+					vex.dialog.open({
+						message: 'Password 입력은 필수 입니다. 확인해주세요.',
+						buttons: [
+					    	$.extend({}, vex.dialog.buttons.YES, {
+					     	text: '확인'
+					  	})]
+					});
 					return false;
 				}
 				
@@ -188,6 +210,7 @@
 			function callbackFail(){}
 
 			function fn_login_callback(data){
+				vex.defaultOptions.className = 'vex-theme-os';
 				
 				if(data.returnCode == "S"){
 					location.reload();
@@ -197,14 +220,32 @@
 						alert(data.message);
 					    break;
 					  case "NCPI":
-						  alert("아이디나 패스워드가 일치하지 않습니다.");
+						  vex.dialog.open({
+								message: '아이디나 패스워드가 일치하지 않습니다.',
+								buttons: [
+							    	$.extend({}, vex.dialog.buttons.YES, {
+							     	text: '확인'
+							  	})]
+							});
 					    break;
 					  case "NCI":
-						alert("비인가된 PC입니다.");
+						vex.dialog.open({
+							message: '비인가된 PC입니다.',
+							buttons: [
+						    	$.extend({}, vex.dialog.buttons.YES, {
+						     	text: '확인'
+						  	})]
+						});
 					    break;
 					  default:
-						  alert("서버와의 통신에 실패하였습니다.")
-						  break;
+						vex.dialog.open({
+							message: '서버와의 통신에 실패하였습니다.',
+							buttons: [
+						    	$.extend({}, vex.dialog.buttons.YES, {
+						     	text: '확인'
+						  	})]
+						});
+						break;
 					}
 				}
 				

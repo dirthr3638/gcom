@@ -150,7 +150,14 @@ upload.onchange = function(e){
 			  $('#att_process_hash').val(data.hash);
 		  },   
 		    error:function(e){
-		    	alert("파일 해시값 변환에 실패하였습니다.");
+		    	vex.defaultOptions.className = 'vex-theme-os';
+				vex.dialog.open({
+					message: '파일 해시값 변환에 실패하였습니다.',
+					  buttons: [
+					    $.extend({}, vex.dialog.buttons.YES, {
+					      text: '확인'
+					  })]
+				});
 		        console.log(e.responseText);  
 		    }  
 		})
@@ -263,7 +270,14 @@ function fn_policy_process_save () {
 	    	}
 	    },   
 	    error:function(e){
-	    	alert("서버와의 연결이 되지 않습니다.");
+	    	vex.defaultOptions.className = 'vex-theme-os';
+			vex.dialog.open({
+				message: '서버와의 연결이 되지 않습니다.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			});
 	        console.log(e.responseText);  
 	    }  
 	});
@@ -320,7 +334,14 @@ function fn_policy_process_modify () {
 	    	}
 	    },   
 	    error:function(e){
-	    	alert("서버와의 연결이 되지 않습니다.");
+	    	vex.defaultOptions.className = 'vex-theme-os';
+			vex.dialog.open({
+				message: '서버와의 연결이 되지 않습니다.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			});
 	        console.log(e.responseText);  
 	    }  
 	});

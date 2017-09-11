@@ -192,7 +192,13 @@
 			    			})
 					    break;
 					  default:
-						  alert("서버와의 통신에 실패하였습니다.")
+							vex.dialog.open({
+								message: '서버와의 통신에 실패하였습니다.',
+								buttons: [
+							    	$.extend({}, vex.dialog.buttons.YES, {
+							     	text: '확인'
+							  	})]
+							});
 						  break;
 					}
 				}

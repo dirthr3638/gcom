@@ -576,7 +576,7 @@ public class UserDAO {
 	public HashMap<String, Object> insertAccountReqeust(HashMap<String, Object> map) {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		
-		String user_password1 = map.get("user_password1").toString();
+		String user_password1 = hashEncrypto.HashEncrypt(map.get("user_password1").toString());
 		String user_number = map.get("user_number").toString();
 		String user_name = map.get("user_name").toString();
 		String user_duty = map.get("user_duty").toString();

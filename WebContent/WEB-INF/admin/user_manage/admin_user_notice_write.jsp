@@ -21,6 +21,13 @@
 		<link href="${context}/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
 		
 		<script type="text/javascript" src="${context}/se2/js/service/HuskyEZCreator.js"></script>
+		
+		<!-- Alert -->
+		<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+		<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+		
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+		<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -134,7 +141,15 @@
 			var title = $('#att_notice_title').val();
 			
 			if (title.length < 1 || title == '' ) {
-				alert("제목은 필수 입력 사항입니다.");
+				vex.defaultOptions.className = 'vex-theme-os';
+	    		
+	    		vex.dialog.open({
+					message: '제목은 필수 입력 사항입니다.',
+					buttons: [
+				    	$.extend({}, vex.dialog.buttons.YES, {
+				     	text: '확인'
+				  	})]
+				});
 				return false;
 			}			
 			
@@ -177,12 +192,29 @@
 			    	_ : $.now()
 			    },
 			    success:function(data){
+			    	vex.defaultOptions.className = 'vex-theme-os';
 			    	
 			    	if (data.returnCode == 'S') {
-			    		alert("공지사항이 등록 되었습니다.");
+			    		
+			    		vex.dialog.open({
+							message: '공지사항이 등록 되었습니다.',
+							buttons: [
+						    	$.extend({}, vex.dialog.buttons.YES, {
+						     	text: '확인'
+						  	})]
+						});
+			    		
 			    		location.href = '${context}/admin/user/notice';
+			    		
 			    	} else {
-			    		alert("공지사항 등록중 예기치 못한 오류가 발생하여 등록에 실패하였습니다.");
+			    		
+			    		vex.dialog.open({
+							message: '공지사항 등록중 예기치 못한 오류가 발생하여 등록에 실패하였습니다.',
+							buttons: [
+						    	$.extend({}, vex.dialog.buttons.YES, {
+						     	text: '확인'
+						  	})]
+						});
 			    	}
 			    },   
 			    error:function(e){  
@@ -223,7 +255,14 @@
 		                 return false;
 		             } else  */
 		             if (uploadFile.size > 10000000) { 
-		        		 alert('파일 용량은 10M 를 초과할 수 없습니다.');
+		            	 vex.defaultOptions.className = 'vex-theme-os';
+		        		 vex.dialog.open({
+								message: '파일 용량은 10M 를 초과할 수 없습니다.',
+								buttons: [
+							    	$.extend({}, vex.dialog.buttons.YES, {
+							     	text: '확인'
+							  	})]
+							});
 		        		 e.preventDefault();
 		        		 return false;
 		             }
@@ -255,7 +294,14 @@
 		             // data.errorThrown
 		             // data.textStatus;
 		             // data.jqXHR;
-		             alert('서버와 통신 중 문제가 발생했습니다');
+		             vex.defaultOptions.className = 'vex-theme-os';
+	        		 vex.dialog.open({
+							message: '서버와의 통신중 문제가 발생했습니다.',
+							buttons: [
+						    	$.extend({}, vex.dialog.buttons.YES, {
+						     	text: '확인'
+						  	})]
+						});
 		             foo = data;
 		             console.log(e);
 		             console.log(data);

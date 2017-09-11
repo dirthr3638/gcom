@@ -153,7 +153,15 @@
 			var title = $('#att_notice_title').val();
 			
 			if (title.length < 1 || title == '' ) {
-				alert("제목은 필수 입력 사항입니다.");
+				vex.defaultOptions.className = 'vex-theme-os';
+	    		
+	    		vex.dialog.open({
+					message: '제목은 필수 입력 사항입니다.',
+					buttons: [
+				    	$.extend({}, vex.dialog.buttons.YES, {
+				     	text: '확인'
+				  	})]
+				});
 				return false;
 			}			
 			
@@ -268,7 +276,15 @@
 		                 return false;
 		             } else  */
 		             if (uploadFile.size > 10000000) { 
-		        		 alert('파일 용량은 10M 를 초과할 수 없습니다.');
+		 				vex.defaultOptions.className = 'vex-theme-os';
+			    		
+			    		vex.dialog.open({
+							message: '파일 용량은 10M 를 초과할 수 없습니다.',
+							buttons: [
+						    	$.extend({}, vex.dialog.buttons.YES, {
+						     	text: '확인'
+						  	})]
+						});
 		        		 e.preventDefault();
 		        		 return false;
 		             }
@@ -300,7 +316,15 @@
 		             // data.errorThrown
 		             // data.textStatus;
 		             // data.jqXHR;
-		             alert('서버와 통신 중 문제가 발생했습니다');
+		             vex.defaultOptions.className = 'vex-theme-os';
+			    		
+		    		vex.dialog.open({
+						message: '서버와 통신 중 문제가 발생했습니다',
+						buttons: [
+					    	$.extend({}, vex.dialog.buttons.YES, {
+					     	text: '확인'
+					  	})]
+					});
 		             foo = data;
 		             console.log(e);
 		             console.log(data);

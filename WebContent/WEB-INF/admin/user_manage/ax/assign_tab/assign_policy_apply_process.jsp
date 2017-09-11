@@ -85,7 +85,14 @@ $(document).ready(function(){
 			$('#att_process_type').val('');
 			$('.porcess_check').prop("checked",false);
 		} else {
-			alert('차단 프로세스를 선택하면 차단 됩니다.');
+			vex.defaultOptions.className = 'vex-theme-os';
+			vex.dialog.open({
+				message: '차단 프로세스를 선택하면 차단 됩니다.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			});
 			$('input:radio[name=radio_process_block]:input[value="Y"]').prop("checked", true);
 		} 
 	});

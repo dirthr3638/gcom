@@ -83,7 +83,14 @@ $(document).ready(function(){
 			$('#att_pattern_type').val('');
 			$('.pattern_check').prop("checked",false);
 		} else {
-			alert('차단 패턴을 선택하면 차단 됩니다.');
+			vex.defaultOptions.className = 'vex-theme-os';
+			vex.dialog.open({
+				message: '차단 패턴을 선택하면 차단 됩니다.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			});
 			$('input:radio[name=radio_pattern_block]:input[value="Y"]').prop("checked", true);
 		} 
 	});

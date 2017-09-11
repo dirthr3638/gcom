@@ -123,7 +123,15 @@ function fn_comment_save () {
 	    	}
 	    },   
 	    error:function(e){
-	    	alert("서버와의 연결이 되지 않습니다.");
+			vex.defaultOptions.className = 'vex-theme-os';
+    		
+    		vex.dialog.open({
+				message: '서버와의 연결이 되지 않습니다.',
+				buttons: [
+			    	$.extend({}, vex.dialog.buttons.YES, {
+			     	text: '확인'
+			  	})]
+			});
 	        console.log(e.responseText);  
 	    }  
 	});

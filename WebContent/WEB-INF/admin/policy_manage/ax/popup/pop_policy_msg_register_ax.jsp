@@ -204,6 +204,8 @@ function fn_policy_msg_save () {
 		return false;
 	}
 	
+	vex.defaultOptions.className = 'vex-theme-os';
+	
 	$.ajax({      
 	    type:"POST",  
 	    url:'${context}/admin/policy/msg/save',
@@ -213,7 +215,6 @@ function fn_policy_msg_save () {
 	    	_ : $.now()
 	    },
 	    success:function(data){
-	    	vex.defaultOptions.className = 'vex-theme-os';
 	    	
 	    	if (data.returnCode == 'S') {
 	    		$('#modalPolicyRegMessenger').modal('hide');
@@ -246,7 +247,13 @@ function fn_policy_msg_save () {
 	    	}
 	    },   
 	    error:function(e){
-	    	alert("서버와의 연결이 되지 않습니다.");
+	    	vex.dialog.open({
+				message: '서버와의 연결이 되지 않습니다.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			});
 	        console.log(e.responseText);  
 	    }  
 	});
@@ -260,6 +267,8 @@ function fn_policy_msg_modify () {
 		return false;
 	}
 	
+	vex.defaultOptions.className = 'vex-theme-os';
+	
 	$.ajax({      
 	    type:"POST",  
 	    url:'${context}/admin/policy/msg/modify',
@@ -269,7 +278,6 @@ function fn_policy_msg_modify () {
 	    	_ : $.now()
 	    },
 	    success:function(data){
-	    	vex.defaultOptions.className = 'vex-theme-os';
 	    	
 	    	if (data.returnCode == 'S') {
 	    		$('#modalPolicyRegMessenger').modal('hide');
@@ -302,7 +310,13 @@ function fn_policy_msg_modify () {
 	    	}
 	    },   
 	    error:function(e){
-	    	alert("서버와의 연결이 되지 않습니다.");
+	    	vex.dialog.open({
+				message: '서버와의 연결이 되지 않습니다.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			});
 	        console.log(e.responseText);  
 	    }  
 	});

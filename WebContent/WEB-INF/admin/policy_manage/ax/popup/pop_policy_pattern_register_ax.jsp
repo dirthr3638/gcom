@@ -259,6 +259,8 @@ function fn_policy_pattern_save () {
 		return false;
 	}
 	
+	vex.defaultOptions.className = 'vex-theme-os';
+	
 	$.ajax({      
 	    type:"POST",  
 	    url:'${context}/admin/policy/pattern/save',
@@ -268,7 +270,6 @@ function fn_policy_pattern_save () {
 	    	_ : $.now()
 	    },
 	    success:function(data){
-	    	vex.defaultOptions.className = 'vex-theme-os';
 	    	
 	    	if (data.returnCode == 'S') {
 	    		$('#modalPolicyRegPattern').modal('hide');
@@ -301,7 +302,13 @@ function fn_policy_pattern_save () {
 	    	}
 	    },   
 	    error:function(e){
-	    	alert("서버와의 연결이 되지 않습니다.");
+	    	vex.dialog.open({
+				message: '서버와의 연결이 되지 않습니다.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			});
 	        console.log(e.responseText);  
 	    }  
 	});
@@ -316,6 +323,8 @@ function fn_policy_pattern_modify () {
 		return false;
 	}
 	
+	vex.defaultOptions.className = 'vex-theme-os';
+	
 	$.ajax({      
 	    type:"POST",  
 	    url:'${context}/admin/policy/pattern/modify',
@@ -325,7 +334,6 @@ function fn_policy_pattern_modify () {
 	    	_ : $.now()
 	    },
 	    success:function(data){
-	    	vex.defaultOptions.className = 'vex-theme-os';
 	    	
 	    	if (data.returnCode == 'S') {
 	    		$('#modalPolicyRegPattern').modal('hide');
@@ -358,7 +366,13 @@ function fn_policy_pattern_modify () {
 	    	}
 	    },   
 	    error:function(e){
-	    	alert("서버와의 연결이 되지 않습니다.");
+	    	vex.dialog.open({
+				message: '서버와의 연결이 되지 않습니다.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			});
 	        console.log(e.responseText);  
 	    }  
 	});
@@ -367,7 +381,14 @@ function fn_policy_pattern_modify () {
 function fn_create_pattern() {
 	
 	if($(':radio[name="radio_pattern_type"]').is(':checked') == false) {
-		alert('패턴 타입을 선택해주세요.');
+		vex.defaultOptions.className = 'vex-theme-os';
+		vex.dialog.open({
+			message: '패턴 타입을 선택해주세요.',
+			  buttons: [
+			    $.extend({}, vex.dialog.buttons.YES, {
+			      text: '확인'
+			  })]
+		});
 		return false;
 	}
 	
@@ -450,7 +471,14 @@ $(document).ready(function(){
 		var patternData = $('#att_create_pattern_data').val();
 		
 		if (patternData == '' || patternData.length < 1) {
-			alert('패턴이 비어있어 완료 할 수 없습니다. 패턴은 필수 입력 사항입니다.');
+			vex.defaultOptions.className = 'vex-theme-os';
+			vex.dialog.open({
+				message: '패턴이 비어있어 완료 할 수 없습니다. 패턴은 필수 입력 사항입니다.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			});
 			return false;
 		}
 		

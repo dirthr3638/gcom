@@ -15,9 +15,15 @@
 
 %>
 
+<!-- Alert -->
+<link href="${context}/assets/plugins/vex/css/vex.css" rel="stylesheet" type="text/css"  />
+<link href="${context}/assets/plugins/vex/css/vex-theme-os.css" rel="stylesheet" type="text/css"  />
+
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
+<script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
+
 <script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="${context}/assets/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
-
 
 	<% if (isEmpty) { %>
 	<table class="table table-bordered">
@@ -166,7 +172,7 @@
 	function fn_popup_detail(type, code){
 			
 		if(type == 'isWaterMark') {
-			alert("준비중입니다.");
+			alert('준비중입니다.')
 			return false;
 		}
 			

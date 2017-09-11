@@ -140,6 +140,7 @@ function get_policy_usb_setting_data(){
 }
 
 function fn_policy_usb_save () {
+	vex.defaultOptions.className = 'vex-theme-os';
 	
 	var data = get_policy_usb_setting_data();
 	
@@ -152,7 +153,6 @@ function fn_policy_usb_save () {
 	    	_ : $.now()
 	    },
 	    success:function(data){
-	    	vex.defaultOptions.className = 'vex-theme-os';
 	    	
 	    	if (data.returnCode == 'S') {
 	    		vex.dialog.open({
@@ -187,7 +187,13 @@ function fn_policy_usb_save () {
 	    	}
 	    },   
 	    error:function(e){
-	    	alert("서버와의 연결이 되지 않습니다.");
+	    	vex.dialog.open({
+				message: '서버와의 연결이 되지 않습니다.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			});
 	        console.log(e.responseText);  
 	    }  
 	});
@@ -195,6 +201,7 @@ function fn_policy_usb_save () {
 
 
 function fn_policy_usb_modify () {
+	vex.defaultOptions.className = 'vex-theme-os';
 	
 	var data = get_policy_usb_setting_data();
 	
@@ -207,7 +214,6 @@ function fn_policy_usb_modify () {
 	    	_ : $.now()
 	    },
 	    success:function(data){
-	    	vex.defaultOptions.className = 'vex-theme-os';
 	    	
 	    	if (data.returnCode == 'S') {
 	    		vex.dialog.open({
@@ -242,7 +248,13 @@ function fn_policy_usb_modify () {
 	    	}
 	    },   
 	    error:function(e){
-	    	alert("서버와의 연결이 되지 않습니다.");
+	    	vex.dialog.open({
+				message: '서버와의 연결이 되지 않습니다.',
+				  buttons: [
+				    $.extend({}, vex.dialog.buttons.YES, {
+				      text: '확인'
+				  })]
+			});
 	        console.log(e.responseText);  
 	    }  
 	});
