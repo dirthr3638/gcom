@@ -545,6 +545,9 @@ sql += whereSql;
 + "usb.name, "
 + "usb.vid, "
 + "usb.pid, "
++ "class, "
++ "subclass, "
++ "protocol, "
 + "usb.allow, "
 + "usb.serial_number, "
 + "usb.description "
@@ -575,6 +578,10 @@ sql += whereSql;
 				model.setName(rs.getString("name"));
 				model.setVid(rs.getString("vid"));
 				model.setPid(rs.getString("pid"));
+				model.setMainclass(rs.getString("class"));
+				model.setSubclass(rs.getString("subclass"));
+				model.setProtocol(rs.getString("protocol"));
+				model.setAllow(rs.getInt("allow") == 1 ? true : false);
 				model.setSerialNumber(rs.getString("serial_number"));
 				model.setDescription(rs.getString("description"));
 				data.add(model);

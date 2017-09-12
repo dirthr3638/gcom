@@ -12,6 +12,11 @@
 	String pid  = "";
 	String serialNumber  = "";
 	String descriptor  = "";
+	String mainclass  = "";
+	String subclass  = "";
+	String protocol  = "";
+
+	boolean allow = true;	
 	
 	if(modifyCheck) {
 		popTitle = "정책정보수정";
@@ -21,6 +26,10 @@
 		pid = data.getPid();
 		serialNumber = data.getSerialNumber();
 		descriptor = data.getDescription();
+		mainclass = data.getMainclass();
+		subclass = data.getSubclass();
+		protocol = data.getProtocol();
+		allow = data.getAllow();
 	}
 %>
 
@@ -66,6 +75,12 @@
 													</td>
 												</tr>
 												<tr>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >설명</td>
+													<td>
+														<input type="text" id="att_usb_descript" name="att_usb_descript" class="form-control" value="<%= descriptor %>" />
+													</td>
+												</tr>
+												<tr>
 													<td class="th-cell-gray center-cell" style="vertical-align: middle;">VID</td>
 													<td>
 														<input type="text" id="att_usb_vid" name="att_usb_vid" class="form-control" value="<%= vid %>"  maxlength="4" />
@@ -84,9 +99,55 @@
 													</td>
 												</tr>
 												<tr>
-													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >설명</td>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >class</td>
 													<td>
-														<input type="text" id="att_usb_descript" name="att_usb_descript" class="form-control" value="<%= descriptor %>" />
+														<input type="text" id="att_usb_class" name="att_usb_class" maxlength="2" class="form-control" value="<%= mainclass %>" />
+													</td>
+												</tr>
+												<tr>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >subclass</td>
+													<td>
+														<input type="text" id="att_usb_subclass" name="att_usb_subclass" maxlength="2" class="form-control" value="<%= subclass %>" />
+													</td>
+												</tr>
+												<tr>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >protocol</td>
+													<td>
+														<input type="text" id="att_usb_protocol" name="att_usb_protocol" maxlength="2" class="form-control" value="<%= protocol %>" />
+													</td>
+												</tr>
+												<tr>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >USB비교</td>
+													<td>
+														<div class="col-md-6">
+															<label><input type="checkbox" id="compVid" ${data.compareVid == true ? 'checked' : ''} >VID</label>														
+														</div>
+														<div class="col-md-6">
+															<label><input type="checkbox" id="compPid" ${data.comparePid == true ? 'checked' : ''}>PID</label>														
+														</div>
+														<div class="col-md-6">
+															<label><input type="checkbox" id="compSerial" ${data.compareSerial == true ? 'checked' : ''}>시리얼번호</label>														
+														</div>
+														<div class="col-md-6">
+															<label><input type="checkbox" id="compClass" ${data.compareMainclass == true ? 'checked' : ''}>class</label>														
+														</div>
+														<div class="col-md-6">
+															<label><input type="checkbox" id="compSubclass" ${data.compareSubclass == true ? 'checked' : ''}>subclass</label>														
+														</div>
+														<div class="col-md-6">
+															<label><input type="checkbox" id="compProtocol" ${data.compareProtocol == true ? 'checked' : ''}>protocol</label>														
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td class="th-cell-gray center-cell" style="vertical-align: middle;" >사용여부</td>
+													<td>
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_use_type" value="1" <% if (allow == true){ %> checked <%}%> /><i></i>사용
+														</label>
+														<label class="radio nomargin-top nomargin-bottom">
+															<input type="radio" name="radio_use_type" value="0" <% if (allow == false){ %> checked <%}%>/><i></i>사용안함
+														</label>
 													</td>
 												</tr>
 											</tbody>
@@ -125,6 +186,8 @@
 
 <script type="text/javascript">
 
+console.log('${data}')
+
 function get_policy_usb_setting_data(){
 	
 	var map = new Object();
@@ -133,9 +196,16 @@ function get_policy_usb_setting_data(){
 	map['usb_name'] = $('#att_usb_name').val();
 	map['vid'] = $('#att_usb_vid').val();
 	map['pid'] = $('#att_usb_pid').val();
+
 	map['serial'] = $('#att_usb_serial').val();
+	map['mainclass'] = $('#att_usb_class').val();
+	map['subclass'] = $('#att_usb_subclass').val();
+	map['protocol'] = $('#att_usb_protocol').val();
+
 	map['descript'] = $('#att_usb_descript').val();
-	
+	map['compare'] = getCompareCheckboxData();
+	map['use_type'] = $(':radio[name="radio_use_type"]:checked').val();
+
 	return map;
 }
 
@@ -197,6 +267,19 @@ function fn_policy_usb_save () {
 	        console.log(e.responseText);  
 	    }  
 	});
+}
+
+function getCompareCheckboxData(){
+	var result = ""
+
+	$('#compVid').is(":checked") == true ? result += '1' : result += '0';
+	$('#compPid').is(":checked")== true ? result += '1' : result += '0';
+	$('#compSerial').is(":checked")== true ? result += '1' : result += '0';
+	$('#compClass').is(":checked")== true ? result += '1' : result += '0';
+	$('#compSubclass').is(":checked")== true ? result += '1' : result += '0';
+	$('#compProtocol').is(":checked")== true ? result += '1' : result += '0';
+	
+	return result;		
 }
 
 

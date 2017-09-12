@@ -1514,8 +1514,13 @@ sql += whereSql;
 					+ "pid, "
 					+ "serial_number, "
 					+ "allow, "
+					+ "class, "
+					+ "subclass, "
+					+ "protocol, "
+					+ "allow, "
 					+ "description "
-				+ "FROM usb_dev_info WHERE 1 = 1 ";
+
+					+ "FROM usb_dev_info WHERE 1 = 1 ";
 		
 		if(!"".equals(search_text) && search_text.length() > 0){
 			if(search_type == 1) {	//장치명
@@ -1553,6 +1558,12 @@ sql += whereSql;
 				model.setName(rs.getString("usb_name"));
 				model.setVid(rs.getString("vid"));
 				model.setPid(rs.getString("pid"));
+
+				model.setMainclass(rs.getString("class"));
+				model.setSubclass(rs.getString("subclass"));
+				model.setProtocol(rs.getString("protocol"));
+				model.setAllow(rs.getInt("allow") == 1 ? true : false);
+
 				model.setSerialNumber(rs.getString("serial_number"));
 				model.setDescription(rs.getString("description"));
 				
@@ -2559,8 +2570,12 @@ sql += whereSql;
 					+ "pid, "
 					+ "serial_number, "
 					+ "allow, "
-					+ "description "
-				+ "FROM usb_dev_info "
+					+ "description, "
+					+ "class, "
+					+ "subclass, "
+					+ "protocol, "
+					+ "compare_type "
+					+ "FROM usb_dev_info "
 				+ "WHERE no = ? ";
 		
 		try{
@@ -2576,6 +2591,12 @@ sql += whereSql;
 				model.setName(rs.getString("usb_name"));
 				model.setVid(rs.getString("vid"));
 				model.setPid(rs.getString("pid"));
+				model.setAllow(rs.getInt("allow") == 1 ? true : false);
+				model.setMainclass(rs.getString("class"));
+				model.setProtocol(rs.getString("protocol"));
+				model.setSubclass(rs.getString("subclass"));
+				model.setCompareType(rs.getString("compare_type"));
+				
 				model.setSerialNumber(rs.getString("serial_number"));
 				model.setDescription(rs.getString("description"));
 				
@@ -2604,12 +2625,18 @@ sql += whereSql;
 		String vid = map.get("vid").toString();
 		String pid = map.get("pid").toString();
 		String serial = map.get("serial").toString();
+
+		String mainclass = map.get("class").toString();
+		String subclass = map.get("subclass").toString();
+		String protocol = map.get("protocol").toString();
+		String compare = map.get("compare").toString();
+
 		String descript = map.get("descript").toString();
-		int allow = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
+		int allow = Integer.parseInt( map.get("use_type").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
-		String sql= "INSERT INTO usb_dev_info (name, vid, pid, serial_number, allow, description) VALUES (?, ?, ?, ?, ?, ?) ";
+		String sql= "INSERT INTO usb_dev_info (name, vid, pid, serial_number, allow, description, class,subclass,protocol,compare_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 		
 		try{
 			con = ds.getConnection();
@@ -2621,6 +2648,10 @@ sql += whereSql;
 			pstmt.setString(4, serial);
 			pstmt.setInt(5, allow);
 			pstmt.setString(6, descript);
+			pstmt.setString(7, mainclass);
+			pstmt.setString(8, subclass);
+			pstmt.setString(9, protocol);
+			pstmt.setString(10, compare);
 			pstmt.executeUpdate();
 			
 			con.commit();
@@ -2653,11 +2684,15 @@ sql += whereSql;
 		String pid = map.get("pid").toString();
 		String serial = map.get("serial").toString();
 		String descript = map.get("descript").toString();
-		int allow = 1;	// 추후 수정?? (DB : default 또는 front 정책 설정)
+		String mainclass = map.get("mainclass").toString();
+		String subclass = map.get("subclass").toString();
+		String protocol = map.get("protocol").toString();
+		String compare = map.get("compare").toString();
+		int allow = Integer.parseInt( map.get("use_type").toString());
 		
 		String returnCode = ConfigInfo.RETURN_CODE_SUCCESS;
 		
-		String sql= "UPDATE usb_dev_info SET name = ?, vid = ?, pid = ?, serial_number = ?, allow = ?, description = ? WHERE no = ? ";
+		String sql= "UPDATE usb_dev_info SET name = ?, vid = ?, pid = ?, serial_number = ?, allow = ?, description = ?, class=?, subclass=?, protocol=?, compare_type=? WHERE no = ? ";
 		
 		try{
 			con = ds.getConnection();
@@ -2669,7 +2704,13 @@ sql += whereSql;
 			pstmt.setString(4, serial);
 			pstmt.setInt(5, allow);
 			pstmt.setString(6, descript);
-			pstmt.setInt(7, usbNo);
+
+			pstmt.setString(7, mainclass);
+			pstmt.setString(8, subclass);
+			pstmt.setString(9, protocol);
+			pstmt.setString(10, compare);
+			
+			pstmt.setInt(11, usbNo);
 			pstmt.executeUpdate();
 			
 			con.commit();

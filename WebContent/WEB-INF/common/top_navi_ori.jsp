@@ -1,4 +1,4 @@
-admin_user_request.jsp<%@ page language="java" contentType="text/html; charset=utf-8"
+<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 
 <% 
@@ -56,8 +56,6 @@ admin_user_request.jsp<%@ page language="java" contentType="text/html; charset=u
 		<!-- JAVASCRIPT FILES -->
 		<script type="text/javascript">var plugin_path = '${context}/assets/plugins/';</script>
 		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-2.2.3.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/jquery/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="${context}/assets/plugins/stable/jquery.layout.js"></script>
 		<script type="text/javascript" src="${context}/assets/js/app.js"></script>
 		<script type="text/javascript" src="${context}/assets/plugins/select2/js/select2.full.min.js"></script>
 		<script type="text/javascript" src="${context}/assets/js/admin_function.js"></script>
