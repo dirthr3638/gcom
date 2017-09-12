@@ -76,8 +76,8 @@
 											<!-- Standard button -->
 											<button type="button" class="btn btn-default" onclick="javascript:onClickAddAdmin()"><i class="fa fa-plus" aria-hidden="true">&nbsp;&nbsp;관리자추가</i></button>
 											<!-- Info -->
-											<button type="button" class="btn btn-info" onclick="searchAdminInfo()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
-											
+<!-- 											<button type="button" class="btn btn-info" onclick="searchAdminInfo()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
+ -->											
 											</div>
 									</div>
 									<div class="row">

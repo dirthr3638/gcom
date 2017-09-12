@@ -66,7 +66,7 @@
 										<div class="col-md-12">
 			
 											<!-- Standard button -->
-											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle(1,initLayout);"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
+											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
 		
 											<!-- Info -->
 											<button type="button" class="btn btn-info" onclick="searchTableLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
@@ -109,7 +109,7 @@
 													</tbody>
 												</table>	
 												
-												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle(1,initLayout);">접기</button>
+												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">접기</button>
 																					
 											</div>
 <!-- 										
