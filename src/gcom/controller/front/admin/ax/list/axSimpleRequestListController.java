@@ -12,11 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.sun.javafx.collections.MappingChange.Map;
 
 import gcom.controller.action.deptAction;
 import gcom.controller.action.getStatisticAction;
-import gcom.controller.action.admin.getAdminAction;
 
 @WebServlet("/ax/simplerequest/list")
 public class axSimpleRequestListController extends HttpServlet {

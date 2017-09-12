@@ -247,7 +247,6 @@ public class CommonUtil {
 					
 					SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				    String strDate = fm.format(cal.getTime());
-				    System.out.println(strDate);
 					result = strDate;
 			
 				} catch (ParseException e) {

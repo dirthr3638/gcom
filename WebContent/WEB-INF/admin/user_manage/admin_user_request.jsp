@@ -30,6 +30,7 @@
 
         <script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.min.js"></script>
         <script type="text/javascript" src="${context}/assets/plugins/vex/js/vex.combined.min.js"></script>
+        
 	</head>
 	<body>
 		<!-- WRAPPER -->
@@ -48,9 +49,9 @@
 				</header>
 				<!-- /page title -->
 			
-				<div id="content" class="dashboard padding-20">
-					<div class="row">
-						<div class="col-md-2">
+				<!-- <div id="content" class="dashboard padding-20"> -->
+					<div id="layout-container" style="width: 100%; height: 100%; min-height: 1000px">
+						<div class="ui-layout-west">
 							<div id="panel-2" class="panel panel-default">
 								<div class="panel-heading">
 									<span class="title elipsis">
@@ -69,7 +70,7 @@
 					
 						</div>
 
-						<div class="col-md-10">
+						<div class="ui-layout-center">
 							<div id="panel-2" class="panel panel-default">
 						
 								<div class="panel-heading">
@@ -176,7 +177,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				<!-- </div> -->
 			</section>
 		</div>
 		
@@ -1069,6 +1070,11 @@
  	}
  	
 	$(document).ready(function(){
+		
+		$('#layout-container').layout({
+			closable: false
+		});
+		
 		$(".select2theme").select2({
    			  minimumResultsForSearch: -1,
    			  dropdownAutoWidth : true,
@@ -1085,6 +1091,7 @@
 		jQuery('#preloader').hide();
        
     });
+    
 </script>
 		
 		

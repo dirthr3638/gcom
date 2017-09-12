@@ -47,8 +47,8 @@
 				<!-- /page title -->
 			
 				<div id="content" class="dashboard padding-20">
-					<div class="row">
-						<div class="col-md-2">
+					<div id="layout-container" class="row" style="width: 100%; height: 100%; min-width: 700px; min-height: 1200px;">
+						<div class="ui-layout-west">
 							<div id="panel-2" class="panel panel-default">
 								<div class="panel-heading">
 									<span class="title elipsis">
@@ -67,7 +67,7 @@
 					
 						</div>
 
-						<div class="col-md-10">
+						<div class="ui-layout-center">
 							<div id="panel-2" class="panel panel-default">
 						
 								<div class="panel-heading">
@@ -905,6 +905,8 @@
 		 	}
 		 	
 			$(document).ready(function(){
+				
+				$('#layout-container').layout({closable: false});
 
 				$(".select2theme").select2({
 		   			  minimumResultsForSearch: -1,
