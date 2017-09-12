@@ -1059,12 +1059,12 @@
 					/* This row is already open - close it */
 					jQuery(this).addClass("datatables-close").removeClass("datatables-open");
 					table.fnClose(nTr);
-					initLayout()
+					initLayout();
 				} else {
 					/* Open this row */
 					jQuery(this).addClass("datatables-open").removeClass("datatables-close");
 					table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
-					initLayout()
+					initLayout();
 				}
 			});
 			
@@ -1085,8 +1085,6 @@
  	});
  	
 	$(document).ready(function(){
-		
-		$('#panel-list').width();
 		
 		$(".select2theme").select2({
    			  minimumResultsForSearch: -1,
