@@ -49,7 +49,7 @@
 				</header>
 				<!-- /page title -->
 			
-				<!-- <div id="content" class="dashboard padding-20"> -->
+				<div id="content" class="dashboard padding-20">
 					<div id="layout-container" style="width: 100%; height: 100%;">
 						<div class="ui-layout-west">
 							<div id="panel-tree" class="panel panel-default">
@@ -177,7 +177,7 @@
 							</div>
 						</div>
 					</div>
-				<!-- </div> -->
+				</div>
 			</section>
 		</div>
 		
@@ -1073,13 +1073,18 @@
  		var hei = $('#panel-list').height();
  		$('#layout-container').height(hei);
  		
- 		$('#layout-container').layout({
-			closable: false
-		});
+ 		layer;
  	}
+ 	
+ 	var layer = $('#layout-container').layout({ 
+ 		closable: false,
+ 		west__minWidth : 200,
+ 		center__minWidth : 500,
+ 	});
  	
 	$(document).ready(function(){
 		
+		$('#panel-list').width();
 		
 		$(".select2theme").select2({
    			  minimumResultsForSearch: -1,
