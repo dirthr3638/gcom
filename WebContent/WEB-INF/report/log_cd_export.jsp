@@ -50,9 +50,9 @@
 				<!-- /page title -->
 			
 				<div id="content" class="dashboard padding-20">
-					<div class="row">
-						<div class="col-md-2">
-							<div id="panel-2" class="panel panel-default">
+					<div id="layout-container" style="width: 100%; height: 100%;">
+						<div class="ui-layout-west">
+							<div id="panel-tree" class="panel panel-default">
 								<div class="panel-heading">
 									<span class="title elipsis">
 										<strong>조직도</strong> <!-- panel title -->
@@ -70,9 +70,9 @@
 					
 						</div>
 
-						<div class="col-md-10">
-							<div id="panel-2" class="panel panel-default">
-						
+						<div class="ui-layout-center">
+							<div id="panel-list" class="panel panel-default">
+
 								<div class="panel-heading">
 									<span class="title elipsis">
 										<strong>CD반출로그</strong> <!-- panel title -->
@@ -588,14 +588,29 @@
 					/* This row is already open - close it */
 					jQuery(this).addClass("datatables-close").removeClass("datatables-open");
 					table.fnClose(nTr);
+					initLayout()
 				} else {
 					/* Open this row */
 					jQuery(this).addClass("datatables-open").removeClass("datatables-close");
 					table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+					initLayout()
 				}
 			});
 		} 		
  	}
+
+ 	function initLayout() {
+ 		var hei = $('#panel-list').height();
+ 		$('#layout-container').height(hei);
+ 		
+ 		layer;
+ 	}
+ 	
+ 	var layer = $('#layout-container').layout({ 
+ 		closable: false,
+ 		west__minWidth : 200,
+ 		center__minWidth : 500,
+ 	});
  	
  	function FileDetail(no, type, file_id){
 		$.ajax({      
@@ -621,7 +636,8 @@
  	}
 
  	$(document).ready(function(){
-		
+		$('#panel-list').width();
+
 		$(".select2theme").select2({
    			  minimumResultsForSearch: -1,
    			  dropdownAutoWidth : true,
@@ -637,6 +653,11 @@
 		jQuery('#preloader').hide();
 
     });
+ 	
+	$(document).ajaxComplete(function(){
+		initLayout();
+	});
+
 </script>
 		
 		

@@ -180,7 +180,19 @@
  		$buttons.click();
  		
  	}
+
+ 	function initLayout() {
+ 		var hei = $('#panel-list').height();
+ 		$('#layout-container').height(hei);
+ 		
+ 		layer;
+ 	}
  	
+ 	var layer = $('#layout-container').layout({ 
+ 		closable: false,
+ 		west__minWidth : 200,
+ 		center__minWidth : 500,
+ 	});
 	$(document).ready(function(){
 		
 		$(".select2theme").select2({
@@ -333,6 +345,10 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 		jQuery('#preloader').hide();
 
     });
+	$(document).ajaxComplete(function(){
+		initLayout();
+	});
+    
 </script>
 		
 		

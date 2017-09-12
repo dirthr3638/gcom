@@ -57,9 +57,9 @@ table td {
 				<!-- /page title -->
 			
 				<div id="content" class="dashboard padding-20">
-					<div class="row">		
-						<div class="col-md-12">
-							<div id="panel-2" class="panel panel-default">
+					<div id="layout-container" style="width: 100%; height: 100%;">
+						<div class="ui-layout-west">
+							<div id="panel-tree" class="panel panel-default">
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
@@ -69,8 +69,8 @@ table td {
 	
 								<!-- panel content -->
 								<div class="panel-body">
-									<div class="row">
-										<div class="col-md-12">
+									<div class="ui-layout-center">
+										<div id="panel-list" class="panel panel-default">
 			
 											<!-- Standard button -->
 											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
@@ -411,15 +411,29 @@ table td {
 					/* This row is already open - close it */
 					jQuery(this).addClass("datatables-close").removeClass("datatables-open");
 					table.fnClose(nTr);
+					initLayout()
 				} else {
 					/* Open this row */
 					jQuery(this).addClass("datatables-open").removeClass("datatables-close");
 					table.fnOpen(nTr, fnFormatDetails(table, nTr), 'details');
+					initLayout()
 				}
 			});
 		}
  	}
+
+ 	function initLayout() {
+ 		var hei = $('#panel-list').height();
+ 		$('#layout-container').height(hei);
+ 		
+ 		layer;
+ 	}
  	
+ 	var layer = $('#layout-container').layout({ 
+ 		closable: false,
+ 		west__minWidth : 200,
+ 		center__minWidth : 500,
+ 	});
 	$(document).ready(function(){
 		
 		$(".select2theme").select2({
@@ -432,6 +446,10 @@ table td {
 jQuery('#preloader').hide();
        
     });
+
+	$(document).ajaxComplete(function(){
+		initLayout();
+	});
 </script>
 	</body>
 </html>
