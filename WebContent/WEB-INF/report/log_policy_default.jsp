@@ -101,7 +101,7 @@
 										<div class="col-md-12">
 			
 											<!-- Standard button -->
-											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();">검색필터</button>
+											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle(1,initLayout);">검색필터</button>
 		
 											<!-- Info -->
 											<button type="button" class="btn btn-info">새로고침</button>
@@ -155,7 +155,7 @@
 													</tbody>
 												</table>	
 												
-												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">필터적용</button>
+												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle(1,initLayout);">필터적용</button>
 																					
 											</div>
 <!-- 										

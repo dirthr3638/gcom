@@ -66,7 +66,7 @@
 										<div class="col-md-12">
 			
 											<!-- Standard button -->
-											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle();"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
+											<button type="button" class="btn btn-default" onclick="jQuery('#pre-1').slideToggle(1,initLayout);"><i class="fa fa-filter" aria-hidden="true">&nbsp;검색필터</i></button>
 		
 											<!-- Info -->
 											<button type="button" class="btn btn-info" onclick="searchTableLog()"><i class="fa fa-repeat" aria-hidden="true">&nbsp;재검색</i></button>
@@ -109,7 +109,7 @@
 													</tbody>
 												</table>	
 												
-												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle();">접기</button>
+												<button type="button" class="btn btn-success" onclick="jQuery('#pre-1').slideToggle(1,initLayout);">접기</button>
 																					
 											</div>
 <!-- 										
@@ -180,19 +180,6 @@
  		$buttons.click();
  		
  	}
-
- 	function initLayout() {
- 		var hei = $('#panel-list').height();
- 		$('#layout-container').height(hei);
- 		
- 		layer;
- 	}
- 	
- 	var layer = $('#layout-container').layout({ 
- 		closable: false,
- 		west__minWidth : 200,
- 		center__minWidth : 500,
- 	});
 	$(document).ready(function(){
 		
 		$(".select2theme").select2({
@@ -345,10 +332,6 @@ loadScript(plugin_path + "datatables/extensions/Buttons/js/buttons.jqueryui.min.
 		jQuery('#preloader').hide();
 
     });
-	$(document).ajaxComplete(function(){
-		initLayout();
-	});
-    
 </script>
 		
 		
