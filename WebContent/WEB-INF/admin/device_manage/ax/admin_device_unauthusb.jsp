@@ -71,6 +71,9 @@
 							<th>vid</th>
 							<th>pid</th>
 							<th>시리얼번호</th>
+							<th>class</th>
+							<th>subclass</th>
+							<th>프로토콜</th>
 							<th>비고</th>
 							<th>사용여부</th>
 							<th>정책삭제</th>
@@ -279,6 +282,15 @@
 					data: "serialNumber",
 					"orderable": false	//시리얼번호
 				}, {
+					data: "mainclass",
+					"orderable": false	//vid
+				}, {
+					data: "subclass",
+					"orderable": false	//pid
+				}, {
+					data: "protocol",
+					"orderable": false	//시리얼번호
+				}, {
 					data: "description",
 					"orderable": false	//설명
 				}, {
@@ -328,13 +340,22 @@
 					"targets": [4],	//시리얼
 					"class":"center-cell"
 				}, {	
-					"targets": [5]	//비고
+					"targets": [5]	//vid
+					,"class":"center-cell"
+				}, {	
+					"targets": [6]	//pid
+					,"class":"center-cell"
+				}, {	
+					"targets": [7],	//시리얼
+					"class":"center-cell"
+				}, {	
+					"targets": [8]	//비고
 					,"class" : "center-cell"
 				}, {	
-					"targets": [6]	//사용여부
+					"targets": [9]	//사용여부
 					,"class" : "center-cell"
 				}, {	
-					"targets": [7]	//삭제
+					"targets": [10]	//삭제
 					,"class" : "center-cell"
 				}],						
 				"initComplete": function( settings, json ) {
