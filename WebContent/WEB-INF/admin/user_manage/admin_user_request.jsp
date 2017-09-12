@@ -50,9 +50,9 @@
 				<!-- /page title -->
 			
 				<!-- <div id="content" class="dashboard padding-20"> -->
-					<div id="layout-container" style="width: 100%; height: 100%; min-height: 1000px">
+					<div id="layout-container" style="width: 100%; height: 100%;">
 						<div class="ui-layout-west">
-							<div id="panel-2" class="panel panel-default">
+							<div id="panel-tree" class="panel panel-default">
 								<div class="panel-heading">
 									<span class="title elipsis">
 										<strong>조직도</strong> <!-- panel title -->
@@ -71,7 +71,7 @@
 						</div>
 
 						<div class="ui-layout-center">
-							<div id="panel-2" class="panel panel-default">
+							<div id="panel-list" class="panel panel-default">
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
@@ -1069,17 +1069,24 @@
 		}
  	}
  	
-	$(document).ready(function(){
-		
-		$('#layout-container').layout({
+ 	function initLayout() {
+ 		var hei = $('#panel-list').height();
+ 		$('#layout-container').height(hei);
+ 		
+ 		$('#layout-container').layout({
 			closable: false
 		});
+ 	}
+ 	
+	$(document).ready(function(){
+		
 		
 		$(".select2theme").select2({
    			  minimumResultsForSearch: -1,
    			  dropdownAutoWidth : true,
    			  width: 'auto'
    		});
+		
      	setTree();
 
 		$('#org_tree')
@@ -1091,6 +1098,10 @@
 		jQuery('#preloader').hide();
        
     });
+	
+	$(document).ajaxComplete(function(){
+		initLayout();
+	});
     
 </script>
 		
