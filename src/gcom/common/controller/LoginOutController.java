@@ -43,7 +43,7 @@ public class LoginOutController extends HttpServlet {
 		action.insertServeriAudit(model);
          session.invalidate();
          String context = request.getContextPath();
-         response.sendRedirect(context);
+         response.sendRedirect(context + "/");
 //         request.getRequestDispatcher("/WEB-INF/login/login.jsp").forward(request, response);
 	}
 }

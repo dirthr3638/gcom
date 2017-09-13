@@ -2793,12 +2793,15 @@ sql += whereSql;
 					
 					con.setAutoCommit(false);
 					
-					sql= "INSERT INTO usb_dev_info (name, vid, pid, serial_number, allow, description) VALUES (?, ?, ?, ?, ?, ?) ";
+					sql= "INSERT INTO usb_dev_info (name, vid, pid, class, subclass, protocol, serial_number, allow, description, compare_type) "
+							+ "VALUES (?, ?, ?, '', '', '',?, ?, ?, '111111') ";
 					
 					pstmt=con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
 					pstmt.setString(1, device_info.get("device_name").toString());
 					pstmt.setString(2, device_info.get("vid").toString());
 					pstmt.setString(3, device_info.get("pid").toString());
+
+
 					pstmt.setString(4, device_info.get("serial_number").toString());
 					pstmt.setInt(5, allow);
 					pstmt.setString(6, "차단 Device 허용");
