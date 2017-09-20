@@ -259,4 +259,37 @@ public class CommonUtil {
 		return result;
 	}
 	
+	public static String getReplaceHtmlChar(String str) {
+		String data = "";
+		StringBuffer sb = new StringBuffer();
+		 
+		for(int i=0; i < str.length(); i++) 
+		{
+		    char c = str.charAt(i);
+		    switch (c) 
+		   {
+		      case '<' : 
+		        sb.append("&lt;");
+		        break;
+		     case '>' : 
+		        sb.append("&gt;");
+		        break;
+		     case '&' :
+		        sb.append("&amp;");
+		        break;
+		     case '"' :
+		        sb.append("&quot;");
+		        break;
+		     case '\\' : 
+		        sb.append("&apos;");
+		        break;
+		     default:
+		        sb.append(c);
+		     } 
+		 }
+		data = sb.toString();
+	
+		return data;
+	}
+	
 }

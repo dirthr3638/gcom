@@ -226,7 +226,7 @@
 				    
 				    value = time.toString();
 				    
-					if (value > 600) {
+					if (value > 10) {
 						vexAlert('타임아웃 시간은 10분이하로 설정하시기바랍니다.')
 						return false; 
 					}

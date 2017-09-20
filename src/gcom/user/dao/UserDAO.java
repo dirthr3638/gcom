@@ -19,6 +19,7 @@ import gcom.Model.PolicyProcessModel;
 import gcom.Model.PolicySerialModel;
 import gcom.Model.PolicyWebSiteBlocklModel;
 import gcom.Model.UsbDevInfoModel;
+import gcom.common.util.CommonUtil;
 import gcom.common.util.ConfigInfo;
 import gcom.common.util.encrypto.hashEncrypto;
 import gcom.user.model.MemberPolicyModel;
@@ -503,7 +504,7 @@ public class UserDAO {
 				model.setContactId(rs.getInt("contact_id"));
 				model.setContactType(rs.getInt("contact_type"));
 				model.setTypeName(rs.getInt("contact_type"));
-				model.setContactTitle(rs.getString("contact_title"));
+				model.setContactTitle(CommonUtil.getReplaceHtmlChar(rs.getString("contact_title")));
 				model.setRegUserStafId(rs.getString("id"));
 				model.setRegDt(rs.getString("reg_dt"));
 				model.setCommentYN(rs.getString("comment_yn"));
@@ -1245,8 +1246,8 @@ public class UserDAO {
 				model.setContactId(rs.getInt("contact_id"));
 				model.setContactType(rs.getInt("contact_type"));
 				model.setTypeName(rs.getInt("contact_type"));
-				model.setContactTitle(rs.getString("contact_title"));
-				model.setContactBody(rs.getString("contact_body"));
+				model.setContactTitle(CommonUtil.getReplaceHtmlChar(rs.getString("contact_title")));
+				model.setContactBody(CommonUtil.getReplaceHtmlChar(rs.getString("contact_body")));
 				model.setRegUserStafId(rs.getString("id"));
 				model.setRegUserName(rs.getString("name"));
 				model.setRegDt(rs.getString("reg_dt"));

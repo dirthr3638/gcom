@@ -205,18 +205,7 @@ function isValied(data) {
 		})
 		return false;
 	}
-	
-	if(data.hash.trim() == '' || data.hash.trim().length < 1) {
-		vex.dialog.open({
-			message: '프로세스 해시는 필수 선택 사항입니다.',
-			  buttons: [
-			    $.extend({}, vex.dialog.buttons.YES, {
-			      text: '확인'
-			  })]
-		})
-		return false;
-	}
-	
+		
 	return true;
 }
 
