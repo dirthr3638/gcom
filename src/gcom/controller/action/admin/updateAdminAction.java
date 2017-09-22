@@ -12,6 +12,8 @@ import gcom.service.System.ISystemService;
 import gcom.service.System.SystemServiceImpl;
 import gcom.service.UserManage.IUserManageService;
 import gcom.service.UserManage.UserManageServiceImpl;
+import gcom.service.disk.DiskServiceImpl;
+import gcom.service.disk.IDiskService;
 import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
 
@@ -105,5 +107,10 @@ public class updateAdminAction {
 	public HashMap<String, Object> updateNoticeDelete(HashMap<String, Object> map) {
 		IPersonalService as = new PersonalServiceImpl();
 		return as.updateNoticeDelete(map);
+	}
+	
+	public HashMap<String, Object> updateDiskAllow(HashMap<String, Object> map) {
+		IDiskService as = new DiskServiceImpl();
+		return as.updateDiskAllow(map);
 	}
 }

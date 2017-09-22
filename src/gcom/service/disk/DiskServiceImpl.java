@@ -7,6 +7,7 @@ import gcom.DAO.DeviceDataDAO;
 import gcom.DAO.DiskDataDAO;
 import gcom.Model.DiskConnectLogModel;
 import gcom.Model.DiskExportModel;
+import gcom.Model.DiskInfoModel;
 import gcom.Model.FileEventLogModel;
 import gcom.Model.PartitionConnectLogModel;
 import gcom.Model.PrintFileModel;
@@ -32,6 +33,23 @@ public class DiskServiceImpl implements IDiskService {
 		return diskDao.getPartitionConnectLogListCount(map);
 		
 	}
+	
+	public List<DiskInfoModel> getDiskInfoList(HashMap<String, Object> map){
+		return diskDao.getDiskInfoList(map);
+		
+	}
 
+	public int getDiskInfoListCount(HashMap<String, Object> map){
+		return diskDao.getDiskInfoListCount(map);
+	}
 
+	public HashMap<String, Object> updateDiskAllow(HashMap<String, Object> map){
+		
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("returnCode", diskDao.updateDiskAllow(map));
+		return result;
+		
+	}
+
+	
 }

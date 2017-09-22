@@ -9,6 +9,7 @@ import gcom.Model.AuditServerModel;
 import gcom.Model.CDExportLogModel;
 import gcom.Model.DiskConnectLogModel;
 import gcom.Model.DiskExportModel;
+import gcom.Model.DiskInfoModel;
 import gcom.Model.FileEventLogModel;
 import gcom.Model.FileExportLogModel;
 import gcom.Model.FileOwnerShipLogModel;
@@ -444,6 +445,22 @@ public class getAction {
 
 	}
 
+	public HashMap<String, Object> getDiskInfoList(HashMap<String, Object> map){
+		IDiskService ds = new DiskServiceImpl();
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int total = ds.getDiskInfoListCount(map);
+		List<DiskInfoModel> data = ds.getDiskInfoList(map);
+
+		result.put("data", data);
+		result.put("recordsTotal", total);
+		result.put("recordsFiltered", total);
+				
+		return result;
+		
+	}
+
+	
 	public HashMap<String, Object> getPartitionConnectLogList(HashMap<String, Object> map){
 		IDiskService ds = new DiskServiceImpl();
 		HashMap<String, Object> result = new HashMap<String, Object>();
@@ -530,4 +547,8 @@ public class getAction {
 				
 		return result;
 	}
+	
+
+
+	
 }

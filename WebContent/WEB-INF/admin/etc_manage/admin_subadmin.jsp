@@ -162,18 +162,7 @@
  		$buttons.click();
  		
  	}
- 	
- 	
-/*  	function treeSelectBind(){
-		$("#org_tree").bind(
-		        "select_node.jstree", function(evt, data){
-		        	var dept = data.selected[0];
-		        	selectedDeptNo = dept;
-		        	tableReload();
-		        }
-		 	);
- 	}
- 	*/
+
  	function tableReload(){
  		var datatable = $('#table_admininfo').dataTable().api();
 		datatable.ajax.reload();   	

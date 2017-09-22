@@ -46,6 +46,7 @@
 			</a>
 				<ul>
 					<li ${menu_sub_first == 4100 ? 'class="active"' : ''}><a href="${context}/admin/device">USB 관리</a></li>
+					<li ${menu_sub_first == 4200 ? 'class="active"' : ''}><a href="${context}/admin/diskadmin">디스크 관리</a></li>
 				</ul>
 			</li>
 			<li ${menu_parent == 5000 ? 'class="active"' : ''}><a href="${context}/admin/system/manage"> <i
