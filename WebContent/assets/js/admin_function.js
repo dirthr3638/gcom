@@ -3,7 +3,7 @@ function getPolicyApplyData(flag){
 	var map = new Object();
 	
 	if (flag == 'true') {
-		console.log("solo")
+		console.log("solo") 
 		// 기본 탭 데이터 Set Operation
 		map['isUninstall'] 			= $('#chk_isUninstall_item').is(':checked') == true ? 1 : 0 ;					// 에이전트 삭제 가능 여부
 		map['isFileEncryption']		= $('#chk_isFileEncryption_item').is(':checked') == true ? 1 : 0 ;				// 파일실시간 암호화 여부

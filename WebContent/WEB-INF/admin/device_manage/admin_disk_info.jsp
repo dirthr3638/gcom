@@ -649,13 +649,6 @@
 
  	$(document).ready(function(){
 		$('#panel-list').width();
-
-		$(".select2theme").select2({
-   			  minimumResultsForSearch: -1,
-   			  dropdownAutoWidth : true,
-   			  width: 'auto'
-   		});
-
 		
      	setTree();
 		$('#org_tree')
