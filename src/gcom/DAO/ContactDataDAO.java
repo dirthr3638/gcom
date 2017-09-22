@@ -18,6 +18,7 @@ import gcom.Model.UserAgentModel;
 import gcom.Model.UserInfoModel;
 import gcom.Model.UserPolicyModel;
 import gcom.Model.statistic.ContactSimpleModel;
+import gcom.common.util.CommonUtil;
 
 
 public class ContactDataDAO {
@@ -86,7 +87,7 @@ sql += whereSql;
 			while(rs.next()){
 				ContactSimpleModel model = new ContactSimpleModel();
 				model.setContactNo(rs.getInt("contact_id"));
-				model.setContactSubject(rs.getString("contact_title"));
+				model.setContactSubject(CommonUtil.getReplaceHtmlChar(rs.getString("contact_title")));
 				model.setContactDept(rs.getString("short_name"));
 				model.setContactWriter(rs.getString("user_name"));
 

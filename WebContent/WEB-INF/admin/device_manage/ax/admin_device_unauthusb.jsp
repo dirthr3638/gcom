@@ -368,7 +368,7 @@
 			ctbl.on( 'click', 'td', function () {
 				var data = ctbl.row( $(this).parent() ).data();
 				
-				if($(this).index() != 7) {
+				if($(this).index() != 10) {
 					fn_open_reg_usb_popup(data.usbId);
 				}
 				

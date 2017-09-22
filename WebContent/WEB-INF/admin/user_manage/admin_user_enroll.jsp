@@ -370,7 +370,7 @@
 		vex.defaultOptions.className = 'vex-theme-os'
 			
 			vex.dialog.open({
-				message: '해당 사용자 ['+ userId +'] 등록을 반려합니다. 계속하시겠습니까?',
+				message: '해당 사용자 ['+ atob(userId) +'] 등록을 반려합니다. 계속하시겠습니까?',
 			  buttons: [
 			    $.extend({}, vex.dialog.buttons.YES, {
 			      text: '확인'
@@ -634,7 +634,7 @@
 								var uid = btoa(row.userId);
 								
 								var ret = '<button type="button" class="btn btn-success btn-xs" onclick="javascript:enrollConfirm(\''+ uid  +'\', '+data+')"><i class="fa fa-check" aria-hidden="true">&nbsp;승인</i></button>';
-								ret +='<button type="button" class="btn btn-danger btn-xs" onclick="javascript:enrollReject(\''+ btoa(row.userId)  +'\', '+data+')" ><i class="fa fa-remove" aria-hidden="true">&nbsp;거절</i></button>'
+								ret +='<button type="button" class="btn btn-danger btn-xs" onclick="javascript:enrollReject(\''+ uid  +'\', '+data+')" ><i class="fa fa-remove" aria-hidden="true">&nbsp;거절</i></button>'
 								return ret
 							}else if(row.permit == 'P'){
 								var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:enrollPassInfo(\''+ btoa(row.permitAdmin)  +'\', \'' + btoa(row.permitDate) + '\')"><i class="fa fa-check" aria-hidden="true">&nbsp;승인완료</i></button>';
