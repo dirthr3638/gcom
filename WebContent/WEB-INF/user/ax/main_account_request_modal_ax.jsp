@@ -35,7 +35,7 @@
 				-->
 
 				<!-- registration form -->
-				<form action="index.html" method="post" class="sky-form boxed" novalidate="novalidate">
+				<form action="index.html" method="post" class="sky-form boxed" novalidate="novalidate" id="formReqJoin">
 					<header><i class="fa fa-users"></i> 회원가입요청 <small class="note bold">관리자승인후가입됩니다</small></header>
 					
 					<fieldset>					
@@ -149,7 +149,7 @@ $(document).ready(function(){
 function fn_request_proc() {
 	var data = get_input_data()
 	if(fn_request_input_valid(data)){
-		
+
 		$.ajax({      
 	        type:"POST",  
 	        url:'${context}/account/request/do',
@@ -253,8 +253,22 @@ function fn_request_input_valid(data) {
 	if (data.user_dept < 0 ) {
 		alert("부서선택이 유효하지 않습니다. 확인해주세요.");
 		return false;
-	} 
-
+	}
+	
+	var objEv = $('#formReqJoin input[type=text]');
+	var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+	var checkFlag = false;
+	console.log(objEv);
+	for (var i = 0; i < objEv.length; i ++ ) {
+		if( special_pattern.test($(objEv[i]).val()) == true ){
+		    alert('입력창에 특수문자는 사용할 수 없습니다.');
+		    checkFlag = true;
+		}
+	}
+	
+	if(checkFlag) {
+		return false;
+	}
 	
 	return true;
 }

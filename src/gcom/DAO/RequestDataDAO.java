@@ -21,6 +21,7 @@ import gcom.Model.UserInfoModel;
 import gcom.Model.UserPolicyModel;
 import gcom.Model.statistic.ContactSimpleModel;
 import gcom.Model.statistic.RequestSimpleModel;
+import gcom.common.util.CommonUtil;
 import gcom.common.util.ConfigInfo;
 
 
@@ -112,7 +113,7 @@ public class RequestDataDAO {
 				model.setRequestType(rs.getInt("req_type"));
 				model.setRequestNo(rs.getInt("req_id"));
 				model.setRequestDept(rs.getString("dept_name"));
-				model.setRequestWriter(rs.getString("mem_name"));
+				model.setRequestWriter(CommonUtil.getReplaceHtmlChar(rs.getString("mem_name")));
 
 				data.add(model);
 			}
