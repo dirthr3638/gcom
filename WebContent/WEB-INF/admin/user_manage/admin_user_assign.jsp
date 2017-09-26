@@ -927,12 +927,12 @@
 		 	
 			$(document).ready(function(){
 
-				$(".select2theme").select2({
+/* 				$(".select2theme").select2({
 		   			  minimumResultsForSearch: -1,
 		   			  dropdownAutoWidth : true,
 		   			  width: 'auto'
 		   		});
-				
+				 */
 				//전체 체크 박스 선택 시
 				$("#all_check_info").click(function(){
 					

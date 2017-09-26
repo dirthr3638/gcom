@@ -697,8 +697,8 @@ sql += whereSql;
 		if(!hwinfo.equals("")) 	whereSql += "AND disk.hw_info LIKE ? ";
 		if(!status.equals("")) 	whereSql += "AND disk.status = ? ";
 
-		if(!start_date.equals("")) 	whereSql += "AND disk.create_client_time >= ? ";
-		if(!end_date.equals("")) 	whereSql += "AND disk.create_client_time < ? + interval 1 day ";
+		if(!start_date.equals("")) 	whereSql += "AND disk.created_server_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND disk.created_server_time < ? + interval 1 day ";
 		
 		whereSql += "ORDER BY disk.no DESC LIMIT ?, ? ";	
 		
@@ -742,8 +742,6 @@ sql += whereSql;
 			if(!user_id.equals("")) pstmt.setString(i++, "%" + user_id + "%");
 			if(!user_name.equals("")) pstmt.setString(i++, "%" + user_name + "%");
 			if(!user_number.equals("")) pstmt.setString(i++, "%" + user_number + "%");
-			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
-			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
 			if(!duty.equals("")) 		pstmt.setString(i++, "%" + duty + "%");
 			if(!rank.equals("")) 		pstmt.setString(i++, "%" + rank + "%");
 			if(!pc_name.equals("")) 	pstmt.setString(i++, "%" + pc_name + "%");
@@ -754,7 +752,10 @@ sql += whereSql;
 			if(!hwinfo.equals("")) 	pstmt.setString(i++, "%" + hwinfo + "%");
 			
 			if(!status.equals("")) 	pstmt.setString(i++, status);
-						
+
+			if(!start_date.equals("")) 	pstmt.setString(i++, start_date);
+			if(!end_date.equals("")) 	pstmt.setString(i++, end_date);
+
 			pstmt.setInt(i++,  Integer.parseInt(map.get("startRow").toString()));
 			pstmt.setInt(i++,  Integer.parseInt(map.get("endRow").toString()));
 
@@ -851,8 +852,8 @@ sql += whereSql;
 		if(!hwinfo.equals("")) 	whereSql += "AND disk.hw_info LIKE ? ";
 		if(!status.equals("")) 	whereSql += "AND disk.status = ? ";
 
-		if(!start_date.equals("")) 	whereSql += "AND disk.create_client_time >= ? ";
-		if(!end_date.equals("")) 	whereSql += "AND disk.create_client_time < ? + interval 1 day ";
+		if(!start_date.equals("")) 	whereSql += "AND disk.created_server_time >= ? ";
+		if(!end_date.equals("")) 	whereSql += "AND disk.created_server_time < ? + interval 1 day ";
 		
 		whereSql += "ORDER BY disk.no DESC LIMIT ?, ? ";	
 		
