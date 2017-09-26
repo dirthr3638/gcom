@@ -52,7 +52,7 @@ public class axAdminPolicyNetworkDelete extends HttpServlet {
 			model.setActionId(2101);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("네트워크포트 정책 삭제");
-			model.setParameter(param.toString());
+			model.setParameter("삭제ID : " + netNo.toString());
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 			insertAdminAction aud = new insertAdminAction();

@@ -52,7 +52,7 @@ public class axAdminPolicyPatternDelete extends HttpServlet {
 			model.setActionId(2020);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("민감정보 정책 삭제");
-			model.setParameter(param.toString());
+			model.setParameter("삭제ID : " + patNo);
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 		
 			insertAdminAction aud = new insertAdminAction();

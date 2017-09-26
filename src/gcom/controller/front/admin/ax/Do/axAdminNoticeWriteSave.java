@@ -58,7 +58,7 @@ public class axAdminNoticeWriteSave extends HttpServlet {
 			model.setActionId(1302);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("공지사항 작성");
-			model.setParameter(param.toString());
+			model.setParameter("");
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 			insertAdminAction aud = new insertAdminAction();

@@ -47,7 +47,7 @@ public class axAdminPolicyMessengerSave extends HttpServlet {
 			model.setActionId(2000);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("메신저 정책 등록");
-			model.setParameter(param.toString());
+			model.setParameter(parseAudit(param));
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);
@@ -59,4 +59,15 @@ public class axAdminPolicyMessengerSave extends HttpServlet {
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(new Gson().toJson(data));
 	}
+    
+    public String parseAudit(HashMap<String, Object> map){
+    	String data = "";
+    	
+    	data += "메신저명 : " + map.get("msg_name");
+    	data += ", 프로세스명 : " + map.get("msg_pro_name");
+    	data += ", 텍스트로그 : " + map.get("txt_log");
+    	data += ", 파일로그: " + map.get("file_log");
+    	
+    	return data;
+    }
 }

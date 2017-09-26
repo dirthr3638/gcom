@@ -50,8 +50,8 @@ public class axAdminPolicyWebsiteDelete extends HttpServlet {
 			model.setAdminId((String)session.getAttribute("user_id"));
 			model.setActionId(2030);
 			model.setWorkIp(httpReq.getRemoteAddr());
-			model.setDescription("웹사이트 정책 추가");
-			model.setParameter(param.toString());
+			model.setDescription("웹사이트 정책 삭제");
+			model.setParameter("삭제ID : " + siteNo );
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 			insertAdminAction aud = new insertAdminAction();

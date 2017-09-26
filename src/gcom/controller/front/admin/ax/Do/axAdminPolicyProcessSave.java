@@ -49,7 +49,7 @@ public class axAdminPolicyProcessSave extends HttpServlet {
 			model.setActionId(2040);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("프로세스 정책 생성");
-			model.setParameter(param.toString());
+			model.setParameter(parseAudit(param));
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);		
@@ -62,4 +62,15 @@ public class axAdminPolicyProcessSave extends HttpServlet {
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(new Gson().toJson(data));
 	}
+    
+    public String parseAudit(HashMap<String, Object> map){
+    	String data = "";
+    	
+    	data += "프로세스명 : " + map.get("pro_name");
+    	data += ", 경로 : " + map.get("pro_path");
+    	data += ", 설명 : " + map.get("notice");
+    	data += ", 사용여부: " + map.get("use_type");
+    	
+    	return data;
+    }
 }

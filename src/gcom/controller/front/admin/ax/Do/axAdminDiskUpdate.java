@@ -45,8 +45,10 @@ public class axAdminDiskUpdate extends HttpServlet {
 			model.setAdminId((String)session.getAttribute("user_id"));
 			model.setActionId(1302);
 			model.setWorkIp(httpReq.getRemoteAddr());
-			model.setDescription("");
-			model.setParameter(param.toString());
+			model.setDescription("디스크 허용/차단");
+	
+			String status = Integer.parseInt(request.getParameter("status").toString()) == 0 ? "차단" : "허용";
+			model.setParameter("[" + request.getParameter("user_id") + "] 디스크 " +  status );
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 			insertAdminAction aud = new insertAdminAction();

@@ -306,6 +306,9 @@
  		      
   			},
   			callback : function(data){
+  				if(name == 'console_time_out'){
+  					window.location.reload(true)
+  				}
   			}
 		});		
 	}

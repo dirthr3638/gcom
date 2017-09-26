@@ -76,7 +76,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>파일전송로그</strong> <!-- panel title -->
+										<strong>이동식디스크 반출로그</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -328,7 +328,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
-					                columns: [1,2,3,4,7,10,14],
+					                columns: [1,2,3,4,7,10,12],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -339,7 +339,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
-					                columns: [1,2,3,4,7,10],
+					                columns: [1,2,3,4,7,10,12],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'

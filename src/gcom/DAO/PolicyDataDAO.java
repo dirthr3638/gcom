@@ -2626,7 +2626,7 @@ sql += whereSql;
 		String pid = map.get("pid").toString();
 		String serial = map.get("serial").toString();
 
-		String mainclass = map.get("class").toString();
+		String mainclass = map.get("mainclass").toString();
 		String subclass = map.get("subclass").toString();
 		String protocol = map.get("protocol").toString();
 		String compare = map.get("compare").toString();

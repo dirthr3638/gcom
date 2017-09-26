@@ -49,7 +49,7 @@ public class axAdminPolicyWebsiteUpdate extends HttpServlet {
 			model.setActionId(2031);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("웹사이트 정책 수정");
-			model.setParameter(param.toString());
+			model.setParameter(parseAudit(param));
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 			insertAdminAction aud = new insertAdminAction();
@@ -62,4 +62,14 @@ public class axAdminPolicyWebsiteUpdate extends HttpServlet {
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(new Gson().toJson(data));
 	}
+    
+    public String parseAudit(HashMap<String, Object> map){
+    	String data = "";
+    	
+    	data += "사이트주소 : " + map.get("site_address");
+    	data += ", 설명 : " + map.get("descript");
+    	data += ", 사용여부 : " + map.get("use_type");
+    	
+    	return data;
+    }
 }

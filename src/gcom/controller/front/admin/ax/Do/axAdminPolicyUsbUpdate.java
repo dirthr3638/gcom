@@ -48,7 +48,7 @@ public class axAdminPolicyUsbUpdate extends HttpServlet {
 			model.setActionId(2051);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("USB 정책 수정");
-			model.setParameter(param.toString());
+			model.setParameter(parseAudit(param));
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 			insertAdminAction aud = new insertAdminAction();
@@ -61,4 +61,21 @@ public class axAdminPolicyUsbUpdate extends HttpServlet {
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(new Gson().toJson(data));
 	}
+    
+    public String parseAudit(HashMap<String, Object> map){
+    	String data = "";
+    	
+    	data += "장치이름 : " + map.get("usb_name");
+    	data += ", 설명 : " + map.get("descript");
+    	data += ", VID : " + map.get("vid");
+    	data += ", PID: " + map.get("pid");
+    	data += ", 시리얼: " + map.get("serial");
+    	data += ", class: " + map.get("mainclass");
+    	data += ", subclass: " + map.get("subclass");
+    	data += ", protocol: " + map.get("protocol");
+    	data += ", 사용여부: " + map.get("use_type");
+    	
+    	return data;
+    }
+
 }

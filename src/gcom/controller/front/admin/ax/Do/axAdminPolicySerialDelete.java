@@ -51,7 +51,7 @@ public class axAdminPolicySerialDelete extends HttpServlet {
 			model.setActionId(2013);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("시리얼포트 정책 삭제");
-			model.setParameter(param.toString());
+			model.setParameter("삭제ID : " + serialNo);
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 	 		insertAdminAction aud = new insertAdminAction();
