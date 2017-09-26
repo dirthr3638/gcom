@@ -680,6 +680,9 @@
 						},{
 							data: "waterLimitDate",
 							"orderable": false	//워터마크 기한
+						},{
+							data: "quarantinePathAccessCode",
+							"orderable": false	//보호폴더 접근 코드
 						}],
 						// set the initial value
 						"pageLength": 20,
@@ -870,6 +873,9 @@
 							,"visible" : false
 						}, {	
 							"targets": [46]	// 워터마크 기한
+							,"visible" : false
+						}, {	
+							"targets": [47]	// 보호폴더 접근 코드
 							,"visible" : false
 						}],						
 						"initComplete": function( settings, json ) {

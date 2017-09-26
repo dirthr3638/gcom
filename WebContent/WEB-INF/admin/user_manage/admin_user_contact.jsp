@@ -352,7 +352,7 @@
 	                          search: 'applied',
 	                          order: 'applied'
 	                      },
-		                columns: [2,12,5,6]
+		                columns: [2,3,4,5,6]
 	                  }
 	              }, 
 				],

@@ -190,7 +190,8 @@ function getApplyPolicyData(data){
 	}
 	
 	if(data.isSensitiveDirEnabled == true){
-		sOut += '<td class="center-cell th-cell-gray">보호폴더 접근 가능 여부:</td><td>가능</td></tr>';	
+		sOut += '<td class="center-cell th-cell-gray">보호폴더 접근 가능 여부:</td><td>가능';
+		sOut += ' [ 접근코드: ' + data.quarantinePathAccessCode +' ]</td></tr>';	
 	}else{
 		sOut += '<td class="center-cell th-cell-gray">보호폴더 접근 가능 여부:</td><td>불가능</td></tr>';		
 	}

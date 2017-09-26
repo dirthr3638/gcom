@@ -452,10 +452,10 @@
 					            search: 'applied',
 					            order: 'applied'
 	        				},
-		    				columns: [2,3,4,8,9],
+		    				columns: [2,3,4,8,9,10],
 	    	  				format: {
 	  							body: function ( data, row, column, node) {
-									if (column === 4) {
+									if (column === 5) {
 										var strStatus = $(node).text().trim();
 										
 										if (strStatus != '승인완료' && strStatus != '반려처리') {
@@ -479,10 +479,10 @@
 					            search: 'applied',
 					            order: 'applied'
 					        },
-							columns: [2,3,4,8,9],
+							columns: [2,3,4,8,9,10],
 	    	  				format: {
 	  							body: function ( data, row, column, node) {
-									if (column === 4) {
+									if (column === 5) {
 										var strStatus = $(node).text().trim();
 										
 										if (strStatus != '승인완료' && strStatus != '반려처리') {

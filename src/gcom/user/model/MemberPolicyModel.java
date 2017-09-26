@@ -61,7 +61,7 @@ public class MemberPolicyModel {
 	private int waterMarkType = 0;
 	
 	private int printLogDesc;	//0:로그 전송 안함	1:이벤트 로그	2: 파일 원본 로그
-	//private String quarantinePathAccessCode = "";
+	private String quarantinePathAccessCode = "";
 	private int patternFileControl;   //검출된 패턴파일 처리 방법 0:격리 1:삭제
 
 	public void setIsUninstall(int value){

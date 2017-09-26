@@ -85,7 +85,7 @@
 				<td class="center-cell th-cell-gray" width="25%">메일반출 사용 여부</td>
 				<td class="center-cell" width="25%"> <% if (data.getIsWebExport()) { %> 사용 <% } else { %> 미사용 <% } %></td>
 				<td class="center-cell th-cell-gray" width="25%">보호폴더 접근 가능 여부</td>
-				<td class="center-cell" width="25%"> <% if (data.getIsSensitiveDirEnabled()) { %> 가능 <% } else { %> 불가능 <% } %></td>
+				<td class="center-cell" width="25%"> <% if (data.getIsSensitiveDirEnabled()) { %> 가능 [ 접근코드: <%=data.getQuarantinePathAccessCode() %> ] <% } else { %> 불가능 <% } %></td>
 			</tr>
 			<tr>
 				<td class="center-cell th-cell-gray" width="25%">민감파일 접근시 삭제 여부</td>
@@ -128,7 +128,7 @@
 				</td>
 				<td class="center-cell th-cell-gray" width="25%">민감패턴차단여부</td>
 				<td class="center-cell" width="25%"> 
-					<% if (data.getIsFilePattern()) { %> 차단 [검충패턴처리 : <%= data.getPatternFileControl() == 0? "격리" : "삭제" %>]  <% } else { %> 허용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;
+					<% if (data.getIsFilePattern()) { %> 차단 <% } else { %> 허용 <% } %>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="#" onClick="javascript:fn_popup_detail('isFilePattern', '<%= data.getFilePatternCode() %>');" style="color:#1b74a7"><i class="fa fa-search"></i> 상세</a>
 				</td>
 			</tr>

@@ -528,19 +528,6 @@
 					return false;
 				}
 				
-				var today = new Date().format("yyyyMMdd");
-				var waterDate = policy_data.waterMarkDate.replace(/-/g, '');
-				if(waterDate < today) {
-					vex.dialog.open({
-						message: '워터마크 정책 기한 제한 기준 일자가 오늘 이전 기간 입니다. 확인해주세요.',
-						  buttons: [
-						    $.extend({}, vex.dialog.buttons.YES, {
-						      text: '확인'
-						  	})
-						  ]
-					})
-					return false;
-				}
 			}
 		}
 		
