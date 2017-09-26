@@ -7,10 +7,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.regex.*;
 
 import gcom.user.model.MemberPolicyModel;
 
 public class CommonUtil {
+	
+	final static int CHAR_ACCESS_ARRAY_SIZE = 10;
 
 	public static String getStrPolicyChangeOperation(String value, String strPolicy){
 		String result  = "";
@@ -290,6 +293,56 @@ public class CommonUtil {
 		data = sb.toString();
 	
 		return data;
+	}
+	
+	public static String createQuarantinePathAccessCode() {
+		String strAccessCode = null;
+        char[] chAccessArray = new char[CHAR_ACCESS_ARRAY_SIZE];
+        char ch;
+		Pattern pAlpha = null;
+		Pattern pNumber = null;
+		Pattern pChar = null;
+		
+		pAlpha = Pattern.compile("[a-z]");
+		pNumber = Pattern.compile("[0-9]");
+		pChar = Pattern.compile("\\p{Punct}");
+		
+		boolean completeFlag = true;
+
+		while (completeFlag) {	
+            for (int j = 0; j < chAccessArray.length; j++) {
+            	
+            	ch = (char)((Math.random() * 94) + 33);
+            	
+            	switch (ch) {
+            	case '\'':
+            	case '{':
+            	case '}':
+            	case '[':
+            	case ']':
+            	case '(':
+            	case ')':
+            	case ':':
+            	case ';':
+            	case '.':
+            	case ',':
+            	case '/':
+            	case '\\':
+            	case '<':
+            	case '>':
+            		ch = '!';
+            		break;
+            	}
+            	
+                chAccessArray[j] = ch;
+            }		            
+            strAccessCode = new String(chAccessArray);		            
+    		if (pAlpha.matcher(strAccessCode).find() && pNumber.matcher(strAccessCode).find() && pChar.matcher(strAccessCode).find()) {
+				completeFlag = false;
+    		}
+		}
+		
+		return strAccessCode;
 	}
 	
 }

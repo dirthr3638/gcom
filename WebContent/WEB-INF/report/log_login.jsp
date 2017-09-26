@@ -174,7 +174,7 @@
 														<th>부서</th>
 														<th>아이디</th>
 														<th>이름</th>
-														<th>번호</th>
+														<th>사번</th>
 														<th class="userinfo">직책</th>
 														<th class="userinfo">계급</th>														
 														<th class="agentinfo">IP</th>
@@ -329,8 +329,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
-					                  columns: [1,2,3,4,5,5,6,10,12],
-
+					                  columns: [1,2,3,4,5,6,7,11],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -341,7 +340,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
-				                  columns: [1,2,3,4,5,5,6,10,12],
+				                  columns: [1,2,3,4,5,6,7,11],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
@@ -392,7 +391,7 @@
 					"orderable": false	//서버접속시간
 				}, {
 					data: "phone",
-					"orderable": false	//서버접속시간
+					"orderable": false	//폰번호
 				}],
 				// set the initial value
 				"pageLength": 20,
@@ -472,11 +471,11 @@
 							}
 						}								
 				}, {	
-					"targets": [10]	//서버접속시간
+					"targets": [10]	//PC접속시간
 					,"class" : "center-cell"
 					,"visible" : false
 				}, {	
-					"targets": [11]	//PC접속시간
+					"targets": [11]	//서버접속시간
 					,"class" : "center-cell"
 				}, {	
 					"targets": [12]	//phone

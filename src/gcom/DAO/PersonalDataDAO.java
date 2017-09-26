@@ -1266,6 +1266,12 @@ sql += whereSql;
 		int isWebExport = Integer.parseInt(map.get("isWebExport").toString());
 		
 		int isSensitiveDirEnabled = Integer.parseInt(map.get("isSensitiveDirEnabled").toString());
+		String quarantinePathAccessCode = "";
+		
+		if (isSensitiveDirEnabled == 1) {
+			quarantinePathAccessCode = CommonUtil.createQuarantinePathAccessCode();
+		}
+		
 		int isSensitiveFileAccess = Integer.parseInt(map.get("isSensitiveFileAccess").toString());
 		int isStorageExport = Integer.parseInt(map.get("isStorageExport").toString());
 		int isStorageAdmin = Integer.parseInt(map.get("isStorageAdmin").toString());
@@ -1311,9 +1317,10 @@ sql += whereSql;
 					+ "web_addr_list, " 
 					+ "msg_block_list, " 
 					+ "watermark_descriptor, " 
-					+ "print_log_descriptor, " 
+					+ "print_log_descriptor,"
+					+ "quarantine_path_access_code, " 
 					+ "pattern_file_control )" 
-				+ "VALUES ( ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "VALUES ( ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try{
 			
@@ -1347,7 +1354,8 @@ sql += whereSql;
 			pstmt.setString(22, isMsgBlock);
 			pstmt.setString(23, waterMark);
 			pstmt.setString(24, printLogDesc);
-			pstmt.setInt(25, patternFileControl);
+			pstmt.setString(25, quarantinePathAccessCode);
+			pstmt.setInt(26, patternFileControl);
 			pstmt.executeUpdate();
 			
 			rs = pstmt.getGeneratedKeys();
@@ -1402,6 +1410,7 @@ sql += whereSql;
 		int isWebExport = Integer.parseInt(map.get("isWebExport").toString());
 		
 		int isSensitiveDirEnabled = Integer.parseInt(map.get("isSensitiveDirEnabled").toString());
+		String quarantinePathAccessCode = "";
 		int isSensitiveFileAccess = Integer.parseInt(map.get("isSensitiveFileAccess").toString());
 		int isStorageExport = Integer.parseInt(map.get("isStorageExport").toString());
 		int isStorageAdmin = Integer.parseInt(map.get("isStorageAdmin").toString());
@@ -1435,7 +1444,13 @@ sql += whereSql;
 		if (isNetShare != -1) { sql += ",net_share_enabled= ? "; }
 		if (isWebExport != -1) { sql += ",web_export_enabled= ? "; }
 		
-		if (isSensitiveDirEnabled != -1) { sql += ",sensitive_dir_enabled= ? "; }
+		if (isSensitiveDirEnabled != -1) {
+			if (isSensitiveDirEnabled == 1) {
+				quarantinePathAccessCode = CommonUtil.createQuarantinePathAccessCode();
+			}
+			sql += ",quarantine_path_access_code= ? ";
+			sql += ",sensitive_dir_enabled= ? "; 
+		}
 		if (isSensitiveFileAccess != -1) { sql += ",policy_sensitive_file_access= ? "; }
 		if (isStorageExport != -1) { sql += ",removal_storage_export_enabled= ? "; }
 		if (isStorageAdmin != -1) { sql += ",removal_storage_admin_mode= ? "; }
@@ -1472,7 +1487,10 @@ sql += whereSql;
 			if (isNetShare != -1) { pstmt.setInt(i++ , isNetShare); }
 			if (isWebExport != -1) { pstmt.setInt(i++ , isWebExport); }
 			
-			if (isSensitiveDirEnabled != -1) { pstmt.setInt(i++, isSensitiveDirEnabled); }
+			if (isSensitiveDirEnabled != -1) {
+				pstmt.setString(i++, quarantinePathAccessCode);
+				pstmt.setInt(i++, isSensitiveDirEnabled); 
+			}
 			if (isSensitiveFileAccess != -1) { pstmt.setInt(i++, isSensitiveFileAccess); }
 			if (isStorageExport != -1) { pstmt.setInt(i++, isStorageExport); }
 			if (isStorageAdmin != -1) { pstmt.setInt(i++, isStorageAdmin); }

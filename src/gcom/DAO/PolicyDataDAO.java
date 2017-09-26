@@ -963,6 +963,7 @@ sql += whereSql;
 			    + "IFNULL(pi.msg_block_list, 'N') as isMsgBlock, "
 			    + "IFNULL(pi.watermark_descriptor, 'N') as isWaterMark, "
 			    + "IFNULL(pi.print_log_descriptor, 0) as printLogDesc, "
+			    + "IFNULL(pi.quarantine_path_access_code, '') as quarantinePathAccessCode, " 
 			    + "IFNULL(pi.pattern_file_control, 0) as patternFileControl "
 			+ "FROM agent_info AS ai "
 			+ "INNER JOIN user_info AS ui ON ai.own_user_no = ui.no "
@@ -1041,6 +1042,7 @@ sql += whereSql;
 				model.setIsMsgBlock(rs.getString("isMsgBlock"));
 				model.setWatermarkInfo(rs.getString("isWaterMark"));
 				model.setPrintLogDesc(rs.getInt("printLogDesc"));
+				model.setQuarantinePathAccessCode(rs.getString("quarantinePathAccessCode"));
 				model.setPatternFileControl(rs.getInt("patternFileControl"));
 				
 				data.add(model);

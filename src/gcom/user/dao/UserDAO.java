@@ -89,6 +89,7 @@ public class UserDAO {
 				    + "IFNULL(pi.msg_block_list, 'N') as isMsgBlock, "
 				    + "IFNULL(pi.watermark_descriptor, 'N') as isWaterMark, "
 				    + "IFNULL(pi.print_log_descriptor, 0) as printLogDesc, "
+				    + "IFNULL(pi.quarantine_path_access_code, '') as quarantinePathAccessCode, "
 				    + "IFNULL(pi.pattern_file_control, 0) as patternFileControl "
 				+ "FROM agent_info AS ai "
 				+ "INNER JOIN user_info AS ui ON ai.own_user_no = ui.no "
@@ -143,6 +144,7 @@ public class UserDAO {
 				model.setIsMsgBlock(rs.getString("isMsgBlock"));
 				model.setWatermarkInfo(rs.getString("isWaterMark"));
 				model.setPrintLogDesc(rs.getInt("printLogDesc"));
+				model.setQuarantinePathAccessCode(rs.getString("quarantinePathAccessCode"));
 				model.setPatternFileControl(rs.getInt("patternFileControl"));
 				
 				list.add(model);
@@ -1406,6 +1408,12 @@ public class UserDAO {
 		int isWebExport = Integer.parseInt(map.get("isWebExport").toString());
 		
 		int isSensitiveDirEnabled = Integer.parseInt(map.get("isSensitiveDirEnabled").toString());
+		String quarantinePathAccessCode = "";
+		
+		if (isSensitiveDirEnabled == 1) {
+			quarantinePathAccessCode = CommonUtil.createQuarantinePathAccessCode();
+		}
+		
 		int isSensitiveFileAccess = Integer.parseInt(map.get("isSensitiveFileAccess").toString());
 		int isStorageExport = Integer.parseInt(map.get("isStorageExport").toString());
 		int isStorageAdmin = Integer.parseInt(map.get("isStorageAdmin").toString());
@@ -1489,7 +1497,7 @@ public class UserDAO {
 			pstmt.setString(23, isMsgBlock);
 			pstmt.setString(24, waterMark);
 			pstmt.setString(25, printLogDesc);
-			pstmt.setString(26, "Y");
+			pstmt.setString(26, quarantinePathAccessCode);
 			pstmt.setInt(27, patternFileControl);
 			pstmt.setString(28, notice);
 			pstmt.executeUpdate();

@@ -356,7 +356,8 @@
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
-				                      }
+				                      },
+				                      columns: [1,2,3,4,5,6,7,8]
 				                  }
 				              },  					              {
 			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
@@ -366,7 +367,8 @@
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
-			                      }
+			                      },
+			                      columns: [1,2,3,4,5,6,7,8]
 			                  }
 			              }, 
 
