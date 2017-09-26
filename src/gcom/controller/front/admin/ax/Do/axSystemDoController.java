@@ -46,7 +46,7 @@ public class axSystemDoController extends HttpServlet {
 		model.setActionId(2070);
 		model.setWorkIp(httpReq.getRemoteAddr());
 		model.setDescription("시스템 정책 수정");
-		model.setParameter(data.toString());
+		model.setParameter("시스템 번호 : " + request.getParameter("system_no") + ", 데이터 : " + request.getParameter("value"));
  		model.setStatus(result.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 		insertAdminAction aud = new insertAdminAction();

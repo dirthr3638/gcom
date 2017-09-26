@@ -534,7 +534,18 @@
 		    				columns: [2,3,4,8,9,10,78],
 	    	  				format: {
 	  							body: function ( data, row, column, node) {
-										return data;	
+		  							 if (column === 5) {
+	                                    var strStatus = $(node).text().trim();
+	                                    
+	                                    if (strStatus != '승인완료' && strStatus != '반려처리') {
+	                                        strStatus = '대기';
+	                                    } 
+	                                    
+	                                    return strStatus;
+	                                } else {
+	                                    return data;    
+	                                }
+
 									
 								}
 	      	  				}
@@ -549,11 +560,20 @@
 					            search: 'applied',
 					            order: 'applied'
 					        },
-							columns: [2,3,4,8,9,10,78],
+							columns: [2,3,4,8,9,78],
 	    	  				format: {
 	  							body: function ( data, row, column, node) {
-								
-	  								return data;
+		  							 if (column === 5) {
+		                                    var strStatus = $(node).text().trim();
+		                                    
+		                                    if (strStatus != '승인완료' && strStatus != '반려처리') {
+		                                        strStatus = '대기';
+		                                    } 
+		                                    
+		                                    return strStatus;
+		                                } else {
+		                                    return data;    
+		                                }
  								}
 	      	  				}
 						},
@@ -614,8 +634,8 @@
 						var tag = '';
 						var state = data;
 						if (state == 'W') {
-							tag += '<button type="button" class="btn btn-success btn-xs" onclick="javascript:fn_permit_request_policy(' + row.oldPolicy.policyNo + ','+ row.requestNo +','+ row.userId +');"><i class="fa fa-check" aria-hidden="true">&nbsp;승인</i></button>';
-							tag +='<button type="button" class="btn btn-danger btn-xs" onclick="javascript:fn_reject_request_policy('+ row.requestNo +','+ row.userId +');" ><i class="fa fa-remove" aria-hidden="true">&nbsp;거절</i></button>'
+							tag += '<button type="button" class="btn btn-success btn-xs" onclick="javascript:fn_permit_request_policy(' + row.oldPolicy.policyNo + ','+ row.requestNo +',\''+ row.userId +'\');"><i class="fa fa-check" aria-hidden="true">&nbsp;승인</i></button>';
+							tag +='<button type="button" class="btn btn-danger btn-xs" onclick="javascript:fn_reject_request_policy('+ row.requestNo +',\''+ row.userId +'\');" ><i class="fa fa-remove" aria-hidden="true">&nbsp;거절</i></button>'
 						} else if (state == 'P') {
 							tag += '<button type="button" class="btn btn-info btn-xs" onclick="javascript:requestPermitInfo(\''+ row.permitStaf  +'\', \'' + row.permitDate + '\')"><i class="fa fa-check" aria-hidden="true">&nbsp;승인완료</i></button>';
 						} else if (state == 'R') {
