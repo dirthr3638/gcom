@@ -48,7 +48,7 @@ public class axAdminPolicyNetworkSave extends HttpServlet {
 			model.setActionId(2101);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("네트워크포트 정책 생성");
-			model.setParameter(param.toString());
+			model.setParameter(parseAudit(param));
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 			insertAdminAction aud = new insertAdminAction();
@@ -63,4 +63,17 @@ public class axAdminPolicyNetworkSave extends HttpServlet {
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(new Gson().toJson(data));
 	}
+    
+    
+    public String parseAudit(HashMap<String, Object> map){
+    	String data = "";
+    	
+    	data += "포트이름 : " + map.get("net_name");
+    	data += ", 포트 : " + map.get("net_port");
+    	data += ", 설명 : " + map.get("descript");
+    	
+    	return data;
+    }
+
+
 }

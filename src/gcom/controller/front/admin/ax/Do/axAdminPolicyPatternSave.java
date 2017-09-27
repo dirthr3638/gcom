@@ -48,7 +48,7 @@ public class axAdminPolicyPatternSave extends HttpServlet {
 			model.setActionId(2020);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("민감정보 정책 생성");
-			model.setParameter(param.toString());
+			model.setParameter(parseAudit(param));
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 		
 			insertAdminAction aud = new insertAdminAction();
@@ -61,4 +61,15 @@ public class axAdminPolicyPatternSave extends HttpServlet {
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(new Gson().toJson(data));
 	}
+    
+    public String parseAudit(HashMap<String, Object> map){
+    	String data = "";
+    	
+    	data += "패턴명 : " + map.get("pat_name");
+    	data += ", 데이터 : " + map.get("pat_data");
+    	data += ", 설명 : " + map.get("notice");
+    	data += ", 사용여부: " + map.get("use_type");
+    	
+    	return data;
+    }
 }

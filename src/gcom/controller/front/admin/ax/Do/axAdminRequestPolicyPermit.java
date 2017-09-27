@@ -31,6 +31,7 @@ public class axAdminRequestPolicyPermit extends HttpServlet {
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		param.put("policy_no", request.getParameter("policy_no"));
 		param.put("request_no", request.getParameter("request_no"));
+		param.put("user_id", request.getParameter("user_id"));
 		param.put("admin_id", (String)session.getAttribute("user_id"));
 		
 		updateAdminAction action = new updateAdminAction();
@@ -44,9 +45,9 @@ public class axAdminRequestPolicyPermit extends HttpServlet {
 			model.setAdminId((String)session.getAttribute("user_id"));
 			model.setActionId(1203);
 			model.setWorkIp(httpReq.getRemoteAddr());
-			model.setDescription("사용자 정책 할당");
+			model.setDescription("사용자 정책 허용");
 	   		model.setStatus("성공");
-			model.setParameter(param.toString());
+			model.setParameter("[" + param.get("user_id") + "] 정책승인");
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 	 		insertAdminAction aud = new insertAdminAction();
    			aud.insertServeriAudit(model);

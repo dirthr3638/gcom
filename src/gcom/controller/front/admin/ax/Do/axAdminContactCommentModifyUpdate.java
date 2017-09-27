@@ -42,7 +42,7 @@ public class axAdminContactCommentModifyUpdate extends HttpServlet {
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("문의사항 수정");
 	   		model.setStatus("성공");
-			model.setParameter(param.toString());
+			model.setParameter("문의사항 수정");
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 	 		insertAdminAction aud = new insertAdminAction();
    			aud.insertServeriAudit(model);

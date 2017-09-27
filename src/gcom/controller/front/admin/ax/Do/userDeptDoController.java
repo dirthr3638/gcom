@@ -59,7 +59,7 @@ public class userDeptDoController extends HttpServlet {
 			model.setActionId(1400);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("부서생성");
-			model.setParameter(data.toString());
+			model.setParameter("부서명 : " + request.getParameter("name") + ", 약칭 : " + request.getParameter("short_name")  ) ;
 	 		model.setStatus(result.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);
@@ -68,7 +68,7 @@ public class userDeptDoController extends HttpServlet {
 			model.setActionId(1401);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("부서수정");
-			model.setParameter(data.toString());
+			model.setParameter("부서명 : " + request.getParameter("name") + ", 약칭 : " + request.getParameter("short_name")  ) ;
 	 		model.setStatus(result.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);
@@ -77,7 +77,7 @@ public class userDeptDoController extends HttpServlet {
 			model.setActionId(1402);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("부서삭제");
-			model.setParameter(data.toString());
+			model.setParameter("삭제ID : " + request.getParameter("dept_no"));
 	 		model.setStatus(result.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);

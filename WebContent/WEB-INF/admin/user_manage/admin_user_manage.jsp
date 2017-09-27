@@ -323,7 +323,7 @@
 		return result;		
 	}
 
-	function onClickRemoveUser(user_no){
+	function onClickRemoveUser(user_no, user_id){
 		vex.dialog.open({
 			message: '해당 사용자 가 삭제됩니다. 계속하시겠습니까?',
 		  buttons: [
@@ -335,20 +335,21 @@
 		  ],
 	 	    callback: function(data) {
 	 	      if (data) {
-	 	    	 DoRemoveUser(user_no);
+	 	    	 DoRemoveUser(user_no, user_id);
 	 	      }
 	 	    }
  		});
 
  	}
 	
-	function DoRemoveUser(user_no){
+	function DoRemoveUser(user_no, user_id){
 		$.ajax({      
 	        type:"POST",  
 	        url:'${context}/admin/user/manage/do/remove',
 	        async: false,
 	        data:{
 	        	user_no : user_no,
+	        	user_id : user_id,
 	        },
 	        success:function(args){ 
 	        	if(args.returnCode == 'S'){
@@ -582,7 +583,7 @@
 					,"class" : "center-cell",
 					"render":function(data,type,row){
 							var ret = '<button type="button" class="btn btn-info btn-xs" onclick="javascript:onClickModifyUser(' +row.uno+ ')"><i class="fa fa-gear" aria-hidden="true">&nbsp;수정</i></button>';
-							ret += '<button type="button" class="btn btn-danger btn-xs" onclick="javascript:onClickRemoveUser(' +row.uno+ ')"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>';
+							ret += '<button type="button" class="btn btn-danger btn-xs" onclick="javascript:onClickRemoveUser(' +row.uno+ ', \'' +row.userId+ '\')"><i class="fa fa-remove" aria-hidden="true">&nbsp;삭제</i></button>';
 
 							return ret;
 					}

@@ -52,7 +52,7 @@ public class axAdminPolicyProcessDelete extends HttpServlet {
 			model.setActionId(2040);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("프로세스 정책 삭제");
-			model.setParameter(param.toString());
+			model.setParameter("삭제ID : " + proNo);
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);		

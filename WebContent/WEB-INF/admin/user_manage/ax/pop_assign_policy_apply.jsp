@@ -347,7 +347,6 @@
 		var policy_data = getPolicyApplyData(flag);
 		var apply_list = getApplyPolicyUserData();
 		policy_data['apply_list'] = apply_list;
-		console.log('========>' + policy_data.waterMark);
 		if(!isChangeValueCheck(policy_data)) {
 			vex.defaultOptions.className = 'vex-theme-os'
 				
@@ -454,6 +453,7 @@
 			map['agent_no'] = <%= apply_list.get(i).get("agentNo") %>
 			map['user_no'] = <%= apply_list.get(i).get("uno") %>
 			map['policy_no'] = <%= apply_list.get(i).get("policyNo") %>
+			map['user_id'] = '<%= apply_list.get(i).get("userId") %>'
 			
 			arr.push(map);
 		<% } %>

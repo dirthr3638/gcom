@@ -20,9 +20,6 @@ import gcom.controller.action.admin.updateAdminAction;
 import gcom.service.management.IManagementService;
 import gcom.service.management.ManagementServiceImpl;
 
-/**
- * Servlet implementation class axCommonUI
- */
 @WebServlet("/admin/user/notice/update")
 public class axAdminNoticeModifyUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -61,7 +58,7 @@ public class axAdminNoticeModifyUpdate extends HttpServlet {
 			model.setActionId(1301);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("공지사항 수정");
-			model.setParameter(param.toString());
+			model.setParameter("수정아이디 : " + param.get("bbs_id"));
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 			insertAdminAction aud = new insertAdminAction();

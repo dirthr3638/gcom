@@ -54,7 +54,7 @@ public class axAdminManageDoController extends HttpServlet {
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("관리자 생성");
 			param.remove("pw");
-			model.setParameter(param.toString());
+			model.setParameter("[" +request.getParameter("admin_id")+ "] 생성완료" );
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);
@@ -81,7 +81,7 @@ public class axAdminManageDoController extends HttpServlet {
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("관리자 수정");
 			param.remove("pw");
-			model.setParameter(param.toString());
+			model.setParameter("[" +request.getParameter("admin_id")+ "] 수정완료" );
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);   		//관리자삭제
@@ -95,8 +95,8 @@ public class axAdminManageDoController extends HttpServlet {
 			model.setAdminId((String)session.getAttribute("user_id"));
 			model.setActionId(3002);
 			model.setWorkIp(httpReq.getRemoteAddr());
-			model.setDescription("관리자 삭제");
-			model.setParameter(param.toString());
+			model.setDescription("관리자 삭제 (" + param.get("no") + ")");
+			model.setParameter("");
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 			insertAdminAction aud = new insertAdminAction();

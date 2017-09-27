@@ -48,7 +48,7 @@ public class axAdminPolicyDeviceSave extends HttpServlet {
 			model.setActionId(2060);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("비인가 USB 허용");
-			model.setParameter(param.toString());
+			model.setParameter("허용ID : " + deviceId);
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 			insertAdminAction aud = new insertAdminAction();

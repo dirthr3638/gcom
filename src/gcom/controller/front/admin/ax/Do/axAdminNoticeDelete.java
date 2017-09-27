@@ -56,7 +56,7 @@ public class axAdminNoticeDelete extends HttpServlet {
 			model.setActionId(1301);
 			model.setWorkIp(httpReq.getRemoteAddr());
 			model.setDescription("공지사항 삭제");
-			model.setParameter(param.toString());
+			model.setParameter("삭제 아이디 : " + param.get("del_bbs_id"));
 	 		model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 
 			insertAdminAction aud = new insertAdminAction();

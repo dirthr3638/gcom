@@ -164,37 +164,48 @@
 														<th>PC이름</th>
 														<th>정책요약</th>
                                                       
-                                                        <!-- 
-                                                       	<th>정책NO</th>
-                                                        <th>에이전트삭제가능</th>   
-                                                        <th>파일실시간암호화</th>
-                                                        <th>CD실시간암호화</th>
-                                                        <th>프린트사용여부</th>
-                                                        <th>CD사용가능여부</th>
-                                                        <th>CD반출여부</th>
-                                                        <th>무선랜사용가능여부</th>
-                                                        <th>공유폴더사용여부</th>
-                                                        <th>메일반출여부</th>
-                                                        <th>USB포트사용여부</th>
+                                                        
+                                                       	<th>정책NO</th> <!-- 12  -->
+                                                        <th>에이전트삭제</th>   
+                                                        <th>파일암호화</th>
+                                                        <th>CD암호화</th>
+                                                        <th>프린트</th>
+                                                        <th>CD</th>
+                                                        <th>CD반출</th>
+                                                        <th>무선랜</th>
+                                                        <th>공유폴더</th>
+                                                        <th>메일반출</th>
+                                                        <th>보호폴더</th>
+                                                        <th>민감파일</th>
+                                                        
+                                                        <th>디스크반출</th>
+                                                        <th>디스크관리</th>
+                                                        
+                                                        <th>USB통제</th>
+                                                        <th>USB포트</th>
                                                         <th>USB차단코드</th>
-                                                        <th>시리얼포트사용여부</th>
+                                                        
+                                                        <th>시리얼포트</th>
+
                                                         <th>시리얼포트차단코드</th>
-                                                        <th>네트워크포트사용여부</th>
+
+                                                        <th>네트워크포트</th>
                                                         <th>네트워크포트차단코드</th>
-                                                        <th>프로그램차단여부</th>
+                                                        <th>프로그램</th>
                                                         <th>프로그램차단코드</th>
-                                                        <th>민감패턴차단여부</th>
+                                                        <th>민감패턴</th>
                                                         <th>민감패턴차단코드</th>
                                                         <th>민감패턴파일처리코드</th>
-                                                        <th>사이트차단여부</th>
+                                                        <th>사이트</th>
                                                         <th>사이트차단코드</th>
-                                                        <th>메신저차단여부</th>
+                                                        <th>메신저</th>
                                                         <th>메신저차단코드</th>
                                                         <th>워터마크</th>
                                                         <th>워터적용코드</th>
                                                         <th>워터마크적용일시</th>
                                                         <th>프린터인쇄로그설정</th>
-													 	-->
+                                                        <th>워터마크기한</th>
+													 	
 													</tr>
 												</thead>				
 												<tbody>
@@ -463,26 +474,18 @@
 						            	search: 'applied',
 						                order: 'applied'
 						        	},
-					                columns: [2,3,4,11],
+					                columns: [2,3,4,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,31,33,35,38,40,42],
 									format: {
 										body: function ( data, row, column, node) {
-											if (column === 3) {
-												var i_tag = $('i', node);
-												var i_text = '';
-												
-												for (var idx = 0;  idx < i_tag.length ; idx ++ ){
-													if (idx == i_tag.length - 1) {
-														i_text += i_tag[idx].title
-													} else {												
-														i_text += i_tag[idx].title + ", ";
-													}
-												}
-											
-												return i_text;
-											
-											} else {
-												return data;	
+											if(column >= 3){
+												if(data == true)
+													return '허용'
+												else
+													return '차단'
+											}else{
+												return data;
 											}
+
 										}
 					             	}
 				             	 }
@@ -496,33 +499,23 @@
 				                		search: 'applied',
 				                    	order: 'applied'
 				                	},
-				                	columns: [2,3,4,11],
+				                	columns: [2,3,4,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,31,33,35,38,40,42],
 									format: {
 										body: function ( data, row, column, node) {
-										
-											if (column === 3) {
-												var i_tag = $('i', node);
-												var i_text = '';
-												
-												for (var idx = 0;  idx < i_tag.length ; idx ++ ){
-													if (idx == i_tag.length - 1) {
-														i_text += i_tag[idx].title
-													} else {												
-														i_text += i_tag[idx].title + ", ";
-													}
-												}
-											
-												return i_text;
-											
-											} else {
-												return data;	
+											if(column >= 3){
+												if(data == true)
+													return '허용'
+												else
+													return '차단'
+											}else{
+												return data;
 											}
 										}
 					             	}
 				             	 },
 				             	 customize: function ( win ) {
 				                    $(win.document.body)
-				                        .css( 'font-size', '1px' )
+				                        .css( 'font-size', '6px' )
 				 
 				                    $(win.document.body).find( 'table' )
 				                        .addClass( 'compact' )

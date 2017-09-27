@@ -336,7 +336,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
-					                columns: [1,2,3,4,7,10,13,14],
+					                columns: [1,2,3,4,7,10,13,14,17],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
@@ -523,9 +523,9 @@
 					,"class" : "center-cell"
 					,"render":function(data,type,row){
 						if(row.status == '0'){
-							return '<button type="button" class="btn btn-xs btn-success" onclick="javascript:fn_allow_disk('+ data +');"><i aria-hidden="true"></i>허용등록</button>';
+							return '<button type="button" class="btn btn-xs btn-success" onclick="javascript:fn_allow_disk('+ data +', \'' + row.userId + '\');"><i aria-hidden="true"></i>허용등록</button>';
 						}else{
-							return '<button type="button" class="btn btn-xs btn-danger" onclick="javascript:fn_deny_disk('+ data +');"><i aria-hidden="true"></i>차단등록</button>';
+							return '<button type="button" class="btn btn-xs btn-danger" onclick="javascript:fn_deny_disk('+ data +', \'' + row.userId + '\');"><i aria-hidden="true"></i>차단등록</button>';
 						}
 					}	
 				}],						
@@ -566,7 +566,7 @@
 			});
 		} 		
  	}
-	function fn_allow_disk(key){
+	function fn_allow_disk(key, user_id){
  		vex.defaultOptions.className = 'vex-theme-os'
 
  	 		vex.dialog.open({
@@ -580,14 +580,14 @@
  			  ],
  		 	    callback: function(data) {
  		 	      if (data) {
- 		 	    	updateDisk(key, 1);
+ 		 	    	updateDisk(key, 1, user_id);
  		 	      }
  		 	    }
  	 		});
 		
 	}
 	
-	function fn_deny_disk(key){
+	function fn_deny_disk(key, user_id){
  		vex.defaultOptions.className = 'vex-theme-os'
 
  	 		vex.dialog.open({
@@ -601,21 +601,22 @@
  			  ],
  		 	    callback: function(data) {
  		 	      if (data) {
- 		 	    	updateDisk(key, 0);
+ 		 	    	updateDisk(key, 0, user_id);
  		 	      }
  		 	    }
  	 		});
 		
 	}
 	
-	function updateDisk(key, setData){
+	function updateDisk(key, setData, user_id){
 		$.ajax({      
 	        type:"POST",  
 	        url:'${context}/update/disk/info',
 	        async: false,
 	        data:{
 	        	disk_no : key,
-	        	status : setData
+	        	status : setData,
+	        	user_id : user_id
 	        },
 	        success:function(args){   
 		 	    reloadTable()

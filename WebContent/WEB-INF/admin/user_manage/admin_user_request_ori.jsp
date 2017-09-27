@@ -451,16 +451,13 @@
 					            search: 'applied',
 					            order: 'applied'
 	        				},
-		    				columns: [2,3,4,8,9],
+		    				columns: [2,3,4,8,9,10],
 	    	  				format: {
 	  							body: function ( data, row, column, node) {
 									if (column === 4) {
 										var strStatus = $(node).text().trim();
-										
-										if (strStatus != '승인완료' && strStatus != '반려처리') {
-											strStatus = '대기';
-										} 
-										
+s									
+
 										return strStatus;
 									} else {
 										return data;	
@@ -478,16 +475,16 @@
 					            search: 'applied',
 					            order: 'applied'
 					        },
-							columns: [2,3,4,8,9],
+							columns: [2,3,4,8,9,10],
 	    	  				format: {
 	  							body: function ( data, row, column, node) {
 									if (column === 4) {
 										var strStatus = $(node).text().trim();
 										
-										if (strStatus != '승인완료' && strStatus != '반려처리') {
+/* 										if (strStatus != '승인완료' && strStatus != '반려처리') {
 											strStatus = '대기';
 										} 
-										
+										 */
 										return strStatus;
 									} else {
 										return data;	

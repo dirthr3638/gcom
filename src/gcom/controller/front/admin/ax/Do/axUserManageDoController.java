@@ -49,7 +49,7 @@ public class axUserManageDoController extends HttpServlet {
 			model.setActionId(1200);
 			model.setWorkIp(request.getRemoteAddr());
 			model.setDescription("사용자 생성");
-			model.setParameter(param.toString());
+			model.setParameter("ID : " + request.getParameter("user_id"));
 
 			insertAdminAction action = new insertAdminAction();
         	data = action.insertUserInfo(param);
@@ -72,7 +72,7 @@ public class axUserManageDoController extends HttpServlet {
 			model.setActionId(1201);
 			model.setWorkIp(request.getRemoteAddr());
 			model.setDescription("사용자 수정");
-			model.setParameter(param.toString());
+			model.setParameter("ID : " + request.getParameter("user_id"));
     		updateAdminAction action = new updateAdminAction();
    			data = action.updateUserInfo(param);    		
 
@@ -89,8 +89,8 @@ public class axUserManageDoController extends HttpServlet {
 			model.setActionId(1202);
 			model.setWorkIp(request.getRemoteAddr());
 			model.setDescription("사용자 삭제");
-			model.setParameter(param.toString());
-   			model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
+			model.setParameter("ID : " + request.getParameter("user_id"));
+			model.setStatus(data.get("returnCode").equals(ConfigInfo.RETURN_CODE_SUCCESS) ? "성공" : "실패");
 			insertAdminAction aud = new insertAdminAction();
 			aud.insertServeriAudit(model);
 
