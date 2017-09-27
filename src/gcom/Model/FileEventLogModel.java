@@ -22,4 +22,13 @@ public class FileEventLogModel {
 
 	private String serverTime = "";
 	private String clientTime = "";
+	private String firstFileName = "";
+ 
+
+	public void setFileList(String value){
+		fileList = value;
+		if(value != null)
+			firstFileName = fileList.split("\n")[0];
+		
+	}
 }

@@ -183,6 +183,7 @@
 														<th >설명</th>
 														<th >파일목록</th>
 														<th >파일목록</th>
+														<th >파일명</th>
 													</tr>
 												</thead>
 				
@@ -328,7 +329,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
-					                columns: [1,2,3,4,7,10,12],
+					                columns: [1,2,3,4,7,10,12,15],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -339,7 +340,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
-					                columns: [1,2,3,4,7,10,12],
+					                columns: [1,2,3,4,7,10,12,15],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
@@ -395,6 +396,17 @@
 				}, {
 					data: "fileList",
 					"orderable": false	//메모
+				}, {
+					data: "firstFileName",
+					"orderable": false	//파일명
+					,"render": function(data,type,row){
+						var fileName = row.firstFileName;
+						if(fileName.length > 25){
+							fileName = ".." + fileName.substring(fileName.length-25,fileName.length);
+						}
+					
+						return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:msgFileDetail('+ row.msgNo + ', \'msg_file_log\',\''+ encodeURI(row.fileId) +'\')">' + fileName;
+					}
 				}],
 				// set the initial value
 				"pageLength": 20,
@@ -494,7 +506,11 @@
 					"targets": [14]	//파일목록
 					,"class" : "center-cell"
 					,"visible" : false
-				},],						
+				},{	
+					"targets": [15]	//파일명
+					,"class" : "center-cell"
+					,"visible" : false
+			}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
 //					$('#table_userinfo').colResizable({liveDrag:true});
