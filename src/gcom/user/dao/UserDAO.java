@@ -1527,12 +1527,7 @@ public class UserDAO {
 		int userNo = Integer.parseInt(map.get("user_no").toString());
 		String password = hashEncrypto.HashEncrypt(map.get("password").toString());
 		String changePasswordYn = map.get("changePasswordYn").toString();
-		
-		// 비밀번호 변경이 경우
-		if ("N".equals(changePasswordYn)) {
-			result.put("returnCode", ConfigInfo.RETURN_CODE_SUCCESS);
-			return result;
-		}
+		String phone = map.get("phone").toString();
 		
 		String sql= "";
 		
@@ -1541,10 +1536,18 @@ public class UserDAO {
 			con.setAutoCommit(false);
 				
 			if ("Y".equals(changePasswordYn)) {
-				sql = "UPDATE user_info SET password = ? WHERE no = ?";
+				sql = "UPDATE user_info SET password = ? , phone = ? WHERE no = ?";
 				
 				pstmt=con.prepareStatement(sql);
 				pstmt.setString(1, password);
+				pstmt.setString(2, phone);
+				pstmt.setInt(3, userNo);
+				pstmt.executeUpdate();
+			} else {
+				sql = "UPDATE user_info SET phone = ? WHERE no = ?";
+				
+				pstmt=con.prepareStatement(sql);
+				pstmt.setString(1, phone);
 				pstmt.setInt(2, userNo);
 				pstmt.executeUpdate();
 			}

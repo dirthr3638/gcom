@@ -342,7 +342,28 @@
 				                          search: 'applied',
 				                          order: 'applied',
 				                      },
-			                      columns: [ 1, 2, 3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25 ]
+			                      columns: [1,2,3,10],
+									format: {
+										body: function ( data, row, column, node) {
+											if (column === 3) {
+												var i_tag = $('i', node);
+												var i_text = '';
+												
+												for (var idx = 0;  idx < i_tag.length ; idx ++ ){
+													if (idx == i_tag.length - 1) {
+														i_text += i_tag[idx].title
+													} else {												
+														i_text += i_tag[idx].title + ", ";
+													}
+												}
+											
+												return i_text;
+											
+											} else {
+												return data;	
+											}
+										}
+					             	}
 				                  }
 				              },  					              
 				              {
@@ -354,7 +375,28 @@
 				                          search: 'applied',
 				                          order: 'applied',
 			                     	 },
-			                          columns: [ 1, 2, 3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23 ]
+			                         columns: [1,2,3,10],
+										format: {
+											body: function ( data, row, column, node) {
+												if (column === 3) {
+													var i_tag = $('i', node);
+													var i_text = '';
+													
+													for (var idx = 0;  idx < i_tag.length ; idx ++ ){
+														if (idx == i_tag.length - 1) {
+															i_text += i_tag[idx].title
+														} else {												
+															i_text += i_tag[idx].title + ", ";
+														}
+													}
+												
+													return i_text;
+												
+												} else {
+													return data;	
+												}
+											}
+						             	}
 
 				                  }
 				              }, 

@@ -59,7 +59,8 @@
 							</div>
 							<div class="form-group">
 								<label class="control-label">핸드폰</label>
-								<input type="text" class="form-control" name="mem_phone" id="mem_phone" placeholder="010-1111-1111" value="<%= phone %>" disabled/>
+								<input type="text" class="form-control" name="mem_phone" id="mem_phone" placeholder="- 없이 입력해주세요." value="<%= phone.replace("-", "")%>" maxlength="11" />
+								<input type="hidden" name="save_mem_phone" id="save_mem_phone" value="<%= phone%>" />
 							</div>
 							<div class="form-group">
 								<label class="control-label">변경 할 비밀번호</label>
@@ -113,13 +114,99 @@
 				
 			});
 			
+			function isPhoneFirstNumber(num) {
+				
+				var com_phone_num = ['010', '011', '016', '017', '018', '019'];
+				
+				if(num.length != 3) {
+					return false;
+				} 
+				
+				var cnt = 0;
+				$(com_phone_num).each(function(index, element) {
+					if(element == num) {
+						cnt++;
+					}
+				});
+
+				if(cnt == 0) {
+					return false;
+				}
+				
+				return true;
+			}
+			
 			function fn_info_save_proc() {
+				vex.defaultOptions.className = 'vex-theme-os'
+				
 				var pw = $('#change_password_input').val();
 				var pwChk = $('#change_password_check').val();
 				
+				var phoneNum = $('#mem_phone').val();
+				
+				if($.isNumeric(phoneNum) == false){
+					vex.dialog.open({
+	    				message: '핸드폰 번호 입력은 필수이며, 숫자만 입력 가능합니다. 확인해주세요.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })]
+	    			})
+					return false;					
+				}
+				
+				if(phoneNum.length > 11 || phoneNum.length < 1) {
+					vex.dialog.open({
+	    				message: '핸드폰 번호 양식을 확인해주세요. 확인해주세요.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })]
+	    			})
+					return false;
+				}
+				
+				var phoneNum1;
+				var phoneNum2;
+				var phoneNum3;
+				
+				try {
+				
+					if(phoneNum.length == 11) {
+						
+						phoneNum1 = phoneNum.substring(0, 3);
+						phoneNum2 = phoneNum.substring(3, 7);
+						phoneNum3 = phoneNum.substring(7, phoneNum.length);
+					} else {
+						phoneNum1 = phoneNum.substring(0, 3);
+						phoneNum2 = phoneNum.substring(3, 6);
+						phoneNum3 = phoneNum.substring(6, phoneNum.length);
+					}
+				
+				} catch (e) {
+					console.log(e);
+					vex.dialog.open({
+	    				message: '핸드폰 번호 양식 확인도중 오류가 발생 하였습니다.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })]
+	    			})
+					return false;
+				}
+				
+				if(phoneNum3.length != 4 || isPhoneFirstNumber(phoneNum1) == false) {
+					vex.dialog.open({
+	    				message: '핸드폰 번호 양식을 확인해주세요. 확인해주세요.',
+	    				  buttons: [
+	    				    $.extend({}, vex.dialog.buttons.YES, {
+	    				      text: '확인'
+	    				  })]
+	    			})
+					return false;
+				}
+				
 				if(pw != pwChk){
-					vex.defaultOptions.className = 'vex-theme-os'
-		    			
 	    			vex.dialog.open({
 	    				message: '비밀번호가 일치 하지 않습니다. 확인해주세요.',
 	    				  buttons: [
@@ -129,6 +216,8 @@
 	    			})
 					return false;
 				}
+				
+				$('#save_mem_phone').val(phoneNum1 + '-' + phoneNum2 + '-' + phoneNum3);
 				
 				var option = {
 				        url:       		"${context}/user/info/save",

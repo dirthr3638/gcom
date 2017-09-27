@@ -28,6 +28,7 @@ public class axUserInfoSave extends HttpServlet {
 		String userNo = request.getParameter("user_no").toString();
 		String changePassword = request.getParameter("change_password_input");
 		String changePasswordCheck = request.getParameter("change_password_check");
+		String phone = request.getParameter("save_mem_phone");
 		String changePasswordYn = "N";
 		
 		HashMap<String, Object> data =  new HashMap<String, Object>();
@@ -43,6 +44,7 @@ public class axUserInfoSave extends HttpServlet {
 			param.put("user_no", userNo);
 			param.put("password", changePassword);
 			param.put("changePasswordYn", changePasswordYn);
+			param.put("phone", phone);
 			
 			updateAction action = new updateAction();
 			
