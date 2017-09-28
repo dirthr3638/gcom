@@ -141,22 +141,38 @@
 														<th >IP</th>
 														<th >MAC</th>
 														<th >PC이름</th>
-                                                        <th>정책정보</th>   
-                                                        <th>에이전트삭제가능</th>   
-                                                        <th>프린트사용가능</th>
+                                                        <th>정책정보</th>
+                                                          
+                                                        <th>에이전트삭제</th>   <!-- 11  -->
+                                                        <th>프린트</th>
                                                         <th>워터마크</th>
-                                                        <th>파일실시간암호화</th>
-                                                        <th>USB포트사용가능</th>
-                                                        <th>시리얼포트사용가능</th>
-                                                        <th>무선랜사용가능</th>
-                                                        <th>메일반출가능</th>
-                                                        <th>민감파일접근시삭제</th>
-                                                        <th>보호폴더접근가능</th>
-                                                        <th>공유폴더사용여부</th>
-                                                        <th>CD사용여부</th>
+                                                        <th>파일암호화</th>
+                                                        <th>USB포트</th>
+                                                        <th>시리얼포트</th>
+                                                        <th>무선랜</th>
+                                                        <th>패턴차단</th>
+                                                        <th>민감파일</th>
+                                                        <th>보호폴더</th>
+                                                        <th>공유폴더</th>
+                                                        <th>CD사용</th>
                                                         <th>적용시간</th>
                                                         <th>요청시간(서버)</th>
                                                         <th>요청시간(PC)</th>
+
+                                                        <th>메일반출</th>                                                       
+                                                        <th>디스크반출</th>
+                                                        <th>디스크관리</th>
+                                                        <th>USB통제</th>
+                                                        
+                                                        <th>USB차단코드</th>
+                                                        <th>시리얼포트차단코드</th>
+                                                        <th>네트워크포트</th>
+                                                        <th>네트워크포트차단코드</th>
+                                                        <th>프로그램</th>
+                                                        <th>프로그램차단코드</th>
+                                                        <th>사이트</th>
+                                                        <th>사이트차단코드</th>
+                                                        <th>메신저</th>
 													</tr>
 												</thead>				
 												<tbody>
@@ -342,23 +358,14 @@
 				                          search: 'applied',
 				                          order: 'applied',
 				                      },
-			                      columns: [1,2,3,10],
+				                      columns: [1,2,3,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,32,34,36,38],
 									format: {
 										body: function ( data, row, column, node) {
-											if (column === 3) {
-												var i_tag = $('i', node);
-												var i_text = '';
-												
-												for (var idx = 0;  idx < i_tag.length ; idx ++ ){
-													if (idx == i_tag.length - 1) {
-														i_text += i_tag[idx].title
-													} else {												
-														i_text += i_tag[idx].title + ", ";
-													}
-												}
-											
-												return i_text;
-											
+											if (column >= 3) {
+												if(data == true)
+													return '허용'
+												else
+													return '차단'
 											} else {
 												return data;	
 											}
@@ -375,30 +382,28 @@
 				                          search: 'applied',
 				                          order: 'applied',
 			                     	 },
-			                         columns: [1,2,3,10],
-										format: {
-											body: function ( data, row, column, node) {
-												if (column === 3) {
-													var i_tag = $('i', node);
-													var i_text = '';
-													
-													for (var idx = 0;  idx < i_tag.length ; idx ++ ){
-														if (idx == i_tag.length - 1) {
-															i_text += i_tag[idx].title
-														} else {												
-															i_text += i_tag[idx].title + ", ";
-														}
-													}
-												
-													return i_text;
-												
-												} else {
-													return data;	
-												}
+			                     	columns: [1,2,3,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,32,34,36,38],
+									format: {
+										body: function ( data, row, column, node) {
+											if(column >= 3){
+												if(data == true)
+													return '허용'
+												else
+													return '차단'
+											}else{
+												return data;
 											}
-						             	}
-
-				                  }
+										}
+					             	}
+				                  },
+				             	 customize: function ( win ) {
+				                    $(win.document.body)
+				                        .css( 'font-size', '6px' )
+				 
+				                    $(win.document.body).find( 'table' )
+				                        .addClass( 'compact' )
+				                        .css( 'font-size', 'inherit' );
+				                 }
 				              }, 
 
 			     ],
@@ -624,217 +629,133 @@
 					"targets": [11]	//에이전트삭제가능
 					,"class" : "center-cell"
 					,"visible" : false
-					,"render":function(data,type,row){
-						if(data == true){
-							return '허용';
-						}else{
-							return '불허';
-						}
-					}
 				}, {	
 					"targets": [12]	//프린트사용가능
 					,"visible" : false
-					,"render":function(data,type,row){
-						if(data == true){
-							return '허용';
-						}else{
-							return '불허';
-						}
-					}
 				}, {	
 					"targets": [13]	//워터마크
 					,"class" : "center-cell"
-					,"render":function(data,type,row){
-						if(data == true){
-							return '출력';
-						}else{
-							return '미출력';
-						}
-					}
-				,"visible" : false
+					,"visible" : false
 				}, {	
 					"targets": [14]	//파일실시간암호화
 					,"class" : "center-cell"
-						,"render":function(data,type,row){
-							if(data == true){
-								return '암호화';
-							}else{
-								return '비암호화';
-							}
-						}
-						,"visible" : false
+					,"visible" : false
 				}, {	
 					"targets": [15]	//USB포트사용가능
 					,"class" : "center-cell"
-						,"render":function(data,type,row){
-							if(data == true){
-								return '허용';
-							}else{
-								return '불허';
-							}
-						}
-						,"visible" : false
+					,"visible" : false
 				}, {	
 					"targets": [16]	//시리얼포트사용가능
 					,"class" : "center-cell"
-						,"render":function(data,type,row){
-							if(data == true){
-								return '허용';
-							}else{
-								return '불허';
-							}
-						}
-						,"visible" : false
+					,"visible" : false
 				}, {	
 					"targets": [17]	//무선랜사용가능
 					,"class" : "center-cell"
-						,"render":function(data,type,row){
-							if(data == true){
-								return '허용';
-							}else{
-								return '불허';
-							}
-						}
-						,"visible" : false
+					,"visible" : false
 				}, {	
 					"targets": [18]	//메일반출가능
 					,"class" : "center-cell"
-						,"render":function(data,type,row){
-							if(data == true){
-								return '허용';
-							}else{
-								return '불허';
-							}
-						}
-						,"visible" : false
+					,"visible" : false
 				}, {	
 					"targets": [19]	//민감파일접근시삭제
 					,"class" : "center-cell"
-						,"render":function(data,type,row){
-							if(data == true){
-								return '삭제';
-							}else{
-								return '불허';
-							}
-						}
-						,"visible" : false
+					,"visible" : false
 				}, {	
 					"targets": [20]	//보호폴더접근가능
 					,"class" : "center-cell"
-						,"render":function(data,type,row){
-							if(data == true){
-								return '허용';
-							}else{
-								return '불허';
-							}
-						}
-						,"visible" : false
+					,"visible" : false
 				}, {	
 					"targets": [21]	//공유폴더사용여부
 					,"class" : "center-cell"
-						,"render":function(data,type,row){
-							if(data == true){
-								return '허용';
-							}else{
-								return '불허';
-							}
-						}
-						,"visible" : false
-					}, {	
-						"targets": [22]	//CD사용여부
-						,"class" : "center-cell"
-							,"render":function(data,type,row){
-								if(data == true){
-									return '허용';
-								}else{
-									return '불허';
-								}
-							}
-							,"visible" : false
-					}, {	
-						"targets": [23]	//적용시간
-						,"class" : "center-cell"
-					}, {	
-						"targets": [24]	//요청시간
-						,"class" : "center-cell"
-							,"visible" : false
-					}, {	
-						"targets": [25]	//요청시간(PC)
-						,"class" : "center-cell"
-							,"visible" : false
-					}, {	
-						"targets": [26]	//요청시간(PC)
-						,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [27]	//요청시간(PC)
+					,"visible" : false
+				}, {	
+					"targets": [22]	//CD사용여부
+					,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [23]	//적용시간
+					,"class" : "center-cell"
+				}, {	
+					"targets": [24]	//요청시간
 					,"class" : "center-cell"
 						,"visible" : false
-					}, {	
-						"targets": [28]	//요청시간(PC)
+				}, {	
+					"targets": [25]	//요청시간(PC)
 					,"class" : "center-cell"
 						,"visible" : false
-					}, {	
-						"targets": [29]	//요청시간(PC)
+				}, {	
+					"targets": [26]	//요청시간(PC)
 					,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [30]	//요청시간(PC)
+					,"visible" : false
+				}, {	
+					"targets": [27]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [28]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [29]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [30]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [31]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [32]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [33]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [34]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [35]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [36]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [37]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [38]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [39]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [40]	//요청시간(PC)
+				,"class" : "center-cell"
+					,"visible" : false
+				}, {	
+					"targets": [41]	//요청시간(PC)
 					,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [31]	//요청시간(PC)
+					,"visible" : false
+				}, {	
+					"targets": [42]	//요청시간(PC)
 					,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [32]	//요청시간(PC)
+					,"visible" : false
+				}, {	
+					"targets": [43]	//요청시간(PC)
 					,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [33]	//요청시간(PC)
-					,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [34]	//요청시간(PC)
-					,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [35]	//요청시간(PC)
-					,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [36]	//요청시간(PC)
-					,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [37]	//요청시간(PC)
-					,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [38]	//요청시간(PC)
-					,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [39]	//요청시간(PC)
-					,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [40]	//요청시간(PC)
-					,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [41]	//요청시간(PC)
-						,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [42]	//요청시간(PC)
-						,"class" : "center-cell"
-						,"visible" : false
-					}, {	
-						"targets": [43]	//요청시간(PC)
-						,"class" : "center-cell"
-						,"visible" : false
-					}],						
+					,"visible" : false
+				}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
 //					$('#table_userinfo').colResizable({liveDrag:true});
