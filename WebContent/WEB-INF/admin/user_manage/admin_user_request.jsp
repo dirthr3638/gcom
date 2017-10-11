@@ -560,7 +560,7 @@
 					            search: 'applied',
 					            order: 'applied'
 					        },
-							columns: [2,3,4,8,9,78],
+							columns: [2,3,4,8,9,10,78],
 	    	  				format: {
 	  							body: function ( data, row, column, node) {
 		  							 if (column === 5) {

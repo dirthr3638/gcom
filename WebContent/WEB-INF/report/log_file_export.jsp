@@ -190,6 +190,7 @@
 														<th >반출시간</th>
 														<th >반출시간(PC)</th>
 														<th >원본여부</th>
+														<th >파일명</th>
 													</tr>
 												</thead>
 				
@@ -336,7 +337,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
-					                columns: [1,2,3,4,7,10,13,14,17],
+					                columns: [1,2,3,4,13,14,15,18],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -347,7 +348,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
-					                columns: [1,2,3,4,7,10,13,14],
+					                columns: [1,2,3,4,13,14,15,18],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
@@ -411,6 +412,11 @@
 					"orderable": false	//반출시간PC
 				}, {
 					data: "isOriginalFile",
+					"orderable": false	//원본여부
+					,"visible" : false
+
+				}, {
+					data: "firstFileName",
 					"orderable": false	//원본여부
 					,"visible" : false
 
@@ -505,7 +511,6 @@
 					"targets": [12]	//파일리스트
 					,"class" : "center-cell"
 						,"render": function(data,type,row){
-							console.log(row.isOriginalFile)
 							if(row.isOriginalFile == true)
 								return '<i title="상세보기" class="fa fa-search" aria-hidden="true" onclick="javascript:FileDetail('+ row.exportNo + ', \'file_export_log\',\''+ encodeURI(row.fileId) +'\')">' + row.firstFileName;
 							else
@@ -524,14 +529,25 @@
 				}, {	
 					"targets": [16]	//반출시간
 					,"class" : "center-cell"
-						,"visible" : false
+					,"visible" : false
 
 
 				}, {	
-					"targets": [16]	//원본여부
+					"targets": [17]	//원본여부
 					,"class" : "center-cell"
 	
-				}],						
+				}, {	
+					"targets": [18]	//파일명
+					,"class" : "center-cell"
+					,"render": function(data,type,row){
+						if(row.isOriginalFile == true)
+							return row.firstFileName
+						else
+							return row.filePath
+					}
+
+
+				}],	
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();
 				}

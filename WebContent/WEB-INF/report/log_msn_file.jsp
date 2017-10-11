@@ -364,7 +364,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
-					                	columns: [1,2,3,4,7,10,15,12,16],
+					                	columns: [1,2,3,4,5,6,10,12,16],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -375,7 +375,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
-				                	columns: [1,2,3,4,7,10,12,16],
+				                	columns: [1,2,3,4,5,6,10,12,16],
 
 			                      modifier: {
 			                          search: 'applied',
@@ -547,7 +547,16 @@
 				}, {	
 					"targets": [16]	//파일명
 					,"class" : "center-cell"
-					,"visible": false,
+					,"visible": false
+					,"render": function(data,type,row){
+						var fileName = row.firstFileName;
+						if(fileName.length > 25){
+							fileName = ".." + fileName.substring(fileName.length-25,fileName.length);
+						}
+					
+						return fileName;
+					}
+
 					
 				}],						
 				"initComplete": function( settings, json ) {

@@ -75,7 +75,7 @@
 						
 								<div class="panel-heading">
 									<span class="title elipsis">
-										<strong>파일전송로그</strong> <!-- panel title -->
+										<strong>디스크반출로그</strong> <!-- panel title -->
 									</span>
 								</div>
 	
@@ -205,6 +205,7 @@
 														<th >파일목록</th>
 														<th >메모</th>
 														<th >파일목록</th>
+														<th >파일명</th>
 													</tr>
 												</thead>
 				
@@ -352,7 +353,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
-					                columns: [1,2,3,4,7,10,13,14,17],
+					                columns: [1,2,3,4,5,6,10,13,14,18],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -363,7 +364,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
-					                columns: [1,2,3,4,7,10,13,14],
+					                columns: [1,2,3,4,5,6,10,13,14,18],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
@@ -427,6 +428,9 @@
 					"orderable": false	//메모
 				}, {
 					data: "fileList",
+					"orderable": false	//파일목록
+				}, {
+					data: "firstFileName",
 					"orderable": false	//파일목록
 				}],
 				// set the initial value
@@ -555,6 +559,11 @@
 					,"class" : "center-cell"
 					,"visible" : false
 
+				}, {	
+					"targets": [18]	//파일
+					,"class" : "center-cell"
+					,"visible" : false
+	
 				}],						
 				"initComplete": function( settings, json ) {
 					$('.export-print').hide();

@@ -339,24 +339,24 @@
 			          "sSwfPath": plugin_path + "datatables/extensions/Buttons/js/swf/flashExport.swf"
 			        },
 			    "buttons": [
-					              {
+					           {
 				                  text: '<i class="fa fa-lg fa-clipboard">csv</i>',
 				                  extend: 'csvHtml5',
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
-					                columns: [1,2,3,4,7,10,13,14,17],
+					                columns: [1,2,3,4,10,11,12,13,14],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
 				                      }
 				                  }
-				              },  					              {
+				              },{	
 			                  text: '<i class="fa fa-lg fa-clipboard">프린트</i>',
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
-					                columns: [1,2,3,4,7,10,13,14],
+					                columns: [1,2,3,4,10,11,12,13,14],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'

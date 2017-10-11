@@ -326,7 +326,7 @@
 				                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-csv-btn export-csv ttip hidden',
 				                  bom: true,
 				                  exportOptions: {
-						                columns: [1,2,3,4,7,10,12,14],
+						                columns: [1,2,3,4,10,12,14],
 				                      modifier: {
 				                          search: 'applied',
 				                          order: 'applied'
@@ -337,7 +337,7 @@
 			                  extend: 'print',
 			                  className: 'btn btn-xs btn-primary p-5 m-0 width-35 assets-export-btn export-print ttip hidden',
 			                  exportOptions: {
-					                columns: [1,2,3,4,7,10,12,14],
+					                columns: [1,2,3,4,10,12,14],
 			                      modifier: {
 			                          search: 'applied',
 			                          order: 'applied'
@@ -434,9 +434,11 @@
 				}, {	
 					"targets": [5]	//직책
 					,"class" : "center-cell"
+						,"visible" : false
 				}, {	
 					"targets": [6]	//계급
 					,"class" : "center-cell"
+						,"visible" : false
 				}, 
 				{	
 					"targets": [7]	//IP

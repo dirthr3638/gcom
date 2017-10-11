@@ -23,8 +23,8 @@ public class CommonServiceImpl implements ICommonService {
 
 		int count = 0;
 		double offset = 0;
-		String[] fileNameList = data.split("\n");
-		count = fileNameList.length / 2;
+		String[] fileNameList = data.split("\\\\n|\n");
+		count = fileNameList.length;
 		
 		for(int i = 0; i < count; i += 2){
 			HashMap<String, Object> fileData = new HashMap<String, Object>();
