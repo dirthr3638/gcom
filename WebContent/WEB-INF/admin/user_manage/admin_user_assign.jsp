@@ -108,16 +108,6 @@
 															</td>
 														</tr>
 														<tr>         
-															<td width="15%">사번</td>
-															<td>
-																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control">
-															</td>
-															<td width="15%">연락처</td>
-															<td>
-																<input type="text" name="filterUserPhone" id="filterUserPhone" value="" class="form-control">
-															</td>
-														</tr>
-														<tr>         
 															<td width="15%">직책</td>
 															<td>
 																<input type="text" name="filterUserDuty" id="filterUserDuty" value="" class="form-control">
@@ -135,6 +125,16 @@
 															<td width="15%">IP</td>
 															<td>
 																<input type="text" name="filterUserIPAddr" id="filterUserIPAddr" value="" class="form-control">
+															</td>
+														</tr>
+														<tr>         
+															<td width="15%">사번</td>
+															<td>
+																<input type="text" name="filterUserNumber" id="filterUserNumber" value="" class="form-control">
+															</td>
+															<td width="15%" style="visibility: hidden">연락처</td>
+															<td style="visibility: hidden;">
+																<input type="text" name="filterUserPhone" id="filterUserPhone" value="" class="form-control">
 															</td>
 														</tr>
 													</tbody>
