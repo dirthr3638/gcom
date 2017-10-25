@@ -38,90 +38,49 @@
 		<tr>
 			<td class="th-cell-gray center-cell" width="140px" style="vertical-align: middle;">워터마크 출력선택</td>
 			<td class="center-cell" style="vertical-align: middle;" width="370px">
-				<% if (onlyFlag) { %>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_water_mark_print" value="Y" <% if (isWaterMark){ %> checked <%}%> /><i></i> 출력
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_water_mark_print" value="N" <% if (!isWaterMark){ %> checked <%}%> /><i></i> 미출력
-					</label>
-				<% } else { %>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_water_mark_print" value="Y" /><i></i> 출력
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_water_mark_print" value="N" /><i></i> 미출력
-					</label>
-				<% } %>
+				<label class="radio nomargin-top nomargin-bottom">
+					<input type="radio" name="radio_water_mark_print" value="Y" <% if (isWaterMark){ %> checked <%}%> /><i></i> 출력
+				</label>
+				<label class="radio nomargin-top nomargin-bottom">
+					<input type="radio" name="radio_water_mark_print" value="N" <% if (!isWaterMark){ %> checked <%}%> /><i></i> 미출력
+				</label>
 			</td>
 			<td class="th-cell-gray center-cell" width="90px" style="vertical-align: middle;">적용 타입</td>
 			<td class="center-cell">
-				<% if (onlyFlag) { %>
-					<input type="number" id="att_waterMark_type" name="att_waterMark_type" class="form-control" value="0" style="width:80px; margin: 0;" value="<%= waterMarkType %>" disabled />
-				<% } else { %>
-					<input type="number" id="att_waterMark_type" name="att_waterMark_type" class="form-control" value="0" style="width:80px; margin: 0;" disabled />
-				<% } %>
+				<input type="number" id="att_waterMark_type" name="att_waterMark_type" class="form-control" value="0" style="width:80px; margin: 0;" value="<%= waterMarkType %>" disabled />
 			</td>
 		</tr>
 		<tr>
 			<td class="th-cell-gray center-cell" width="140px" style="vertical-align: middle;">기한 제한</td>
 			<td class="center-cell" style="vertical-align: middle;">
-				<% if (onlyFlag) { %>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_water_limit_use" value="Y" <% if (isWaterMark && isLimitTime){ %> checked <%}%> /><i></i> 제한
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_water_limit_use" value="N" <% if (isWaterMark && !isLimitTime){ %> checked <%}%> /><i></i> 없음&nbsp;&nbsp;&nbsp;
-					</label>
-				<% } else { %>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_water_limit_use" value="Y" /><i></i> 제한
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_water_limit_use" value="N" /><i></i> 없음
-					</label>
-				<% } %>
+				<label class="radio nomargin-top nomargin-bottom">
+					<input type="radio" name="radio_water_limit_use" value="Y" <% if (isWaterMark && isLimitTime){ %> checked <%}%> /><i></i> 제한
+				</label>
+				<label class="radio nomargin-top nomargin-bottom">
+					<input type="radio" name="radio_water_limit_use" value="N" <% if (isWaterMark && !isLimitTime){ %> checked <%}%> /><i></i> 없음&nbsp;&nbsp;&nbsp;
+				</label>
 			</td>
 			<td colspan="2"></td>
 		</tr>
 		<tr>
 			<td class="th-cell-gray center-cell" style="vertical-align: middle;">기준 일시</td>
 			<td class="center-cell">
-				<% if (onlyFlag) { %>
-					<input type="text" class="form-control datepicker" id="att_waterMark_apply_date" name="att_waterMark_apply_date" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false" value="<%= applyDate %>" placeholder="날짜선택" style="width:110px; margin: 0; float: left;" maxlength="10" readonly="readonly" />
-					<select class="form-control" id="att_waterMark_apply_hour" name="att_waterMark_apply_hour" style="width:80px; float: left;">
-					</select>
-					<select class="form-control" id="att_waterMark_apply_min" name="att_waterMark_apply_min" style="width:80px; float: left;">
-					</select>
-					<select class="form-control" id="att_waterMark_apply_sec" name="att_waterMark_apply_sec" style="width:80px; float: left;">
-					</select>
-				<% } else { %>
-					<input type="text" class="form-control datepicker" id="att_waterMark_apply_date" name="att_waterMark_apply_date" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false" placeholder="날짜선택" style="width:110px; margin: 0; float: left;" maxlength="10" readonly="readonly" />
-					<select class="form-control" id="att_waterMark_apply_hour" name="att_waterMark_apply_hour" style="width:80px; float: left;">
-					</select>
-					<select class="form-control" id="att_waterMark_apply_min" name="att_waterMark_apply_min" style="width:80px; float: left;">
-					</select>
-					<select class="form-control" id="att_waterMark_apply_sec" name="att_waterMark_apply_sec" style="width:80px; float: left;">
-					</select>
-				<% } %>
+				<input type="text" class="form-control datepicker" id="att_waterMark_apply_date" name="att_waterMark_apply_date" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false" value="<%= applyDate %>" placeholder="날짜선택" style="width:110px; margin: 0; float: left;" maxlength="10" readonly="readonly" />
+				<select class="form-control" id="att_waterMark_apply_hour" name="att_waterMark_apply_hour" style="width:80px; float: left;">
+				</select>
+				<select class="form-control" id="att_waterMark_apply_min" name="att_waterMark_apply_min" style="width:80px; float: left;">
+				</select>
+				<select class="form-control" id="att_waterMark_apply_sec" name="att_waterMark_apply_sec" style="width:80px; float: left;">
+				</select>
 			</td>
 			<td class="th-cell-gray center-cell" style="vertical-align: middle;">적용 기한</td>
 			<td class="center-cell">
-				<% if (onlyFlag) { %>
-					<select class="form-control" id="att_waterMark_limit_type" name="att_waterMark_limit_type" style="width:90px; float: left;">
-						<option value="H" <% if("H".equals(limitType)){ %> selected <% }%> >시간</option>
-						<option value="D" <% if("D".equals(limitType)){ %> selected <% }%> >일</option>
-						<option value="M" <% if("M".equals(limitType)){ %> selected <% }%> >월</option>
-					</select>
-					<input class="form-control" id="att_waterMark_limit_time" name="att_waterMark_limit_time" style="width:90px; float: left;" maxlength="4" value="<%= limitTime %>" />
-				<% } else { %>
-					<select class="form-control" id="att_waterMark_limit_type" name="att_waterMark_limit_type" style="width:90px; float: left;"v>
-						<option value="H">시간</option>
-						<option value="D">일</option>
-						<option value="M">월</option>
-					</select>
-					<input class="form-control" id="att_waterMark_limit_time" name="att_waterMark_limit_time" style="width:90px; float: left;" maxlength="4" />
-				<% } %>
+				<select class="form-control" id="att_waterMark_limit_type" name="att_waterMark_limit_type" style="width:90px; float: left;">
+					<option value="H" <% if("H".equals(limitType)){ %> selected <% }%> >시간</option>
+					<option value="D" <% if("D".equals(limitType)){ %> selected <% }%> >일</option>
+					<option value="M" <% if("M".equals(limitType)){ %> selected <% }%> >월</option>
+				</select>
+				<input class="form-control" id="att_waterMark_limit_time" name="att_waterMark_limit_time" style="width:90px; float: left;" maxlength="4" value="<%= limitTime %>" />
 			</td>
 		</tr>
 	</table>

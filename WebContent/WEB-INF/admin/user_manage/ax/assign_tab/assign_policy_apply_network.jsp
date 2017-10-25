@@ -18,29 +18,16 @@
 		<tr>
 			<td class="th-cell-gray center-cell" width="150px" style="vertical-align: middle;">네트워크 포트 차단 선택</td>
 			<td class="center-cell" style="vertical-align: middle;">
-				<% if (onlyFlag) { %>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_net_port_block" value="Y" <% if (!isNetPortBlock){ %> checked <%}%>/><i></i> 허용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_net_port_block" value="N" <% if (isNetPortBlock){ %> checked <%}%>/><i></i> 차단
-					</label>
-				<% } else { %>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_net_port_block" value="Y" /><i></i> 허용
-					</label>
-					<label class="radio nomargin-top nomargin-bottom">
-						<input type="radio" name="radio_net_port_block" value="N" /><i></i> 차단
-					</label>
-				<% } %>
+				<label class="radio nomargin-top nomargin-bottom">
+					<input type="radio" name="radio_net_port_block" value="Y" <% if (!isNetPortBlock){ %> checked <%}%>/><i></i> 허용
+				</label>
+				<label class="radio nomargin-top nomargin-bottom">
+					<input type="radio" name="radio_net_port_block" value="N" <% if (isNetPortBlock){ %> checked <%}%>/><i></i> 차단
+				</label>
 			</td>
 			<td class="th-cell-gray center-cell" width="120px" style="vertical-align: middle;">적용상태</td>
 			<td class="center-cell" style="vertical-align: middle;">
-				<% if (onlyFlag) { %>
-					<input type="text" id="att_net_port_type" name="att_net_port_type" class="form-control" value="<%= applyCode%>" disabled />
-				<% } else { %>
-					<input type="text" id="att_net_port_type" name="att_net_port_type" class="form-control" value="" disabled />
-				<% } %>
+				<input type="text" id="att_net_port_type" name="att_net_port_type" class="form-control" value="<%= applyCode%>" disabled />
 			</td>
 		</tr>
 	</table>

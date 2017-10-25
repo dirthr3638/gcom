@@ -37,7 +37,6 @@ public class axAdminAssignPolicyApplyAll extends HttpServlet {
 		map.put("user_pc", request.getParameter("user_pc").toString());
 		map.put("user_ip", request.getParameter("user_ip").toString());
 		
-		//List<Map<String, Object>> apply_list = JSONUtil.convertJsonToHashListMap(request.getParameter("apply_list").toString());
 		boolean onlyFlag = true;
 		
 		IPersonalService as = new PersonalServiceImpl();
